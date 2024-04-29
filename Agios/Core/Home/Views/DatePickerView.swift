@@ -67,6 +67,7 @@ struct DatePickerView: View {
                         .datePickerStyle(.graphical)
                         .environment(\.colorScheme, .light)
                         
+                        
                     }
                     .scrollIndicators(.hidden)
                     
@@ -89,10 +90,10 @@ struct DatePickerView: View {
             
         Rectangle()
                 .fill(.linearGradient(colors: [.white, .clear], startPoint: .bottom, endPoint: .top))
-                .frame(height: 60)
+                .frame(height: 20)
             
         }
-        .frame(height: 380)
+        .frame(height: 400)
         .background(
             RoundedRectangle(cornerRadius: 24, style: .continuous)
                 .fill(.white)
