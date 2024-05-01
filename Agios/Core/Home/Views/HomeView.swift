@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftUIX
 
-
+ 
 struct HomeView: View {
     
     @State private var tapNategaPlus = false
@@ -235,7 +235,8 @@ extension HomeView {
 
                  ForEach(occasionViewModel.icons) { saint in
                      NavigationLink {
-                         SaintDetailsView(icon: saint, iconographer: dev.iconagrapher, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint)
+                         SaintDetailsView(icon: saint, iconographer: dev.iconagrapher, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
+                             .navigationBarBackButtonHidden(showImageViewer ? true : false)
 
                      } label: {
                          HomeSaintImageView(icon: saint)

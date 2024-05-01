@@ -25,6 +25,7 @@ struct SaintImageView: View {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
+                
                     
     
             } else if viewModel.isLoading {

@@ -26,7 +26,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var selectedDate: Date = Date()
     @State private var showHeroView: Bool = true
     
-    @Published var openSaint: Bool = false
+    @Published var showImageViewer: Bool = false
     @Published var selectedSaint: IconModel? = nil
     @Published var imageViewerOffset: CGSize = .zero
     @Published var backgroundOpacity: Double = 1
@@ -148,7 +148,7 @@ class OccasionsViewModel: ObservableObject {
                 backgroundOpacity = 1
             } else {
                 selectedSaint = nil
-                openSaint = false
+                showImageViewer = false
                 imageViewerOffset = .zero
                 backgroundOpacity = 1
             }
