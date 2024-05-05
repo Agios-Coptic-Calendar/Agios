@@ -12,27 +12,41 @@ import Combine
 class IconImageDataService {
     @Published var image: UIImage? = nil
     private var imageSubscription: AnyCancellable?
+    private let fileManager = LocalFileManager.instance
+    private let folderName = "saint_images"
+    private let imageName: String
+    private let icon: IconModel
     
-    init(urlString: String) {
-        downloadIconImage(urlString: urlString)
+    init(urlString: String, icon: IconModel) {
+        self.icon = icon
+        self.imageName = icon.id
+        Task {
+          await getIconFromFileManager(urlString: urlString)
+        }
+        
     }
     
-    private func downloadIconImage(urlString: String) {
+    private func getIconFromFileManager(urlString: String) async {
+           if let savedImage = fileManager.getImage(imageName: icon.id, folderName: folderName) {
+               image = savedImage
+               print("Retrieved Image from File Manager")
+           } else {
+               await downloadIconImage(urlString: urlString)
+               print("Downloading Image Now")
+           }
+       }
+    
+    private func downloadIconImage(urlString: String) async {
         guard let url = URL(string: urlString) else { return }
-        imageSubscription = NetworkingManager.download(url: url)
-            .tryMap({ data -> UIImage? in
-                return UIImage(data: data)
-            })
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                if case let .failure(error) = completion {
-                    print(error)
-                }
-            }, receiveValue: { [weak self] returnedImage in
-                guard let self = self, let downloadedImage = returnedImage else { return }
-                self.image = downloadedImage
-                self.imageSubscription?.cancel()
-            })
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            if let downloadedImage = UIImage(data: data) {
+                image = downloadedImage
+                fileManager.saveImage(image: downloadedImage, imageName: imageName, folderName: folderName)
+            }
+        } catch {
+            print(error)
+        }
     }
     
 }

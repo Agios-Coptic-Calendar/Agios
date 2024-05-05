@@ -10,7 +10,8 @@ import Combine
 
 struct HomeSaintImageView: View {
     
-    @EnvironmentObject var viewModel: IconImageViewModel
+    @EnvironmentObject private var viewModel: IconImageViewModel
+    @EnvironmentObject private var occasionViewModel: OccasionsViewModel
     //var namespace: Namespace.ID
     let icon: IconModel
     

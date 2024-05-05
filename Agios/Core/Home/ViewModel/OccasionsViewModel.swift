@@ -15,92 +15,89 @@ class OccasionsViewModel: ObservableObject {
     @Published var readings: [DataReading] = []
     @Published var dataClass: DataClass? = nil
     @Published var subSection: [SubSection] = []
+    @Published var subSectionReading: [SubSectionReading] = []
     @Published var passages: [Passage] = []
-    
+    @Published var iconagrapher: Iconagrapher? = nil
+    @Published var highlight: [Highlight] = []
+
     @Published var isShowingFeastName = true
-    //private let dataService: OccasionDataService
     @Published var isLoading: Bool = false
     @Published var copticDateTapped: Bool = false
     @Published var defaultDateTapped: Bool = false
     @Published var openSheet: Bool = false
     @Published var selectedDate: Date = Date()
-    @State private var showHeroView: Bool = true
-    
     @Published var showImageViewer: Bool = false
     @Published var selectedSaint: IconModel? = nil
     @Published var imageViewerOffset: CGSize = .zero
     @Published var backgroundOpacity: Double = 1
     @Published var imageScaling: Double = 1
-    
-    
+
     var feastName: String?
     var liturgicalInformation: String?
-    
-    private var cancellables = Set<AnyCancellable>()
+
+    private var task: URLSessionDataTask?
     
     init() {
         getPosts()
-        self.isLoading = true
-//        self.dataService = OccasionDataService()
-//        self.addSubscribers()
+        withAnimation {
+            self.isLoading = true
+        }
     }
-    
-//    func addSubscribers() {
-//        dataService.$icons
-//            .sink { [weak self] _ in
-//                self?.isLoading = false
-//            } receiveValue: {[weak self] (returnedIcons) in
-//                self?.icons = returnedIcons
-//            }
-//            .store(in: &cancellables)
-//
-//    }
     
     func getPosts() {
         guard let url = URL(string: "https://api.agios.co/occasions/get/27cg54wfacn5836") else { return }
         
-        URLSession.shared.dataTaskPublisher(for: url)
-            .subscribe(on: DispatchQueue.global(qos: .background))
-            .receive(on: DispatchQueue.main)
-            .tryMap(handleOutput)
-            .decode(type: Response.self, decoder: JSONDecoder())
-            .sink {[weak self] completion in
-                withAnimation(.spring(response: 0.1, dampingFraction: 0.9, blendDuration: 1)) {
-                    self?.isLoading = false
+        Task {
+            do {
+                let (data, response) = try await URLSession.shared.data(from: url)
+                let decodedResponse = try handleOutput(response: response, data: data)
+                DispatchQueue.main.async {
+                    self.updateUI(with: decodedResponse)
                 }
-                
-                switch completion {
-                case .finished:
-                    print("finished!")
-                case .failure(let error):
-                    print("there was an error . \(error)")
-                }
-            } receiveValue: { [weak self] returnedResponse in
-                self?.icons = returnedResponse.data.icons
-                self?.stories = returnedResponse.data.stories ?? []
-                self?.readings = returnedResponse.data.readings ?? []
-                self?.dataClass = returnedResponse.data
-                self?.retrievePassages()
-                print("returned passage details")
+            } catch {
+                print("Error fetching data: \(error)")
             }
-            .store(in: &cancellables)
+        }
+    }
+    
+    func handleOutput(response: URLResponse, data: Data) throws -> Response {
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        return try JSONDecoder().decode(Response.self, from: data)
+    }
+    
+    func updateUI(with response: Response) {
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.9, blendDuration: 1)) {
+            self.isLoading = false
+        }
+        
+        self.icons = response.data.icons
+        self.stories = response.data.stories ?? []
+        self.readings = response.data.readings ?? []
+        self.dataClass = response.data
+        self.retrievePassages()
+        
+        for icon in response.data.icons {
+            self.iconagrapher = icon.iconagrapher
+        }
+        
+        for reading in response.data.readings ?? [] {
+            self.subSection = reading.subSections ?? []
+        }
+        
+        for story in self.stories {
+            self.highlight = story.highlights ?? []
+        }
+        
+        print("returned passage details")
     }
     
     func retrievePassages() {
         passages = readings.compactMap { $0.subSections }.flatMap{ $0 }.compactMap { $0.readings }.flatMap { $0 }.compactMap { $0.passages }.flatMap { $0 }
     }
     
-    
-
-    func handleOutput(output: URLSession.DataTaskPublisher.Output) throws -> Data {
-        guard let response = output.response as? HTTPURLResponse,
-              response.statusCode >= 200 && response.statusCode < 300 else {
-            throw URLError(.badServerResponse)
-        }
-        return output.data
-    }
-
-
     func formattedDate() -> String {
         let date = Date()
         let formatter = DateFormatter()
@@ -109,50 +106,15 @@ class OccasionsViewModel: ObservableObject {
         formatter.dateFormat = "MMMM"
         let month = formatter.string(from: date)
         formatter.dateStyle = .long
-        return "\(day) " + "\(month)"
+        return "\(day) \(month)"
     }
-
+    
     var copticDate: String {
-       Date.copticDate()
+        Date.copticDate()
     }
     
     var fastView: String {
         isShowingFeastName ? feastName ?? "" : liturgicalInformation ?? ""
-        
-    }
-    
-    func onChange(value: CGSize) {
-        
-        // updating offset
-        imageViewerOffset = value
-        
-        //calculating blur intensity
-        let halgHeight = UIScreen.main.bounds.height / 2
-        let progress = imageViewerOffset.height / halgHeight
-        
-        withAnimation(.default) {
-            backgroundOpacity = Double(1 - (progress < 0 ? -progress : progress))
-        }
-    }
-    
-    func onEnd(value: DragGesture.Value) {
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.7, blendDuration: 1)) {
-            var translation = value.translation.height
-            
-            if translation <  0 {
-                translation = -translation
-            }
-            
-            if translation < 250 {
-                imageViewerOffset = .zero
-                backgroundOpacity = 1
-            } else {
-                selectedSaint = nil
-                showImageViewer = false
-                imageViewerOffset = .zero
-                backgroundOpacity = 1
-            }
-        }
     }
 
 }

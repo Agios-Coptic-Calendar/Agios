@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftUIX
+import Shimmer
 
  
 struct HomeView: View {
@@ -22,6 +23,7 @@ struct HomeView: View {
     
     @State private var selectedSaint: IconModel?
     @State private var showImageViewer: Bool = false
+    @State private var offset: CGSize = .zero
     let iconographer: Iconagrapher
     
     
@@ -36,61 +38,79 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 ZStack(alignment: .center) {
-                    if occasionViewModel.isLoading {
-                        ProgressView("Loading...")
-                            .frame(height: UIScreen.main.bounds.height)
-                            .frame(width: UIScreen.main.bounds.width)
-                    } else {
-                        VStack(spacing: 40) {
-                            VStack(spacing: 16) {
-                                VStack(alignment: .leading, spacing: 32) {
-                                    VStack(spacing: 32) {
-                                        illustration
-                                        HStack(content: {
-                                            if !occasionViewModel.copticDateTapped {
-                                                dateView
-                                            }
-                                            Spacer()
-                                            if !occasionViewModel.defaultDateTapped {
-                                                copticDate
-                                            }
-                                            
-                                        })
-                                        .padding(.horizontal, 20)
-                                    }
-                                    fastView
+                    VStack(spacing: 40) {
+                        VStack(spacing: 16) {
+                            VStack(alignment: .leading, spacing: 32) {
+                                VStack(spacing: 32) {
+                                    illustration
+                                    HStack(content: {
+                                        if !occasionViewModel.copticDateTapped {
+                                            dateView
+                                        }
+                                        Spacer()
+                                        if !occasionViewModel.defaultDateTapped {
+                                            copticDate
+                                        }
+                                    })
+                                    .padding(.horizontal, 20)
                                 }
-                                VStack(spacing: 12) {
-                                    imageView
-                                        
-                                    dailyQuote
-                                }
+                                fastView
                             }
-                            dailyReading
-                            upcomingFeasts
+                            VStack(spacing: 12) {
+                                imageView
+                                    
+                                DailyQuoteView()
+                            }
                         }
-                        .padding(.vertical, 32)
-
+                        dailyReading
+                        upcomingFeasts
                     }
+                    .padding(.vertical, 32)
+                    .transition(.scale(scale: 0.95, anchor: .top))
+                    .transition(.opacity)
+
+                    
+                    
                     
                     if occasionViewModel.copticDateTapped {
                         ZStack {
                             VisualEffectBlurView(blurStyle: .light)
-                                .intensity(0.3)
+                                .intensity(occasionViewModel.copticDateTapped ? 0.2 : 0)
                                 .offset(y: -60)
                                 .onTapGesture {
                                     withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                                         occasionViewModel.copticDateTapped = false
                                     }
                                 }
+                                .transition(.opacity)
  
                             CopticDateView(namespace: namespace)
                                 .offset(y: -365)
+                                .offset(offset)
+                                .scaleEffect(getScaleAmount())
+                                .gesture(
+                                    DragGesture()
+                                        .onChanged({ value in
+                                            withAnimation {
+                                                offset = value.translation
+                                            }
+                                            
+                                        })
+                                        .onEnded({ value in
+                                            withAnimation(.spring(response: 0.25, dampingFraction: 0.93)) {
+                                                offset = .zero
+                                                occasionViewModel.copticDateTapped = false
+                                                HapticsManager.instance.impact(style: .light)
+                                            }
+                                        })
+                                
+                                ) 
                         }
+                        .zIndex(10)
                     } else if occasionViewModel.defaultDateTapped {
                         ZStack {
                             VisualEffectBlurView(blurStyle: .light)
-                                .intensity(0.3)
+                                .intensity(0.2)
                                 .offset(y: -60)
                                 .onTapGesture {
                                     withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
@@ -98,22 +118,30 @@ struct HomeView: View {
                                     }
                                 }
  
-                            DatePickerView(namespace: namespace)
+                            DatePickerView(namespace: namespace) 
                                 .offset(y: -325)
                         }
+                        .zIndex(10)
                     }
                     
                 }
-                //.navigationBarBackButtonHidden(false)
-                .navigationBarBackButtonHidden(true)
             }
             .fontDesign(.rounded)
             .background(.primary100)
             .scrollIndicators(.hidden)
-            .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped ? true : false)
+            .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
         }
         
         
+    }
+    
+    private func getScaleAmount() -> CGFloat {
+        let max = UIScreen.main.bounds.height / 2
+        let currentAmount = abs(offset.height)
+        let percentage = currentAmount / max
+        let scaleAmount = 1.0 - min(percentage, 0.5) * 0.5
+                 
+        return scaleAmount
     }
     
 }
@@ -126,8 +154,9 @@ struct HomeView_Preview: PreviewProvider {
     
     static var previews: some View {
         HomeView(iconographer: dev.iconagrapher, namespace: namespace)
-            .environmentObject(IconImageViewModel(icon: dev.icon))
             .environmentObject(OccasionsViewModel())
+            .environmentObject(IconImageViewModel(icon: dev.icon))
+            
             
     }
 }
@@ -143,117 +172,153 @@ private var backgroundColor: some View {
 
 extension HomeView {
     private var copticDate: some View {
-        Button(action: {
-            withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
-                occasionViewModel.copticDateTapped.toggle()
-            }
-        }, label: {
-            HStack(spacing: 8) {
-                Text(occasionViewModel.copticDate)
-                     .font(.body)
-                     .fontWeight(.semibold)
-                     .frame(width: 120, alignment: .leading)
-                     .lineLimit(1)
-                     .matchedGeometryEffect(id: "copticDate", in: namespace)
-                
-                Image(systemName: "chevron.down")
-                    .fontWeight(.semibold)
-                    .font(.caption)
-            }
-            .padding(.vertical, 6)
-            .padding(.horizontal, 16)
-            .background(
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(.primary300)
-                    .matchedGeometryEffect(id: "background", in: namespace)
-            )
-            .mask({
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .matchedGeometryEffect(id: "mask", in: namespace)
-            })
+        ZStack {
+            if occasionViewModel.isLoading {
+                ShimmerView(heightSize: 32, cornerRadius: 24)
+                    .transition(.opacity)
+            } else {
+                Button(action: {
+                    withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
+                        occasionViewModel.copticDateTapped.toggle()
+                    }
+                }, label: {
+                    HStack(spacing: 8) {
+                        Text(occasionViewModel.copticDate)
+                             .font(.body)
+                             .fontWeight(.semibold)
+                             .frame(maxWidth: .infinity, alignment: .leading)
+                             .lineLimit(1)
+                             .matchedGeometryEffect(id: "copticDate", in: namespace)
+                        
+                        Image(systemName: "chevron.down")
+                            .fontWeight(.semibold)
+                            .font(.caption)
+                    }
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .fill(.primary300)
+                            .matchedGeometryEffect(id: "background", in: namespace)
+                    )
+                    .mask({
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .matchedGeometryEffect(id: "mask", in: namespace)
+                    })
 
-        })
-        .foregroundColor(.gray900)
+                })
+                .foregroundColor(.gray900)
+            }
+        }
 
     }
     
     private var dateView: some View {
-        Button {
-            withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
-                occasionViewModel.defaultDateTapped.toggle()
-            }
-        } label: {
-            HStack(spacing: 8) {
-                Text(datePicker.formatted(date: .abbreviated, time: .omitted))
-                     .font(.body)
-                     .fontWeight(.semibold)
-                     .frame(width: 110, alignment: .leading)
-                     .lineLimit(1)
-                     .matchedGeometryEffect(id: "defaultDate", in: namespace)
-                
-                Image(systemName: "chevron.down")
-                    .fontWeight(.semibold)
-                    .font(.caption)
-            }
-            .padding(.vertical, 6)
-            .padding(.horizontal, 16)
-            .background(
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(.primary300)
-                    .matchedGeometryEffect(id: "dateBackground", in: namespace)
-            )
-            .mask({
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .matchedGeometryEffect(id: "maskDate", in: namespace)
-            })
+        ZStack {
+            if occasionViewModel.isLoading {
+                ShimmerView(heightSize: 32, cornerRadius: 24)
+                    .transition(.opacity)
+            } else {
+                Button {
+                    withAnimation(.spring(response: 0.30, dampingFraction: 0.88)) {
+                        occasionViewModel.defaultDateTapped.toggle()
+                    }
+                } label: {
+                    HStack(spacing: 8) {
+                        Text(datePicker.formatted(date: .abbreviated, time: .omitted))
+                             .font(.body)
+                             .fontWeight(.semibold)
+                             .frame(width: 117, alignment: .leading)
+                             .lineLimit(1)
+                             .matchedGeometryEffect(id: "defaultDate", in: namespace)
+                        
+                        Image(systemName: "chevron.down")
+                            .fontWeight(.semibold)
+                            .font(.caption)
+                    }
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .fill(.primary300)
+                            .matchedGeometryEffect(id: "dateBackground", in: namespace)
+                    )
+                    .mask({
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .matchedGeometryEffect(id: "maskDate", in: namespace)
+                    })
 
+                }
+                 .foregroundColor(.gray900)
+
+            }
         }
-         .foregroundColor(.gray900)
+
+         
 
     }
     
     private var fastView: some View {
-        Text("6th Week of the Great Lent.")
-        //Text(occasionViewModel.dataClass?.liturgicalInformation ?? "")
-            .font(.title2)
-             .fontWeight(.semibold)
-             .multilineTextAlignment(.leading)
-             .foregroundColor(.gray900)
-             //.padding(.vertical, 7)
-             .padding(.horizontal, 20)
-//                     .background(.primary300)
-//                     .mask(RoundedRectangle(cornerRadius: 30, style: .continuous))
-             //.animation(.spring(response: 0.4, dampingFraction: 0.75))
-             //.onTapGesture(perform: viewModel.showLiturgicalInfo)
-             //.padding(.horizontal, isFeastTapped ? 0 : 20)
+        ZStack {
+            if occasionViewModel.isLoading {
+                ShimmerView(heightSize: 32, cornerRadius: 24)
+                    .transition(.opacity)
+                
+            } else {
+                Text("6th Week of the Great Lent.")
+                //Text(occasionViewModel.dataClass?.liturgicalInformation ?? "")
+                    .font(.title2)
+                     .fontWeight(.semibold)
+                     .multilineTextAlignment(.leading)
+                     .foregroundColor(.gray900)
+            }
+        }
+        .padding(.horizontal, 20)
+        
     }
     
     private var imageView: some View {
-        
-        ScrollView(.horizontal, showsIndicators: false) {
-             HStack(spacing: 24) {
+        ZStack {
+            if occasionViewModel.isLoading {
+                ScrollView(.horizontal) {
+                    HStack(spacing: 16) {
+                        ForEach(0..<2) { index in
+                            ShimmerView(heightSize: 350, cornerRadius: 24)
+                                .frame(width: 300, alignment: .leading)
+                                .transition(.opacity)
+                                .padding(.vertical, 25)
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                }
+                .scrollDisabled(true)
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                     HStack(spacing: 24) {
+                         ForEach(occasionViewModel.icons) { saint in
+                             NavigationLink {
+                                 SaintDetailsView(icon: saint, iconographer: dev.iconagrapher, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
+                                     .environmentObject(occasionViewModel)
+                                     .navigationBarBackButtonHidden(showImageViewer ? true : false)
 
-                 ForEach(occasionViewModel.icons) { saint in
-                     NavigationLink {
-                         SaintDetailsView(icon: saint, iconographer: dev.iconagrapher, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
-                             .navigationBarBackButtonHidden(showImageViewer ? true : false)
-
-                     } label: {
-                         HomeSaintImageView(icon: saint)
-                             .aspectRatio(contentMode: .fill)
-                             .scrollTransition { content, phase in
-                                 content
-                                     .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
-                                     .blur(radius: phase.isIdentity ? 0 : 2)
-                                     .scaleEffect(phase.isIdentity ? 1 : 0.95)
-                             }
+                             } label: {
+                                 HomeSaintImageView(icon: saint)
+                                     .aspectRatio(contentMode: .fill)
+                                     .scrollTransition { content, phase in
+                                         content
+                                             .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
+                                             .blur(radius: phase.isIdentity ? 0 : 2)
+                                             .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                                     }
+                            }
+                             
+                        }
                      }
-                     
+                     .padding(.top, -24)
+                     .padding(.horizontal, 20)
                  }
-             }
-             .padding(.top, -24)
-             .padding(.horizontal, 24)
-         }
+            }
+        }
 
     }
     
@@ -313,189 +378,141 @@ extension HomeView {
                      .font(.title3)
                      .tabViewStyle(.page)
                  }
-                
                 .foregroundColor(.black)
-
             }
         }
 
     }
     
     private var dailyReading: some View {
-        //readings
         VStack (alignment: .leading, spacing: 24) {
-            Text("Daily readings")
-                .font(.title2)
-                .fontWeight(.semibold)
-                .foregroundStyle(.gray900)
-                .padding(.leading, 20)
-
+            ZStack {
+                if occasionViewModel.isLoading {
+                    ShimmerView(heightSize: 26, cornerRadius: 24)
+                        .frame(width: 160)
+                        .transition(.opacity)
+                } else {
+                    Text("Daily readings")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.gray900)
+                }
+            }
+            .padding(.leading, 20)
+            
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack (alignment: .center, spacing: 16) {
-                    ForEach(occasionViewModel.readings) { reading in
-                        ForEach(occasionViewModel.passages, id: \.self) { passage in
-                            Button {
-                                occasionViewModel.openSheet.toggle()
-                                HapticsManager.instance.impact(style: .light)
-                            } label: {
-                                NavigationLink {
-                                    ReadingsView(passage: passage, verse: dev.verses)
-                                } label: {
-                                    DailyReadingView(passage: passage, reading: reading)       
-                                }
-                            }
-                            .buttonStyle(BouncyButton()) 
-                            
-
+                    if occasionViewModel.isLoading {
+                        ForEach(0..<5) { index in
+                            ShimmerView(heightSize: 80, cornerRadius: 24)
+                                .frame(width: 160)
+                                .transition(.opacity)
                         }
-                    }
+                    } else {
+                        ForEach(occasionViewModel.readings) { reading in
+                            ForEach(occasionViewModel.passages, id: \.self) { passage in
+                                ForEach(occasionViewModel.subSection) { subSection in
+                                    Button {
+                                        occasionViewModel.openSheet.toggle()
+                                        HapticsManager.instance.impact(style: .light)
+                                    } label: {
+                                        NavigationLink {
+                                            ReadingsView(passage: passage, verse: dev.verses, subSection: subSection)
+                                        } label: {
+                                            DailyReadingView(passage: passage, reading: reading, subSection: subSection)
+                                        }
+                                    }
+                                    .buttonStyle(BouncyButton())
 
-                    
-                        //.scaleEffect(selectedPresentableSection == viewModel.presentableSections[index] ? 1.1 : 1.0)
-                        //.animation(.spring(response: 0.6, dampingFraction: 0.4))
-                        .onTapGesture {
-                            withAnimation {
-                                //selectedPresentableSection = viewModel.presentableSections[index]
-                            }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                withAnimation {
-                                    //selectedPresentableSection = nil
-                                    //presentableSection = viewModel.presentableSections[index]
-                                    showReadings = true
                                 }
                             }
                         }
                     }
+
+                }
                     .padding(.bottom, 8)
                     .padding(.horizontal, 20)
-                }
-                .padding(.top, -10)
-
-//                        .halfSheet(showSheet: $showReadings) {
-//                            ReadingDetailsView(section: presentableSection)
-//                        } onDismiss: { self.presentableSection = nil }
             }
-       
+                .padding(.top, -10)
+        }
+
+
     }
     
     private var upcomingFeasts: some View {
         VStack (alignment: .leading, spacing: 24) {
-            Text("Upcoming feasts")
-                .font(.title2)
-                .fontWeight(.semibold)
-                .foregroundStyle(.gray900)
-                .padding(.leading, 20)
+            ZStack {
+                if occasionViewModel.isLoading {
+                    ShimmerView(heightSize: 32, cornerRadius: 24)
+                        .frame(width: 160)
+                        .transition(.opacity)
+                } else {
+                    Text("Upcoming feasts")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.gray900)
+                }
+            }
+            .padding(.leading, 20)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack (alignment: .center, spacing: 16) {
                     ForEach(0..<3) { reading in
-                        VStack(alignment: .leading, spacing: 32, content: {
-                            Text("Upcoming feast that takes two lines of text.")
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.gray900)
-                                .frame(width: 260, alignment: .leading)
-                            
-                            Text("In 2 days")
-                            .font(.body)
-                            .fontWeight(.medium)
-                            .foregroundStyle(.gray700)
-                        })
-                        .padding(16)
-                        .background(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        if occasionViewModel.isLoading {
+                            ShimmerView(heightSize: 150, cornerRadius: 24)
+                                .frame(width: 260)
+                                .transition(.opacity)
+                        } else {
+                            VStack(alignment: .leading, spacing: 32, content: {
+                                Text("Upcoming feast that takes two lines of text.")
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.gray900)
+                                    .frame(width: 260, alignment: .leading)
+                                
+                                Text("In 2 days")
+                                .font(.body)
+                                .fontWeight(.medium)
+                                .foregroundStyle(.gray700)
+                            })
+                            .padding(16)
+                            .background(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+
+                        }
 
                     }
-                    
-                        //.scaleEffect(selectedPresentableSection == viewModel.presentableSections[index] ? 1.1 : 1.0)
-                        .animation(.spring(response: 0.6, dampingFraction: 0.4))
-                        .onTapGesture {
-                            withAnimation {
-                                //selectedPresentableSection = viewModel.presentableSections[index]
-                            }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                withAnimation {
-                                    //selectedPresentableSection = nil
-                                    //presentableSection = viewModel.presentableSections[index]
-                                    showReadings = true
-                                }
-                            }
-                        }
-                    }
+                }
                     .padding(.bottom, 8)
                     .padding(.leading, 20)
-                }
-                .padding(.top, -10)
-
-//                        .halfSheet(showSheet: $showReadings) {
-//                            ReadingDetailsView(section: presentableSection)
-//                        } onDismiss: { self.presentableSection = nil }
             }
-    }
-    
-    private var dailyQuote: some View {
-        VStack(alignment: .center, spacing: 16) {
-            HStack(alignment: .center, spacing: 8, content: {
-                Image("single_leaf")
-                    .resizable()
-                    .renderingMode(.template)
-                    .frame(width: 40, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .foregroundStyle(.primary900)
-                
-                Text("Daily Quote".uppercased())
-                    .foregroundStyle(.gray900)
-                    .fontWeight(.semibold)
-                    .font(.callout)
-                    .kerning(1.3)
-                
-                Image("single_leaf")
-                    .resizable()
-                    .renderingMode(.template)
-                    .frame(width: 40, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .foregroundStyle(.primary900)
-                    .rotation3DEffect(
-                        .degrees(180),
-                        axis: (x: 0.0, y: 1.0, z: 0.0)
-                    )
-
-            })
-            
-            Text("'If one plans for himself, he should accept responsibility for the difficulties of the trip and on the other hand if he leaves the planning to God, God will dispose every stage of the trip.'")
-                .multilineTextAlignment(.center)
-                .font(.title3)
-                .fontWeight(.semibold)
-                .foregroundStyle(.gray900)
-            
-            Text("by fr pishoy kamel".uppercased())
-                .foregroundStyle(.gray900)
-                .fontWeight(.semibold)
-                .font(.callout)
-                .kerning(1.3)
+                .padding(.top, -10)
         }
-        .padding(.vertical, 24)
-        .padding(.horizontal, 16)
-        .background(.primary200)
-        .clipShape(RoundedRectangle(cornerRadius: 24, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
-        .overlay(content: {
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .stroke(.primary900, style: StrokeStyle(lineWidth: 1, dash: [10,5], dashPhase: 3), antialiased: false)
-        })
-        .padding(.horizontal, 20)
-
     }
     
     private var illustration: some View {
-        VStack(alignment: .center, spacing: 24) {
-            HStack {
-                Spacer()
-                Image("nav_illustration")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 200, height: 45, alignment: .center)
-                Spacer()
+        ZStack {
+            if occasionViewModel.isLoading {
+                ShimmerView(heightSize: 45, cornerRadius: 24)
+                    .frame(width: 200)
+                    .transition(.opacity)
+            } else {
+                VStack(alignment: .center, spacing: 24) {
+                    HStack {
+                        Spacer()
+                        Image("nav_illustration")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 200, height: 45, alignment: .center)
+                        Spacer()
+                    }
+                }
+                .padding(.horizontal, 20)
+
             }
         }
-        .padding(.horizontal, 20)
+
 
     }
 }

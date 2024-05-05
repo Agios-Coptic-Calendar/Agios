@@ -11,6 +11,7 @@ struct DailyReadingView: View {
     
     let passage: Passage
     let reading: DataReading
+    let subSection: SubSection
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8, content: {
@@ -20,7 +21,7 @@ struct DailyReadingView: View {
                 .foregroundStyle(.gray900)
             
             HStack(alignment: .center, spacing: 4, content: {
-                Text(passage.bookTranslation ?? "")
+                Text(subSection.title ?? "")
 
                 Circle()
                     .frame(width: 4, height: 4, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -32,12 +33,12 @@ struct DailyReadingView: View {
             .foregroundStyle(.gray900)
         })
         .padding(16)
-        .background(passage.sequentialPastel)
+        .background(passage.sequentialPastel.gradient)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
 
     }
 }
 
 #Preview {
-    DailyReadingView(passage: dev.passages, reading: dev.reading)
+    DailyReadingView(passage: dev.passages, reading: dev.reading, subSection: dev.subSection)
 }

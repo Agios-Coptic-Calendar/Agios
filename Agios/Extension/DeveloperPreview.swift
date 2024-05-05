@@ -18,7 +18,7 @@ extension PreviewProvider {
 class DeveloperPreview {
     
     static let instance = DeveloperPreview()
-    private init() { }
+    private init() { } 
     
     let occasionsViewModel = OccasionsViewModel()
     
@@ -72,4 +72,22 @@ class DeveloperPreview {
         Color(red: 1.0, green: 0.89, blue: 0.71), // Pastel Yellow (FFE4B5)
         Color(red: 0.97, green: 0.67, blue: 0.67)  // Pastel Pink (F8ACAC)
     ])
+    
+    let subSection = SubSection(id: 1, title: "Psalm & Gospel", introduction: "Stand in the fear of God and listen to the Holy Gospel. A reading from the Holy Gospel according to our teacher Saint Luke the Evangelist. May His Blessings be with us all. Amen.", readings: [
+        SubSectionReading(id: 1, title: "", introduction: "From the Psalms of our father David the prophet and the king, may his blessings be with us all. Amen.", conclusion: "Alleluia", passages: [Passage(
+        bookID: 19,
+        bookTranslation: "Psalms",
+        chapter: 7, ref: "17:3,5",
+        verses: [
+            Verse(id: 156753, bibleID: 2, bookID: 19, chapter: 17, number: 3, text: "You have tested my heart; You have visited me in the night; You have tried me and have found nothing; I have purposed that my mouth shall not transgress."),
+            
+            Verse(id: 156753, bibleID: 2, bookID: 19, chapter: 17, number: 3, text: "Uphold my steps in Your paths, That my footsteps may not slip.")
+        ]
+        
+    )], html: "")
+    ])
+    
 }
+
+
+

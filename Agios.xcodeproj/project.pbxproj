@@ -23,16 +23,13 @@
 		570764432BD696E000C5C98B /* IconImageDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570764422BD696E000C5C98B /* IconImageDataService.swift */; };
 		570764452BD6987900C5C98B /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570764442BD6987900C5C98B /* NetworkingManager.swift */; };
 		570764472BD69B9D00C5C98B /* IconImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570764462BD69B9D00C5C98B /* IconImageViewModel.swift */; };
-		578293AC2BDC079400BF4162 /* Shimmering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578293AB2BDC079400BF4162 /* Shimmering.swift */; };
-		578293AE2BDC07BE00BF4162 /* RedactedShimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578293AD2BDC07BE00BF4162 /* RedactedShimmer.swift */; };
+		5728FE022BE6607A00FE4130 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5728FE012BE6607A00FE4130 /* LocalFileManager.swift */; };
 		578293DA2BDF241200BF4162 /* ImageViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578293D92BDF241200BF4162 /* ImageViewerViewModel.swift */; };
 		578B61052BD15C7B00DCDFF6 /* HomeVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61042BD15C7B00DCDFF6 /* HomeVIewModel.swift */; };
 		578B61112BD15D9900DCDFF6 /* JSONRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B610F2BD15D9900DCDFF6 /* JSONRepository.swift */; };
 		578B61122BD15D9900DCDFF6 /* KatamerosRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61102BD15D9900DCDFF6 /* KatamerosRepository.swift */; };
 		578B61142BD164A900DCDFF6 /* ReadingsColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61132BD164A900DCDFF6 /* ReadingsColours.swift */; };
 		5797106F2BD138E400DFDBA3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5797106E2BD138E400DFDBA3 /* HomeView.swift */; };
-		579710862BD13EBE00DFDBA3 /* KatamerosAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710842BD13EBE00DFDBA3 /* KatamerosAPI.swift */; };
-		579710872BD13EBE00DFDBA3 /* JSONManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710852BD13EBE00DFDBA3 /* JSONManagerProtocol.swift */; };
 		579710922BD13FF000DFDBA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5797108F2BD13FF000DFDBA3 /* Assets.xcassets */; };
 		579710932BD13FF000DFDBA3 /* icons2023.json in Resources */ = {isa = PBXBuildFile; fileRef = 579710902BD13FF000DFDBA3 /* icons2023.json */; };
 		579710942BD13FF000DFDBA3 /* Colours.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 579710912BD13FF000DFDBA3 /* Colours.xcassets */; };
@@ -61,6 +58,9 @@
 		57EAE6342BD7E76F00379CC5 /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE6322BD7E76F00379CC5 /* Layer.swift */; };
 		57EAE6352BD7E76F00379CC5 /* Layer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE6332BD7E76F00379CC5 /* Layer+Extensions.swift */; };
 		57EAE6372BD7E79D00379CC5 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE6362BD7E79D00379CC5 /* HapticsManager.swift */; };
+		57EE90632BE3F35E00C7E1AE /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 57EE90622BE3F35E00C7E1AE /* Shimmer */; };
+		57EE90652BE4096000C7E1AE /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90642BE4096000C7E1AE /* ShimmerView.swift */; };
+		57EE90672BE42EC600C7E1AE /* DailyQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,16 +80,13 @@
 		570764422BD696E000C5C98B /* IconImageDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconImageDataService.swift; sourceTree = "<group>"; };
 		570764442BD6987900C5C98B /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		570764462BD69B9D00C5C98B /* IconImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconImageViewModel.swift; sourceTree = "<group>"; };
-		578293AB2BDC079400BF4162 /* Shimmering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shimmering.swift; sourceTree = "<group>"; };
-		578293AD2BDC07BE00BF4162 /* RedactedShimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedactedShimmer.swift; sourceTree = "<group>"; };
+		5728FE012BE6607A00FE4130 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
 		578293D92BDF241200BF4162 /* ImageViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerViewModel.swift; sourceTree = "<group>"; };
 		578B61042BD15C7B00DCDFF6 /* HomeVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVIewModel.swift; sourceTree = "<group>"; };
 		578B610F2BD15D9900DCDFF6 /* JSONRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONRepository.swift; sourceTree = "<group>"; };
 		578B61102BD15D9900DCDFF6 /* KatamerosRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KatamerosRepository.swift; sourceTree = "<group>"; };
 		578B61132BD164A900DCDFF6 /* ReadingsColours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingsColours.swift; sourceTree = "<group>"; };
 		5797106E2BD138E400DFDBA3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		579710842BD13EBE00DFDBA3 /* KatamerosAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KatamerosAPI.swift; sourceTree = "<group>"; };
-		579710852BD13EBE00DFDBA3 /* JSONManagerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONManagerProtocol.swift; sourceTree = "<group>"; };
 		5797108F2BD13FF000DFDBA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		579710902BD13FF000DFDBA3 /* icons2023.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = icons2023.json; sourceTree = "<group>"; };
 		579710912BD13FF000DFDBA3 /* Colours.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colours.xcassets; sourceTree = "<group>"; };
@@ -117,6 +114,8 @@
 		57EAE6322BD7E76F00379CC5 /* Layer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layer.swift; sourceTree = "<group>"; };
 		57EAE6332BD7E76F00379CC5 /* Layer+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Layer+Extensions.swift"; sourceTree = "<group>"; };
 		57EAE6362BD7E79D00379CC5 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
+		57EE90642BE4096000C7E1AE /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
+		57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuoteView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57EE90632BE3F35E00C7E1AE /* Shimmer in Frameworks */,
 				5797109E2BD1420500DFDBA3 /* UIImageColors in Frameworks */,
 				570515B72BDA8DA700990A24 /* SwiftUIX in Frameworks */,
 			);
@@ -187,8 +187,8 @@
 		570515C02BDB035F00990A24 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				578293AA2BDC075D00BF4162 /* Shimmer */,
 				570515C12BDB037300990A24 /* NavigationButton.swift */,
+				5728FE012BE6607A00FE4130 /* LocalFileManager.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -199,15 +199,6 @@
 				570764402BD68EDA00C5C98B /* DeveloperPreview.swift */,
 			);
 			path = Extension;
-			sourceTree = "<group>";
-		};
-		578293AA2BDC075D00BF4162 /* Shimmer */ = {
-			isa = PBXGroup;
-			children = (
-				578293AB2BDC079400BF4162 /* Shimmering.swift */,
-				578293AD2BDC07BE00BF4162 /* RedactedShimmer.swift */,
-			);
-			path = Shimmer;
 			sourceTree = "<group>";
 		};
 		578293D82BDF240100BF4162 /* ViewModel */ = {
@@ -252,6 +243,8 @@
 			isa = PBXGroup;
 			children = (
 				5797106E2BD138E400DFDBA3 /* HomeView.swift */,
+				57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */,
+				57EE90642BE4096000C7E1AE /* ShimmerView.swift */,
 				570515B12BDA6FBB00990A24 /* CopticDateView.swift */,
 				570515B82BDAB91B00990A24 /* DatePickerView.swift */,
 				5707643D2BD68D1500C5C98B /* HomeSaintImageView.swift */,
@@ -292,18 +285,8 @@
 				57B7E84B2BD2B35F0016D6A4 /* Services */,
 				57B7E8462BD2AD2F0016D6A4 /* Model */,
 				578B610E2BD15D7600DCDFF6 /* Gateways */,
-				579710832BD13DE300DFDBA3 /* API */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		579710832BD13DE300DFDBA3 /* API */ = {
-			isa = PBXGroup;
-			children = (
-				579710852BD13EBE00DFDBA3 /* JSONManagerProtocol.swift */,
-				579710842BD13EBE00DFDBA3 /* KatamerosAPI.swift */,
-			);
-			path = API;
 			sourceTree = "<group>";
 		};
 		5797108A2BD13F3000DFDBA3 /* Resources */ = {
@@ -426,6 +409,7 @@
 			packageProductDependencies = (
 				5797109D2BD1420500DFDBA3 /* UIImageColors */,
 				570515B62BDA8DA700990A24 /* SwiftUIX */,
+				57EE90622BE3F35E00C7E1AE /* Shimmer */,
 			);
 			productName = Agios;
 			productReference = 474C79A12BD009BC003E3A15 /* Agios.app */;
@@ -458,6 +442,7 @@
 			packageReferences = (
 				5797109C2BD1420500DFDBA3 /* XCLocalSwiftPackageReference "../UIImageColors" */,
 				570515B52BDA8DA700990A24 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
+				57EE90612BE3F35E00C7E1AE /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 			);
 			productRefGroup = 474C79A22BD009BC003E3A15 /* Products */;
 			projectDirPath = "";
@@ -489,13 +474,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				57EAE6302BD7E75E00379CC5 /* PopupView.swift in Sources */,
-				579710862BD13EBE00DFDBA3 /* KatamerosAPI.swift in Sources */,
 				57B7E8512BD2B4D00016D6A4 /* OccasionsViewModel.swift in Sources */,
 				5707643E2BD68D1500C5C98B /* HomeSaintImageView.swift in Sources */,
 				570764472BD69B9D00C5C98B /* IconImageViewModel.swift in Sources */,
 				57EAE6352BD7E76F00379CC5 /* Layer+Extensions.swift in Sources */,
 				570764452BD6987900C5C98B /* NetworkingManager.swift in Sources */,
 				579710BB2BD146A100DFDBA3 /* Feast.swift in Sources */,
+				57EE90652BE4096000C7E1AE /* ShimmerView.swift in Sources */,
 				579710A82BD1429900DFDBA3 /* Date+Extensions.swift in Sources */,
 				570515BC2BDAE0B500990A24 /* SaintDetailsView.swift in Sources */,
 				570515B92BDAB91C00990A24 /* DatePickerView.swift in Sources */,
@@ -506,9 +491,11 @@
 				579710B72BD146A100DFDBA3 /* IconModel.swift in Sources */,
 				57B7E84A2BD2B0A70016D6A4 /* OccasionModel.swift in Sources */,
 				578B61122BD15D9900DCDFF6 /* KatamerosRepository.swift in Sources */,
+				57EE90672BE42EC600C7E1AE /* DailyQuoteView.swift in Sources */,
 				578B61052BD15C7B00DCDFF6 /* HomeVIewModel.swift in Sources */,
 				57CA77872BD7324C00A34725 /* OccasionDataService.swift in Sources */,
 				579710A52BD1429900DFDBA3 /* ButtonStyle.swift in Sources */,
+				5728FE022BE6607A00FE4130 /* LocalFileManager.swift in Sources */,
 				578B61112BD15D9900DCDFF6 /* JSONRepository.swift in Sources */,
 				57EAE6342BD7E76F00379CC5 /* Layer.swift in Sources */,
 				570515B22BDA6FBB00990A24 /* CopticDateView.swift in Sources */,
@@ -517,11 +504,9 @@
 				5797106F2BD138E400DFDBA3 /* HomeView.swift in Sources */,
 				474C79A72BD009BC003E3A15 /* ContentView.swift in Sources */,
 				579710AD2BD142FB00DFDBA3 /* ReadingsDetailsView.swift in Sources */,
-				578293AC2BDC079400BF4162 /* Shimmering.swift in Sources */,
 				579710BA2BD146A100DFDBA3 /* PresentableSection.swift in Sources */,
 				570515BE2BDAE14700990A24 /* SaintImageView.swift in Sources */,
 				57EAE62F2BD7E75E00379CC5 /* LayerExample.swift in Sources */,
-				578293AE2BDC07BE00BF4162 /* RedactedShimmer.swift in Sources */,
 				57EAE6312BD7E75E00379CC5 /* LayerExampleComponents.swift in Sources */,
 				579710A62BD1429900DFDBA3 /* String+Extensions.swift in Sources */,
 				579710B92BD146A100DFDBA3 /* Synaxar.swift in Sources */,
@@ -533,7 +518,6 @@
 				570515C42BDB186F00990A24 /* DailyReadingView.swift in Sources */,
 				5797109B2BD1413800DFDBA3 /* SaintIconModel.swift in Sources */,
 				579710B82BD146A100DFDBA3 /* PsalmAndGospel.swift in Sources */,
-				579710872BD13EBE00DFDBA3 /* JSONManagerProtocol.swift in Sources */,
 				570764432BD696E000C5C98B /* IconImageDataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -761,6 +745,14 @@
 				minimumVersion = 0.1.9;
 			};
 		};
+		57EE90612BE3F35E00C7E1AE /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -772,6 +764,11 @@
 		5797109D2BD1420500DFDBA3 /* UIImageColors */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UIImageColors;
+		};
+		57EE90622BE3F35E00C7E1AE /* Shimmer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57EE90612BE3F35E00C7E1AE /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			productName = Shimmer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

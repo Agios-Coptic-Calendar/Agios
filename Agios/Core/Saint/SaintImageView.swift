@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SaintImageView: View {
     
-    @EnvironmentObject private var occasionalViewModel: OccasionsViewModel
+    @EnvironmentObject private var occasionViewModel: OccasionsViewModel
     @StateObject var viewModel: IconImageViewModel
     let icon: IconModel
     

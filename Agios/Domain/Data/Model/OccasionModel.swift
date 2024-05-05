@@ -63,7 +63,7 @@ struct DataReading: Identifiable, Codable {
 }
 
 // MARK: - SubSection
-struct SubSection: Codable {
+struct SubSection: Identifiable, Codable {
     let id: Int?
     let title: String?
     let introduction: String?

@@ -10,7 +10,7 @@ import SwiftUI
 struct DatePickerView: View {
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
     var namespace: Namespace.ID
-    @State private var openCopticList: Bool = false
+    @State private var openDateList: Bool = false
     @State private var datePicker: Date = Date()
     @Environment(\.colorScheme) var colorScheme
     
@@ -27,7 +27,9 @@ struct DatePickerView: View {
                             }
                             HapticsManager.instance.impact(style: .light)
                         }
-                    
+                        .opacity(openDateList ? 1 : 0)
+                        .blur(radius: openDateList ? 0 : 6)
+                 
                     Spacer()
                     
                     Text(datePicker.formatted(date: .abbreviated, time: .omitted))
@@ -50,6 +52,8 @@ struct DatePickerView: View {
                             }
                             HapticsManager.instance.impact(style: .light)
                         }
+                        .opacity(openDateList ? 1 : 0)
+                        .blur(radius: openDateList ? 0 : 6)
                 }
                 .padding(.vertical, 12)
                 
@@ -58,21 +62,15 @@ struct DatePickerView: View {
                         .background(.gray50)
                     
                     
-                    
-                    ScrollView {
-                        DatePicker(selection: $datePicker, displayedComponents: [.date]) {
-                            
-                        }
-                        //.colorMultiply(colorScheme == .dark ? .black : .white)
-                        .datePickerStyle(.graphical)
-                        .environment(\.colorScheme, .light)
-                        
+                    DatePicker(selection: $datePicker, displayedComponents: [.date]) {
                         
                     }
-                    .scrollIndicators(.hidden)
+                    .datePickerStyle(.graphical)
+                    .environment(\.colorScheme, .light)
                     
                 }
-                .scaleEffect(openCopticList ? 1 : 0.3, anchor: .topLeading)
+                .scaleEffect(openDateList ? 1 : 0.3, anchor: .topLeading)
+                .blur(radius: openDateList ? 0 : 6)
                 
             }
             .padding(.horizontal, 16)
@@ -93,7 +91,7 @@ struct DatePickerView: View {
                 .frame(height: 20)
             
         }
-        .frame(height: 400)
+        .frame(height: 385)
         .background(
             RoundedRectangle(cornerRadius: 24, style: .continuous)
                 .fill(.white)
@@ -106,7 +104,7 @@ struct DatePickerView: View {
         .padding(.horizontal, 20)
         .onAppear(perform: {
             withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
-                openCopticList = true
+                openDateList = true
             }
         })
     }

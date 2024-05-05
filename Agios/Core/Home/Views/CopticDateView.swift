@@ -26,6 +26,8 @@ struct CopticDateView: View {
                             }
                             HapticsManager.instance.impact(style: .light)
                         }
+                        .opacity(openCopticList ? 1 : 0)
+                        .blur(radius: openCopticList ? 0 : 6)
                     
                     Spacer()
                     
@@ -63,7 +65,7 @@ struct CopticDateView: View {
                                         .background(.primary100)
                                         .clipShape(RoundedRectangle(cornerRadius: 12, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
                                 })
-                                .buttonStyle(BouncyButton())
+                                .buttonStyle(BouncyButton())   
                             }
                         }
                         .padding(.vertical, 8)
@@ -73,6 +75,7 @@ struct CopticDateView: View {
                     
                 }
                 .scaleEffect(openCopticList ? 1 : 0.3, anchor: .topTrailing)
+                .blur(radius: openCopticList ? 0 : 6)
             }
             .padding(.horizontal, 16)
             .foregroundStyle(.gray900)
@@ -82,7 +85,7 @@ struct CopticDateView: View {
             
         Rectangle()
                 .fill(.linearGradient(colors: [.white, .clear], startPoint: .bottom, endPoint: .top))
-                .frame(height: 60)
+                .frame(height: 40)
             
         }
         .frame(height: 310)

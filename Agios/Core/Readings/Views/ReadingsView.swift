@@ -11,8 +11,9 @@ struct ReadingsView: View {
     
     let passage: Passage
     let verse: Verse
+    let subSection: SubSection
     
-    @EnvironmentObject var occasionViewModel: OccasionsViewModel
+    @EnvironmentObject private var occasionViewModel: OccasionsViewModel
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -38,7 +39,7 @@ struct ReadingsView: View {
                                 .fontWeight(.semibold)
                             
                             HStack(alignment: .center, spacing: 8, content: {
-                                Text(passage.bookTranslation ?? "")
+                                Text(subSection.title ?? "")
 
                                 Circle()
                                     .frame(width: 4, height: 4, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -53,18 +54,37 @@ struct ReadingsView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
                         }
                         
-                        ForEach(passage.verses ?? []) { verse in
-                            
-                            
-                            HStack(alignment: .firstTextBaseline) {
-                                Text("\(verse.chapter ?? 0)")
-                                    .font(.callout)
-                                Text(verse.text ?? "")
-                                    .fontWeight(.medium)
-                                .font(.title2)
+                        VStack(alignment: .leading, spacing: 24, content: {
+                            if ((subSection.introduction?.isEmpty) != nil) {
+                                VStack(alignment: .leading, spacing: 16) {
+                                    Text("Introduction".uppercased())
+                                        .font(.headline)
+                                        .foregroundStyle(.gray400)
+                                        .kerning(0.5)
+                                    Text(subSection.introduction ?? "")
+                                        .fontWeight(.medium)
+                                        .font(.title2)
+                                    .foregroundStyle(.gray900)
+                                }
+                                Divider()
                             }
-                        }
-                       
+                            
+                            VStack(alignment: .leading, spacing: 16) {
+                                Text("Chapter \(verse.chapter ?? 0)".uppercased())
+                                    .font(.headline)
+                                    .foregroundStyle(.gray400)
+                                    .kerning(0.5)
+                                ForEach(passage.verses ?? []) { verse in
+                                    HStack(alignment: .firstTextBaseline) {
+                                        Text("\(verse.number ?? 0)")
+                                            .font(.callout)
+                                        Text(verse.text ?? "")
+                                            .fontWeight(.medium) 
+                                        .font(.title2)
+                                    }
+                                }
+                            }
+                        })
                     }
                 }
                 .padding(.horizontal, 20)
@@ -79,6 +99,6 @@ struct ReadingsView: View {
 }
 
 #Preview {
-    ReadingsView(passage: dev.passages, verse: dev.verses)
+    ReadingsView(passage: dev.passages, verse: dev.verses, subSection: dev.subSection)
         .environmentObject(OccasionsViewModel())
 }
