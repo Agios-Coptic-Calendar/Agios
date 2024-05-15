@@ -1,5 +1,5 @@
 {
-  "originHash" : "74de384478be6b6a5d3fe1d589cc7ee8a6ce5a01d3a823c1b6d645a138b7e4a2",
+  "originHash" : "04c07198679aa60d4d3f0cee51764288a444838a68fa887d684d96247c8712d6",
   "pins" : [
     {
       "identity" : "swiftui-shimmer",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftUIX/SwiftUIX#installation",
       "state" : {
-        "revision" : "a5a22a1aaca885c229f475af049d75a6d9144de8",
-        "version" : "0.1.9"
+        "revision" : "ff1176d8c06c2ac81db3dfd36c63ec8a9c2ccbca",
+        "version" : "0.2.1"
       }
     }
   ],

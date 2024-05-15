@@ -28,8 +28,10 @@ class IconImageDataService {
     
     private func getIconFromFileManager(urlString: String) async {
            if let savedImage = fileManager.getImage(imageName: icon.id, folderName: folderName) {
-               image = savedImage
-               print("Retrieved Image from File Manager")
+               await MainActor.run {
+                   image = savedImage
+                   print("Retrieved Image from File Manager")
+               }
            } else {
                await downloadIconImage(urlString: urlString)
                print("Downloading Image Now")

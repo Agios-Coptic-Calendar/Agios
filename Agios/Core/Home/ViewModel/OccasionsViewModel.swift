@@ -51,7 +51,7 @@ class OccasionsViewModel: ObservableObject {
             do {
                 let (data, response) = try await URLSession.shared.data(from: url)
                 let decodedResponse = try handleOutput(response: response, data: data)
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.updateUI(with: decodedResponse)
                 }
             } catch {

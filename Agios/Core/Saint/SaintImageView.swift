@@ -35,7 +35,10 @@ struct SaintImageView: View {
                     
                     
             } else {
-                Image(systemName: "questionmark")
+                Image("placeholder")
+                    .resizable()
+                    .scaledToFill()
+                
             }
         }
         .fontDesign(.rounded)
