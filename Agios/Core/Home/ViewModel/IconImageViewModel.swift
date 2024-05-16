@@ -36,7 +36,10 @@ class IconImageViewModel: ObservableObject {
             .sink {[weak self] _ in
                 self?.isLoading = false
             } receiveValue: {[weak self] (returnedImage) in
-                self?.image = returnedImage
+                DispatchQueue.main.async {
+                    self?.image = returnedImage
+                }
+                
             }
             .store(in: &cancellables)
 
