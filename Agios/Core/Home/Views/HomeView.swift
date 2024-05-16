@@ -83,7 +83,6 @@ struct HomeView: View {
                             }
 
                         DateView(namespace: namespace)
-                            .padding(.bottom, 48)
                         
                     }
                     .zIndex(10)

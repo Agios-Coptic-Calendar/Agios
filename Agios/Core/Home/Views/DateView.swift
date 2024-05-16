@@ -93,36 +93,40 @@ struct DateView: View {
                     Divider()
                         .background(.gray50)
                     
-                    HStack(spacing: 0) {
-                        ForEach(DateSelection.allCases.indices, id: \.self) { index in
-                            let mode = DateSelection.allCases[index]
+                    VStack(spacing: 0) {
+                        HStack(spacing: 0) {
+                            ForEach(DateSelection.allCases.indices, id: \.self) { index in
+                                let mode = DateSelection.allCases[index]
 
-                            Button {
-                                withAnimation {
-                                    animationsMode = mode
-                                    HapticsManager.instance.impact(style: .light)
+                                Button {
+                                    withAnimation {
+                                        animationsMode = mode
+                                        HapticsManager.instance.impact(style: .light)
+                                    }
+                                    
+                                } label: {
+                                    Text(mode.title)
+                                        .foregroundStyle(animationsMode == mode ? .gray900 : .gray400.opacity(0.7))
+                                        .font(.body)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 10)
+                                        .contentShape(Rectangle())
                                 }
+                                .buttonStyle(BouncyButton())
                                 
-                            } label: {
-                                Text(mode.title)
-                                    .foregroundStyle(animationsMode == mode ? .gray900 : .gray400.opacity(0.7))
-                                    .font(.body)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 14)
-                                    .contentShape(Rectangle())
                             }
-                            .buttonStyle(BouncyButton())
-                            
                         }
+                        Divider()
                     }
+
                     .frame(maxWidth: .infinity)
                     .background {
                         GeometryReader { proxy in
                             let caseCount = DateSelection.allCases.count
                             Rectangle()
                                 .fill(.gray900)
-                                .frame(height: 1)
-                                .padding(.top, 47)
+                                .frame(height: 1.5)
+                                .padding(.top, 40)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .frame(width: proxy.size.width / CGFloat(caseCount))
                                 // Offset the background horizontally based on the selected animation mode
@@ -135,9 +139,9 @@ struct DateView: View {
                         .transition(.opacity.combined(with: .scale(scale: 0.93, anchor: .bottom)).animation(.spring(response: 0.3, dampingFraction: 1)))
                     
                 }
-                .scaleEffect(openCopticList ? 1 : 0.95, anchor: .center)
+                .scaleEffect(openCopticList ? 1 : 0.7, anchor: .center)
                 .blur(radius: openCopticList ? 0 : 6)
-                .animation(.spring(response: 0.35, dampingFraction: 0.9), value: animationsMode)
+                .animation(.spring(response: 0.35, dampingFraction: 0.85), value: animationsMode)
             }
             .padding(.horizontal, 16)
             .foregroundStyle(.gray900)
@@ -232,7 +236,7 @@ struct FeastView: View {
                             .padding(.horizontal, 16)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .background(.primary100)
-                            .clipShape(RoundedRectangle(cornerRadius: 12, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
+                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                     })
                     .buttonStyle(BouncyButton())
                 }
