@@ -45,61 +45,9 @@ struct HomeView: View {
                                     illustration
                                     VStack(spacing: 12) {
                                         fastView
-                                        
-                                        Button(action: {
-                                            HapticsManager.instance.impact(style: .light)
-                                            withAnimation(.spring(response: 0.30, dampingFraction: 0.88)) {
-                                                occasionViewModel.defaultDateTapped.toggle()
-                                            }
-                                        }, label: {
-                                            HStack(alignment: .center, spacing: 8, content: {
-                                                Text(datePicker.formatted(date: .abbreviated, time: .omitted))
-                                                    .lineLimit(1)
-                                                    .foregroundStyle(.primary1000)
-                                                    .fontWeight(.medium)
-                                                    .matchedGeometryEffect(id: "regularDate", in: namespace)
-                                                
-                                                Rectangle()
-                                                    .fill(.primary600)
-                                                    .frame(width: 1, height: 17)
-                                                    .matchedGeometryEffect(id: "divider", in: namespace)
-                                                
-                                                HStack(spacing: 4) {
-                                                    Text(occasionViewModel.copticDate)
-                                                        .lineLimit(1)
-                                                        .foregroundStyle(.primary1000)
-                                                        .matchedGeometryEffect(id: "copticDate", in: namespace)
-                                                        
-                                                    
-                                                    Image(systemName: "chevron.down")
-                                                        .font(.caption2)
-                                                        .foregroundStyle(.primary500)
-                                                }
-                                                .fontWeight(.medium)
-                                                
-                                                
-                                            })
-                                            .padding(.vertical, 6)
-                                            .padding(.horizontal, 16)
-                                            .background(
-                                                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                                    .fill(.primary300)
-                                                    .matchedGeometryEffect(id: "background", in: namespace)
-                                            )
-                                            .mask({
-                                                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                                    .matchedGeometryEffect(id: "mask", in: namespace)
-                                            })
-
-                                        })
-                                        .buttonStyle(BouncyButton())
-                                        
-
-                                        
-                                        
+                                        combinedDateView
                                     }
                                 }
-                                
                             }
                             VStack(spacing: 12) {
                                 imageView
@@ -135,6 +83,7 @@ struct HomeView: View {
                             }
 
                         DateView(namespace: namespace)
+                            .padding(.bottom, 48)
                         
                     }
                     .zIndex(10)
@@ -184,6 +133,56 @@ private var backgroundColor: some View {
 
 
 extension HomeView {
+    private var combinedDateView: some View {
+        Button(action: {
+            HapticsManager.instance.impact(style: .light)
+            withAnimation(.spring(response: 0.30, dampingFraction: 0.88)) {
+                occasionViewModel.defaultDateTapped.toggle()
+            }
+        }, label: {
+            HStack(alignment: .center, spacing: 8, content: {
+                Text(datePicker.formatted(date: .abbreviated, time: .omitted))
+                    .lineLimit(1)
+                    .foregroundStyle(.primary1000)
+                    .fontWeight(.medium)
+                    .matchedGeometryEffect(id: "regularDate", in: namespace)
+                
+                Rectangle()
+                    .fill(.primary600)
+                    .frame(width: 1, height: 17)
+                    .matchedGeometryEffect(id: "divider", in: namespace)
+                
+                HStack(spacing: 4) {
+                    Text(occasionViewModel.copticDate)
+                        .lineLimit(1)
+                        .foregroundStyle(.primary1000)
+                        .matchedGeometryEffect(id: "copticDate", in: namespace)
+                        
+                    
+                    Image(systemName: "chevron.down")
+                        .font(.caption2)
+                        .foregroundStyle(.primary500)
+                }
+                .fontWeight(.medium)
+                
+                
+            })
+            .padding(.vertical, 6)
+            .padding(.horizontal, 16)
+            .background(
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .fill(.primary300)
+                    .matchedGeometryEffect(id: "background", in: namespace)
+            )
+            .mask({
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .matchedGeometryEffect(id: "mask", in: namespace)
+            })
+
+        })
+        .buttonStyle(BouncyButton())
+
+    }
     private var copticDate: some View {
         ZStack {
             if occasionViewModel.isLoading {
