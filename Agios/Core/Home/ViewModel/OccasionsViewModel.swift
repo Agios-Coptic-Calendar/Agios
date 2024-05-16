@@ -31,6 +31,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var imageViewerOffset: CGSize = .zero
     @Published var backgroundOpacity: Double = 1
     @Published var imageScaling: Double = 1
+    @Published var searchDate: String = ""
 
     var feastName: String?
     var liturgicalInformation: String?

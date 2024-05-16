@@ -36,25 +36,70 @@ struct HomeView: View {
     var body: some View {
         
         NavigationStack {
-            ScrollView {
-                ZStack(alignment: .center) {
+            ZStack {
+                ScrollView {
                     VStack(spacing: 40) {
                         VStack(spacing: 16) {
                             VStack(alignment: .leading, spacing: 32) {
-                                VStack(spacing: 32) {
+                                VStack(spacing: -40) {
                                     illustration
-                                    HStack(content: {
-                                        if !occasionViewModel.copticDateTapped {
-                                            dateView
-                                        }
-                                        Spacer()
-                                        if !occasionViewModel.defaultDateTapped {
-                                            copticDate
-                                        }
-                                    })
-                                    .padding(.horizontal, 20)
+                                    VStack(spacing: 12) {
+                                        fastView
+                                        
+                                        Button(action: {
+                                            HapticsManager.instance.impact(style: .light)
+                                            withAnimation(.spring(response: 0.30, dampingFraction: 0.88)) {
+                                                occasionViewModel.defaultDateTapped.toggle()
+                                            }
+                                        }, label: {
+                                            HStack(alignment: .center, spacing: 8, content: {
+                                                Text(datePicker.formatted(date: .abbreviated, time: .omitted))
+                                                    .lineLimit(1)
+                                                    .foregroundStyle(.primary1000)
+                                                    .fontWeight(.medium)
+                                                    .matchedGeometryEffect(id: "regularDate", in: namespace)
+                                                
+                                                Rectangle()
+                                                    .fill(.primary600)
+                                                    .frame(width: 1, height: 17)
+                                                    .matchedGeometryEffect(id: "divider", in: namespace)
+                                                
+                                                HStack(spacing: 4) {
+                                                    Text(occasionViewModel.copticDate)
+                                                        .lineLimit(1)
+                                                        .foregroundStyle(.primary1000)
+                                                        .matchedGeometryEffect(id: "copticDate", in: namespace)
+                                                        
+                                                    
+                                                    Image(systemName: "chevron.down")
+                                                        .font(.caption2)
+                                                        .foregroundStyle(.primary500)
+                                                }
+                                                .fontWeight(.medium)
+                                                
+                                                
+                                            })
+                                            .padding(.vertical, 6)
+                                            .padding(.horizontal, 16)
+                                            .background(
+                                                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                                    .fill(.primary300)
+                                                    .matchedGeometryEffect(id: "background", in: namespace)
+                                            )
+                                            .mask({
+                                                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                                    .matchedGeometryEffect(id: "mask", in: namespace)
+                                            })
+
+                                        })
+                                        .buttonStyle(BouncyButton())
+                                        
+
+                                        
+                                        
+                                    }
                                 }
-                                fastView
+                                
                             }
                             VStack(spacing: 12) {
                                 imageView
@@ -72,64 +117,32 @@ struct HomeView: View {
                     
                     
                     
-                    if occasionViewModel.copticDateTapped {
-                        ZStack {
-                            VisualEffectBlurView(blurStyle: .light)
-                                .intensity(occasionViewModel.copticDateTapped ? 0.2 : 0)
-                                .offset(y: -60)
-                                .onTapGesture {
-                                    withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
-                                        occasionViewModel.copticDateTapped = false
-                                    }
-                                }
-                                .transition(.opacity)
- 
-                            CopticDateView(namespace: namespace)
-                                .offset(y: -365)
-                                .offset(offset)
-                                .scaleEffect(getScaleAmount())
-                                .gesture(
-                                    DragGesture()
-                                        .onChanged({ value in
-                                            withAnimation {
-                                                offset = value.translation
-                                            }
-                                            
-                                        })
-                                        .onEnded({ value in
-                                            withAnimation(.spring(response: 0.25, dampingFraction: 0.93)) {
-                                                offset = .zero
-                                                occasionViewModel.copticDateTapped = false
-                                                HapticsManager.instance.impact(style: .light)
-                                            }
-                                        })
-                                
-                                ) 
-                        }
-                        .zIndex(10)
-                    } else if occasionViewModel.defaultDateTapped {
-                        ZStack {
-                            VisualEffectBlurView(blurStyle: .light)
-                                .intensity(0.2)
-                                .offset(y: -60)
-                                .onTapGesture {
-                                    withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
-                                        occasionViewModel.defaultDateTapped = false
-                                    }
-                                }
- 
-                            DatePickerView(namespace: namespace) 
-                                .offset(y: -325)
-                        }
-                        .zIndex(10)
-                    }
+
                     
+                }
+                .scrollIndicators(.hidden)
+                .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
+                
+             if occasionViewModel.defaultDateTapped {
+                    ZStack {
+                        VisualEffectBlurView(blurStyle: .light)
+                            .intensity(0.15)
+                            .ignoresSafeArea()
+                            .onTapGesture {
+                                withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
+                                    occasionViewModel.defaultDateTapped = false
+                                }
+                            }
+
+                        DateView(namespace: namespace)
+                        
+                    }
+                    .zIndex(10)
                 }
             }
             .fontDesign(.rounded)
             .background(.primary100)
-            .scrollIndicators(.hidden)
-            .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
+            
         }
         
         
@@ -261,16 +274,18 @@ extension HomeView {
     private var fastView: some View {
         ZStack {
             if occasionViewModel.isLoading {
-                ShimmerView(heightSize: 32, cornerRadius: 24)
+                ShimmerView(heightSize: 68, cornerRadius: 24)
                     .transition(.opacity)
+                    .frame(width: 250)
                 
             } else {
                 Text("6th Week of the Great Lent.")
                 //Text(occasionViewModel.dataClass?.liturgicalInformation ?? "")
-                    .font(.title2)
+                    .font(.title)
                      .fontWeight(.semibold)
-                     .multilineTextAlignment(.leading)
-                     .foregroundColor(.gray900)
+                     .multilineTextAlignment(.center)
+                     .foregroundColor(.primary1000)
+                     .frame(width: 250)
             }
         }
         .padding(.horizontal, 20)
@@ -492,28 +507,16 @@ extension HomeView {
     }
     
     private var illustration: some View {
-        ZStack {
-            if occasionViewModel.isLoading {
-                ShimmerView(heightSize: 45, cornerRadius: 24)
-                    .frame(width: 200)
-                    .transition(.opacity)
-            } else {
-                VStack(alignment: .center, spacing: 24) {
-                    HStack {
-                        Spacer()
-                        Image("nav_illustration")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 200, height: 45, alignment: .center)
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal, 20)
-
+        VStack(alignment: .center, spacing: 24) {
+            HStack {
+                Spacer()
+                Image("detail")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 106)
+                Spacer()
             }
         }
-
-
     }
 }
 

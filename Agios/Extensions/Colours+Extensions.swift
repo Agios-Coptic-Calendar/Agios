@@ -44,6 +44,7 @@ struct ColorTheme {
     let gray100 = Color("Gray100")
     let gray50 = Color("Gray50")
     
+    let primary1000 = Color("Primary1000")
     let primary900 = Color("Primary900")
     let primary800 = Color("Primary800")
     let primary700 = Color("Primary700")

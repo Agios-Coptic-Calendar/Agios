@@ -24,6 +24,7 @@
 		570764452BD6987900C5C98B /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570764442BD6987900C5C98B /* NetworkingManager.swift */; };
 		570764472BD69B9D00C5C98B /* IconImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570764462BD69B9D00C5C98B /* IconImageViewModel.swift */; };
 		5728FE022BE6607A00FE4130 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5728FE012BE6607A00FE4130 /* LocalFileManager.swift */; };
+		57616ECE2BF503B800C867AC /* DateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57616ECD2BF503B800C867AC /* DateView.swift */; };
 		578293DA2BDF241200BF4162 /* ImageViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578293D92BDF241200BF4162 /* ImageViewerViewModel.swift */; };
 		578B61052BD15C7B00DCDFF6 /* HomeVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61042BD15C7B00DCDFF6 /* HomeVIewModel.swift */; };
 		578B61112BD15D9900DCDFF6 /* JSONRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B610F2BD15D9900DCDFF6 /* JSONRepository.swift */; };
@@ -81,6 +82,7 @@
 		570764442BD6987900C5C98B /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		570764462BD69B9D00C5C98B /* IconImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconImageViewModel.swift; sourceTree = "<group>"; };
 		5728FE012BE6607A00FE4130 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
+		57616ECD2BF503B800C867AC /* DateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateView.swift; sourceTree = "<group>"; };
 		578293D92BDF241200BF4162 /* ImageViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerViewModel.swift; sourceTree = "<group>"; };
 		578B61042BD15C7B00DCDFF6 /* HomeVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVIewModel.swift; sourceTree = "<group>"; };
 		578B610F2BD15D9900DCDFF6 /* JSONRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONRepository.swift; sourceTree = "<group>"; };
@@ -154,7 +156,6 @@
 				474C79A42BD009BC003E3A15 /* AgiosApp.swift */,
 				474C79A62BD009BC003E3A15 /* ContentView.swift */,
 				570515C02BDB035F00990A24 /* Components */,
-				5707643F2BD68ECA00C5C98B /* Extension */,
 				5797106A2BD1385900DFDBA3 /* Core */,
 				579710742BD13AD900DFDBA3 /* Domain */,
 				5797109F2BD1423400DFDBA3 /* Extensions */,
@@ -191,14 +192,6 @@
 				5728FE012BE6607A00FE4130 /* LocalFileManager.swift */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		5707643F2BD68ECA00C5C98B /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				570764402BD68EDA00C5C98B /* DeveloperPreview.swift */,
-			);
-			path = Extension;
 			sourceTree = "<group>";
 		};
 		578293D82BDF240100BF4162 /* ViewModel */ = {
@@ -246,6 +239,7 @@
 				57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */,
 				57EE90642BE4096000C7E1AE /* ShimmerView.swift */,
 				570515B12BDA6FBB00990A24 /* CopticDateView.swift */,
+				57616ECD2BF503B800C867AC /* DateView.swift */,
 				570515B82BDAB91B00990A24 /* DatePickerView.swift */,
 				5707643D2BD68D1500C5C98B /* HomeSaintImageView.swift */,
 			);
@@ -310,6 +304,7 @@
 		5797109F2BD1423400DFDBA3 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				570764402BD68EDA00C5C98B /* DeveloperPreview.swift */,
 				579710A02BD1429900DFDBA3 /* ButtonStyle.swift */,
 				57EAE6362BD7E79D00379CC5 /* HapticsManager.swift */,
 				579710A22BD1429900DFDBA3 /* Colours+Extensions.swift */,
@@ -485,6 +480,7 @@
 				570515BC2BDAE0B500990A24 /* SaintDetailsView.swift in Sources */,
 				570515B92BDAB91C00990A24 /* DatePickerView.swift in Sources */,
 				579710A72BD1429900DFDBA3 /* Colours+Extensions.swift in Sources */,
+				57616ECE2BF503B800C867AC /* DateView.swift in Sources */,
 				57EAE6372BD7E79D00379CC5 /* HapticsManager.swift in Sources */,
 				57CF01842BE2530000508338 /* Zoomable.swift in Sources */,
 				579710A92BD1429900DFDBA3 /* Image+Extensions.swift in Sources */,
