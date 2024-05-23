@@ -49,7 +49,7 @@ struct SaintDetailsView: View {
                                                     .transition(.scale(scale: 1))
                                                     .zIndex(4)
                                                     .onTapGesture {
-                                                        withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                                                        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                                                             showImageViewer = true
                                                         }
                                                     }
@@ -61,11 +61,11 @@ struct SaintDetailsView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                                     .matchedGeometryEffect(id: "bound", in: namespace)
                                 
-        
+         
                             } else {
                                 Rectangle()
                                     .fill(.clear)
-                                    .frame(width: 353, height: 420)
+                                    .frame(width: 353, height: 460)
                             }
                             
                             VStack(alignment: .leading, spacing: 12) {
@@ -101,12 +101,12 @@ struct SaintDetailsView: View {
                 
                 ZStack {
                     Rectangle()
-                        .fill(.black) 
+                        .fill(.ultraThinMaterial)
                         .opacity(startValue > 0 ? 1 : getScaleAmount())
-                        .zIndex(2)
+                        .zIndex(10)
                         .ignoresSafeArea()
                         .onTapGesture {
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                                 showImageViewer = false
                                 endValue = 0
                                 startValue = 0
@@ -115,8 +115,12 @@ struct SaintDetailsView: View {
                         .allowsHitTesting(startValue > 0 ? false : true)
                 }
                 .opacity(showImageViewer ? 1 : 0)
+
                 
+                
+                 
                 if showImageViewer {
+                    
                     RoundedRectangle(cornerRadius: 25.0)
                         .fill(.clear)
                         .background(
@@ -127,9 +131,10 @@ struct SaintDetailsView: View {
                                         .aspectRatio(contentMode: .fit)
                                         .zoomable()
                                         .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
+                                        .zIndex(10)
                                         .transition(.scale(scale: 1))
                                         .onTapGesture {
-                                            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                                                 showImageViewer = true
                                             }
                                         }
@@ -146,9 +151,10 @@ struct SaintDetailsView: View {
                                 }
                             })
                             
-                            .zIndex(4)
+                           
                             .offset(offset)
                             .scaleEffect(getScaleAmount())
+                            .transition(.scale(scale: 1))
                             .simultaneousGesture(
                                 currentScale <= 1 ?
                                 DragGesture()
@@ -166,7 +172,7 @@ struct SaintDetailsView: View {
                                                 offset = .zero
                                             }
                                             
-                                            withAnimation(.spring(response: 0.25, dampingFraction: 0.85)) {
+                                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                                                 showImageViewer = false
                                                 HapticsManager.instance.impact(style: .light)
                                             }
@@ -199,7 +205,7 @@ struct SaintDetailsView: View {
         }
             ZStack {
                 Button {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                         selectedSaint = nil
                         showImageViewer = false
                         endValue = 0
@@ -207,7 +213,7 @@ struct SaintDetailsView: View {
                     }
                     
                 } label: {
-                    NavigationButton(labelName: .close, backgroundColor: .gray800, foregroundColor: .gray50)
+                    NavigationButton(labelName: .close, backgroundColor: .primary300, foregroundColor: .primary1000)
                 }
                 .padding(20)
                 .opacity(showImageViewer ? 1 : 0)
@@ -221,11 +227,11 @@ struct SaintDetailsView: View {
         let max = UIScreen.main.bounds.height / 2
         let currentAmount = abs(offset.height)
         let percentage = currentAmount / max
-        let scaleAmount = 1.0 - min(percentage, 0.5) * 0.5
+        let scaleAmount = 1.0 - min(percentage, 0.5) * 0.75
         
         // Check if the scale amount is below a certain threshold
-        if scaleAmount < 0.7 {
-            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+        if scaleAmount < 0.4 {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.85)) {
                 showImageViewer = false
                 selectedSaint = nil
             }

@@ -78,7 +78,6 @@ struct HomeView: View {
                 
              if occasionViewModel.defaultDateTapped {
                  DateView(namespace: namespace)
-                    //.zIndex(10)
                 }
             }
             .fontDesign(.rounded)
@@ -255,7 +254,7 @@ extension HomeView {
     private var fastView: some View {
         ZStack {
             if occasionViewModel.isLoading {
-                ShimmerView(heightSize: 68, cornerRadius: 24)
+                ShimmerView(heightSize: 54, cornerRadius: 24)
                     .transition(.opacity)
                     .frame(width: 250)
                 
