@@ -14,24 +14,33 @@ struct TapToScaleModifier: ViewModifier {
         content
             .scaleEffect(isTapped ? 1.08 : 1)
             .animation(.spring(response: 0.4, dampingFraction: 0.6))
-            .simultaneousGesture(TapGesture().onEnded {
-                withAnimation {
-                    isTapped.toggle()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        isTapped.toggle()
+            .simultaneousGesture(
+                TapGesture().onEnded {
+                    withAnimation {
+                        isTapped = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            isTapped = false
+                        }
                     }
                 }
-            })
+            )
+    }
+}
+
+extension View {
+    func tapToScale() -> some View {
+        self.modifier(TapToScaleModifier())
     }
 }
 
 
 struct BouncyButton: ButtonStyle {
+    @State private var isTapped = false
     public func makeBody(configuration: Self.Configuration) -> some View {
         return configuration.label
-            .scaleEffect(x: configuration.isPressed ? 0.95 : 1.0, y: configuration.isPressed ? 0.9 : 1.0)
-            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
-            .opacity(configuration.isPressed ? 0.5 : 1)
+            .scaleEffect(x: configuration.isPressed ? 1.08 : 1.0, y: configuration.isPressed ? 1.08 : 1.0)
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: configuration.isPressed)
+            .opacity(configuration.isPressed ? 1 : 1)
     }
 }
 

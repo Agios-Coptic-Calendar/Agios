@@ -21,7 +21,7 @@ struct HomeSaintImageView: View {
     var body: some View {
         ZStack {
             SaintImageView(icon: icon)
-                //.scaledToFit()
+                .scaledToFill()
                 .frame(width: 300, height: 350)
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .overlay(alignment: .bottom) {
@@ -46,7 +46,7 @@ struct HomeSaintImageView: View {
                         .frame(maxWidth: 300, maxHeight: 350)
                         .clipped()
                         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous)))
-                )
+                ) 
                 .frame(height: 430)
             
                 
@@ -54,6 +54,7 @@ struct HomeSaintImageView: View {
         }
         .fontDesign(.rounded)
         .fontWeight(.semibold)
+        
         }
         
     }

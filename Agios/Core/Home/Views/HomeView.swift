@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftUIX
 import Shimmer
 
  
@@ -22,7 +21,9 @@ struct HomeView: View {
     @State private var datePicker: Date = .now
     
     @State private var selectedSaint: IconModel?
+    @State private var selectedSection: SubSection?
     @State private var showImageViewer: Bool = false
+    @State private var scaleImage: Bool = false
     @State private var offset: CGSize = .zero
     let iconographer: Iconagrapher
     
@@ -60,32 +61,24 @@ struct HomeView: View {
                     }
                     .padding(.vertical, 32)
                     .transition(.scale(scale: 0.95, anchor: .top))
-                    .transition(.opacity)
-
-                    
-                    
-                    
-
-                    
+                    .transition(.opacity)    
                 }
                 .scrollIndicators(.hidden)
                 .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
                 
-             if occasionViewModel.defaultDateTapped {
-                    ZStack {
-                        VisualEffectBlurView(blurStyle: .light)
-                            .intensity(0.15)
-                            .ignoresSafeArea()
-                            .onTapGesture {
-                                withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
-                                    occasionViewModel.defaultDateTapped = false
-                                }
-                            }
-
-                        DateView(namespace: namespace)
-                        
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
+                            occasionViewModel.defaultDateTapped = false
+                        }
                     }
-                    .zIndex(10)
+                    .opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
+                
+             if occasionViewModel.defaultDateTapped {
+                 DateView(namespace: namespace)
+                    //.zIndex(10)
                 }
             }
             .fontDesign(.rounded)
@@ -118,24 +111,15 @@ struct HomeView_Preview: PreviewProvider {
             .environmentObject(OccasionsViewModel())
             .environmentObject(IconImageViewModel(icon: dev.icon))
             
-            
+             
     }
 }
-
-private var backgroundColor: some View {
-    LinearGradient(gradient: .init(colors: [Color(#colorLiteral(red: 0.431372549, green: 0.6823632717, blue: 0.7646967769, alpha: 1)),
-                                            Color(#colorLiteral(red: 0.9058917165, green: 0.8509779572, blue: 0.8588247299, alpha: 1)),
-                                            Color(#colorLiteral(red: 0.9843173623, green: 0.96470505, blue: 0.9647064805, alpha: 1))]), startPoint: .top,
-                   endPoint: .bottom)
-    .edgesIgnoringSafeArea(.all)
-}
-
 
 extension HomeView {
     private var combinedDateView: some View {
         Button(action: {
-            HapticsManager.instance.impact(style: .light)
-            withAnimation(.spring(response: 0.30, dampingFraction: 0.88)) {
+            //HapticsManager.instance.impact(style: .light)
+            withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                 occasionViewModel.defaultDateTapped.toggle()
             }
         }, label: {
@@ -179,7 +163,6 @@ extension HomeView {
             })
 
         })
-        .buttonStyle(BouncyButton())
 
     }
     private var copticDate: some View {
@@ -279,7 +262,7 @@ extension HomeView {
             } else {
                 Text("6th Week of the Great Lent.")
                 //Text(occasionViewModel.dataClass?.liturgicalInformation ?? "")
-                    .font(.title)
+                    .font(.title2)
                      .fontWeight(.semibold)
                      .multilineTextAlignment(.center)
                      .foregroundColor(.primary1000)
@@ -309,11 +292,13 @@ extension HomeView {
                 ScrollView(.horizontal, showsIndicators: false) {
                      HStack(spacing: 24) {
                          ForEach(occasionViewModel.icons) { saint in
+                             
                              NavigationLink {
                                  SaintDetailsView(icon: saint, iconographer: dev.iconagrapher, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
                                      .environmentObject(occasionViewModel)
+                                     .environmentObject(IconImageViewModel(icon: saint))
+                                     .environmentObject(ImageViewerViewModel())
                                      .navigationBarBackButtonHidden(showImageViewer ? true : false)
-
                              } label: {
                                  HomeSaintImageView(icon: saint)
                                      .aspectRatio(contentMode: .fill)
@@ -325,6 +310,17 @@ extension HomeView {
                                      }
                             }
                              
+                             .scaleEffect(selectedSaint == saint ? 1.08 : 1)
+                             .animation(.spring(response: 0.5, dampingFraction: 0.6))
+                             .simultaneousGesture(TapGesture().onEnded{
+                                 withAnimation(.spring) {
+                                     selectedSaint = saint
+                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                         selectedSaint = nil
+                                     }
+                                 }
+                                 
+                             })
                         }
                      }
                      .padding(.top, -24)
@@ -398,7 +394,7 @@ extension HomeView {
     }
     
     private var dailyReading: some View {
-        VStack (alignment: .leading, spacing: 24) {
+        VStack (alignment: .leading, spacing: 8) {
             ZStack {
                 if occasionViewModel.isLoading {
                     ShimmerView(heightSize: 26, cornerRadius: 24)
@@ -426,35 +422,41 @@ extension HomeView {
                         ForEach(occasionViewModel.readings) { reading in
                             ForEach(occasionViewModel.passages, id: \.self) { passage in
                                 ForEach(occasionViewModel.subSection) { subSection in
-                                    Button {
-                                        occasionViewModel.openSheet.toggle()
-                                        HapticsManager.instance.impact(style: .light)
+                                    NavigationLink {
+                                        ReadingsView(passage: passage, verse: dev.verses, subSection: subSection)
                                     } label: {
-                                        NavigationLink {
-                                            ReadingsView(passage: passage, verse: dev.verses, subSection: subSection)
-                                        } label: {
-                                            DailyReadingView(passage: passage, reading: reading, subSection: subSection)
-                                        }
+                                        DailyReadingView(passage: passage, reading: reading, subSection: subSection)
+                                            
                                     }
-                                    .buttonStyle(BouncyButton())
-
+                                    .scaleEffect(selectedSection == subSection ? 1.1 : 1.0)
+                                    .animation(.spring(response: 1, dampingFraction: 0.6))
+                                    .simultaneousGesture(TapGesture().onEnded{
+                                        withAnimation(.easeIn(duration: 0.1)) {
+                                            selectedSection = subSection
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                selectedSection = nil
+                                                
+                                            }
+                                        }
+                                        
+                                    })
                                 }
                             }
                         }
                     }
 
                 }
-                    .padding(.bottom, 8)
-                    .padding(.horizontal, 20)
+                .padding(.top, 10)
+                .padding(.bottom, 8)
+                .padding(.horizontal, 20)
             }
-                .padding(.top, -10)
         }
 
 
     }
     
     private var upcomingFeasts: some View {
-        VStack (alignment: .leading, spacing: 24) {
+        VStack (alignment: .leading, spacing: 8) {
             ZStack {
                 if occasionViewModel.isLoading {
                     ShimmerView(heightSize: 32, cornerRadius: 24)
@@ -492,15 +494,15 @@ extension HomeView {
                             .padding(16)
                             .background(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-
+                            .modifier(TapToScaleModifier())
                         }
 
                     }
                 }
-                    .padding(.bottom, 8)
-                    .padding(.leading, 20)
+                .padding(.top, 10)
+                .padding(.bottom, 8)
+                .padding(.leading, 20)
             }
-                .padding(.top, -10)
         }
     }
     

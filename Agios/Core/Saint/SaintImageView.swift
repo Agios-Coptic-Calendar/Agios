@@ -24,8 +24,6 @@ struct SaintImageView: View {
             if let image = viewModel.image {
                 Image(uiImage: image)
                     .resizable()
-                    .scaledToFill()
-                
                     
     
             } else if viewModel.isLoading {

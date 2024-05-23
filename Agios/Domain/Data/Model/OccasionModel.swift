@@ -56,18 +56,26 @@ struct Iconagrapher: Codable, Equatable {
 }
 
 // MARK: - DataReading
-struct DataReading: Identifiable, Codable {
+struct DataReading: Identifiable, Codable, Equatable {
     let id: Int?
     let title: String?
     let subSections: [SubSection]?
+    
+    static func == (lhs: DataReading, rhs: DataReading) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 // MARK: - SubSection
-struct SubSection: Identifiable, Codable {
+struct SubSection: Identifiable, Codable, Equatable {
     let id: Int?
     let title: String?
     let introduction: String?
     let readings: [SubSectionReading]?
+    
+    static func == (lhs: SubSection, rhs: SubSection) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 // MARK: - SubSectionReading
