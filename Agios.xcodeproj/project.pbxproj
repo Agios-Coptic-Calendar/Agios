@@ -12,7 +12,6 @@
 		474C79A92BD009BF003E3A15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 474C79A82BD009BF003E3A15 /* Assets.xcassets */; };
 		474C79AC2BD009BF003E3A15 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 474C79AB2BD009BF003E3A15 /* Preview Assets.xcassets */; };
 		570515B22BDA6FBB00990A24 /* CopticDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570515B12BDA6FBB00990A24 /* CopticDateView.swift */; };
-		570515B72BDA8DA700990A24 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 570515B62BDA8DA700990A24 /* SwiftUIX */; };
 		570515B92BDAB91C00990A24 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570515B82BDAB91B00990A24 /* DatePickerView.swift */; };
 		570515BC2BDAE0B500990A24 /* SaintDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570515BB2BDAE0B500990A24 /* SaintDetailsView.swift */; };
 		570515BE2BDAE14700990A24 /* SaintImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570515BD2BDAE14700990A24 /* SaintImageView.swift */; };
@@ -49,6 +48,7 @@
 		579710B92BD146A100DFDBA3 /* Synaxar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710B42BD146A100DFDBA3 /* Synaxar.swift */; };
 		579710BA2BD146A100DFDBA3 /* PresentableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710B52BD146A100DFDBA3 /* PresentableSection.swift */; };
 		579710BB2BD146A100DFDBA3 /* Feast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710B62BD146A100DFDBA3 /* Feast.swift */; };
+		5798741A2BFEABF500F0B2EE /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 579874192BFEABF500F0B2EE /* SwiftUIX */; };
 		57B7E84A2BD2B0A70016D6A4 /* OccasionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8492BD2B0A70016D6A4 /* OccasionModel.swift */; };
 		57B7E8512BD2B4D00016D6A4 /* OccasionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8502BD2B4D00016D6A4 /* OccasionsViewModel.swift */; };
 		57CA77872BD7324C00A34725 /* OccasionDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CA77862BD7324B00A34725 /* OccasionDataService.swift */; };
@@ -125,9 +125,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5798741A2BFEABF500F0B2EE /* SwiftUIX in Frameworks */,
 				57EE90632BE3F35E00C7E1AE /* Shimmer in Frameworks */,
 				5797109E2BD1420500DFDBA3 /* UIImageColors in Frameworks */,
-				570515B72BDA8DA700990A24 /* SwiftUIX in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,8 +403,8 @@
 			name = Agios;
 			packageProductDependencies = (
 				5797109D2BD1420500DFDBA3 /* UIImageColors */,
-				570515B62BDA8DA700990A24 /* SwiftUIX */,
 				57EE90622BE3F35E00C7E1AE /* Shimmer */,
+				579874192BFEABF500F0B2EE /* SwiftUIX */,
 			);
 			productName = Agios;
 			productReference = 474C79A12BD009BC003E3A15 /* Agios.app */;
@@ -436,8 +436,9 @@
 			mainGroup = 474C79982BD009BC003E3A15;
 			packageReferences = (
 				5797109C2BD1420500DFDBA3 /* XCLocalSwiftPackageReference "../UIImageColors" */,
-				570515B52BDA8DA700990A24 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 				57EE90612BE3F35E00C7E1AE /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+				579874172BFEA89F00F0B2EE /* XCRemoteSwiftPackageReference "ZoomImageViewer" */,
+				579874182BFEABF500F0B2EE /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 			);
 			productRefGroup = 474C79A22BD009BC003E3A15 /* Products */;
 			projectDirPath = "";
@@ -645,6 +646,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Agios/Preview Content\"";
@@ -659,6 +661,7 @@
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -666,6 +669,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielkamel.Agios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -677,6 +681,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Agios/Preview Content\"";
@@ -691,6 +696,7 @@
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -698,6 +704,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielkamel.Agios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -735,12 +742,20 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		570515B52BDA8DA700990A24 /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
+		579874172BFEA89F00F0B2EE /* XCRemoteSwiftPackageReference "ZoomImageViewer" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX#installation";
+			repositoryURL = "https://github.com/ryanlintott/ZoomImageViewer.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.9;
+				minimumVersion = 0.4.1;
+			};
+		};
+		579874182BFEABF500F0B2EE /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.1;
 			};
 		};
 		57EE90612BE3F35E00C7E1AE /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
@@ -754,14 +769,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		570515B62BDA8DA700990A24 /* SwiftUIX */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 570515B52BDA8DA700990A24 /* XCRemoteSwiftPackageReference "SwiftUIX" */;
-			productName = SwiftUIX;
-		};
 		5797109D2BD1420500DFDBA3 /* UIImageColors */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UIImageColors;
+		};
+		579874192BFEABF500F0B2EE /* SwiftUIX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 579874182BFEABF500F0B2EE /* XCRemoteSwiftPackageReference "SwiftUIX" */;
+			productName = SwiftUIX;
 		};
 		57EE90622BE3F35E00C7E1AE /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;
