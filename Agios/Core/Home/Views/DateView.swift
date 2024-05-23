@@ -136,12 +136,13 @@ struct DateView: View {
                     .animation(.spring(response: 0.4, dampingFraction: 0.9), value: animationsMode)
                     
                     AnyView(animationsMode.selectedDate)
-                        .transition(.opacity.combined(with: .scale(scale: 0.93, anchor: .bottom)).animation(.spring(response: 0.3, dampingFraction: 1)))
+                        .transition(.opacity.combined(with: .scale(scale: 0.94, anchor: .bottom)).animation(.spring(response: 0.3, dampingFraction: 1)))
                     
                 }
-                .scaleEffect(openCopticList ? 1 : 0.7, anchor: .center)
-                .blur(radius: openCopticList ? 0 : 6)
-                .animation(.spring(response: 0.35, dampingFraction: 0.85), value: animationsMode)
+                .scaleEffect(openCopticList ? 1 : 0.85, anchor: .top)
+                .blur(radius: openCopticList ? 0 : 15)
+                .opacity(openCopticList ? 1 : 0)
+                .animation(.spring(response: 0.5, dampingFraction: 0.85), value: animationsMode)
             }
             .padding(.horizontal, 16)
             .foregroundStyle(.gray900)
@@ -189,6 +190,11 @@ struct DateView: View {
             withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                 openCopticList = true
             }
+        })
+        .onDisappear(perform: {
+           
+                openCopticList = false
+
         })
         .environment(\.colorScheme, .light)
         .fontDesign(.rounded)
@@ -274,15 +280,14 @@ struct YearAheadView: View {
             .foregroundStyle(.gray300)
             .padding(.horizontal, 8)
             .padding(.vertical, 9)
-            .overlay({
+            .overlay {
                 RoundedRectangle(cornerRadius: 32)
                     .stroke(searchText ? .primary900 : .gray200, lineWidth: 1)
-            })
+            }
             .onTapGesture {
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                     searchText = true
                 }
-                
             }
             
             ScrollView {
