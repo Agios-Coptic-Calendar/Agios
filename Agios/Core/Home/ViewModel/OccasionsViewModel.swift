@@ -13,6 +13,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var icons: [IconModel] = []
     @Published var stories: [Story] = []
     @Published var readings: [DataReading] = []
+    @Published var selectedItem: Bool = false
     @Published var dataClass: DataClass? = nil
     @Published var subSection: [SubSection] = []
     @Published var subSectionReading: [SubSectionReading] = []

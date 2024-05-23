@@ -62,7 +62,6 @@ struct DailyQuoteView: View {
                        .stroke(.primary900, style: StrokeStyle(lineWidth: 1, dash: [10,5], dashPhase: 3), antialiased: false)
                })
                .padding(.horizontal, 20)
-
            }
         }
 

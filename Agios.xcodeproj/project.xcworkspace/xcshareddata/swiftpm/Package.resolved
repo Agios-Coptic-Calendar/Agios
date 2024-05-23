@@ -1,5 +1,5 @@
 {
-  "originHash" : "04c07198679aa60d4d3f0cee51764288a444838a68fa887d684d96247c8712d6",
+  "originHash" : "e095cf39ecb7092887fe6397cb50426f6beb3f815f78836dfefca16f901fb72a",
   "pins" : [
     {
       "identity" : "swiftui-shimmer",
@@ -11,12 +11,21 @@
       }
     },
     {
-      "identity" : "swiftuix#installation",
+      "identity" : "swiftuix",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SwiftUIX/SwiftUIX#installation",
+      "location" : "https://github.com/SwiftUIX/SwiftUIX",
       "state" : {
         "revision" : "ff1176d8c06c2ac81db3dfd36c63ec8a9c2ccbca",
         "version" : "0.2.1"
+      }
+    },
+    {
+      "identity" : "zoomimageviewer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ryanlintott/ZoomImageViewer.git",
+      "state" : {
+        "revision" : "32a1f7e60f82712c10205ab9be7eec67ec20eff5",
+        "version" : "0.4.1"
       }
     }
   ],
