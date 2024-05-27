@@ -298,6 +298,7 @@ extension SaintDetailsView {
             }
         }
         .padding(.horizontal, 20)
+        .textSelection(.enabled)
 
     }
     
@@ -327,6 +328,7 @@ extension SaintDetailsView {
             }
         }
         .padding(.horizontal, 20)
+        .textSelection(.enabled)
 
     }
     
@@ -356,6 +358,7 @@ extension SaintDetailsView {
             }
         }
         .padding(.horizontal, 20)
+        .textSelection(.enabled)
 
     }
     

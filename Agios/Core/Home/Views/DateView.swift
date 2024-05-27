@@ -147,12 +147,15 @@ struct DateView: View {
             .padding(.horizontal, 16)
             .foregroundStyle(.gray900)
             .fontWeight(.medium)
-            .fontDesign(.rounded)
+            .fontDesign(.rounded) 
             
-            
-        Rectangle()
-                .fill(.linearGradient(colors: [.white, .clear], startPoint: .bottom, endPoint: .top))
-                .frame(height: 40)
+            // Gradient
+            /*
+             Rectangle()
+                     .fill(.linearGradient(colors: [.white, .clear], startPoint: .bottom, endPoint: .top))
+                     .frame(height: 40)
+             */
+        
             
         }
         

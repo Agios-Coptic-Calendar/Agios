@@ -65,7 +65,9 @@ struct ReadingsView: View {
                                         .fontWeight(.medium)
                                         .font(.title2)
                                     .foregroundStyle(.gray900)
+                                    
                                 }
+                            
                                 Divider()
                             }
                             
@@ -89,6 +91,7 @@ struct ReadingsView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 64)
+                .textSelection(.enabled)
             }
             .scrollIndicators(.hidden)
         }

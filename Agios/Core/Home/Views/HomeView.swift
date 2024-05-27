@@ -52,8 +52,9 @@ struct HomeView: View {
                             }
                             VStack(spacing: 12) {
                                 imageView
-                                    
+                                
                                 DailyQuoteView()
+                                    .environmentObject(OccasionsViewModel())
                             }
                         }
                         dailyReading
