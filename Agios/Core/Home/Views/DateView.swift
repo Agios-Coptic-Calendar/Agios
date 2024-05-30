@@ -55,8 +55,6 @@ struct DateView: View {
         ZStack(alignment: .bottom) {
             VStack(alignment: .center, spacing: 0) {
                 HStack {
-                    
-                    
                     Spacer()
                     
                     HStack(spacing: 8) {
@@ -77,8 +75,6 @@ struct DateView: View {
                             .matchedGeometryEffect(id: "copticDate", in: namespace)
                             //.frame(width: 120, alignment: .leading)
                             
-                        
-                        
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                     
@@ -101,7 +97,6 @@ struct DateView: View {
                                 Button {
                                     withAnimation {
                                         animationsMode = mode
-                                        HapticsManager.instance.impact(style: .light)
                                     }
                                     
                                 } label: {
@@ -144,7 +139,7 @@ struct DateView: View {
                 .opacity(openCopticList ? 1 : 0)
                 .animation(.spring(response: 0.5, dampingFraction: 0.85), value: animationsMode)
             }
-            .padding(.horizontal, 16)
+            //.padding(.horizontal, 16)
             .foregroundStyle(.gray900)
             .fontWeight(.medium)
             .fontDesign(.rounded) 
@@ -223,7 +218,8 @@ struct NormalDateView: View {
         }
         .datePickerStyle(.graphical)
         .environment(\.colorScheme, .light)
-        .animation(.spring(response: 0.4, dampingFraction: 0.9), value: 100)
+        .animation(.spring(response: 0.4, dampingFraction: 0.9), value: 1000)
+        .padding(.horizontal, 16)
     }
 }
 
@@ -249,6 +245,7 @@ struct FeastView: View {
                     })
                     .buttonStyle(BouncyButton())
                 }
+                .padding(.horizontal, 16)
             }
             .foregroundStyle(.primary1000)
             .padding(.vertical, 8)
@@ -292,6 +289,7 @@ struct YearAheadView: View {
                     searchText = true
                 }
             }
+            .padding(.horizontal, 16)
             
             ScrollView {
                 VStack(spacing: 8) {
@@ -322,6 +320,7 @@ struct YearAheadView: View {
                         })
                         .buttonStyle(BouncyButton())
                     }
+                    .padding(.horizontal, 16)
                 }
                 .padding(.vertical, 8)
                 .padding(.bottom, 30)
@@ -331,6 +330,7 @@ struct YearAheadView: View {
 
         }
         .padding(.top, 12)
+        
 
     }
 }

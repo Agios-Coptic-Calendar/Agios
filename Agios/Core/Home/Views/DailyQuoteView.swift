@@ -46,6 +46,7 @@ struct DailyQuoteView: View {
                        .font(.title3)
                        .fontWeight(.semibold)
                        .foregroundStyle(.gray900)
+                       .textSelection(.enabled)
                    
                    Text("by fr pishoy kamel".uppercased())
                        .foregroundStyle(.gray900)
