@@ -197,6 +197,8 @@ struct DateView: View {
         .environment(\.colorScheme, .light)
         .fontDesign(.rounded)
         .animation(.spring(response: 0.35, dampingFraction: 0.9), value: animationsMode)
+        .frame(maxWidth: 400)
+        .padding(.bottom, 8)
     }
 }
 
@@ -218,8 +220,9 @@ struct NormalDateView: View {
         }
         .datePickerStyle(.graphical)
         .environment(\.colorScheme, .light)
-        .animation(.spring(response: 0.4, dampingFraction: 0.9), value: 1000)
         .padding(.horizontal, 16)
+        .frame(height: 336, alignment: .top)
+        .frame(maxWidth: 350)
     }
 }
 

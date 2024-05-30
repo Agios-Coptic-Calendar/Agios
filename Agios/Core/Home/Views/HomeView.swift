@@ -517,6 +517,7 @@ extension HomeView {
                 Spacer()
             }
         }
+        .frame(maxWidth: 400)
     }
 }
 
