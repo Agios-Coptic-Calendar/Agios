@@ -20,6 +20,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var passages: [Passage] = []
     @Published var iconagrapher: Iconagrapher? = nil
     @Published var highlight: [Highlight] = []
+    @Published var nameOfDay: String = ""
 
     @Published var isShowingFeastName = true
     @Published var isLoading: Bool = false
@@ -48,7 +49,7 @@ class OccasionsViewModel: ObservableObject {
     }
     
     func getPosts() {
-        guard let url = URL(string: "https://api.agios.co/occasions/get/27cg54wfacn5836") else { return }
+        guard let url = URL(string: "https://api.agios.co/occasions/get/gr3wna6vjuucyj8") else { return }
         
         Task {
             do {
@@ -76,14 +77,18 @@ class OccasionsViewModel: ObservableObject {
             self.isLoading = false
         }
         
-        self.icons = response.data.icons
+        self.icons = response.data.icons ?? []
         self.stories = response.data.stories ?? []
         self.readings = response.data.readings ?? []
         self.dataClass = response.data
+        self.nameOfDay = response.data.nameofDay ?? ""
         self.retrievePassages()
         
-        for icon in response.data.icons {
-            self.iconagrapher = icon.iconagrapher
+        
+        for icon in response.data.icons ?? [] {
+            if case let .iconagrapher(iconagrapher) = icon.iconagrapher {
+                self.iconagrapher = iconagrapher
+            }
         }
         
         for reading in response.data.readings ?? [] {

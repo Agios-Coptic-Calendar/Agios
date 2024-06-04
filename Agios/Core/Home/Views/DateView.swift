@@ -215,7 +215,7 @@ struct DateView_Preview: PreviewProvider {
 struct NormalDateView: View {
     @State private var datePicker: Date = Date()
     var body: some View {
-        DatePicker(selection: $datePicker, displayedComponents: [.date]) {
+        DatePicker(selection: $datePicker, in: .now..., displayedComponents: [.date]) {
             
         }
         .datePickerStyle(.graphical)

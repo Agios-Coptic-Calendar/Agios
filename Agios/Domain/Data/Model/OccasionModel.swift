@@ -27,11 +27,16 @@ struct OccasionModel: Identifiable, Codable {
 // MARK: - DataClass
 struct DataClass: Identifiable, Codable {
     let created, date: String?
-    let copticDate: CopticDate?
-    let icons: [IconModel]
-    let stories: [Story]?
-    let id, liturgicalInformation, name, updated: String?
-    let readings: [DataReading]?
+     let copticDate: CopticDate?
+     let icons: [IconModel]?
+     let stories: [Story]?
+     let facts: [Fact]?
+     let id: String?
+     let liturgicalInformation: String?
+     let nameofDay, updated: String?
+     let readings: [DataReading]?
+     let isWellKnown: Bool?
+     let upcomingEvents: [DataClass]?
 }
 
 // MARK: - CopticDate
@@ -40,19 +45,50 @@ struct CopticDate: Identifiable, Codable {
     let updated: String?
 }
 
+struct Fact: Codable {
+    let created, id, updated, fact: String?
+}
+
 // MARK: - Icon
 struct IconModel: Identifiable, Codable, Equatable {
     let id: String
     let created, updated, caption: String?
     let image: String
     let croppedImage: String?
-    let iconagrapher: Iconagrapher?
+    let iconagrapher: IconagrapherEnum?
     
+    enum IconagrapherEnum: Codable, Equatable {
+        case iconagrapher(Iconagrapher)
+        case string(String)
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            if let iconagrapher = try? container.decode(Iconagrapher.self) {
+                self = .iconagrapher(iconagrapher)
+            } else if let string = try? container.decode(String.self) {
+                self = .string(string)
+            } else {
+                throw DecodingError.typeMismatch(IconagrapherEnum.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Expected Iconagrapher or String"))
+            }
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            switch self {
+            case .iconagrapher(let iconagrapher):
+                try container.encode(iconagrapher)
+            case .string(let string):
+                try container.encode(string)
+            }
+        }
+    }
 }
 
-// MARK: - Iconagrapher
+// MARK: - Iconographer
 struct Iconagrapher: Codable, Equatable {
-    let created, id, name, updated: String?
+    let id: String?
+    let name: String?
+    let url: String?
 }
 
 // MARK: - DataReading

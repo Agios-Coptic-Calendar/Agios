@@ -85,8 +85,7 @@ struct HomeView: View {
             .background(.primary100)
             
         }
-        
-        
+    
     }
     
     private func getScaleAmount() -> CGFloat {
@@ -260,8 +259,7 @@ extension HomeView {
                     .frame(width: 250)
                 
             } else {
-                Text("6th Week of the Great Lent.")
-                //Text(occasionViewModel.dataClass?.liturgicalInformation ?? "")
+                Text(occasionViewModel.nameOfDay)
                     .font(.title2)
                      .fontWeight(.semibold)
                      .multilineTextAlignment(.center)

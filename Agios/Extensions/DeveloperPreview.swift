@@ -28,18 +28,13 @@ class DeveloperPreview {
         caption: "The Honourable Archangeal Michael",
         image: "https://agios-calendar.pockethost.io/api/files/nwill40feaquna2/yl7g57ypngzbfjs/the_righteous_job_rQtvvhe5JK.jpeg",
         croppedImage: "",
-        iconagrapher: Iconagrapher(
-            created: "2024-04-20T21:19:22.339Z",
-            id: "7hcbmyqwty25hjc",
-            name: "Girgis Samir",
-            updated: "2024-04-20 21:19:12.978Z")
+        iconagrapher: .iconagrapher(Iconagrapher(id: "", name: "", url: ""))
     )
     
     let iconagrapher = Iconagrapher(
-        created: "2024-04-20T21:19:22.339Z",
         id: "7hcbmyqwty25hjc",
         name: "Girgis Samir",
-        updated: "2024-04-20 21:19:12.978Z")
+        url: "2024-04-20 21:19:12.978Z")
     
     let passages = Passage(
         bookID: 19,

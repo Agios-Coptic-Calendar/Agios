@@ -13,16 +13,16 @@ class OccasionDataService {
     @Published var icons: [IconModel] = []
     private var iconsSubscription: AnyCancellable?
     
-    init() {
+    init() { 
         downloadIconImage()
     }
     
     private func downloadIconImage() {
-        guard let url = URL(string: "https://api.agios.co/occasions/get/27cg54wfacn5836") else { return }
+        guard let url = URL(string: "https://api.agios.co/occasions/get/gr3wna6vjuucyj8") else { return }
         iconsSubscription = NetworkingManager.download(url: url)
             .decode(type: Response.self, decoder: JSONDecoder())
             .sink(receiveCompletion: NetworkingManager.handleSinkCompletion, receiveValue: { [weak self] returnedResponse in
-                self?.icons = returnedResponse.data.icons
+                self?.icons = returnedResponse.data.icons ?? []
                 self?.iconsSubscription?.cancel()
             })
     }
