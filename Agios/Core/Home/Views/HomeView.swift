@@ -28,6 +28,7 @@ struct HomeView: View {
     let iconographer: Iconagrapher
     
     
+    
     var namespace: Namespace.ID
     let startingDate: Date = Calendar.current.date(from: DateComponents(year: 2018)) ?? Date()
     
@@ -53,8 +54,7 @@ struct HomeView: View {
                             VStack(spacing: 12) {
                                 imageView
                                 
-                                DailyQuoteView()
-                                    .environmentObject(OccasionsViewModel())
+                                DailyQuoteView(fact: dev.fact)
                             }
                         }
                         dailyReading
@@ -85,8 +85,7 @@ struct HomeView: View {
             .background(.primary100)
             
         }
-        
-        
+    
     }
     
     private func getScaleAmount() -> CGFloat {
@@ -117,53 +116,61 @@ struct HomeView_Preview: PreviewProvider {
 
 extension HomeView {
     private var combinedDateView: some View {
-        Button(action: {
-            //HapticsManager.instance.impact(style: .light)
-            withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
-                occasionViewModel.defaultDateTapped.toggle()
-            }
-        }, label: {
-            HStack(alignment: .center, spacing: 8, content: {
-                Text(datePicker.formatted(date: .abbreviated, time: .omitted))
-                    .lineLimit(1)
-                    .foregroundStyle(.primary1000)
-                    .fontWeight(.medium)
-                    .matchedGeometryEffect(id: "regularDate", in: namespace)
-                
-                Rectangle()
-                    .fill(.primary600)
-                    .frame(width: 1, height: 17)
-                    .matchedGeometryEffect(id: "divider", in: namespace)
-                
-                HStack(spacing: 4) {
-                    Text(occasionViewModel.copticDate)
-                        .lineLimit(1)
-                        .foregroundStyle(.primary1000)
-                        .matchedGeometryEffect(id: "copticDate", in: namespace)
+        ZStack {
+            if occasionViewModel.isLoading {
+                ShimmerView(heightSize: 32, cornerRadius: 24)
+                    .transition(.opacity)
+                    .frame(width: 200)
+            } else {
+                Button(action: {
+                    //HapticsManager.instance.impact(style: .light)
+                    withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
+                        occasionViewModel.defaultDateTapped.toggle()
+                    }
+                }, label: {
+                    HStack(alignment: .center, spacing: 8, content: {
+                        Text(datePicker.formatted(date: .abbreviated, time: .omitted))
+                            .lineLimit(1)
+                            .foregroundStyle(.primary1000)
+                            .fontWeight(.medium)
+                            .matchedGeometryEffect(id: "regularDate", in: namespace)
                         
-                    
-                    Image(systemName: "chevron.down")
-                        .font(.caption2)
-                        .foregroundStyle(.primary500)
-                }
-                .fontWeight(.medium)
-                
-                
-            })
-            .padding(.vertical, 6)
-            .padding(.horizontal, 16)
-            .background(
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(.primary300)
-                    .matchedGeometryEffect(id: "background", in: namespace)
-            )
-            .mask({
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .matchedGeometryEffect(id: "mask", in: namespace)
-            })
+                        Rectangle()
+                            .fill(.primary600)
+                            .frame(width: 1, height: 17)
+                            .matchedGeometryEffect(id: "divider", in: namespace)
+                        
+                        HStack(spacing: 4) {
+                            Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")")
+                                .lineLimit(1)
+                                .foregroundStyle(.primary1000)
+                                .matchedGeometryEffect(id: "copticDate", in: namespace)
+                                
+                            
+                            Image(systemName: "chevron.down")
+                                .font(.caption2)
+                                .foregroundStyle(.primary500)
+                        }
+                        .fontWeight(.medium)
+                        
+                        
+                    })
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .fill(.primary300)
+                            .matchedGeometryEffect(id: "background", in: namespace)
+                    )
+                    .mask({
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .matchedGeometryEffect(id: "mask", in: namespace)
+                    })
 
-        })
+                })
 
+            }
+        }
     }
     private var copticDate: some View {
         ZStack {
@@ -260,8 +267,7 @@ extension HomeView {
                     .frame(width: 250)
                 
             } else {
-                Text("6th Week of the Great Lent.")
-                //Text(occasionViewModel.dataClass?.liturgicalInformation ?? "")
+                Text(occasionViewModel.occasionName)
                     .font(.title2)
                      .fontWeight(.semibold)
                      .multilineTextAlignment(.center)
@@ -292,9 +298,15 @@ extension HomeView {
                 ScrollView(.horizontal, showsIndicators: false) {
                      HStack(spacing: 24) {
                          ForEach(occasionViewModel.icons) { saint in
-                             
+                        
                              NavigationLink {
-                                 SaintDetailsView(icon: saint, iconographer: dev.iconagrapher, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
+                                 SaintDetailsView(
+                                    icon: saint,
+                                    iconographer: occasionViewModel.iconagrapher ?? dev.iconagrapher,
+                                    stories: occasionViewModel.matchedStory ?? dev.story,
+                                    showImageViewer: $showImageViewer,
+                                    selectedSaint: $selectedSaint,
+                                    namespace: namespace)
                                      .environmentObject(occasionViewModel)
                                      .environmentObject(IconImageViewModel(icon: saint))
                                      .environmentObject(ImageViewerViewModel())
@@ -518,6 +530,68 @@ extension HomeView {
             }
         }
         .frame(maxWidth: 400)
+    }
+    
+    private var dailyQuote: some View {
+        ZStack {
+           if occasionViewModel.isLoading {
+                ShimmerView(heightSize: 250, cornerRadius: 24)
+                   .padding(.horizontal, 20)
+           } else {
+               if ((occasionViewModel.fact?.isEmpty) != nil) {
+                   VStack(alignment: .center, spacing: 16) {
+                       HStack(alignment: .center, spacing: 8, content: {
+                           Image("single_leaf")
+                               .resizable()
+                               .renderingMode(.template)
+                               .frame(width: 40, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                               .foregroundStyle(.primary900)
+                           
+                           Text("Daily Quote".uppercased())
+                               .foregroundStyle(.gray900)
+                               .fontWeight(.semibold)
+                               .font(.callout)
+                               .kerning(1.3)
+                           
+                           Image("single_leaf")
+                               .resizable()
+                               .renderingMode(.template)
+                               .frame(width: 40, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                               .foregroundStyle(.primary900)
+                               .rotation3DEffect(
+                                   .degrees(180),
+                                   axis: (x: 0.0, y: 1.0, z: 0.0)
+                               )
+
+                       })
+                       
+//                           Text(fact.fact ?? "Fact is empty.")
+//                               .multilineTextAlignment(.center)
+//                               .font(.title3)
+//                               .fontWeight(.semibold)
+//                               .foregroundStyle(.gray900)
+//                               .textSelection(.enabled)
+                       
+                       
+                       Text("by fr pishoy kamel".uppercased())
+                           .foregroundStyle(.gray900)
+                           .fontWeight(.semibold)
+                           .font(.callout)
+                           .kerning(1.3)
+                   }
+                   .padding(.vertical, 24)
+                   .padding(.horizontal, 16)
+                   .background(.primary200)
+                   .clipShape(RoundedRectangle(cornerRadius: 24, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
+                   .overlay(content: {
+                       RoundedRectangle(cornerRadius: 24, style: .continuous)
+                           .stroke(.primary900, style: StrokeStyle(lineWidth: 1, dash: [10,5], dashPhase: 3), antialiased: false)
+                   })
+                   .padding(.horizontal, 20)
+               }
+              
+           }
+        }
     }
 }
 
