@@ -33,7 +33,7 @@ class DeveloperPreview {
     
     let iconagrapher = Iconagrapher(
         id: "7hcbmyqwty25hjc",
-        name: "Girgis Samir",
+        name: "Girgis Bali",
         url: "2024-04-20 21:19:12.978Z")
     
     let passages = Passage(

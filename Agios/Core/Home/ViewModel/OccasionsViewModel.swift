@@ -97,11 +97,13 @@ class OccasionsViewModel: ObservableObject {
                 self.iconagrapher = iconagrapher
             }
             
-            if let iconStoryID = icon.story?.first,
-               let matchedStory = self.stories.first(where: { $0.id == iconStoryID }) {
-                self.matchedStory = matchedStory
-                print("Matched Story: \(matchedStory.story ?? "No story available")")
+            for story in response.data.stories ?? [] {
+                if icon.story?.first == story.id ?? "" {
+                    self.matchedStory = story
+                }
             }
+            
+           
         }
         
         for reading in response.data.readings ?? [] {

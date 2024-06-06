@@ -35,7 +35,7 @@ struct SaintDetailsView: View {
         ZStack(alignment: .topTrailing) {
             ZStack {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 32) {
+                    VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 16 : 32) {
                         VStack(alignment: .leading, spacing: 32) {
                             if !showImageViewer {
                                 RoundedRectangle(cornerRadius: 25.0)
@@ -97,12 +97,9 @@ struct SaintDetailsView: View {
                             divider
                         }
                         description
-                        if let explanation = icon.explanation, !explanation.isEmpty {
-                            divider
-                        }
                         story
-                        divider
-                        highlights
+                        //divider
+                        //highlights
                     }
                     .kerning(-0.4)
                     .padding(.vertical, 24)
@@ -340,6 +337,7 @@ extension SaintDetailsView {
                 
                 Text(stories.saint ?? "")
                     .fontWeight(.semibold)
+                    .lineLimit(2)
             }
             .font(.title3)
             
