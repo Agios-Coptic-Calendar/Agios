@@ -20,8 +20,10 @@ class OccasionsViewModel: ObservableObject {
     @Published var passages: [Passage] = []
     @Published var iconagrapher: Iconagrapher? = nil
     @Published var highlight: [Highlight] = []
-    @Published var nameOfDay: String = ""
-
+    @Published var newCopticDate: CopticDate? = nil
+    @Published var fact: [Fact]? = nil
+    @Published var matchedStory: Story? = nil
+    
     @Published var isShowingFeastName = true
     @Published var isLoading: Bool = false
     @Published var copticDateTapped: Bool = false
@@ -38,7 +40,11 @@ class OccasionsViewModel: ObservableObject {
 
     var feastName: String?
     var liturgicalInformation: String?
-
+    var occasionName: String {
+        dataClass?.name ?? "Unknown Occasion"
+    }
+    
+    
     private var task: URLSessionDataTask?
     
     init() {
@@ -81,13 +87,20 @@ class OccasionsViewModel: ObservableObject {
         self.stories = response.data.stories ?? []
         self.readings = response.data.readings ?? []
         self.dataClass = response.data
-        self.nameOfDay = response.data.nameofDay ?? ""
+        self.newCopticDate = response.data.copticDate ?? nil
+        self.fact = response.data.facts ?? []
         self.retrievePassages()
         
         
         for icon in response.data.icons ?? [] {
             if case let .iconagrapher(iconagrapher) = icon.iconagrapher {
                 self.iconagrapher = iconagrapher
+            }
+            
+            if let iconStoryID = icon.story?.first,
+               let matchedStory = self.stories.first(where: { $0.id == iconStoryID }) {
+                self.matchedStory = matchedStory
+                print("Matched Story: \(matchedStory.story ?? "No story available")")
             }
         }
         
@@ -124,7 +137,6 @@ class OccasionsViewModel: ObservableObject {
     var fastView: String {
         isShowingFeastName ? feastName ?? "" : liturgicalInformation ?? ""
     }
-
 }
 
 

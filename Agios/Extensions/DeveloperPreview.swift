@@ -25,7 +25,7 @@ class DeveloperPreview {
     let icon = IconModel(
         id: "7hcbmyqwty25hjc", created: "2024-04-20T21:19:22.339Z",
         updated: "2024-04-20T21:19:22.339Z",
-        caption: "The Honourable Archangeal Michael",
+        caption: "The Honourable Archangeal Michael", explanation: "", story: [],
         image: "https://agios-calendar.pockethost.io/api/files/nwill40feaquna2/yl7g57ypngzbfjs/the_righteous_job_rQtvvhe5JK.jpeg",
         croppedImage: "",
         iconagrapher: .iconagrapher(Iconagrapher(id: "", name: "", url: ""))
@@ -82,6 +82,9 @@ class DeveloperPreview {
     )], html: "")
     ])
     
+    let story = Story(created: "", id: "", updated: "", saint: "", story: "", highlights: [])
+    
+    let fact = Fact(created: "", id: "", updated: "", fact: "Holy Week is the final week of Lent leading into the celebration of Easter and Christ's Resurrection. It includes Holy Thursday or Maundy Thursday, the fifth day of the week.")
 }
 
 

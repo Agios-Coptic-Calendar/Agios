@@ -33,7 +33,7 @@ struct DataClass: Identifiable, Codable {
      let facts: [Fact]?
      let id: String?
      let liturgicalInformation: String?
-     let nameofDay, updated: String?
+     let name, updated: String?
      let readings: [DataReading]?
      let isWellKnown: Bool?
      let upcomingEvents: [DataClass]?
@@ -45,7 +45,7 @@ struct CopticDate: Identifiable, Codable {
     let updated: String?
 }
 
-struct Fact: Codable {
+struct Fact: Codable, Identifiable {
     let created, id, updated, fact: String?
 }
 
@@ -53,6 +53,8 @@ struct Fact: Codable {
 struct IconModel: Identifiable, Codable, Equatable {
     let id: String
     let created, updated, caption: String?
+    let explanation: String?
+    let story: [String]?
     let image: String
     let croppedImage: String?
     let iconagrapher: IconagrapherEnum?

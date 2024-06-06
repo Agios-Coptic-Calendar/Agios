@@ -18,7 +18,7 @@ class OccasionDataService {
     }
     
     private func downloadIconImage() {
-        guard let url = URL(string: "https://api.agios.co/occasions/get/gr3wna6vjuucyj8") else { return }
+        guard let url = URL(string: "https://api.agios.co/occasions/get/xocnq49h4rh3o2t") else { return }
         iconsSubscription = NetworkingManager.download(url: url)
             .decode(type: Response.self, decoder: JSONDecoder())
             .sink(receiveCompletion: NetworkingManager.handleSinkCompletion, receiveValue: { [weak self] returnedResponse in

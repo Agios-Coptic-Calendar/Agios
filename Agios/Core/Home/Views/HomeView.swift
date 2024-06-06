@@ -53,8 +53,7 @@ struct HomeView: View {
                             VStack(spacing: 12) {
                                 imageView
                                 
-                                DailyQuoteView()
-                                    .environmentObject(OccasionsViewModel())
+                                DailyQuoteView(fact: dev.fact)
                             }
                         }
                         dailyReading
@@ -135,7 +134,7 @@ extension HomeView {
                     .matchedGeometryEffect(id: "divider", in: namespace)
                 
                 HStack(spacing: 4) {
-                    Text(occasionViewModel.copticDate)
+                    Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")")
                         .lineLimit(1)
                         .foregroundStyle(.primary1000)
                         .matchedGeometryEffect(id: "copticDate", in: namespace)
@@ -259,7 +258,7 @@ extension HomeView {
                     .frame(width: 250)
                 
             } else {
-                Text(occasionViewModel.nameOfDay)
+                Text(occasionViewModel.occasionName)
                     .font(.title2)
                      .fontWeight(.semibold)
                      .multilineTextAlignment(.center)
@@ -292,7 +291,7 @@ extension HomeView {
                          ForEach(occasionViewModel.icons) { saint in
                              
                              NavigationLink {
-                                 SaintDetailsView(icon: saint, iconographer: dev.iconagrapher, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
+                                 SaintDetailsView(icon: saint, iconographer: dev.iconagrapher, stories: dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
                                      .environmentObject(occasionViewModel)
                                      .environmentObject(IconImageViewModel(icon: saint))
                                      .environmentObject(ImageViewerViewModel())
@@ -516,6 +515,68 @@ extension HomeView {
             }
         }
         .frame(maxWidth: 400)
+    }
+    
+    private var dailyQuote: some View {
+        ZStack {
+           if occasionViewModel.isLoading {
+                ShimmerView(heightSize: 250, cornerRadius: 24)
+                   .padding(.horizontal, 20)
+           } else {
+               if ((occasionViewModel.fact?.isEmpty) != nil) {
+                   VStack(alignment: .center, spacing: 16) {
+                       HStack(alignment: .center, spacing: 8, content: {
+                           Image("single_leaf")
+                               .resizable()
+                               .renderingMode(.template)
+                               .frame(width: 40, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                               .foregroundStyle(.primary900)
+                           
+                           Text("Daily Quote".uppercased())
+                               .foregroundStyle(.gray900)
+                               .fontWeight(.semibold)
+                               .font(.callout)
+                               .kerning(1.3)
+                           
+                           Image("single_leaf")
+                               .resizable()
+                               .renderingMode(.template)
+                               .frame(width: 40, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                               .foregroundStyle(.primary900)
+                               .rotation3DEffect(
+                                   .degrees(180),
+                                   axis: (x: 0.0, y: 1.0, z: 0.0)
+                               )
+
+                       })
+                       
+//                           Text(fact.fact ?? "Fact is empty.")
+//                               .multilineTextAlignment(.center)
+//                               .font(.title3)
+//                               .fontWeight(.semibold)
+//                               .foregroundStyle(.gray900)
+//                               .textSelection(.enabled)
+                       
+                       
+                       Text("by fr pishoy kamel".uppercased())
+                           .foregroundStyle(.gray900)
+                           .fontWeight(.semibold)
+                           .font(.callout)
+                           .kerning(1.3)
+                   }
+                   .padding(.vertical, 24)
+                   .padding(.horizontal, 16)
+                   .background(.primary200)
+                   .clipShape(RoundedRectangle(cornerRadius: 24, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
+                   .overlay(content: {
+                       RoundedRectangle(cornerRadius: 24, style: .continuous)
+                           .stroke(.primary900, style: StrokeStyle(lineWidth: 1, dash: [10,5], dashPhase: 3), antialiased: false)
+                   })
+                   .padding(.horizontal, 20)
+               }
+              
+           }
+        }
     }
 }
 

@@ -13,6 +13,7 @@ struct SaintDetailsView: View {
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
     let icon: IconModel
     let iconographer: Iconagrapher
+    let stories: Story
     @Binding var showImageViewer: Bool
     @Binding var selectedSaint: IconModel?
     var namespace: Namespace.ID
@@ -26,6 +27,8 @@ struct SaintDetailsView: View {
     @State private var endValue: CGFloat = 0
     @State private var resetDrag: Bool = false
     @State private var currentScale: CGFloat = 1.0
+    @State private var descriptionHeight: Int = 3
+    @State private var storyHeight: Int = 4
     
     @EnvironmentObject var viewModel: IconImageViewModel
     
@@ -73,22 +76,30 @@ struct SaintDetailsView: View {
                                     .font(.title2)
                                 .fontWeight(.semibold)
                                 
+                                if !(occasionViewModel.iconagrapher == nil) {
+                                    Text("\(occasionViewModel.iconagrapher?.name ?? "None")")
+                                        .font(.callout)
+                                        .fontWeight(.medium)
+                                        .padding(.horizontal, 16)
+                                        .padding(.vertical, 4)
+                                        .background(.primary300)
+                                        .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+                                }
                                 
-                                Text("\(occasionViewModel.iconagrapher?.name ?? "None")")
-                                    .font(.callout)
-                                    .fontWeight(.medium)
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 4)
-                                    .background(.primary300)
-                                    .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+                                
+                                if !((occasionViewModel.iconagrapher?.name) == nil) {
+                                    
+                                }
                             }
                         }
                         .padding(.horizontal, 20)
                         
-                        divider
+                        if let explanation = icon.explanation, !explanation.isEmpty {
+                            divider
+                        }
                         description
                         divider
-                        commemoration
+                        story
                         divider
                         highlights
                     }
@@ -263,7 +274,7 @@ struct SaintDetailsView_Preview: PreviewProvider {
     @Namespace static var namespace
     
     static var previews: some View {
-        SaintDetailsView(icon: dev.icon, iconographer: dev.iconagrapher, showImageViewer: .constant(false), selectedSaint: .constant(dev.icon), namespace: namespace)
+        SaintDetailsView(icon: dev.icon, iconographer: dev.iconagrapher, stories: dev.story, showImageViewer: .constant(false), selectedSaint: .constant(dev.icon), namespace: namespace)
             .environmentObject(OccasionsViewModel())
             .environmentObject(IconImageViewModel(icon: dev.icon))
             .environmentObject(ImageViewerViewModel())
@@ -273,57 +284,81 @@ struct SaintDetailsView_Preview: PreviewProvider {
 
 extension SaintDetailsView {
     private var description: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack(alignment: .center, spacing: 12) {
-                Image(systemName: "book.pages")
-                    .foregroundStyle(.gray400)
-                
-                Text("Description")
-                    .fontWeight(.semibold)
-            }
-            .font(.title3)
-            
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Lorem ipsum dolor sit amet consectetur. Quam malesuada ut magna consectetur. Elementum scelerisque mauris sed maecenas nisi faucibus vitae. Sed mattis sit amet quam. Id mauris.")
-                    .foregroundStyle(.gray400)
-                    .fontWeight(.medium)
-                
-                HStack(alignment: .center, spacing: 4) {
-                    Text("Read more")
-                        .fontWeight(.semibold)
-                    Image(systemName: "chevron.down")
-                        .font(.caption)
+        ZStack {
+            if let explanation = icon.explanation, !explanation.isEmpty {
+                VStack(alignment: .leading, spacing: 16) {
+                    HStack(alignment: .center, spacing: 12) {
+                        Image(systemName: "book.pages")
+                            .foregroundStyle(.gray400)
+                        
+                        Text("Description")
+                            .fontWeight(.semibold)
+                    }
+                    .font(.title3)
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(icon.explanation ?? "")
+                            .foregroundStyle(.gray400)
+                            .fontWeight(.medium)
+                            .lineLimit(descriptionHeight)
+
+                        if descriptionHeight > 10 {
+                            Button(action: {
+                                withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
+                                    descriptionHeight = 100
+                                }
+                            }, label: {
+                                HStack(alignment: .center, spacing: 4) {
+                                    Text("Read more")
+                                        .fontWeight(.semibold)
+                                    Image(systemName: "chevron.down")
+                                        .font(.caption)
+                                }
+                            })
+                           
+                        }
+                    }
                 }
-                
+                .padding(.horizontal, 20)
+                .textSelection(.enabled)
+
             }
         }
-        .padding(.horizontal, 20)
-        .textSelection(.enabled)
 
     }
     
-    private var commemoration: some View {
+    private var story: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack(alignment: .center, spacing: 12) {
+            HStack(alignment: .top, spacing: 12) {
                 Image(systemName: "star")
                     .foregroundStyle(.gray400)
                 
-                Text("Commemoration")
+                Text(stories.saint ?? "")
                     .fontWeight(.semibold)
             }
             .font(.title3)
             
             VStack(alignment: .leading, spacing: 8) {
-                Text("Lorem ipsum dolor sit amet consectetur. Quam malesuada ut magna consectetur. Elementum scelerisque mauris sed maecenas nisi faucibus vitae. Sed mattis sit amet quam. Id mauris.")
+                
+                Text(occasionViewModel.matchedStory?.story ?? "")
                     .foregroundStyle(.gray400)
                     .fontWeight(.medium)
+                    .lineLimit(storyHeight)
                 
-                HStack(alignment: .center, spacing: 4) {
-                    Text("Read more")
-                        .fontWeight(.semibold)
-                    Image(systemName: "chevron.down")
-                        .font(.caption)
+                Button {
+                    withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
+                        storyHeight = 100
+                    }
+                } label: {
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("Read more")
+                            .fontWeight(.semibold)
+                        Image(systemName: "chevron.down")
+                            .font(.caption)
+                    }
                 }
+
+                
                 
             }
         }

@@ -49,7 +49,6 @@ struct DateView: View {
     @State private var yearTapped: Bool = false
     
     @AppStorage("animationModeKey") private var animationsMode: DateSelection = .regularDate
-    let color = Color.pink // Replace with your desired color
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -239,7 +238,7 @@ struct FeastView: View {
                         HapticsManager.instance.impact(style: .light)
                         
                     }, label: {
-                        Text(occasionViewModel.copticDate)
+                        Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")")
                             .padding(.vertical, 9)
                             .padding(.horizontal, 16)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -257,8 +256,6 @@ struct FeastView: View {
         }
         .scrollIndicators(.hidden)
         .frame(height: 250, alignment: .top)
-
-
     }
 }
 
@@ -306,7 +303,7 @@ struct YearAheadView: View {
                             
                         }, label: {
                             HStack {
-                                Text(occasionViewModel.copticDate)
+                                Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")")
                                     .foregroundStyle(.primary1000)
                                 Spacer()
                                 Text(datePicker.formatted(date: .long, time: .omitted))
