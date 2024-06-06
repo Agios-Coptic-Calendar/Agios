@@ -144,6 +144,7 @@ extension HomeView {
                             Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")")
                                 .lineLimit(1)
                                 .foregroundStyle(.primary1000)
+                                .frame(width: 100)
                                 .matchedGeometryEffect(id: "copticDate", in: namespace)
                                 
                             
