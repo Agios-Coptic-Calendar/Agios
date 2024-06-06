@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct SaintDetailsView: View {
     
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
@@ -28,8 +27,8 @@ struct SaintDetailsView: View {
     @State private var resetDrag: Bool = false
     @State private var currentScale: CGFloat = 1.0
     @State private var descriptionHeight: Int = 3
-    @State private var storyHeight: Int = 4
-    
+    @State private var storyHeight: Int = 6
+    @State private var openSheet: Bool = false
     @EnvironmentObject var viewModel: IconImageViewModel
     
     var body: some View {
@@ -98,7 +97,9 @@ struct SaintDetailsView: View {
                             divider
                         }
                         description
-                        divider
+                        if let explanation = icon.explanation, !explanation.isEmpty {
+                            divider
+                        }
                         story
                         divider
                         highlights
@@ -232,6 +233,9 @@ struct SaintDetailsView: View {
             .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
             .zIndex(showImageViewer ? 0 : -2)
         }
+        .sheet(isPresented: $openSheet) {
+            StoryDetailView(story: stories)
+        }
     }
     
     private func getScaleAmount() -> CGFloat {
@@ -313,6 +317,7 @@ extension SaintDetailsView {
                                         .fontWeight(.semibold)
                                     Image(systemName: "chevron.down")
                                         .font(.caption)
+                                        .fontWeight(.semibold)
                                 }
                             })
                            
@@ -329,7 +334,7 @@ extension SaintDetailsView {
     
     private var story: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack(alignment: .top, spacing: 12) {
+            HStack(alignment: .center, spacing: 12) {
                 Image(systemName: "star")
                     .foregroundStyle(.gray400)
                 
@@ -338,23 +343,22 @@ extension SaintDetailsView {
             }
             .font(.title3)
             
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 20) {
                 
-                Text(occasionViewModel.matchedStory?.story ?? "")
+                Text(stories.story ?? "")
                     .foregroundStyle(.gray400)
                     .fontWeight(.medium)
                     .lineLimit(storyHeight)
                 
                 Button {
-                    withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
-                        storyHeight = 100
-                    }
+                    openSheet.toggle()
                 } label: {
                     HStack(alignment: .center, spacing: 4) {
                         Text("Read more")
                             .fontWeight(.semibold)
                         Image(systemName: "chevron.down")
                             .font(.caption)
+                            .fontWeight(.semibold)
                     }
                 }
 
@@ -362,6 +366,10 @@ extension SaintDetailsView {
                 
             }
         }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 24)
+        .background(.gray50)
+        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
         .padding(.horizontal, 20)
         .textSelection(.enabled)
 
@@ -383,12 +391,18 @@ extension SaintDetailsView {
                     .foregroundStyle(.gray400)
                     .fontWeight(.medium)
                 
-                HStack(alignment: .center, spacing: 4) {
-                    Text("Read more")
-                        .fontWeight(.semibold)
-                    Image(systemName: "chevron.down")
-                        .font(.caption)
-                }
+                Button(action: {
+                    
+                }, label: {
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("Read more")
+                            .fontWeight(.semibold)
+                        Image(systemName: "chevron.down")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                    }
+                })
+
                 
             }
         }
