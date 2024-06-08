@@ -14,16 +14,15 @@ struct StoryDetailView: View {
     var body: some View {
         ZStack {
             Color.white.ignoresSafeArea()
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        NavigationButton(labelName: .down, backgroundColor: .gray100, foregroundColor: .gray900)
-                    })
-                    
-                    Divider()
-                   
+            VStack(alignment: .leading, spacing: 40) {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    NavigationButton(labelName: .down, backgroundColor: .gray100, foregroundColor: .gray900)
+                })
+                .padding(.horizontal, 20)
+                
+                ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         Text(story.saint ?? "Title")
                             .font(.title)
@@ -31,16 +30,16 @@ struct StoryDetailView: View {
                             .fontWeight(.semibold)
                         
                         Text(story.story ?? "story")
-                            .font(.title3)
+                            .font(.title2)
                             .fontWeight(.medium)
-                            .foregroundStyle(.gray700)
+                            .foregroundStyle(.gray700)  
                     }
+                    .padding(.horizontal, 20)
+                    .textSelection(.enabled)
+                    .fontDesign(.rounded)
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 32)
-                .textSelection(.enabled)
-                .fontDesign(.rounded)
             }
+            .padding(.top, 24)
         }
     }
 }

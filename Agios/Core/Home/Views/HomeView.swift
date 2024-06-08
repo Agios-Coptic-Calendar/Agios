@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Shimmer
+import BigUIPaging
 
  
 struct HomeView: View {
@@ -26,6 +27,8 @@ struct HomeView: View {
     @State private var scaleImage: Bool = false
     @State private var offset: CGSize = .zero
     let iconographer: Iconagrapher
+    @State private var selection: Int = 1
+    @State private var showStory: Bool = false
     
     
     
@@ -53,7 +56,6 @@ struct HomeView: View {
                             }
                             VStack(spacing: 12) {
                                 imageView
-                                
                                 DailyQuoteView(fact: dev.fact)
                             }
                         }
@@ -85,6 +87,10 @@ struct HomeView: View {
             .background(.primary100)
             
         }
+        .fullScreenCover(isPresented: $showStory, content: {
+            StoryDetailView(story: occasionViewModel.matchedStory ?? dev.story)
+        })
+        
     
     }
     
@@ -321,11 +327,21 @@ extension HomeView {
                                              .blur(radius: phase.isIdentity ? 0 : 2)
                                              .scaleEffect(phase.isIdentity ? 1 : 0.95)
                                      }
+                                     .contextMenu(ContextMenu(menuItems: {
+                                         Button {
+                                             showStory.toggle()
+                                         } label: {
+                                             Label("See story", systemImage: "book")
+                                         }
+
+                                     }))
+                                     .frame(height: 430)
                             }
                              
                              .scaleEffect(selectedSaint == saint ? 1.08 : 1)
                              .animation(.spring(response: 0.5, dampingFraction: 0.6))
-                             .simultaneousGesture(TapGesture().onEnded{
+                             .simultaneousGesture(
+                                TapGesture().onEnded {
                                  withAnimation(.spring) {
                                      selectedSaint = saint
                                      DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -333,11 +349,15 @@ extension HomeView {
                                      }
                                  }
                                  
-                             })
+                                }
+                             )
+                             
+                             
                         }
                      }
                      .padding(.top, -24)
                      .padding(.horizontal, 20)
+                     
                  }
             }
         }

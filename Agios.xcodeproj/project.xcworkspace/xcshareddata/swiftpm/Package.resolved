@@ -1,6 +1,15 @@
 {
-  "originHash" : "e095cf39ecb7092887fe6397cb50426f6beb3f815f78836dfefca16f901fb72a",
+  "originHash" : "256b85c5863c561f77129915af75ee6a1c1c9969f6adfb6927fdaf722646217c",
   "pins" : [
+    {
+      "identity" : "biguipaging",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/notsobigcompany/BigUIPaging.git",
+      "state" : {
+        "revision" : "40fa6e1683bd47b962e216c05377bfd1b8f760de",
+        "version" : "0.0.3"
+      }
+    },
     {
       "identity" : "swiftui-shimmer",
       "kind" : "remoteSourceControl",
