@@ -88,7 +88,7 @@ struct HomeView: View {
             
         }
         .fullScreenCover(isPresented: $showStory, content: {
-            StoryDetailView(story: occasionViewModel.matchedStory ?? dev.story)
+            StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
         })
         
     
@@ -330,8 +330,14 @@ extension HomeView {
                                      .contextMenu(ContextMenu(menuItems: {
                                          Button {
                                              showStory.toggle()
+                                             selectedSaint = saint
                                          } label: {
-                                             Label("See story", systemImage: "book")
+                                             if let matchedStory = occasionViewModel.getStory(forIcon: saint) {
+                                                 Label("See story", systemImage: "book")
+                                             } else {
+                                                 Text("No story")
+                                             }
+                                             
                                          }
 
                                      }))

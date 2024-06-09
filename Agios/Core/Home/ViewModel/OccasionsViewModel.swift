@@ -55,6 +55,25 @@ class OccasionsViewModel: ObservableObject {
         }
     }
     
+    func getStory(forIcon icon: IconModel) -> Story? {
+        guard let storyID = icon.story?.first else { return nil }
+        return stories.first { $0.id == storyID }
+    }
+    
+    func groupIconsByCaption() -> [String: [IconModel]] {
+        var groupedIcons = [String: [IconModel]]()
+        for icon in icons {
+            let caption = ((icon.caption?.isEmpty) != nil) ? "No Caption" : icon.caption
+            if groupedIcons[caption ?? ""] != nil {
+                groupedIcons[caption ?? ""]?.append(icon)
+            } else {
+                groupedIcons[caption ?? ""] = [icon]
+            }
+        }
+        return groupedIcons
+    }
+
+    
     func getPosts() {
         guard let url = URL(string: "https://api.agios.co/occasions/get/gr3wna6vjuucyj8") else { return }
         
