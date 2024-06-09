@@ -37,6 +37,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var imageScaling: Double = 1
     @Published var searchDate: String = ""
     @Published var showLaunchView: Bool = false
+    
 
     var feastName: String?
     var liturgicalInformation: String?

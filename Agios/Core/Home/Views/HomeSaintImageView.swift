@@ -47,7 +47,8 @@ struct HomeSaintImageView: View {
                         .clipped()
                         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous)))
                 ) 
-                .frame(height: 430)
+                
+                
             
                 
                 
