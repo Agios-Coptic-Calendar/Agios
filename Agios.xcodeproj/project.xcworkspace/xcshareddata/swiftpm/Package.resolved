@@ -1,5 +1,5 @@
 {
-  "originHash" : "256b85c5863c561f77129915af75ee6a1c1c9969f6adfb6927fdaf722646217c",
+  "originHash" : "b4f46d04cd6ae48243c50bbd405d571d4d0d1fd994169c7196eb0527dd0fe079",
   "pins" : [
     {
       "identity" : "biguipaging",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "40fa6e1683bd47b962e216c05377bfd1b8f760de",
         "version" : "0.0.3"
+      }
+    },
+    {
+      "identity" : "scrollviewoffset",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gavinmn/ScrollViewOffset",
+      "state" : {
+        "branch" : "main",
+        "revision" : "546b9feb30cd8d9cf626c149412a065b99f2f65b"
       }
     },
     {

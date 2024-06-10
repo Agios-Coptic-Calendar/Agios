@@ -25,6 +25,10 @@
 		570937052C125035006631F7 /* StoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570937042C125035006631F7 /* StoryDetailView.swift */; };
 		570937152C136D6F006631F7 /* BigUIPaging in Frameworks */ = {isa = PBXBuildFile; productRef = 570937142C136D6F006631F7 /* BigUIPaging */; };
 		5728FE022BE6607A00FE4130 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5728FE012BE6607A00FE4130 /* LocalFileManager.swift */; };
+		5739B0D52C15EA8200493B4F /* GroupedSaintImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5739B0D42C15EA8100493B4F /* GroupedSaintImageView.swift */; };
+		5739B0DA2C16248600493B4F /* ScrollViewOffset in Frameworks */ = {isa = PBXBuildFile; productRef = 5739B0D92C16248600493B4F /* ScrollViewOffset */; };
+		5739B0DC2C1645D500493B4F /* SaintGroupImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5739B0DB2C1645D500493B4F /* SaintGroupImageView.swift */; };
+		5739B0DE2C16484B00493B4F /* SaintGroupDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5739B0DD2C16484B00493B4F /* SaintGroupDetailsView.swift */; };
 		57616ECE2BF503B800C867AC /* DateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57616ECD2BF503B800C867AC /* DateView.swift */; };
 		578293DA2BDF241200BF4162 /* ImageViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578293D92BDF241200BF4162 /* ImageViewerViewModel.swift */; };
 		578B61052BD15C7B00DCDFF6 /* HomeVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61042BD15C7B00DCDFF6 /* HomeVIewModel.swift */; };
@@ -86,6 +90,9 @@
 		570764462BD69B9D00C5C98B /* IconImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconImageViewModel.swift; sourceTree = "<group>"; };
 		570937042C125035006631F7 /* StoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailView.swift; sourceTree = "<group>"; };
 		5728FE012BE6607A00FE4130 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
+		5739B0D42C15EA8100493B4F /* GroupedSaintImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedSaintImageView.swift; sourceTree = "<group>"; };
+		5739B0DB2C1645D500493B4F /* SaintGroupImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaintGroupImageView.swift; sourceTree = "<group>"; };
+		5739B0DD2C16484B00493B4F /* SaintGroupDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SaintGroupDetailsView.swift; path = ../../../../../.Trash/SaintGroupDetailsView.swift; sourceTree = "<group>"; };
 		57616ECD2BF503B800C867AC /* DateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateView.swift; sourceTree = "<group>"; };
 		578293D92BDF241200BF4162 /* ImageViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerViewModel.swift; sourceTree = "<group>"; };
 		578B61042BD15C7B00DCDFF6 /* HomeVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVIewModel.swift; sourceTree = "<group>"; };
@@ -132,6 +139,7 @@
 			files = (
 				5798741A2BFEABF500F0B2EE /* SwiftUIX in Frameworks */,
 				570937152C136D6F006631F7 /* BigUIPaging in Frameworks */,
+				5739B0DA2C16248600493B4F /* ScrollViewOffset in Frameworks */,
 				57EE90632BE3F35E00C7E1AE /* Shimmer in Frameworks */,
 				5797109E2BD1420500DFDBA3 /* UIImageColors in Frameworks */,
 			);
@@ -185,6 +193,8 @@
 			children = (
 				578293D82BDF240100BF4162 /* ViewModel */,
 				570515BB2BDAE0B500990A24 /* SaintDetailsView.swift */,
+				5739B0DB2C1645D500493B4F /* SaintGroupImageView.swift */,
+				5739B0DD2C16484B00493B4F /* SaintGroupDetailsView.swift */,
 				570937042C125035006631F7 /* StoryDetailView.swift */,
 				57CF01832BE2530000508338 /* Zoomable.swift */,
 				570515BD2BDAE14700990A24 /* SaintImageView.swift */,
@@ -250,6 +260,7 @@
 				57616ECD2BF503B800C867AC /* DateView.swift */,
 				570515B82BDAB91B00990A24 /* DatePickerView.swift */,
 				5707643D2BD68D1500C5C98B /* HomeSaintImageView.swift */,
+				5739B0D42C15EA8100493B4F /* GroupedSaintImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -422,6 +433,7 @@
 				57EE90622BE3F35E00C7E1AE /* Shimmer */,
 				579874192BFEABF500F0B2EE /* SwiftUIX */,
 				570937142C136D6F006631F7 /* BigUIPaging */,
+				5739B0D92C16248600493B4F /* ScrollViewOffset */,
 			);
 			productName = Agios;
 			productReference = 474C79A12BD009BC003E3A15 /* Agios.app */;
@@ -457,6 +469,7 @@
 				579874172BFEA89F00F0B2EE /* XCRemoteSwiftPackageReference "ZoomImageViewer" */,
 				579874182BFEABF500F0B2EE /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 				570937132C136D6E006631F7 /* XCRemoteSwiftPackageReference "BigUIPaging" */,
+				5739B0D82C16248600493B4F /* XCRemoteSwiftPackageReference "ScrollViewOffset" */,
 			);
 			productRefGroup = 474C79A22BD009BC003E3A15 /* Products */;
 			projectDirPath = "";
@@ -512,6 +525,7 @@
 				578B61052BD15C7B00DCDFF6 /* HomeVIewModel.swift in Sources */,
 				57CA77872BD7324C00A34725 /* OccasionDataService.swift in Sources */,
 				570937052C125035006631F7 /* StoryDetailView.swift in Sources */,
+				5739B0D52C15EA8200493B4F /* GroupedSaintImageView.swift in Sources */,
 				579710A52BD1429900DFDBA3 /* ButtonStyle.swift in Sources */,
 				5728FE022BE6607A00FE4130 /* LocalFileManager.swift in Sources */,
 				578B61112BD15D9900DCDFF6 /* JSONRepository.swift in Sources */,
@@ -519,9 +533,11 @@
 				570515B22BDA6FBB00990A24 /* CopticDateView.swift in Sources */,
 				570764412BD68EDA00C5C98B /* DeveloperPreview.swift in Sources */,
 				579710AB2BD142EB00DFDBA3 /* ReadingsView.swift in Sources */,
+				5739B0DE2C16484B00493B4F /* SaintGroupDetailsView.swift in Sources */,
 				5797106F2BD138E400DFDBA3 /* HomeView.swift in Sources */,
 				474C79A72BD009BC003E3A15 /* ContentView.swift in Sources */,
 				579710BA2BD146A100DFDBA3 /* PresentableSection.swift in Sources */,
+				5739B0DC2C1645D500493B4F /* SaintGroupImageView.swift in Sources */,
 				570515BE2BDAE14700990A24 /* SaintImageView.swift in Sources */,
 				57EAE62F2BD7E75E00379CC5 /* LayerExample.swift in Sources */,
 				57EAE6312BD7E75E00379CC5 /* LayerExampleComponents.swift in Sources */,
@@ -772,6 +788,14 @@
 				minimumVersion = 0.0.3;
 			};
 		};
+		5739B0D82C16248600493B4F /* XCRemoteSwiftPackageReference "ScrollViewOffset" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gavinmn/ScrollViewOffset";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		579874172BFEA89F00F0B2EE /* XCRemoteSwiftPackageReference "ZoomImageViewer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ryanlintott/ZoomImageViewer.git";
@@ -803,6 +827,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 570937132C136D6E006631F7 /* XCRemoteSwiftPackageReference "BigUIPaging" */;
 			productName = BigUIPaging;
+		};
+		5739B0D92C16248600493B4F /* ScrollViewOffset */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5739B0D82C16248600493B4F /* XCRemoteSwiftPackageReference "ScrollViewOffset" */;
+			productName = ScrollViewOffset;
 		};
 		5797109D2BD1420500DFDBA3 /* UIImageColors */ = {
 			isa = XCSwiftPackageProductDependency;

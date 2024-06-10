@@ -11,6 +11,7 @@ import SwiftUI
 
 class OccasionsViewModel: ObservableObject {
     @Published var icons: [IconModel] = []
+    @Published var filteredIcons: [IconModel] = []
     @Published var stories: [Story] = []
     @Published var readings: [DataReading] = []
     @Published var selectedItem: Bool = false
@@ -53,6 +54,17 @@ class OccasionsViewModel: ObservableObject {
         withAnimation {
             self.isLoading = true
         }
+    }
+    
+    
+    func filterIconsByCaption(icons: [IconModel], captionKeyword: String) -> [IconModel] {
+        return icons.filter { $0.caption?.contains(captionKeyword) == true }
+    }
+    
+    
+    func getStory(forIcon icon: IconModel) -> Story? {
+        guard let storyID = icon.story?.first else { return nil }
+        return stories.first { $0.id == storyID }
     }
     
     func getPosts() {
@@ -115,7 +127,15 @@ class OccasionsViewModel: ObservableObject {
             self.highlight = story.highlights ?? []
         }
         
-        print("returned passage details")
+                
+        self.filteredIcons = filterIconsByCaption(captionKeyword: "The Resurrection of")
+        self.icons = removeIconsWithCaption(icons: self.icons, phrase: "The Resurrection of")
+        //self.icons.append(contentsOf: self.filteredIcons)
+        //self.icons.removeFirst(2)
+    }
+    
+    func removeIconsWithCaption(icons: [IconModel], phrase: String) -> [IconModel] {
+        return icons.filter { !($0.caption?.localizedCaseInsensitiveContains(phrase) ?? false) }
     }
     
     func retrievePassages() {
@@ -140,6 +160,29 @@ class OccasionsViewModel: ObservableObject {
     var fastView: String {
         isShowingFeastName ? feastName ?? "" : liturgicalInformation ?? ""
     }
+    
+    func filterIconsByCaption(captionKeyword: String) -> [IconModel] {
+        return icons.filter { $0.caption?.contains(captionKeyword) == true }
+    }
+    
+    func updateIconsWithFilteredIcons() {
+        for filteredIcon in filteredIcons {
+            // Find index of icon with same caption in icons array
+            if let index = icons.firstIndex(where: { $0.caption == filteredIcon.caption }) {
+                // Replace the icon in icons array with filteredIcon
+                icons[index] = filteredIcon
+            } else {
+                // If no icon with same caption found, add the filteredIcon to icons array
+                icons.append(filteredIcon)
+            }
+        }
+    }
+    
+    func filterAndUpdateIconsByCaption(captionKeyword: String) {
+        filteredIcons = filterIconsByCaption(captionKeyword: captionKeyword)
+        updateIconsWithFilteredIcons()
+    }
+    
 }
 
 
