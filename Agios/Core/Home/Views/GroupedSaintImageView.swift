@@ -16,6 +16,21 @@ struct GroupedSaintImageView: View {
                 HomeSaintImageView(icon: icon)
                     .offset(y: CGFloat(reversedIndex) * -40)
                     .scaleEffect(1 - (CGFloat(reversedIndex) * 0.15))
+                    .contextMenu(ContextMenu(menuItems: {
+                        Button {
+                            vm.showStory.toggle()
+                        } label: {
+                            if vm.getStory(forIcon: vm.filteredIcons.first ?? dev.icon) != nil {
+                                Label("See story", systemImage: "book")
+                            } else {
+                                Text("No story")
+                            }
+                            
+                        }
+                        .disabled((vm.getStory(forIcon: vm.filteredIcons.first ?? dev.icon) != nil) == true ? false : true)
+
+                    }))
+
                 
             }
         }

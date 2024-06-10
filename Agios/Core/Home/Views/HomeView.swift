@@ -89,7 +89,7 @@ struct HomeView: View {
             .background(.primary100)
             
         }
-        .fullScreenCover(isPresented: $showStory, content: {
+        .fullScreenCover(isPresented: $occasionViewModel.showStory, content: {
             StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
         })
         
@@ -318,6 +318,8 @@ extension HomeView {
                              .navigationBarBackButtonHidden(showImageViewer ? true : false)
                          } label: {
                              GroupedSaintImageView()
+                                 
+
                          }
 
                          
@@ -347,7 +349,7 @@ extension HomeView {
                                      }
                                      .contextMenu(ContextMenu(menuItems: {
                                          Button {
-                                             showStory.toggle()
+                                             occasionViewModel.showStory.toggle()
                                              selectedSaint = saint
                                          } label: {
                                              if occasionViewModel.getStory(forIcon: saint) != nil {
