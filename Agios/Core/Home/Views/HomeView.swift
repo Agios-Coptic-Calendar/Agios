@@ -22,6 +22,7 @@ struct HomeView: View {
     @State private var datePicker: Date = .now
     
     @State private var selectedSaint: IconModel?
+    @State private var selectedSaints: IconModel?
     @State private var selectedSection: SubSection?
     @State private var showImageViewer: Bool = false
     @State private var scaleImage: Bool = false
@@ -44,17 +45,18 @@ struct HomeView: View {
             ZStack {
                 ScrollView {
                     VStack(spacing: 40) {
-                        VStack(spacing: 16) {
+                        VStack(spacing: 28) {
                             VStack(alignment: .leading, spacing: 32) {
                                 VStack(spacing: -40) {
                                     illustration
                                     VStack(spacing: 12) {
                                         fastView
                                         combinedDateView
+                                        
                                     }
                                 }
                             }
-                            VStack(spacing: 12) {
+                            VStack(spacing: 20) {
                                 imageView
                                 DailyQuoteView(fact: dev.fact)
                             }
@@ -290,7 +292,7 @@ extension HomeView {
         ZStack {
             if occasionViewModel.isLoading {
                 ScrollView(.horizontal) {
-                    HStack(spacing: 16) {
+                    HStack(spacing: 18) {
                         ForEach(0..<2) { index in
                             ShimmerView(heightSize: 350, cornerRadius: 24)
                                 .frame(width: 300, alignment: .leading)
@@ -303,21 +305,37 @@ extension HomeView {
                 .scrollDisabled(true)
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
-                     HStack(spacing: 24) {
+                     HStack(spacing: 26) {
+                         NavigationLink {
+                             SaintGroupDetailsView(
+                                icon: occasionViewModel.filteredIcons.first ?? dev.icon,
+                               iconographer: dev.iconagrapher,
+                                stories: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story,
+                               showImageViewer: $showImageViewer,
+                                selectedSaints: $selectedSaints, namespace: namespace)
+                             .environmentObject(occasionViewModel)
+                             .environmentObject(ImageViewerViewModel())
+                             .navigationBarBackButtonHidden(showImageViewer ? true : false)
+                         } label: {
+                             GroupedSaintImageView()
+                         }
+
+                         
                          ForEach(occasionViewModel.icons) { saint in
                         
                              NavigationLink {
                                  SaintDetailsView(
-                                    icon: saint,
-                                    iconographer: occasionViewModel.iconagrapher ?? dev.iconagrapher,
-                                    stories: occasionViewModel.matchedStory ?? dev.story,
-                                    showImageViewer: $showImageViewer,
-                                    selectedSaint: $selectedSaint,
-                                    namespace: namespace)
-                                     .environmentObject(occasionViewModel)
-                                     .environmentObject(IconImageViewModel(icon: saint))
-                                     .environmentObject(ImageViewerViewModel())
-                                     .navigationBarBackButtonHidden(showImageViewer ? true : false)
+                                     icon: saint,
+                                     iconographer: occasionViewModel.iconagrapher ?? dev.iconagrapher,
+                                     stories: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story,
+                                     showImageViewer: $showImageViewer,
+                                     selectedSaint: $selectedSaint,
+                                     namespace: namespace
+                                 )
+                                 .environmentObject(occasionViewModel)
+                                 .environmentObject(IconImageViewModel(icon: saint))
+                                 .environmentObject(ImageViewerViewModel())
+                                 .navigationBarBackButtonHidden(showImageViewer ? true : false)
                              } label: {
                                  HomeSaintImageView(icon: saint)
                                      .aspectRatio(contentMode: .fill)
@@ -332,37 +350,43 @@ extension HomeView {
                                              showStory.toggle()
                                              selectedSaint = saint
                                          } label: {
-                                             if let matchedStory = occasionViewModel.getStory(forIcon: saint) {
+                                             if occasionViewModel.getStory(forIcon: saint) != nil {
                                                  Label("See story", systemImage: "book")
                                              } else {
                                                  Text("No story")
                                              }
                                              
                                          }
+                                         .disabled((occasionViewModel.getStory(forIcon: saint) != nil) == true ? false : true)
 
                                      }))
                                      .frame(height: 430)
                             }
                              
-                             .scaleEffect(selectedSaint == saint ? 1.08 : 1)
+                             //.scaleEffect(selectedSaint == saint ? 1.08 : 1)
                              .animation(.spring(response: 0.5, dampingFraction: 0.6))
                              .simultaneousGesture(
                                 TapGesture().onEnded {
-                                 withAnimation(.spring) {
-                                     selectedSaint = saint
-                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                         selectedSaint = nil
+                                    selectedSaint = saint
+                                    /*
+                                     withAnimation(.spring) {
+                                         selectedSaint = saint
+                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                             selectedSaint = nil
+                                         }
                                      }
-                                 }
+                                     */
+                                 
                                  
                                 }
                              )
+
                              
                              
                         }
                      }
                      .padding(.top, -24)
-                     .padding(.horizontal, 20)
+                     .padding(.horizontal, 24)
                      
                  }
             }

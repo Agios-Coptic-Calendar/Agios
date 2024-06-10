@@ -24,12 +24,12 @@ struct StoryDetailView: View {
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
-                        Text(story.saint ?? "Title")
-                            .font(.title)
+                        Text(formatTitleText(story.saint ?? "Title"))
+                            .font(.largeTitle)
                             .foregroundStyle(.gray900)
                             .fontWeight(.semibold)
                         
-                        Text(story.story ?? "story")
+                        Text(formatStoryText(story.story ?? "story"))
                             .font(.title2)
                             .fontWeight(.medium)
                             .foregroundStyle(.gray700)  
@@ -41,6 +41,13 @@ struct StoryDetailView: View {
             }
             .padding(.top, 24)
         }
+        .kerning(-0.4)
+    }
+    private func formatStoryText(_ storyText: String) -> String {
+        return storyText.replacingOccurrences(of: "\n", with: "\n\n")
+    }
+    private func formatTitleText(_ storyText: String) -> String {
+        return storyText.replacingOccurrences(of: "\n", with: "")
     }
 }
 

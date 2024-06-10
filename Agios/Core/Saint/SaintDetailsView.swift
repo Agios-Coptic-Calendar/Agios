@@ -90,7 +90,7 @@ struct SaintDetailsView: View {
         
         // Check if the scale amount is below a certain threshold
         if scaleAmount < 0.4 {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.85)) {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                 showImageViewer = false
                 selectedSaint = nil
             }
@@ -134,7 +134,7 @@ extension SaintDetailsView {
     private var closeButton: some View {
         ZStack {
             Button {
-                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                     selectedSaint = nil
                     showImageViewer = false
                     endValue = 0
@@ -168,7 +168,7 @@ extension SaintDetailsView {
                                     .zIndex(10)
                                     .transition(.scale(scale: 1))
                                     .onTapGesture {
-                                        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                                             showImageViewer = true
                                         }
                                     }
@@ -206,7 +206,7 @@ extension SaintDetailsView {
                                             offset = .zero
                                         }
                                         
-                                        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                                             showImageViewer = false
                                             HapticsManager.instance.impact(style: .light)
                                         }
@@ -230,7 +230,7 @@ extension SaintDetailsView {
                 .zIndex(10)
                 .ignoresSafeArea()
                 .onTapGesture {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                         showImageViewer = false
                         endValue = 0
                         startValue = 0
@@ -288,46 +288,54 @@ extension SaintDetailsView {
     }
     
     private var story: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack(alignment: .center, spacing: 12) {
-                Image(systemName: "book")
-                    .foregroundStyle(.gray400)
-                
-                Text(stories.saint ?? "")
-                    .fontWeight(.semibold)
-                    .lineLimit(2)
-            }
-            .font(.title3)
-            
-            VStack(alignment: .leading, spacing: 20) {
-                
-                Text(stories.story ?? "")
-                    .foregroundStyle(.gray400)
-                    .fontWeight(.medium)
-                    .lineLimit(storyHeight)
-                
-                Button {
-                    openSheet.toggle()
-                } label: {
-                    HStack(alignment: .center, spacing: 4) {
-                        Text("Read more")
+       
+        ZStack {
+            if occasionViewModel.getStory(forIcon: icon) == nil {
+            } else {
+                VStack(alignment: .leading, spacing: 16) {
+                    HStack(alignment: .center, spacing: 12) {
+                        Image(systemName: "book")
+                            .foregroundStyle(.gray400)
+                        
+                        Text(stories.saint ?? "")
                             .fontWeight(.semibold)
-                        Image(systemName: "chevron.down")
-                            .font(.caption)
-                            .fontWeight(.semibold)
+                            .lineLimit(2)
+                    }
+                    .font(.title3)
+                    
+                    VStack(alignment: .leading, spacing: 20) {
+                        
+                        Text(stories.story ?? "")
+                            .foregroundStyle(.gray400)
+                            .fontWeight(.medium)
+                            .lineLimit(storyHeight)
+                        
+                        
+                        Button {
+                            openSheet.toggle()
+                        } label: {
+                            HStack(alignment: .center, spacing: 4) {
+                                Text("Read more")
+                                    .fontWeight(.semibold)
+                                Image(systemName: "chevron.down")
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                            }
+                        }
+
+                        
+                        
                     }
                 }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 24)
+                .background(.gray50)
+                .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+                .padding(.horizontal, 20)
+            .textSelection(.enabled)
 
-                
-                
             }
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 24)
-        .background(.gray50)
-        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-        .padding(.horizontal, 20)
-        .textSelection(.enabled)
 
     }
     
@@ -388,7 +396,7 @@ extension SaintDetailsView {
                             .transition(.scale(scale: 1))
                             .zIndex(4)
                             .onTapGesture {
-                                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                                     showImageViewer = true
                                 }
                             }

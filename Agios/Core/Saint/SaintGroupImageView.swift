@@ -1,13 +1,14 @@
 //
-//  SaintImageView.swift
+//  SaintGroupImageView.swift
 //  Agios
 //
-//  Created by Victor on 4/25/24.
+//  Created by Victor on 6/9/24.
 //
+
 
 import SwiftUI
 
-struct SaintImageView: View {
+struct SaintGroupImageView: View {
     
     @StateObject var viewModel: IconImageViewModel
     let icon: IconModel
@@ -42,9 +43,10 @@ struct SaintImageView: View {
 
 }
 
-struct SaintImageView_Preview: PreviewProvider {
+struct SaintGroupImageView_Preview: PreviewProvider {
     static var previews: some View {
         SaintImageView(icon: dev.icon)
             .environmentObject(IconImageViewModel(icon: dev.icon))
     }
 }
+
