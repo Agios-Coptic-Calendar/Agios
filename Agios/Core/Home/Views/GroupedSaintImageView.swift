@@ -9,6 +9,9 @@ import SwiftUI
 
 struct GroupedSaintImageView: View {
     @EnvironmentObject private var vm: OccasionsViewModel
+    @Binding var selectedSaint: IconModel?
+    @Binding var showStory: Bool
+    
     var body: some View {
         ZStack {
             ForEach(Array(vm.filteredIcons.enumerated()), id: \.element.id) { index, icon in
@@ -18,27 +21,32 @@ struct GroupedSaintImageView: View {
                     .scaleEffect(1 - (CGFloat(reversedIndex) * 0.15))
                     .contextMenu(ContextMenu(menuItems: {
                         Button {
-                            vm.showStory.toggle()
+                            selectedSaint = icon
+                            showStory.toggle()
                         } label: {
-                            if vm.getStory(forIcon: vm.filteredIcons.first ?? dev.icon) != nil {
+                            if vm.getStory(forIcon: icon) != nil {
                                 Label("See story", systemImage: "book")
                             } else {
                                 Text("No story")
                             }
                             
                         }
-                        .disabled((vm.getStory(forIcon: vm.filteredIcons.first ?? dev.icon) != nil) == true ? false : true)
+                        .disabled((vm.getStory(forIcon: icon) != nil) == true ? false : true)
 
                     }))
-
-                
             }
         }
     }
 }
 
-#Preview {
-    GroupedSaintImageView()
-        .environmentObject(OccasionsViewModel())
+struct GroupedSaintImageView_Previews: PreviewProvider {
+    @State static var selectedSaint: IconModel? = nil
+    @State static var showStory: Bool = false
+    
+    static var previews: some View {
+        GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $showStory)
+            .environmentObject(OccasionsViewModel())
+    }
 }
+
 

@@ -45,7 +45,7 @@ struct SaintGroupImageView: View {
 
 struct SaintGroupImageView_Preview: PreviewProvider {
     static var previews: some View {
-        SaintImageView(icon: dev.icon)
+        SaintGroupImageView(icon: dev.icon)
             .environmentObject(IconImageViewModel(icon: dev.icon))
     }
 }

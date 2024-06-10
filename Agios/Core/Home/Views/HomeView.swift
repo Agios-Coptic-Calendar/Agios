@@ -305,96 +305,75 @@ extension HomeView {
                 .scrollDisabled(true)
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
-                     HStack(spacing: 26) {
-                         NavigationLink {
-                             SaintGroupDetailsView(
+                    HStack(spacing: 26) {
+                        NavigationLink {
+                            SaintGroupDetailsView(
                                 icon: occasionViewModel.filteredIcons.first ?? dev.icon,
-                               iconographer: dev.iconagrapher,
+                                iconographer: dev.iconagrapher,
                                 stories: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story,
-                               showImageViewer: $showImageViewer,
+                                showImageViewer: $showImageViewer,
                                 selectedSaints: $selectedSaints, namespace: namespace)
-                             .environmentObject(occasionViewModel)
-                             .environmentObject(ImageViewerViewModel())
-                             .navigationBarBackButtonHidden(showImageViewer ? true : false)
-                         } label: {
-                             GroupedSaintImageView()
-                                 
-
-                         }
-
-                         
-                         ForEach(occasionViewModel.icons) { saint in
+                            .environmentObject(occasionViewModel)
+                            .environmentObject(ImageViewerViewModel())
+                            .navigationBarBackButtonHidden(showImageViewer ? true : false)
+                        } label: {
+                            GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory)
+                                .environmentObject(occasionViewModel)
+                        }
                         
-                             NavigationLink {
-                                 SaintDetailsView(
-                                     icon: saint,
-                                     iconographer: occasionViewModel.iconagrapher ?? dev.iconagrapher,
-                                     stories: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story,
-                                     showImageViewer: $showImageViewer,
-                                     selectedSaint: $selectedSaint,
-                                     namespace: namespace
-                                 )
-                                 .environmentObject(occasionViewModel)
-                                 .environmentObject(IconImageViewModel(icon: saint))
-                                 .environmentObject(ImageViewerViewModel())
-                                 .navigationBarBackButtonHidden(showImageViewer ? true : false)
-                             } label: {
-                                 HomeSaintImageView(icon: saint)
-                                     .aspectRatio(contentMode: .fill)
-                                     .scrollTransition { content, phase in
-                                         content
-                                             .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
-                                             .blur(radius: phase.isIdentity ? 0 : 2)
-                                             .scaleEffect(phase.isIdentity ? 1 : 0.95)
-                                     }
-                                     .contextMenu(ContextMenu(menuItems: {
-                                         Button {
-                                             occasionViewModel.showStory.toggle()
-                                             selectedSaint = saint
-                                         } label: {
-                                             if occasionViewModel.getStory(forIcon: saint) != nil {
-                                                 Label("See story", systemImage: "book")
-                                             } else {
-                                                 Text("No story")
-                                             }
-                                             
-                                         }
-                                         .disabled((occasionViewModel.getStory(forIcon: saint) != nil) == true ? false : true)
-
-                                     }))
-                                     .frame(height: 430)
+                        ForEach(occasionViewModel.icons) { saint in
+                            NavigationLink {
+                                SaintDetailsView(
+                                    icon: saint,
+                                    iconographer: occasionViewModel.iconagrapher ?? dev.iconagrapher,
+                                    stories: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story,
+                                    showImageViewer: $showImageViewer,
+                                    selectedSaint: $selectedSaint,
+                                    namespace: namespace
+                                )
+                                .environmentObject(occasionViewModel)
+                                .environmentObject(IconImageViewModel(icon: saint))
+                                .environmentObject(ImageViewerViewModel())
+                                .navigationBarBackButtonHidden(showImageViewer ? true : false)
+                            } label: {
+                                HomeSaintImageView(icon: saint)
+                                    .aspectRatio(contentMode: .fill)
+                                    .scrollTransition { content, phase in
+                                        content
+                                            .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
+                                            .blur(radius: phase.isIdentity ? 0 : 2)
+                                            .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                                    }
+                                    .contextMenu(ContextMenu(menuItems: {
+                                        Button {
+                                            occasionViewModel.showStory.toggle()
+                                            selectedSaint = saint
+                                        } label: {
+                                            if occasionViewModel.getStory(forIcon: saint) != nil {
+                                                Label("See story", systemImage: "book")
+                                            } else {
+                                                Text("No story")
+                                            }
+                                        }
+                                        .disabled((occasionViewModel.getStory(forIcon: saint) != nil) == true ? false : true)
+                                    }))
+                                    .frame(height: 430)
                             }
-                             
-                             //.scaleEffect(selectedSaint == saint ? 1.08 : 1)
-                             .animation(.spring(response: 0.5, dampingFraction: 0.6))
-                             .simultaneousGesture(
+                            .animation(.spring(response: 0.5, dampingFraction: 0.6))
+                            .simultaneousGesture(
                                 TapGesture().onEnded {
                                     selectedSaint = saint
-                                    /*
-                                     withAnimation(.spring) {
-                                         selectedSaint = saint
-                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                             selectedSaint = nil
-                                         }
-                                     }
-                                     */
-                                 
-                                 
                                 }
-                             )
-
-                             
-                             
+                            )
                         }
-                     }
-                     .padding(.top, -24)
-                     .padding(.horizontal, 24)
-                     
-                 }
+                    }
+                    .padding(.top, -24)
+                    .padding(.horizontal, 24)
+                }
             }
         }
-
     }
+
     
     private var commemorations: some View {
         ZStack {
