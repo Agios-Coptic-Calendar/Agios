@@ -69,8 +69,10 @@ struct DateView: View {
                             .frame(width: 1, height: 17)
                             .matchedGeometryEffect(id: "divider", in: namespace)
                         
-                        Text(occasionViewModel.copticDate)
+                        Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")")
                             .lineLimit(1)
+                            .foregroundStyle(.gray900)
+                            .frame(width: 100)
                             .matchedGeometryEffect(id: "copticDate", in: namespace)
                             //.frame(width: 120, alignment: .leading)
                             
@@ -230,15 +232,21 @@ struct FeastView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 8) {
-                ForEach(0..<10) { copticDate in
+                ForEach(occasionViewModel.mockDates) { date in
                     Button(action: {
                         withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                             occasionViewModel.copticDateTapped = false
+                            occasionViewModel.selectedCopticDate = date
+                            occasionViewModel.defaultDateTapped = false
+                            print("\(String(describing: occasionViewModel.selectedCopticDate?.urlLink))")
+                            occasionViewModel.isLoading = true
+                            occasionViewModel.getPosts()
                         }
                         HapticsManager.instance.impact(style: .light)
                         
                     }, label: {
-                        Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")")
+                        //Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")")
+                        Text("\(date.month) \(date.day)")
                             .padding(.vertical, 9)
                             .padding(.horizontal, 16)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -246,8 +254,9 @@ struct FeastView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                     })
                     .buttonStyle(BouncyButton())
+                    .padding(.horizontal, 16)
                 }
-                .padding(.horizontal, 16)
+                
             }
             .foregroundStyle(.primary1000)
             .padding(.vertical, 8)

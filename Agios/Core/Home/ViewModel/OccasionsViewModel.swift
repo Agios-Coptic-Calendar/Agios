@@ -9,8 +9,19 @@ import Foundation
 import Combine
 import SwiftUI
 
+
+struct DateModel: Identifiable {
+    let id: String = UUID().uuidString
+    let month: String
+    let day: String
+    var urlLink: String
+}
+
+
+
 class OccasionsViewModel: ObservableObject {
     @Published var icons: [IconModel] = []
+    @Published var selectedCopticDate: DateModel? = nil
     @Published var filteredIcons: [IconModel] = []
     @Published var stories: [Story] = []
     @Published var readings: [DataReading] = []
@@ -21,7 +32,11 @@ class OccasionsViewModel: ObservableObject {
     @Published var passages: [Passage] = []
     @Published var iconagrapher: Iconagrapher? = nil
     @Published var highlight: [Highlight] = []
-    @Published var newCopticDate: CopticDate? = nil
+    @Published var newCopticDate: CopticDate? = nil {
+            didSet {
+                updateMockDates()
+            }
+        }
     @Published var fact: [Fact]? = nil
     @Published var matchedStory: Story? = nil
     
@@ -40,6 +55,8 @@ class OccasionsViewModel: ObservableObject {
     @Published var showLaunchView: Bool = false
     @Published var showStory: Bool = false
     
+    @Published var mockDates: [DateModel] = []
+    
 
     var feastName: String?
     var liturgicalInformation: String?
@@ -55,6 +72,14 @@ class OccasionsViewModel: ObservableObject {
         withAnimation {
             self.isLoading = true
         }
+        updateMockDates()
+    }
+    
+    private func updateMockDates() {
+        mockDates = [
+            DateModel(month: "\(newCopticDate?.month ?? "")", day: "\(newCopticDate?.day ?? "")", urlLink: "gr3wna6vjuucyj8"),
+            DateModel(month: "\(newCopticDate?.month ?? "")", day: "\(newCopticDate?.day ?? "")", urlLink: "a5k50zty9scwmll")
+        ]
     }
     
     
@@ -69,7 +94,7 @@ class OccasionsViewModel: ObservableObject {
     }
     
     func getPosts() {
-        guard let url = URL(string: "https://api.agios.co/occasions/get/gr3wna6vjuucyj8") else { return }
+        guard let url = URL(string: "https://api.agios.co/occasions/get/\(selectedCopticDate?.urlLink ?? "a5k50zty9scwmll")") else { return }
         
         Task {
             do {
