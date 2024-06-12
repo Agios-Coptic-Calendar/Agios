@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SaintGroupImageView: View {
     
-    @StateObject var viewModel: IconImageViewModel
+    @StateObject private var viewModel: IconImageViewModel
     let icon: IconModel
     
     init(icon: IconModel) {
@@ -19,34 +19,25 @@ struct SaintGroupImageView: View {
     }
     
     var body: some View {
-        
         ZStack {
             if let image = viewModel.image {
                 Image(uiImage: image)
                     .resizable()
-                    
-    
             } else if viewModel.isLoading {
                 ProgressView()
-                    .background(.primary300)
+                    .background(Color.primary.opacity(0.3))
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                    
-                    
             } else {
                 Image("placeholder")
                     .resizable()
                     .scaledToFill()
-                
             }
         }
     }
-
 }
 
 struct SaintGroupImageView_Preview: PreviewProvider {
     static var previews: some View {
         SaintGroupImageView(icon: dev.icon)
-            .environmentObject(IconImageViewModel(icon: dev.icon))
     }
 }
-

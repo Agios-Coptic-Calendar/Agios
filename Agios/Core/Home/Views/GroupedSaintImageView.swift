@@ -19,6 +19,10 @@ struct GroupedSaintImageView: View {
                 HomeSaintImageView(icon: icon)
                     .offset(y: CGFloat(reversedIndex) * -40)
                     .scaleEffect(1 - (CGFloat(reversedIndex) * 0.15))
+                    .onAppear(perform: {
+                        selectedSaint = icon
+                        vm.selectedSaint = selectedSaint
+                    })
                     .contextMenu(ContextMenu(menuItems: {
                         Button {
                             selectedSaint = icon

@@ -14,7 +14,9 @@ struct DateModel: Identifiable {
     let id: String = UUID().uuidString
     let month: String
     let day: String
+    let date: String
     var urlLink: String
+    var customDate: Date
 }
 
 
@@ -54,6 +56,11 @@ class OccasionsViewModel: ObservableObject {
     @Published var searchDate: String = ""
     @Published var showLaunchView: Bool = false
     @Published var showStory: Bool = false
+    @Published var datePicker: Date = Date() {
+            didSet {
+                filterDate()
+            }
+        }
     
     @Published var mockDates: [DateModel] = []
     
@@ -66,31 +73,49 @@ class OccasionsViewModel: ObservableObject {
     
     
     private var task: URLSessionDataTask?
+    @Published var filteredDate: [DateModel] = []
     
     init() {
-        getPosts()
+        //getPosts()
         withAnimation {
             self.isLoading = true
         }
         updateMockDates()
+        handleChangeInUrl()
     }
     
     private func updateMockDates() {
         mockDates = [
-            DateModel(month: "\(newCopticDate?.month ?? "")", day: "\(newCopticDate?.day ?? "")", urlLink: "gr3wna6vjuucyj8"),
-            DateModel(month: "\(newCopticDate?.month ?? "")", day: "\(newCopticDate?.day ?? "")", urlLink: "a5k50zty9scwmll")
+            DateModel(month: "\(newCopticDate?.month ?? "")", day: "27", date: "2024-04-21T12:00:00.000Z", urlLink: "gr3wna6vjuucyj8", customDate: Date.from(year: 2024, month: 4, day: 21)),
+            DateModel(month: "\(newCopticDate?.month ?? "")", day: "30", date: "2024-06-07T00:00:00.000Z", urlLink: "a5k50zty9scwmll", customDate: Date.from(year: 2024, month: 6, day: 7))
         ]
     }
     
-    
-    func filterIconsByCaption(icons: [IconModel], captionKeyword: String) -> [IconModel] {
-        return icons.filter { $0.caption?.contains(captionKeyword) == true }
-    }
-    
-    
-    func getStory(forIcon icon: IconModel) -> Story? {
-        guard let storyID = icon.story?.first else { return nil }
-        return stories.first { $0.id == storyID }
+    func filterDate() {
+        filteredDate = mockDates.filter {
+            Calendar.current.compare($0.customDate, to: datePicker, toGranularity: .day) == .orderedSame
+        }
+        withAnimation(.spring(response: 0.25, dampingFraction: 0.9)) {
+            selectedCopticDate = filteredDate.first
+            if let selectedCopticDate = selectedCopticDate {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
+                    withAnimation {
+                        self.isLoading = true
+                        self.getPosts()
+                        
+                    }
+                    
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    
+                    withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
+                        self.defaultDateTapped = false
+                    }
+                }
+                //handleChangeInUrl()
+            }
+        }
+        
     }
     
     func getPosts() {
@@ -109,6 +134,7 @@ class OccasionsViewModel: ObservableObject {
         }
     }
     
+    
     func handleOutput(response: URLResponse, data: Data) throws -> Response {
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 else {
@@ -118,7 +144,7 @@ class OccasionsViewModel: ObservableObject {
     }
     
     func updateUI(with response: Response) {
-        withAnimation(.spring(response: 0.35, dampingFraction: 0.9, blendDuration: 1)) {
+        withAnimation(.spring(response: 0.07, dampingFraction: 0.9, blendDuration: 1)) {
             self.isLoading = false
         }
         
@@ -209,6 +235,111 @@ class OccasionsViewModel: ObservableObject {
         updateIconsWithFilteredIcons()
     }
     
+    func filterIconsByCaption(icons: [IconModel], captionKeyword: String) -> [IconModel] {
+        return icons.filter { $0.caption?.contains(captionKeyword) == true }
+    }
+    
+    
+    func getStory(forIcon icon: IconModel) -> Story? {
+        guard let storyID = icon.story?.first else { return nil }
+        return stories.first { $0.id == storyID }
+    }
+    
+    func handleChangeInUrl() {
+        withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
+            self.defaultDateTapped = false
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+            withAnimation {
+                print("\(String(describing: self.selectedCopticDate?.urlLink))")
+                self.isLoading = true
+                self.getPosts()
+                
+            }
+            self.datePicker = self.selectedCopticDate?.customDate ?? Date()
+            
+        }
+        
+    }
+    
+    func setDatePickerToUrl() {
+        self.datePicker = self.mockDates.last?.customDate ?? Date()
+    }
+
+    func formattedDate(from dateString: String) -> String? {
+        let inputFormatter = ISO8601DateFormatter()
+        guard let date = inputFormatter.date(from: dateString) else { return nil }
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "d MMMM yyyy"
+        return outputFormatter.string(from: date)
+    }
+
+    func formatDateStringToRelativeDay(_ dateString: String) -> String {
+        let dateFormatter = DateFormatter()
+    //    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        
+        guard let date = dateFormatter.date(from: dateString) else { return dateString }
+        
+        let calendar = Calendar.current
+        if calendar.isDateInToday(date) {
+            return "Today"
+        } else if calendar.isDateInYesterday(date) {
+            return "Yesterday"
+        } else {
+            dateFormatter.dateFormat = "E, d MMM"
+            return dateFormatter.string(from: date)
+        }
+    }
+
+    func formatDateStringToFullDate(dateString: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        inputFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        
+        guard let date = inputFormatter.date(from: dateString) else {
+            return "–"
+        }
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "d MMMM yyyy"
+        
+        return outputFormatter.string(from: date)
+    }
+
+    func formatDateStringToShortDate(dateString: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        inputFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        
+        guard let date = inputFormatter.date(from: dateString) else {
+            return "–"
+        }
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "d MMM ''yy"
+        
+        return outputFormatter.string(from: date)
+    }
+
+    func formatDateStringToTime(dateString: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        inputFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        
+        guard let date = inputFormatter.date(from: dateString) else {
+            return "–"
+        }
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "h:mma"
+        outputFormatter.amSymbol = "am"
+        outputFormatter.pmSymbol = "pm"
+        
+        return outputFormatter.string(from: date).lowercased()
+    }
 }
 
 

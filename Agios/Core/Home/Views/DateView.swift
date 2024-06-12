@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Lottie
 
 struct DateView: View {
     
@@ -47,6 +48,7 @@ struct DateView: View {
     @State private var datedTapped: Bool = false
     @State private var feastTapped: Bool = false
     @State private var yearTapped: Bool = false
+    let startingDate: Date = Calendar.current.date(from: DateComponents(year: 2023)) ?? Date()
     
     @AppStorage("animationModeKey") private var animationsMode: DateSelection = .regularDate
     
@@ -57,9 +59,10 @@ struct DateView: View {
                     Spacer()
                     
                     HStack(spacing: 8) {
-                        Text(datePicker.formatted(date: .abbreviated, time: .omitted))
+                        Text(occasionViewModel.datePicker.formatted(date: .abbreviated, time: .omitted))
                             .lineLimit(1)
                             .matchedGeometryEffect(id: "regularDate", in: namespace)
+                        
 
                             //.frame(width: 120, alignment: .leading)
                             
@@ -69,7 +72,7 @@ struct DateView: View {
                             .frame(width: 1, height: 17)
                             .matchedGeometryEffect(id: "divider", in: namespace)
                         
-                        Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")")
+                        Text("\(occasionViewModel.selectedCopticDate?.month ?? "\(occasionViewModel.newCopticDate?.month ?? "")") \(occasionViewModel.selectedCopticDate?.day ?? "\(occasionViewModel.newCopticDate?.day ?? "")")")
                             .lineLimit(1)
                             .foregroundStyle(.gray900)
                             .frame(width: 100)
@@ -80,9 +83,7 @@ struct DateView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     
                     Spacer()
-                    
-                    
-                    
+                       
                 }
                 .padding(.vertical, 14)
                 
@@ -159,8 +160,9 @@ struct DateView: View {
             Button {
                 withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                     occasionViewModel.defaultDateTapped = false
+                    occasionViewModel.searchDate = ""
                 }
-                HapticsManager.instance.impact(style: .light)
+                //HapticsManager.instance.impact(style: .light)
             } label: {
                 Image(systemName: "xmark")
                     .fontWeight(.medium)
@@ -189,17 +191,49 @@ struct DateView: View {
             withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                 openCopticList = true
             }
+            occasionViewModel.filteredDate = occasionViewModel.mockDates
         })
         .onDisappear(perform: {
            
                 openCopticList = false
 
         })
+        
+        .onChange(of: occasionViewModel.datePicker) { _, _ in
+            occasionViewModel.filterDate()
+            
+        }
         .environment(\.colorScheme, .light)
         .fontDesign(.rounded)
         .animation(.spring(response: 0.35, dampingFraction: 0.9), value: animationsMode)
         .frame(maxWidth: 400)
         .padding(.bottom, 8)
+        .overlay(alignment: .bottom) {
+            ZStack(content: {
+                if animationsMode == .regularDate {
+                    HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 8, content: {
+                        Image(systemName: "seal")
+                        Text("No event for this day")
+                    })
+                    .fontDesign(.rounded)
+                    .fontWeight(.medium)
+                    .padding(.vertical, 10)
+                    .frame(width: 250)
+                    .foregroundStyle(.gray900)
+                    .background(.primary100)
+                    .clipShape(RoundedRectangle(cornerRadius: 24))
+                    .offset(y: 50)
+                    .opacity(occasionViewModel.selectedCopticDate == nil ? 1 : 0)
+                    .scaleEffect(occasionViewModel.selectedCopticDate == nil ? 1 : 0)
+                    .blur(radius: occasionViewModel.selectedCopticDate == nil ? 0 : 20)
+                }
+                
+            })
+            
+                
+            
+        }
+        
     }
 }
 
@@ -214,16 +248,17 @@ struct DateView_Preview: PreviewProvider {
 }
 
 struct NormalDateView: View {
-    @State private var datePicker: Date = Date()
+    @EnvironmentObject private var vm: OccasionsViewModel
+    let startingDate: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 4, day: 21)) ?? Date()
+    let endingDate: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 6, day: 21)) ?? Date()
     var body: some View {
-        DatePicker(selection: $datePicker, in: .now..., displayedComponents: [.date]) {
-            
-        }
+        DatePicker("", selection: $vm.datePicker, in: startingDate...Date(), displayedComponents: [.date])
         .datePickerStyle(.graphical)
         .environment(\.colorScheme, .light)
         .padding(.horizontal, 16)
         .frame(height: 336, alignment: .top)
         .frame(maxWidth: 350)
+        
     }
 }
 
@@ -237,15 +272,11 @@ struct FeastView: View {
                         withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                             occasionViewModel.copticDateTapped = false
                             occasionViewModel.selectedCopticDate = date
-                            occasionViewModel.defaultDateTapped = false
-                            print("\(String(describing: occasionViewModel.selectedCopticDate?.urlLink))")
-                            occasionViewModel.isLoading = true
-                            occasionViewModel.getPosts()
+                            occasionViewModel.handleChangeInUrl()
                         }
                         HapticsManager.instance.impact(style: .light)
                         
                     }, label: {
-                        //Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")")
                         Text("\(date.month) \(date.day)")
                             .padding(.vertical, 9)
                             .padding(.horizontal, 16)
@@ -271,7 +302,20 @@ struct FeastView: View {
 struct YearAheadView: View {
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
     @State private var searchText: Bool = false
-    @State private var datePicker: Date = Date()
+    
+    var filteredDates: [DateModel] {
+        if occasionViewModel.searchDate.isEmpty {
+            return occasionViewModel.mockDates
+        } else {
+            return occasionViewModel.mockDates.filter { date in
+                let formattedDate = occasionViewModel.formatDateStringToFullDate(dateString: date.date)
+                return date.month.lowercased().contains(occasionViewModel.searchDate.lowercased()) ||
+                    date.day.lowercased().contains(occasionViewModel.searchDate.lowercased()) ||
+                    formattedDate.lowercased().contains(occasionViewModel.searchDate.lowercased())
+            }
+        }
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(alignment: .center, spacing: 8) {
@@ -302,34 +346,55 @@ struct YearAheadView: View {
             
             ScrollView {
                 VStack(spacing: 8) {
-                    ForEach(0..<10) { copticDate in
-                        Button(action: {
-                            withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
-                                occasionViewModel.copticDateTapped = false
-                                searchText = false
-                            }
-                            HapticsManager.instance.impact(style: .light)
-                            
-                        }, label: {
-                            HStack {
-                                Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")")
-                                    .foregroundStyle(.primary1000)
-                                Spacer()
-                                Text(datePicker.formatted(date: .long, time: .omitted))
-                                    .foregroundStyle(.primary1000.opacity(0.7))
-                                    .lineLimit(1)
-                                
-                            }
-                            .fontWeight(.medium)
-                            .padding(.vertical, 9)
-                            .padding(.horizontal, 16)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(.primary100)
-                            .clipShape(RoundedRectangle(cornerRadius: 12, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
+                    if filteredDates.isEmpty {
+                        VStack(spacing: -8, content: {
+                            LottieView(animation: .named("search-a.json"))
+                                .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                                .frame(width: 80, height: 80, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .rotationEffect(Angle(degrees: -90))
+                            Text("No results founds")
+                                .fontWeight(.medium)
+                                .fontDesign(.rounded)
+                                .foregroundStyle(.primary600)
+                                .padding(.vertical, 20)
+                                 
                         })
-                        .buttonStyle(BouncyButton())
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 40)
+
+                    } else {
+                        ForEach(filteredDates) { date in
+                            Button(action: {
+                                withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
+                                    occasionViewModel.copticDateTapped = false
+                                    searchText = false
+                                    occasionViewModel.selectedCopticDate = date
+                                    occasionViewModel.handleChangeInUrl()
+                                }
+                                HapticsManager.instance.impact(style: .light)
+                                
+                            }, label: {
+                                HStack {
+                                    Text("\(date.month) \(date.day)")
+                                        .foregroundStyle(.primary1000)
+                                    Spacer()
+                                    Text("\(occasionViewModel.formatDateStringToFullDate(dateString: date.date))")
+                                        .foregroundStyle(.primary1000.opacity(0.7))
+                                        .lineLimit(1)
+                                    
+                                }
+                                .fontWeight(.medium)
+                                .padding(.vertical, 9)
+                                .padding(.horizontal, 16)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(.primary100)
+                                .clipShape(RoundedRectangle(cornerRadius: 12, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
+                            })
+                            .buttonStyle(BouncyButton())
+                        }
+                        .padding(.horizontal, 16)
+
                     }
-                    .padding(.horizontal, 16)
                 }
                 .padding(.vertical, 8)
                 .padding(.bottom, 30)
@@ -343,3 +408,4 @@ struct YearAheadView: View {
 
     }
 }
+

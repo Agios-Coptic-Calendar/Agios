@@ -10,17 +10,25 @@ import SwiftUI
 struct StoryDetailView: View {
     let story: Story
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject private var vm: OccasionsViewModel
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             Color.white.ignoresSafeArea()
+            
+            Rectangle()
+                .fill(LinearGradient(colors: [.primary500, .clear], startPoint: .top, endPoint: .bottom))
+                .frame(height: 48)
+                .frame(maxWidth: .infinity)
+                .ignoresSafeArea()
+            
             VStack(alignment: .leading, spacing: 16) {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    NavigationButton(labelName: .down, backgroundColor: .gray100, foregroundColor: .gray900)
+                    NavigationButton(labelName: .down, backgroundColor: .primary100, foregroundColor: .primary1000)
                 })
-                .padding(.horizontal, 18)
+                .padding(.horizontal, vm.filteredIcons.count > 1 ? 16 : 20)
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
@@ -34,9 +42,10 @@ struct StoryDetailView: View {
                             .fontWeight(.medium)
                             .foregroundStyle(.gray700)  
                     }
-                    .padding(.horizontal, 18)
+                    .padding(.horizontal, vm.filteredIcons.count > 0 ? 16 : 20)
                     .textSelection(.enabled)
                     .fontDesign(.rounded)
+                    .padding(.top, 64)
                 }
             }
             .padding(.top, 24)
@@ -53,4 +62,5 @@ struct StoryDetailView: View {
 
 #Preview {
     StoryDetailView(story: dev.story)
+        .environmentObject(OccasionsViewModel())
 }

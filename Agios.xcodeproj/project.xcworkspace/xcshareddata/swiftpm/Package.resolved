@@ -1,22 +1,13 @@
 {
-  "originHash" : "ac703173b4f6cb88ae31b908fd70eeab280f599d1241504f91be311886dd9d1b",
+  "originHash" : "085a6a1647d21394f4aa84f085f898140d18bdc265de6e4f7bacc583a9d34116",
   "pins" : [
     {
-      "identity" : "biguipaging",
+      "identity" : "lottie-ios",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/notsobigcompany/BigUIPaging.git",
+      "location" : "https://github.com/airbnb/lottie-ios",
       "state" : {
-        "revision" : "40fa6e1683bd47b962e216c05377bfd1b8f760de",
-        "version" : "0.0.3"
-      }
-    },
-    {
-      "identity" : "scrollviewoffset",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/gavinmn/ScrollViewOffset",
-      "state" : {
-        "branch" : "main",
-        "revision" : "546b9feb30cd8d9cf626c149412a065b99f2f65b"
+        "revision" : "769b88d83a42ca8d5572b020c96f47e3690b3796",
+        "version" : "4.4.3"
       }
     },
     {

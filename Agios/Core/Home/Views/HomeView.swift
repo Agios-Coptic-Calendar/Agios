@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Shimmer
-import BigUIPaging
 
  
 struct HomeView: View {
@@ -22,7 +21,7 @@ struct HomeView: View {
     @State private var datePicker: Date = .now
     
     @State private var selectedSaint: IconModel?
-    @State private var selectedSaints: IconModel?
+    //@State private var selectedSaints: IconModel?
     @State private var selectedSection: SubSection?
     @State private var showImageViewer: Bool = false
     @State private var scaleImage: Bool = false
@@ -34,7 +33,7 @@ struct HomeView: View {
     
     
     var namespace: Namespace.ID
-    let startingDate: Date = Calendar.current.date(from: DateComponents(year: 2018)) ?? Date()
+    
     
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
     @EnvironmentObject private var imageViewModel: IconImageViewModel
@@ -70,6 +69,9 @@ struct HomeView: View {
                 }
                 .scrollIndicators(.hidden)
                 .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
+                .refreshable {
+                    occasionViewModel.getPosts()
+                }
                 
                 Rectangle()
                     .fill(.ultraThinMaterial)
@@ -77,6 +79,7 @@ struct HomeView: View {
                     .onTapGesture {
                         withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                             occasionViewModel.defaultDateTapped = false
+                            occasionViewModel.searchDate = ""
                         }
                     }
                     .opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
@@ -92,6 +95,7 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $occasionViewModel.showStory, content: {
             StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
         })
+        
         
     
     }
@@ -137,11 +141,11 @@ extension HomeView {
                     }
                 }, label: {
                     HStack(alignment: .center, spacing: 8, content: {
-                        Text(datePicker.formatted(date: .abbreviated, time: .omitted))
+                        Text(occasionViewModel.datePicker.formatted(date: .abbreviated, time: .omitted))
                             .lineLimit(1)
                             .foregroundStyle(.primary1000)
                             .fontWeight(.medium)
-                            .matchedGeometryEffect(id: "regularDate", in: namespace)
+                            .matchedGeometryEffect(id: "regularDate", in: namespace)                  
                         
                         Rectangle()
                             .fill(.primary600)
@@ -308,17 +312,20 @@ extension HomeView {
                     HStack(spacing: 26) {
                         NavigationLink {
                             SaintGroupDetailsView(
-                                icon: occasionViewModel.filteredIcons.first ?? dev.icon,
+                                icon: selectedSaint ?? dev.icon,
                                 iconographer: dev.iconagrapher,
                                 stories: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story,
                                 showImageViewer: $showImageViewer,
-                                selectedSaints: $selectedSaints, namespace: namespace)
+                                selectedSaints: $selectedSaint, namespace: namespace)
                             .environmentObject(occasionViewModel)
                             .environmentObject(ImageViewerViewModel())
+                            .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
                             .navigationBarBackButtonHidden(showImageViewer ? true : false)
                         } label: {
                             GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory)
                                 .environmentObject(occasionViewModel)
+                                .environmentObject(ImageViewerViewModel())
+                                .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
                         }
                         
                         ForEach(occasionViewModel.icons) { saint in

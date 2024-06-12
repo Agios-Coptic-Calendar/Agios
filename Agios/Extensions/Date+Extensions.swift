@@ -27,12 +27,21 @@ extension Date {
     }
     
     static func copticDate() -> String {
-        let calendar = Calendar(identifier: .coptic)
+        let calendar = Calendar(identifier: .gregorian)
         let date = Date()
         let month = calendar.component(.month, from: date)
         let day = calendar.component(.day, from: date)
         let monthName = calendar.monthSymbols[month - 1]
 
         return "\(monthName) \(day)"
+    }
+    
+    static func from(year: Int, month: Int, day: Int) -> Date {
+        let calendar = Calendar.current
+        var dateComponents = DateComponents()
+        dateComponents.year = year
+        dateComponents.month = month
+        dateComponents.day = day
+        return calendar.date(from: dateComponents) ?? Date()
     }
 }
