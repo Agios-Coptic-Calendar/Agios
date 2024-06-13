@@ -273,16 +273,28 @@ struct FeastView: View {
                             occasionViewModel.copticDateTapped = false
                             occasionViewModel.selectedCopticDate = date
                             occasionViewModel.handleChangeInUrl()
+                            occasionViewModel.selectedMockDate = date
                         }
                         HapticsManager.instance.impact(style: .light)
                         
                     }, label: {
-                        Text("\(date.month) \(date.day)")
-                            .padding(.vertical, 9)
-                            .padding(.horizontal, 16)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(.primary100)
-                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        HStack {
+                            Text("\(date.name)")
+                                .foregroundStyle(.primary1000)
+                                .lineLimit(1)
+                                //.frame(width: 160)
+//                            Spacer()
+//                            Text("\(date.month) \(date.day)")
+//                                .foregroundStyle(.primary1000.opacity(0.7))
+//                                
+                        }
+                        .fontWeight(.medium)
+                        .padding(.vertical, 9)
+                        .padding(.horizontal, 16)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(.primary100)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
+
                     })
                     .buttonStyle(BouncyButton())
                     .padding(.horizontal, 16)
@@ -370,6 +382,7 @@ struct YearAheadView: View {
                                     searchText = false
                                     occasionViewModel.selectedCopticDate = date
                                     occasionViewModel.handleChangeInUrl()
+                                    occasionViewModel.selectedMockDate = date
                                 }
                                 HapticsManager.instance.impact(style: .light)
                                 

@@ -17,6 +17,7 @@ struct DateModel: Identifiable {
     let date: String
     var urlLink: String
     var customDate: Date
+    var name: String
 }
 
 
@@ -56,6 +57,11 @@ class OccasionsViewModel: ObservableObject {
     @Published var searchDate: String = ""
     @Published var showLaunchView: Bool = false
     @Published var showStory: Bool = false
+    @Published var feast: String = "" {
+        didSet {
+            updateMockDates()
+        }
+    }
     @Published var datePicker: Date = Date() {
             didSet {
                 filterDate()
@@ -63,6 +69,7 @@ class OccasionsViewModel: ObservableObject {
         }
     
     @Published var mockDates: [DateModel] = []
+    @Published var selectedMockDate: DateModel? = nil
     
 
     var feastName: String?
@@ -86,8 +93,8 @@ class OccasionsViewModel: ObservableObject {
     
     private func updateMockDates() {
         mockDates = [
-            DateModel(month: "\(newCopticDate?.month ?? "")", day: "27", date: "2024-04-21T12:00:00.000Z", urlLink: "gr3wna6vjuucyj8", customDate: Date.from(year: 2024, month: 4, day: 21)),
-            DateModel(month: "\(newCopticDate?.month ?? "")", day: "30", date: "2024-06-07T00:00:00.000Z", urlLink: "a5k50zty9scwmll", customDate: Date.from(year: 2024, month: 6, day: 7))
+            DateModel(month: "\(newCopticDate?.month ?? "")", day: "27", date: "2024-04-21T12:00:00.000Z", urlLink: "gr3wna6vjuucyj8", customDate: Date.from(year: 2024, month: 4, day: 21), name: "Departure of Lazarus the Beloved of the Lord"),
+            DateModel(month: "\(newCopticDate?.month ?? "")", day: "30", date: "2024-06-07T00:00:00.000Z", urlLink: "a5k50zty9scwmll", customDate: Date.from(year: 2024, month: 6, day: 7), name: "Fifth Week of the Holy Fifty Days")
         ]
     }
     
@@ -102,6 +109,7 @@ class OccasionsViewModel: ObservableObject {
                     withAnimation {
                         self.isLoading = true
                         self.getPosts()
+                        self.feast = self.selectedMockDate?.name ?? "Fifth Week of the Holy Fifty Days"
                         
                     }
                     
@@ -257,7 +265,7 @@ class OccasionsViewModel: ObservableObject {
                 
             }
             self.datePicker = self.selectedCopticDate?.customDate ?? Date()
-            
+            self.feast = self.selectedMockDate?.name ?? "Fifth Week of the Holy Fifty Days"
         }
         
     }

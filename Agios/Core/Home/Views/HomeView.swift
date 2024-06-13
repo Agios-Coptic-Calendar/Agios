@@ -46,9 +46,9 @@ struct HomeView: View {
                     VStack(spacing: 40) {
                         VStack(spacing: 28) {
                             VStack(alignment: .leading, spacing: 32) {
-                                VStack(spacing: -40) {
+                                VStack(spacing: -32) {
                                     illustration
-                                    VStack(spacing: 12) {
+                                    VStack(spacing: 16) {
                                         fastView
                                         combinedDateView
                                         
@@ -95,6 +95,7 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $occasionViewModel.showStory, content: {
             StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
         })
+        
         
         
     
@@ -280,7 +281,7 @@ extension HomeView {
                     .frame(width: 250)
                 
             } else {
-                Text(occasionViewModel.occasionName)
+                Text(occasionViewModel.feast)
                     .font(.title2)
                      .fontWeight(.semibold)
                      .multilineTextAlignment(.center)
