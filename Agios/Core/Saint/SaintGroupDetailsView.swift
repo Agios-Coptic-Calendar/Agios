@@ -1,20 +1,20 @@
 //
-//  SaintDetailsView.swift
+//  SaintGroupDetailsView.swift
 //  Agios
 //
-//  Created by Victor on 4/25/24.
+//  Created by Victor on 6/9/24.
 //
 
 import SwiftUI
 
-struct SaintDetailsView: View {
+struct SaintGroupDetailsView: View {
     
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
     let icon: IconModel
     let iconographer: Iconagrapher
     let stories: Story
     @Binding var showImageViewer: Bool
-    @Binding var selectedSaint: IconModel?
+    @Binding var selectedSaints: IconModel?
     var namespace: Namespace.ID
     
     @State private var offset: CGSize = .zero
@@ -29,6 +29,7 @@ struct SaintDetailsView: View {
     @State private var descriptionHeight: Int = 3
     @State private var storyHeight: Int = 6
     @State private var openSheet: Bool = false
+    @State private var selectedImage: UIImage?
     @EnvironmentObject var viewModel: IconImageViewModel
     @Environment(\.presentationMode) var presentationMode
     
@@ -38,16 +39,13 @@ struct SaintDetailsView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 16 : 32) {
                         VStack(alignment: .leading, spacing: 32) {
-                            if !showImageViewer {
-                              fitImageView
-                            } else {
-                                Rectangle()
-                                    .fill(.clear)
-                                    .frame(width: 353, height: 460)
-                            }
+                            
+                            fitImageView
+
                             iconCaption
+                                .padding(.horizontal, 20)
                         }
-                        .padding(.horizontal, 20)
+                        
                         
                         if let explanation = icon.explanation, !explanation.isEmpty {
                             divider
@@ -64,9 +62,9 @@ struct SaintDetailsView: View {
                     .padding(.top, 56)
                     
                 }
-                
                     blurredOverlay
                     filledImageView
+                
    
             }
             .background(
@@ -79,7 +77,6 @@ struct SaintDetailsView: View {
                     .ignoresSafeArea()
         }
            closeButton
-            
         }
         .overlay(alignment: .topLeading, content: {
             customBackButton
@@ -98,8 +95,8 @@ struct SaintDetailsView: View {
         // Check if the scale amount is below a certain threshold
         if scaleAmount < 0.4 {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
-                showImageViewer = false
-                selectedSaint = nil
+                //showImageViewer = false
+                selectedSaints = nil
             }
         }
          
@@ -124,12 +121,12 @@ struct SaintDetailsView: View {
 }
 
 
-struct SaintDetailsView_Preview: PreviewProvider {
+struct SaintGroupDetailsView_Preview: PreviewProvider {
     
     @Namespace static var namespace
     
     static var previews: some View {
-        SaintDetailsView(icon: dev.icon, iconographer: dev.iconagrapher, stories: dev.story, showImageViewer: .constant(false), selectedSaint: .constant(dev.icon), namespace: namespace)
+        SaintGroupDetailsView(icon: dev.icon, iconographer: dev.iconagrapher, stories: dev.story, showImageViewer: .constant(false), selectedSaints: .constant(dev.icon), namespace: namespace)
             .environmentObject(OccasionsViewModel())
             .environmentObject(IconImageViewModel(icon: dev.icon))
             .environmentObject(ImageViewerViewModel())
@@ -137,7 +134,7 @@ struct SaintDetailsView_Preview: PreviewProvider {
 }
 
 
-extension SaintDetailsView {
+extension SaintGroupDetailsView {
     private var customBackButton: some View {
         ZStack {
             Button {
@@ -153,31 +150,32 @@ extension SaintDetailsView {
         .zIndex(showImageViewer ? -2 : 0)
     }
     
+        
     private var closeButton: some View {
         ZStack {
             Button {
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
-                    //selectedSaint = nil
-                    showImageViewer = false
+                    //self.selectedSaints = nil
                     endValue = 0
                     startValue = min(max(startValue, 0), 0.2)
-                    occasionViewModel.showImageView = false
+                    showImageViewer = false
+                    offset = .zero
                 }
                 
             } label: {
                 NavigationButton(labelName: .close, backgroundColor: .primary300, foregroundColor: .primary1000)
             }
             .padding(20)
+            //.opacity(self.selectedSaints != nil ? 1 : 0)
             .opacity(showImageViewer ? 1 : 0)
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
-        .zIndex(showImageViewer ? 0 : -2)
+        .zIndex(self.selectedSaints != nil ? 0 : -2)
 
     }
     private var filledImageView: some View {
         ZStack {
             if showImageViewer {
-                
                 RoundedRectangle(cornerRadius: 25.0)
                     .fill(.clear)
                     .background(
@@ -187,12 +185,12 @@ extension SaintDetailsView {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .zoomable()
-                                    .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
+                                    .matchedGeometryEffect(id: "\(selectedSaints?.id ?? "")", in: namespace)
                                     .zIndex(10)
                                     .transition(.scale(scale: 1))
                                     .onTapGesture {
                                         withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
-                                            showImageViewer = true
+                                            //showImageViewer = true
                                         }
                                     }
                                 .scaleEffect(1 + startValue)
@@ -206,43 +204,44 @@ extension SaintDetailsView {
                                         }
                                     }
                             }
+                            //.offset(offset)
                         })
                         
-                       
-                        .offset(offset)
-                        .scaleEffect(getScaleAmount())
-                        .transition(.scale(scale: 1))
-                        .simultaneousGesture(
-                            currentScale <= 1 ?
-                            DragGesture()
-                                .onChanged({ value in
-                                    if startValue <= 0 {
-                                        withAnimation {
-                                            offset = value.translation
-                                        }
-                                    }
-                                    
-                                })
-                                .onEnded({ value in
-                                    if startValue <= 0 {
-                                        withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
-                                            offset = .zero
+                            .offset(offset)
+                            .scaleEffect(getScaleAmount())
+                            .transition(.scale(scale: 1))
+                            .simultaneousGesture(
+                                currentScale <= 1 ?
+                                DragGesture()
+                                    .onChanged({ value in
+                                        if startValue <= 0 {
+                                            withAnimation {
+                                                offset = value.translation
+                                            }
                                         }
                                         
-                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
-                                            showImageViewer = false
-                                            HapticsManager.instance.impact(style: .light)
+                                    })
+                                    .onEnded({ value in
+                                        if startValue <= 0 {
+                                            withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
+                                                offset = .zero
+                                            }
+                                            
+                                            withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                                                //self.selectedSaints = nil
+                                                HapticsManager.instance.impact(style: .light)
+                                                showImageViewer = false
+                                            }
                                         }
-                                    }
-                                })
-                            : nil
-                        )
-                            
+                                    })
+                                : nil
+                            )
                     )
-                    .matchedGeometryEffect(id: "bound", in: namespace)
-                   
+                    .offset(.zero)
+                    //.matchedGeometryEffect(id: "newBound", in: namespace)
 
             }
+
         }
     }
     private var blurredOverlay: some View {
@@ -254,14 +253,15 @@ extension SaintDetailsView {
                 .ignoresSafeArea()
                 .onTapGesture {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
-                        showImageViewer = false
+                        //self.selectedSaints = nil
                         endValue = 0
                         startValue = 0
-                        occasionViewModel.showImageView = false
+                        showImageViewer = false
                     }
             }
                 .allowsHitTesting(startValue > 0 ? false : true)
         }
+        //.opacity(self.selectedSaints != nil ? 1 : 0)
         .opacity(showImageViewer ? 1 : 0)
     }
     
@@ -280,7 +280,7 @@ extension SaintDetailsView {
                     .font(.title3)
                     
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(icon.explanation ?? "")
+                        Text(occasionViewModel.filteredIcons.first?.explanation ?? "")
                             .foregroundStyle(.gray400)
                             .fontWeight(.medium)
                             .lineLimit(descriptionHeight)
@@ -312,53 +312,47 @@ extension SaintDetailsView {
     }
     
     private var story: some View {
-       
         ZStack {
-            if occasionViewModel.getStory(forIcon: icon) == nil {
-            } else {
-                VStack(alignment: .leading, spacing: 16) {
-                    HStack(alignment: .center, spacing: 12) {
-                        Image(systemName: "book")
-                            .foregroundStyle(.gray400)
-                        
-                        Text(stories.saint ?? "")
-                            .fontWeight(.semibold)
-                            .lineLimit(2)
-                    }
-                    .font(.title3)
+            VStack(alignment: .leading, spacing: 16) {
+                HStack(alignment: .center, spacing: 12) {
+                    Image(systemName: "book")
+                        .foregroundStyle(.gray400)
                     
-                    VStack(alignment: .leading, spacing: 20) {
-                        
-                        Text(stories.story ?? "")
-                            .foregroundStyle(.gray400)
-                            .fontWeight(.medium)
-                            .lineLimit(storyHeight)
-                        
-                        
-                        Button {
-                            openSheet.toggle()
-                        } label: {
-                            HStack(alignment: .center, spacing: 4) {
-                                Text("Read more")
-                                    .fontWeight(.semibold)
-                                Image(systemName: "chevron.down")
-                                    .font(.caption)
-                                    .fontWeight(.semibold)
-                            }
-                        }
-
-                        
-                        
-                    }
+                    Text(stories.saint ?? "")
+                        .fontWeight(.semibold)
+                        .lineLimit(2)
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 24)
-                .background(.gray50)
-                .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-                .padding(.horizontal, 20)
-            .textSelection(.enabled)
+                .font(.title3)
+                
+                VStack(alignment: .leading, spacing: 20) {
+                    
+                    Text(stories.story ?? "")
+                        .foregroundStyle(.gray400)
+                        .fontWeight(.medium)
+                        .lineLimit(storyHeight)
+                    
+                    Button {
+                        openSheet.toggle()
+                    } label: {
+                        HStack(alignment: .center, spacing: 4) {
+                            Text("Read more")
+                                .fontWeight(.semibold)
+                            Image(systemName: "chevron.down")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                        }
+                    }
 
+                    
+                    
+                }
             }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 24)
+            .background(.gray50)
+            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+            .padding(.horizontal, 20)
+        .textSelection(.enabled)
         }
 
     }
@@ -405,33 +399,44 @@ extension SaintDetailsView {
     }
     
     private var fitImageView: some View {
-        RoundedRectangle(cornerRadius: 25.0)
-            .fill(.clear)
-            .frame(height: 420)
-            .background(
-                ZStack(content: {
-                    
-                    
-                    if let image = viewModel.image {
-                        Image(uiImage: image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
-                            .transition(.scale(scale: 1))
-                            .zIndex(4)
-                            .onTapGesture {
-                                withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
-                                    showImageViewer = true
-                                    occasionViewModel.showImageView = true
-                                }
-                            }
-                            .transition(.scale(scale: 1))
-                    }
-                })
-                
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-            .matchedGeometryEffect(id: "bound", in: namespace)
+        ScrollView(.horizontal) {
+            HStack(spacing: 16) {
+                ForEach(occasionViewModel.filteredIcons.reversed()) { data in
+                    RoundedRectangle(cornerRadius: 24)
+                        .fill(.clear)
+                        .background(
+                            ZStack(content: {
+                                SaintGroupImageView(icon: data)
+                                    .aspectRatio(contentMode: .fill)
+                                    .matchedGeometryEffect(
+                                        id: data.id,
+                                        in: namespace
+                                    )
+                                    .onTapGesture {
+                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                                            selectedSaints = data
+                                            showImageViewer = true
+                                            offset = .zero
+                                            occasionViewModel.selectedSaint = data
+                                        }
+                                    }
+                            })
+                            
+                                .opacity(showImageViewer ? 0 : 1)
+                        )
+                        .frame(width: 340, height: 460)
+                        
+                        .zIndex(selectedSaints == data ? 1 : 0)
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        //.matchedGeometryEffect(id: "newBound", in: namespace)
+                        
+                        
+                }
+            }
+            .padding(.horizontal, 20)
+        }
+        .scrollTargetBehavior(.paging)
+        .scrollIndicators(.hidden)
     }
     
     private var iconCaption: some View {
@@ -440,7 +445,7 @@ extension SaintDetailsView {
                 .font(.title2)
             .fontWeight(.semibold)
             
-            if !(occasionViewModel.iconagrapher == nil) {
+            if !(occasionViewModel.filteredIcons.first?.iconagrapher == nil) {
                 Text("\(occasionViewModel.iconagrapher?.name ?? "None")")
                     .font(.callout)
                     .fontWeight(.medium)
@@ -457,6 +462,5 @@ extension SaintDetailsView {
         }
     }
 }
-
 
 

@@ -26,8 +26,8 @@
 		5728FE022BE6607A00FE4130 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5728FE012BE6607A00FE4130 /* LocalFileManager.swift */; };
 		5739B0D52C15EA8200493B4F /* GroupedSaintImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5739B0D42C15EA8100493B4F /* GroupedSaintImageView.swift */; };
 		5739B0DC2C1645D500493B4F /* SaintGroupImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5739B0DB2C1645D500493B4F /* SaintGroupImageView.swift */; };
-		5739B0DE2C16484B00493B4F /* SaintGroupDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5739B0DD2C16484B00493B4F /* SaintGroupDetailsView.swift */; };
 		57616ECE2BF503B800C867AC /* DateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57616ECD2BF503B800C867AC /* DateView.swift */; };
+		577382032C1B112B003715F6 /* SaintGroupDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577382022C1B112B003715F6 /* SaintGroupDetailsView.swift */; };
 		578293DA2BDF241200BF4162 /* ImageViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578293D92BDF241200BF4162 /* ImageViewerViewModel.swift */; };
 		578B61052BD15C7B00DCDFF6 /* HomeVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61042BD15C7B00DCDFF6 /* HomeVIewModel.swift */; };
 		578B61112BD15D9900DCDFF6 /* JSONRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B610F2BD15D9900DCDFF6 /* JSONRepository.swift */; };
@@ -91,8 +91,8 @@
 		5728FE012BE6607A00FE4130 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
 		5739B0D42C15EA8100493B4F /* GroupedSaintImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedSaintImageView.swift; sourceTree = "<group>"; };
 		5739B0DB2C1645D500493B4F /* SaintGroupImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaintGroupImageView.swift; sourceTree = "<group>"; };
-		5739B0DD2C16484B00493B4F /* SaintGroupDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SaintGroupDetailsView.swift; path = ../../../../../.Trash/SaintGroupDetailsView.swift; sourceTree = "<group>"; };
 		57616ECD2BF503B800C867AC /* DateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateView.swift; sourceTree = "<group>"; };
+		577382022C1B112B003715F6 /* SaintGroupDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaintGroupDetailsView.swift; sourceTree = "<group>"; };
 		578293D92BDF241200BF4162 /* ImageViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerViewModel.swift; sourceTree = "<group>"; };
 		578B61042BD15C7B00DCDFF6 /* HomeVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVIewModel.swift; sourceTree = "<group>"; };
 		578B610F2BD15D9900DCDFF6 /* JSONRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONRepository.swift; sourceTree = "<group>"; };
@@ -192,7 +192,7 @@
 				578293D82BDF240100BF4162 /* ViewModel */,
 				570515BB2BDAE0B500990A24 /* SaintDetailsView.swift */,
 				5739B0DB2C1645D500493B4F /* SaintGroupImageView.swift */,
-				5739B0DD2C16484B00493B4F /* SaintGroupDetailsView.swift */,
+				577382022C1B112B003715F6 /* SaintGroupDetailsView.swift */,
 				570937042C125035006631F7 /* StoryDetailView.swift */,
 				57CF01832BE2530000508338 /* Zoomable.swift */,
 				570515BD2BDAE14700990A24 /* SaintImageView.swift */,
@@ -514,6 +514,7 @@
 				57EAE6372BD7E79D00379CC5 /* HapticsManager.swift in Sources */,
 				57CF01842BE2530000508338 /* Zoomable.swift in Sources */,
 				579710A92BD1429900DFDBA3 /* Image+Extensions.swift in Sources */,
+				577382032C1B112B003715F6 /* SaintGroupDetailsView.swift in Sources */,
 				579710B72BD146A100DFDBA3 /* IconModel.swift in Sources */,
 				57B7E84A2BD2B0A70016D6A4 /* OccasionModel.swift in Sources */,
 				578B61122BD15D9900DCDFF6 /* KatamerosRepository.swift in Sources */,
@@ -529,7 +530,6 @@
 				570515B22BDA6FBB00990A24 /* CopticDateView.swift in Sources */,
 				570764412BD68EDA00C5C98B /* DeveloperPreview.swift in Sources */,
 				579710AB2BD142EB00DFDBA3 /* ReadingsView.swift in Sources */,
-				5739B0DE2C16484B00493B4F /* SaintGroupDetailsView.swift in Sources */,
 				5797106F2BD138E400DFDBA3 /* HomeView.swift in Sources */,
 				474C79A72BD009BC003E3A15 /* ContentView.swift in Sources */,
 				579710BA2BD146A100DFDBA3 /* PresentableSection.swift in Sources */,
@@ -694,7 +694,7 @@
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -730,7 +730,7 @@
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -56,6 +56,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var imageScaling: Double = 1
     @Published var searchDate: String = ""
     @Published var showLaunchView: Bool = false
+    @Published var showImageView: Bool = false
     @Published var showStory: Bool = false
     @Published var feast: String = "" {
         didSet {
@@ -104,12 +105,13 @@ class OccasionsViewModel: ObservableObject {
         }
         withAnimation(.spring(response: 0.25, dampingFraction: 0.9)) {
             selectedCopticDate = filteredDate.first
+            self.feast = selectedCopticDate?.name ?? "Fifth Week of the Holy Fifty Days"
             if let selectedCopticDate = selectedCopticDate {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
                     withAnimation {
                         self.isLoading = true
                         self.getPosts()
-                        self.feast = self.selectedMockDate?.name ?? "Fifth Week of the Holy Fifty Days"
+                        
                         
                     }
                     

@@ -41,7 +41,7 @@ struct HomeSaintImageView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                     .blur(radius: 10)
                     .offset(x:8, y: 11)
-                    .opacity(0.65)
+                    .opacity(0.35)
                     .overlay(SaintImageView(icon: icon)
                         .frame(maxWidth: 300, maxHeight: 350)
                         .clipped()

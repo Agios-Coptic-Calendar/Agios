@@ -14,13 +14,14 @@ struct AgiosApp: App {
     @StateObject private var imageViewModel = IconImageViewModel(icon: IconModel(id: "", created: "", updated: "", caption: "", explanation: "", story: [], image: "", croppedImage: "", iconagrapher: .iconagrapher(Iconagrapher(id: "", name: "", url: ""))))
     
     @Namespace var namespace
+    @Namespace var transition
     @State private var showLaunchView: Bool = true
     
     var body: some Scene {
         WindowGroup {
             ZStack(content: {
                 NavigationStack {
-                    HomeView(iconographer: dev.iconagrapher, namespace: namespace)
+                    HomeView(iconographer: dev.iconagrapher, namespace: namespace, transition: transition)
                         .environmentObject(occasionViewModel)
                         .environmentObject(imageViewModel)
                 }

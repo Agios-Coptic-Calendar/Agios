@@ -33,6 +33,7 @@ struct HomeView: View {
     
     
     var namespace: Namespace.ID
+    var transition: Namespace.ID
     
     
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
@@ -117,9 +118,10 @@ struct HomeView: View {
 struct HomeView_Preview: PreviewProvider {
     
     @Namespace static var namespace
+    @Namespace static var transition
     
     static var previews: some View {
-        HomeView(iconographer: dev.iconagrapher, namespace: namespace)
+        HomeView(iconographer: dev.iconagrapher, namespace: namespace, transition: transition)
             .environmentObject(OccasionsViewModel())
             .environmentObject(IconImageViewModel(icon: dev.icon))
             
@@ -310,7 +312,7 @@ extension HomeView {
                 .scrollDisabled(true)
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 26) {
+                    HStack(spacing: -16) {
                         NavigationLink {
                             SaintGroupDetailsView(
                                 icon: selectedSaint ?? dev.icon,
@@ -321,13 +323,17 @@ extension HomeView {
                             .environmentObject(occasionViewModel)
                             .environmentObject(ImageViewerViewModel())
                             .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
-                            .navigationBarBackButtonHidden(showImageViewer ? true : false)
+                            .navigationBarBackButtonHidden(true)
+                            .navigationTransition(.zoom(sourceID: "saint", in: transition))
                         } label: {
                             GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory)
                                 .environmentObject(occasionViewModel)
                                 .environmentObject(ImageViewerViewModel())
                                 .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
+                                .frame(width: 330, height: 430, alignment: .leading)
+                                
                         }
+                        .matchedTransitionSource(id: "saint", in: transition)
                         
                         ForEach(occasionViewModel.icons) { saint in
                             NavigationLink {
@@ -342,7 +348,8 @@ extension HomeView {
                                 .environmentObject(occasionViewModel)
                                 .environmentObject(IconImageViewModel(icon: saint))
                                 .environmentObject(ImageViewerViewModel())
-                                .navigationBarBackButtonHidden(showImageViewer ? true : false)
+                                .navigationBarBackButtonHidden(true)
+                                .navigationTransition(.zoom(sourceID: "\(saint.id)", in: transition))
                             } label: {
                                 HomeSaintImageView(icon: saint)
                                     .aspectRatio(contentMode: .fill)
@@ -365,7 +372,11 @@ extension HomeView {
                                         }
                                         .disabled((occasionViewModel.getStory(forIcon: saint) != nil) == true ? false : true)
                                     }))
+                                    
                                     .frame(height: 430)
+                                    .frame(width: 350)
+                                    .matchedTransitionSource(id: "\(saint.id)", in: transition)
+                                    
                             }
                             .animation(.spring(response: 0.5, dampingFraction: 0.6))
                             .simultaneousGesture(
@@ -445,67 +456,70 @@ extension HomeView {
 
     }
     
-    private var dailyReading: some View {
-        VStack (alignment: .leading, spacing: 8) {
-            ZStack {
-                if occasionViewModel.isLoading {
-                    ShimmerView(heightSize: 26, cornerRadius: 24)
-                        .frame(width: 160)
-                        .transition(.opacity)
-                } else {
-                    Text("Daily readings")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.gray900)
-                }
-            }
-            .padding(.leading, 20)
-            
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack (alignment: .center, spacing: 16) {
-                    if occasionViewModel.isLoading {
-                        ForEach(0..<5) { index in
-                            ShimmerView(heightSize: 80, cornerRadius: 24)
-                                .frame(width: 160)
-                                .transition(.opacity)
-                        }
-                    } else {
-                        ForEach(occasionViewModel.readings) { reading in
-                            ForEach(occasionViewModel.passages, id: \.self) { passage in
-                                ForEach(occasionViewModel.subSection) { subSection in
-                                    NavigationLink {
-                                        ReadingsView(passage: passage, verse: dev.verses, subSection: subSection)
-                                    } label: {
-                                        DailyReadingView(passage: passage, reading: reading, subSection: subSection)
-                                            
-                                    }
-                                    .scaleEffect(selectedSection == subSection ? 1.1 : 1.0)
-                                    .animation(.spring(response: 1, dampingFraction: 0.6))
-                                    .simultaneousGesture(TapGesture().onEnded{
-                                        withAnimation(.easeIn(duration: 0.1)) {
-                                            selectedSection = subSection
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                                selectedSection = nil
-                                                
-                                            }
-                                        }
-                                        
-                                    })
-                                }
-                            }
-                        }
-                    }
+    
+     private var dailyReading: some View {
+         VStack (alignment: .leading, spacing: 8) {
+             ZStack {
+                 if occasionViewModel.isLoading {
+                     ShimmerView(heightSize: 26, cornerRadius: 24)
+                         .frame(width: 160)
+                         .transition(.opacity)
+                 } else {
+                     Text("Daily readings")
+                         .font(.title2)
+                         .fontWeight(.semibold)
+                         .foregroundStyle(.gray900)
+                 }
+             }
+             .padding(.leading, 20)
+             
+             
+             ScrollView(.horizontal, showsIndicators: false) {
+                 HStack (alignment: .center, spacing: 16) {
+                     if occasionViewModel.isLoading {
+                         ForEach(0..<5) { index in
+                             ShimmerView(heightSize: 80, cornerRadius: 24)
+                                 .frame(width: 160)
+                                 .transition(.opacity)
+                         }
+                     } else {
+                         ForEach(occasionViewModel.readings) { reading in
+                             ForEach(occasionViewModel.passages, id: \.self) { passage in
+                                 ForEach(occasionViewModel.subSection) { subSection in
+                                     NavigationLink {
+                                         ReadingsView(passage: passage, verse: dev.verses, subSection: subSection)
+                                     } label: {
+                                         DailyReadingView(passage: passage, reading: reading, subSection: subSection)
+                                             
+                                     }
+                                     //.scaleEffect(selectedSection == subSection ? 1.1 : 1.0)
+                                     .animation(.spring(response: 1, dampingFraction: 0.6))
+                                     .simultaneousGesture(TapGesture().onEnded{
+                                         withAnimation(.easeIn(duration: 0.1)) {
+                                             selectedSection = subSection
+                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                 selectedSection = nil
+                                                 
+                                             }
+                                         }
+                                         
+                                     })
+                                 }
+                             }
+                         }
+                     }
 
-                }
-                .padding(.top, 10)
-                .padding(.bottom, 8)
-                .padding(.horizontal, 20)
-            }
-        }
+                 }
+                 .padding(.top, 10)
+                 .padding(.bottom, 8)
+                 .padding(.horizontal, 20)
+             }
+         }
 
 
-    }
+     }
+     
+
     
     private var upcomingFeasts: some View {
         VStack (alignment: .leading, spacing: 8) {

@@ -17,8 +17,8 @@ struct GroupedSaintImageView: View {
             ForEach(Array(vm.filteredIcons.enumerated()), id: \.element.id) { index, icon in
                 let reversedIndex = vm.filteredIcons.count - index - 1
                 HomeSaintImageView(icon: icon)
-                    .offset(y: CGFloat(reversedIndex) * -40)
-                    .scaleEffect(1 - (CGFloat(reversedIndex) * 0.15))
+                    .offset(y: CGFloat(reversedIndex) * -70)
+                    .scaleEffect(0.98 - (CGFloat(reversedIndex) * 0.15), anchor: .bottom)
                     .onAppear(perform: {
                         selectedSaint = icon
                         vm.selectedSaint = selectedSaint
