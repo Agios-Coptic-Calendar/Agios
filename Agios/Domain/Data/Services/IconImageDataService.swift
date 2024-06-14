@@ -13,6 +13,7 @@ class IconImageDataService {
     @Published var image: UIImage? = nil
     private var imageSubscription: AnyCancellable?
     private let fileManager = LocalFileManager.instance
+    private let cacheManager = ImageCacheManager.shared
     private let folderName = "saint_images"
     private let imageName: String
     private let icon: IconModel
@@ -21,9 +22,21 @@ class IconImageDataService {
         self.icon = icon
         self.imageName = icon.id
         Task {
-          await getIconFromFileManager(urlString: urlString)
+          await getIconFromCacheOrDownload(urlString: urlString)
         }
         
+    }
+    
+    private func getIconFromCacheOrDownload(urlString: String) async {
+        if let cachedImage = cacheManager.getImage(forKey: icon.id) {
+            await MainActor.run {
+                image = cachedImage
+                print("Retrieved Image from Cache")
+            }
+        } else {
+            await downloadIconImage(urlString: urlString)
+            print("Downloading Image Now")
+        }
     }
     
     private func getIconFromFileManager(urlString: String) async {
@@ -38,13 +51,29 @@ class IconImageDataService {
            }
        }
     
+//    private func downloadIconImage(urlString: String) async {
+//        guard let url = URL(string: urlString) else { return }
+//        do {
+//            let (data, _) = try await URLSession.shared.data(from: url)
+//            if let downloadedImage = UIImage(data: data) {
+//                image = downloadedImage
+//                fileManager.saveImage(image: downloadedImage, imageName: imageName, folderName: folderName)
+//            }
+//        } catch {
+//            print(error)
+//        }
+//    }
+//    
+//    
     private func downloadIconImage(urlString: String) async {
         guard let url = URL(string: urlString) else { return }
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             if let downloadedImage = UIImage(data: data) {
-                image = downloadedImage
-                fileManager.saveImage(image: downloadedImage, imageName: imageName, folderName: folderName)
+                await MainActor.run {
+                    image = downloadedImage
+                }
+                cacheManager.saveImage(downloadedImage, forKey: imageName)
             }
         } catch {
             print(error)

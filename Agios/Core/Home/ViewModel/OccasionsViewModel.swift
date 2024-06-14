@@ -9,7 +9,6 @@ import Foundation
 import Combine
 import SwiftUI
 
-
 struct DateModel: Identifiable {
     let id: String = UUID().uuidString
     let month: String
@@ -19,8 +18,6 @@ struct DateModel: Identifiable {
     var customDate: Date
     var name: String
 }
-
-
 
 class OccasionsViewModel: ObservableObject {
     @Published var icons: [IconModel] = []
@@ -36,10 +33,10 @@ class OccasionsViewModel: ObservableObject {
     @Published var iconagrapher: Iconagrapher? = nil
     @Published var highlight: [Highlight] = []
     @Published var newCopticDate: CopticDate? = nil {
-            didSet {
-                updateMockDates()
-            }
+        didSet {
+            updateMockDates()
         }
+    }
     @Published var fact: [Fact]? = nil
     @Published var matchedStory: Story? = nil
     
@@ -64,27 +61,24 @@ class OccasionsViewModel: ObservableObject {
         }
     }
     @Published var datePicker: Date = Date() {
-            didSet {
-                filterDate()
-            }
+        didSet {
+            filterDate()
         }
+    }
     
     @Published var mockDates: [DateModel] = []
     @Published var selectedMockDate: DateModel? = nil
     
-
     var feastName: String?
     var liturgicalInformation: String?
     var occasionName: String {
         dataClass?.name ?? "Unknown Occasion"
     }
     
-    
-    private var task: URLSessionDataTask?
+    private weak var task: URLSessionDataTask?
     @Published var filteredDate: [DateModel] = []
     
     init() {
-        //getPosts()
         withAnimation {
             self.isLoading = true
         }
@@ -111,21 +105,15 @@ class OccasionsViewModel: ObservableObject {
                     withAnimation {
                         self.isLoading = true
                         self.getPosts()
-                        
-                        
                     }
-                    
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    
                     withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                         self.defaultDateTapped = false
                     }
                 }
-                //handleChangeInUrl()
             }
         }
-        
     }
     
     func getPosts() {
@@ -143,7 +131,6 @@ class OccasionsViewModel: ObservableObject {
             }
         }
     }
-    
     
     func handleOutput(response: URLResponse, data: Data) throws -> Response {
         guard let httpResponse = response as? HTTPURLResponse,
@@ -166,7 +153,6 @@ class OccasionsViewModel: ObservableObject {
         self.fact = response.data.facts ?? []
         self.retrievePassages()
         
-        
         for icon in response.data.icons ?? [] {
             if case let .iconagrapher(iconagrapher) = icon.iconagrapher {
                 self.iconagrapher = iconagrapher
@@ -177,8 +163,6 @@ class OccasionsViewModel: ObservableObject {
                     self.matchedStory = story
                 }
             }
-            
-           
         }
         
         for reading in response.data.readings ?? [] {
@@ -189,11 +173,8 @@ class OccasionsViewModel: ObservableObject {
             self.highlight = story.highlights ?? []
         }
         
-                
         self.filteredIcons = filterIconsByCaption(captionKeyword: "The Resurrection of")
         self.icons = removeIconsWithCaption(icons: self.icons, phrase: "The Resurrection of")
-        //self.icons.append(contentsOf: self.filteredIcons)
-        //self.icons.removeFirst(2)
     }
     
     func removeIconsWithCaption(icons: [IconModel], phrase: String) -> [IconModel] {
@@ -229,12 +210,9 @@ class OccasionsViewModel: ObservableObject {
     
     func updateIconsWithFilteredIcons() {
         for filteredIcon in filteredIcons {
-            // Find index of icon with same caption in icons array
             if let index = icons.firstIndex(where: { $0.caption == filteredIcon.caption }) {
-                // Replace the icon in icons array with filteredIcon
                 icons[index] = filteredIcon
             } else {
-                // If no icon with same caption found, add the filteredIcon to icons array
                 icons.append(filteredIcon)
             }
         }
@@ -248,7 +226,6 @@ class OccasionsViewModel: ObservableObject {
     func filterIconsByCaption(icons: [IconModel], captionKeyword: String) -> [IconModel] {
         return icons.filter { $0.caption?.contains(captionKeyword) == true }
     }
-    
     
     func getStory(forIcon icon: IconModel) -> Story? {
         guard let storyID = icon.story?.first else { return nil }
@@ -264,12 +241,10 @@ class OccasionsViewModel: ObservableObject {
                 print("\(String(describing: self.selectedCopticDate?.urlLink))")
                 self.isLoading = true
                 self.getPosts()
-                
             }
             self.datePicker = self.selectedCopticDate?.customDate ?? Date()
             self.feast = self.selectedMockDate?.name ?? "Fifth Week of the Holy Fifty Days"
         }
-        
     }
     
     func setDatePickerToUrl() {
@@ -287,7 +262,6 @@ class OccasionsViewModel: ObservableObject {
 
     func formatDateStringToRelativeDay(_ dateString: String) -> String {
         let dateFormatter = DateFormatter()
-    //    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         
@@ -351,6 +325,4 @@ class OccasionsViewModel: ObservableObject {
         return outputFormatter.string(from: date).lowercased()
     }
 }
-
-
 

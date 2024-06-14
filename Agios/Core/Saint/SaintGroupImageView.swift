@@ -7,6 +7,7 @@
 
 
 import SwiftUI
+import Shimmer
 
 struct SaintGroupImageView: View {
     
@@ -24,9 +25,15 @@ struct SaintGroupImageView: View {
                 Image(uiImage: image)
                     .resizable()
             } else if viewModel.isLoading {
-                ProgressView()
-                    .background(Color.primary.opacity(0.3))
-                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                ZStack {
+                    Image("placeholder")
+                        .resizable()
+                        .scaledToFill()
+                    
+                    ShimmerView(heightSize: 600, cornerRadius: 24)
+                        .transition(.opacity)
+                    
+                }
             } else {
                 Image("placeholder")
                     .resizable()

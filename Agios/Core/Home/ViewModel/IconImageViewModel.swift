@@ -12,6 +12,7 @@ import Combine
 class IconImageViewModel: ObservableObject {
     @Published var image: UIImage? = nil
     @Published var isLoading: Bool = false
+    @Published var allowTapping: Bool = false
     
     private var imageSubscription: AnyCancellable?
     private let icon: IconModel
@@ -31,13 +32,15 @@ class IconImageViewModel: ObservableObject {
     }
     
     
-    private func addSubscribers() {
+    func addSubscribers() {
         dataService.$image
             .sink {[weak self] _ in
                 self?.isLoading = false
+                self?.allowTapping = false
             } receiveValue: {[weak self] (returnedImage) in
                 DispatchQueue.main.async {
                     self?.image = returnedImage
+                    self?.allowTapping = true
                 }
                 
             }

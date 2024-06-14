@@ -84,6 +84,13 @@ struct SaintGroupDetailsView: View {
         .sheet(isPresented: $openSheet) {
             StoryDetailView(story: stories)
         }
+        .onAppear {
+            withAnimation {
+                selectedSaints = nil
+                showImageViewer = false
+            }
+           
+        }
     }
     
     private func getScaleAmount() -> CGFloat {
@@ -139,12 +146,13 @@ extension SaintGroupDetailsView {
         ZStack {
             Button {
                 presentationMode.wrappedValue.dismiss()
+                selectedSaints = nil
                 
             } label: {
                 NavigationButton(labelName: .back, backgroundColor: .primary300, foregroundColor: .primary1000)
             }
             .padding(20)
-            .opacity(showImageViewer ? 0 : 1)
+            .opacity(selectedSaints != nil ? 0 : 1)
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
         .zIndex(showImageViewer ? -2 : 0)
@@ -155,7 +163,7 @@ extension SaintGroupDetailsView {
         ZStack {
             Button {
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
-                    //self.selectedSaints = nil
+                    selectedSaints = nil
                     endValue = 0
                     startValue = min(max(startValue, 0), 0.2)
                     showImageViewer = false
@@ -170,7 +178,7 @@ extension SaintGroupDetailsView {
             .opacity(showImageViewer ? 1 : 0)
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
-        .zIndex(self.selectedSaints != nil ? 0 : -2)
+        .zIndex(selectedSaints != nil ? 0 : -2)
 
     }
     private var filledImageView: some View {
@@ -180,6 +188,7 @@ extension SaintGroupDetailsView {
                     .fill(.clear)
                     .background(
                         ZStack(content: {
+                            
                             if let image = viewModel.image {
                                 Image(uiImage: image)
                                     .resizable()
@@ -187,7 +196,7 @@ extension SaintGroupDetailsView {
                                     .zoomable()
                                     .matchedGeometryEffect(id: "\(selectedSaints?.id ?? "")", in: namespace)
                                     .zIndex(10)
-                                    .transition(.scale(scale: 1))
+                                    //.transition(.scale(scale: 1))
                                     .onTapGesture {
                                         withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                                             //showImageViewer = true
@@ -209,7 +218,7 @@ extension SaintGroupDetailsView {
                         
                             .offset(offset)
                             .scaleEffect(getScaleAmount())
-                            .transition(.scale(scale: 1))
+                            //.transition(.scale(scale: 1))
                             .simultaneousGesture(
                                 currentScale <= 1 ?
                                 DragGesture()
@@ -231,6 +240,7 @@ extension SaintGroupDetailsView {
                                                 //self.selectedSaints = nil
                                                 HapticsManager.instance.impact(style: .light)
                                                 showImageViewer = false
+                                                selectedSaints = nil
                                             }
                                         }
                                     })
@@ -257,6 +267,7 @@ extension SaintGroupDetailsView {
                         endValue = 0
                         startValue = 0
                         showImageViewer = false
+                        selectedSaints = nil
                     }
             }
                 .allowsHitTesting(startValue > 0 ? false : true)

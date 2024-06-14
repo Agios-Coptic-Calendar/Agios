@@ -11,6 +11,7 @@ import SwiftUI
 struct AgiosApp: App {
     
     @StateObject private var occasionViewModel = OccasionsViewModel()
+    @StateObject private var iconImageViewModel = IconImageViewModel(icon: dev.icon)
     @StateObject private var imageViewModel = IconImageViewModel(icon: IconModel(id: "", created: "", updated: "", caption: "", explanation: "", story: [], image: "", croppedImage: "", iconagrapher: .iconagrapher(Iconagrapher(id: "", name: "", url: ""))))
     
     @Namespace var namespace
@@ -24,6 +25,7 @@ struct AgiosApp: App {
                     HomeView(iconographer: dev.iconagrapher, namespace: namespace, transition: transition)
                         .environmentObject(occasionViewModel)
                         .environmentObject(imageViewModel)
+                        .environmentObject(iconImageViewModel)
                 }
                 
                 ZStack(content: {

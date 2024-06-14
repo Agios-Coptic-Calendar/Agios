@@ -87,6 +87,12 @@ struct SaintDetailsView: View {
         .sheet(isPresented: $openSheet) {
             StoryDetailView(story: stories)
         }
+        .onAppear {
+            withAnimation {
+                showImageViewer = false
+            }
+           
+        }
     }
     
     private func getScaleAmount() -> CGFloat {
@@ -142,6 +148,7 @@ extension SaintDetailsView {
         ZStack {
             Button {
                 presentationMode.wrappedValue.dismiss()
+                selectedSaint = nil
                 
             } label: {
                 NavigationButton(labelName: .back, backgroundColor: .primary300, foregroundColor: .primary1000)
@@ -162,6 +169,7 @@ extension SaintDetailsView {
                     endValue = 0
                     startValue = min(max(startValue, 0), 0.2)
                     occasionViewModel.showImageView = false
+                    selectedSaint = nil
                 }
                 
             } label: {

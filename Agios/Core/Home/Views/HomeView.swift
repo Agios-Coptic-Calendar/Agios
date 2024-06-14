@@ -312,28 +312,32 @@ extension HomeView {
                 .scrollDisabled(true)
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: -16) {
-                        NavigationLink {
-                            SaintGroupDetailsView(
-                                icon: selectedSaint ?? dev.icon,
-                                iconographer: dev.iconagrapher,
-                                stories: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story,
-                                showImageViewer: $showImageViewer,
-                                selectedSaints: $selectedSaint, namespace: namespace)
-                            .environmentObject(occasionViewModel)
-                            .environmentObject(ImageViewerViewModel())
-                            .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
-                            .navigationBarBackButtonHidden(true)
-                            .navigationTransition(.zoom(sourceID: "saint", in: transition))
-                        } label: {
-                            GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory)
+                    HStack(spacing: -28) {
+                        if !occasionViewModel.filteredIcons.isEmpty {
+                            NavigationLink {
+                                SaintGroupDetailsView(
+                                    icon: selectedSaint ?? dev.icon,
+                                    iconographer: dev.iconagrapher,
+                                    stories: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story,
+                                    showImageViewer: $showImageViewer,
+                                    selectedSaints: $selectedSaint, namespace: namespace)
                                 .environmentObject(occasionViewModel)
                                 .environmentObject(ImageViewerViewModel())
                                 .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
-                                .frame(width: 330, height: 430, alignment: .leading)
-                                
+                                .navigationBarBackButtonHidden(true)
+                                .navigationTransition(.zoom(sourceID: "saint", in: transition))
+                            } label: {
+                                GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory)
+                                    
+                                    .environmentObject(occasionViewModel)
+                                    .environmentObject(ImageViewerViewModel())
+                                    .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
+                                    .frame(width: 320, height: 430, alignment: .leading)
+                                    
+                            }
+                            .matchedTransitionSource(id: "saint", in: transition)
+
                         }
-                        .matchedTransitionSource(id: "saint", in: transition)
                         
                         ForEach(occasionViewModel.icons) { saint in
                             NavigationLink {
@@ -345,6 +349,7 @@ extension HomeView {
                                     selectedSaint: $selectedSaint,
                                     namespace: namespace
                                 )
+                                
                                 .environmentObject(occasionViewModel)
                                 .environmentObject(IconImageViewModel(icon: saint))
                                 .environmentObject(ImageViewerViewModel())
@@ -376,6 +381,7 @@ extension HomeView {
                                     .frame(height: 430)
                                     .frame(width: 350)
                                     .matchedTransitionSource(id: "\(saint.id)", in: transition)
+
                                     
                             }
                             .animation(.spring(response: 0.5, dampingFraction: 0.6))

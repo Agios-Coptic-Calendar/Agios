@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Shimmer
 
 struct SaintImageView: View {
     
@@ -26,9 +27,17 @@ struct SaintImageView: View {
                     
     
             } else if viewModel.isLoading {
-                ProgressView()
-                    .background(.primary300)
-                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                ZStack {
+                    Image("placeholder")
+                        .resizable()
+                        .scaledToFill()
+                    
+                    ShimmerView(heightSize: 600, cornerRadius: 24)
+                        .transition(.opacity)
+                }
+                
+                
+
                     
                     
             } else {
