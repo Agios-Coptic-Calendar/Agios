@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -38,7 +38,6 @@
 		579710932BD13FF000DFDBA3 /* icons2023.json in Resources */ = {isa = PBXBuildFile; fileRef = 579710902BD13FF000DFDBA3 /* icons2023.json */; };
 		579710942BD13FF000DFDBA3 /* Colours.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 579710912BD13FF000DFDBA3 /* Colours.xcassets */; };
 		5797109B2BD1413800DFDBA3 /* SaintIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5797109A2BD1413800DFDBA3 /* SaintIconModel.swift */; };
-		5797109E2BD1420500DFDBA3 /* UIImageColors in Frameworks */ = {isa = PBXBuildFile; productRef = 5797109D2BD1420500DFDBA3 /* UIImageColors */; };
 		579710A52BD1429900DFDBA3 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710A02BD1429900DFDBA3 /* ButtonStyle.swift */; };
 		579710A62BD1429900DFDBA3 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710A12BD1429900DFDBA3 /* String+Extensions.swift */; };
 		579710A72BD1429900DFDBA3 /* Colours+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710A22BD1429900DFDBA3 /* Colours+Extensions.swift */; };
@@ -51,7 +50,6 @@
 		579710B92BD146A100DFDBA3 /* Synaxar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710B42BD146A100DFDBA3 /* Synaxar.swift */; };
 		579710BA2BD146A100DFDBA3 /* PresentableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710B52BD146A100DFDBA3 /* PresentableSection.swift */; };
 		579710BB2BD146A100DFDBA3 /* Feast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710B62BD146A100DFDBA3 /* Feast.swift */; };
-		5798741A2BFEABF500F0B2EE /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 579874192BFEABF500F0B2EE /* SwiftUIX */; };
 		5798741D2C00B83300F0B2EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5798741C2C00B83300F0B2EE /* LaunchScreen.storyboard */; };
 		5798741F2C00B99000F0B2EE /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5798741E2C00B99000F0B2EE /* LaunchView.swift */; };
 		57B26A532C1940C90058CD43 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 57B26A522C1940C90058CD43 /* Lottie */; };
@@ -65,9 +63,10 @@
 		57EAE6342BD7E76F00379CC5 /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE6322BD7E76F00379CC5 /* Layer.swift */; };
 		57EAE6352BD7E76F00379CC5 /* Layer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE6332BD7E76F00379CC5 /* Layer+Extensions.swift */; };
 		57EAE6372BD7E79D00379CC5 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE6362BD7E79D00379CC5 /* HapticsManager.swift */; };
-		57EE90632BE3F35E00C7E1AE /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 57EE90622BE3F35E00C7E1AE /* Shimmer */; };
 		57EE90652BE4096000C7E1AE /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90642BE4096000C7E1AE /* ShimmerView.swift */; };
 		57EE90672BE42EC600C7E1AE /* DailyQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */; };
+		99AF25A62C259735001184E5 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 99AF25A52C259735001184E5 /* Shimmer */; };
+		99AF25A92C25975A001184E5 /* UIImageColors in Frameworks */ = {isa = PBXBuildFile; productRef = 99AF25A82C25975A001184E5 /* UIImageColors */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,9 +135,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5798741A2BFEABF500F0B2EE /* SwiftUIX in Frameworks */,
-				57EE90632BE3F35E00C7E1AE /* Shimmer in Frameworks */,
-				5797109E2BD1420500DFDBA3 /* UIImageColors in Frameworks */,
+				99AF25A92C25975A001184E5 /* UIImageColors in Frameworks */,
+				99AF25A62C259735001184E5 /* Shimmer in Frameworks */,
 				57B26A532C1940C90058CD43 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,10 +425,9 @@
 			);
 			name = Agios;
 			packageProductDependencies = (
-				5797109D2BD1420500DFDBA3 /* UIImageColors */,
-				57EE90622BE3F35E00C7E1AE /* Shimmer */,
-				579874192BFEABF500F0B2EE /* SwiftUIX */,
 				57B26A522C1940C90058CD43 /* Lottie */,
+				99AF25A52C259735001184E5 /* Shimmer */,
+				99AF25A82C25975A001184E5 /* UIImageColors */,
 			);
 			productName = Agios;
 			productReference = 474C79A12BD009BC003E3A15 /* Agios.app */;
@@ -461,11 +458,9 @@
 			);
 			mainGroup = 474C79982BD009BC003E3A15;
 			packageReferences = (
-				5797109C2BD1420500DFDBA3 /* XCLocalSwiftPackageReference "../UIImageColors" */,
-				57EE90612BE3F35E00C7E1AE /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
-				579874172BFEA89F00F0B2EE /* XCRemoteSwiftPackageReference "ZoomImageViewer" */,
-				579874182BFEABF500F0B2EE /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 				57B26A4F2C190FAD0058CD43 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				99AF25A42C259735001184E5 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+				99AF25A72C25975A001184E5 /* XCRemoteSwiftPackageReference "UIImageColors" */,
 			);
 			productRefGroup = 474C79A22BD009BC003E3A15 /* Products */;
 			projectDirPath = "";
@@ -682,7 +677,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Agios/Preview Content\"";
-				DEVELOPMENT_TEAM = GV7FQHFJ5N;
+				DEVELOPMENT_TEAM = 76YKNW8C9R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Agios;
@@ -768,67 +763,48 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		5797109C2BD1420500DFDBA3 /* XCLocalSwiftPackageReference "../UIImageColors" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../UIImageColors;
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
-		579874172BFEA89F00F0B2EE /* XCRemoteSwiftPackageReference "ZoomImageViewer" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ryanlintott/ZoomImageViewer.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.1;
-			};
-		};
-		579874182BFEABF500F0B2EE /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.1;
-			};
-		};
 		57B26A4F2C190FAD0058CD43 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.4.3;
+				kind = exactVersion;
+				version = 4.4.3;
 			};
 		};
-		57EE90612BE3F35E00C7E1AE /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+		99AF25A42C259735001184E5 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.4.2;
+				kind = exactVersion;
+				version = 1.5.0;
+			};
+		};
+		99AF25A72C25975A001184E5 /* XCRemoteSwiftPackageReference "UIImageColors" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jathu/UIImageColors.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5797109D2BD1420500DFDBA3 /* UIImageColors */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = UIImageColors;
-		};
-		579874192BFEABF500F0B2EE /* SwiftUIX */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 579874182BFEABF500F0B2EE /* XCRemoteSwiftPackageReference "SwiftUIX" */;
-			productName = SwiftUIX;
-		};
 		57B26A522C1940C90058CD43 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 57B26A4F2C190FAD0058CD43 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
 		};
-		57EE90622BE3F35E00C7E1AE /* Shimmer */ = {
+		99AF25A52C259735001184E5 /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 57EE90612BE3F35E00C7E1AE /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			package = 99AF25A42C259735001184E5 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
+		};
+		99AF25A82C25975A001184E5 /* UIImageColors */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 99AF25A72C25975A001184E5 /* XCRemoteSwiftPackageReference "UIImageColors" */;
+			productName = UIImageColors;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

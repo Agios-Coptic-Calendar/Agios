@@ -325,7 +325,7 @@ extension HomeView {
                                 .environmentObject(ImageViewerViewModel())
                                 .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
                                 .navigationBarBackButtonHidden(true)
-                                .navigationTransition(.zoom(sourceID: "saint", in: transition))
+//                                .navigationTransition(.zoom(sourceID: "saint", in: transition))
                             } label: {
                                 GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory)
                                     
@@ -335,7 +335,7 @@ extension HomeView {
                                     .frame(width: 320, height: 430, alignment: .leading)
                                     
                             }
-                            .matchedTransitionSource(id: "saint", in: transition)
+//                            .matchedTransitionSource(id: "saint", in: transition)
 
                         }
                         
@@ -354,7 +354,7 @@ extension HomeView {
                                 .environmentObject(IconImageViewModel(icon: saint))
                                 .environmentObject(ImageViewerViewModel())
                                 .navigationBarBackButtonHidden(true)
-                                .navigationTransition(.zoom(sourceID: "\(saint.id)", in: transition))
+//                                .navigationTransition(.zoom(sourceID: "\(saint.id)", in: transition))
                             } label: {
                                 HomeSaintImageView(icon: saint)
                                     .aspectRatio(contentMode: .fill)
@@ -380,7 +380,7 @@ extension HomeView {
                                     
                                     .frame(height: 430)
                                     .frame(width: 350)
-                                    .matchedTransitionSource(id: "\(saint.id)", in: transition)
+//                                    .matchedTransitionSource(id: "\(saint.id)", in: transition)
 
                                     
                             }
