@@ -47,7 +47,7 @@ struct HomeView: View {
                     VStack(spacing: 40) {
                         VStack(spacing: 28) {
                             VStack(alignment: .leading, spacing: 32) {
-                                VStack(spacing: -32) {
+                                VStack(spacing: 32) {
                                     illustration
                                     VStack(spacing: 16) {
                                         fastView
@@ -148,19 +148,19 @@ extension HomeView {
                             .lineLimit(1)
                             .foregroundStyle(.primary1000)
                             .fontWeight(.medium)
-                            .matchedGeometryEffect(id: "regularDate", in: namespace)                  
+                            //.matchedGeometryEffect(id: "regularDate", in: namespace)
                         
                         Rectangle()
                             .fill(.primary600)
                             .frame(width: 1, height: 17)
-                            .matchedGeometryEffect(id: "divider", in: namespace)
+                            //.matchedGeometryEffect(id: "divider", in: namespace)
                         
                         HStack(spacing: 4) {
                             Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")")
                                 .lineLimit(1)
                                 .foregroundStyle(.primary1000)
                                 .frame(width: 100)
-                                .matchedGeometryEffect(id: "copticDate", in: namespace)
+                                //.matchedGeometryEffect(id: "copticDate", in: namespace)
                                 
                             
                             Image(systemName: "chevron.down")
@@ -176,11 +176,11 @@ extension HomeView {
                     .background(
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
                             .fill(.primary300)
-                            .matchedGeometryEffect(id: "background", in: namespace)
+                            //.matchedGeometryEffect(id: "background", in: namespace)
                     )
                     .mask({
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
-                            .matchedGeometryEffect(id: "mask", in: namespace)
+                            //.matchedGeometryEffect(id: "mask", in: namespace)
                     })
 
                 })
@@ -325,7 +325,7 @@ extension HomeView {
                                 .environmentObject(ImageViewerViewModel())
                                 .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
                                 .navigationBarBackButtonHidden(true)
-                                .navigationTransition(.zoom(sourceID: "saint", in: transition))
+                                //.navigationTransition(.zoom(sourceID: "saint", in: transition))
                             } label: {
                                 GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory)
                                     
@@ -335,7 +335,7 @@ extension HomeView {
                                     .frame(width: 320, height: 430, alignment: .leading)
                                     
                             }
-                            .matchedTransitionSource(id: "saint", in: transition)
+                            //.matchedTransitionSource(id: "saint", in: transition)
 
                         }
                         
@@ -354,7 +354,7 @@ extension HomeView {
                                 .environmentObject(IconImageViewModel(icon: saint))
                                 .environmentObject(ImageViewerViewModel())
                                 .navigationBarBackButtonHidden(true)
-                                .navigationTransition(.zoom(sourceID: "\(saint.id)", in: transition))
+                                //.navigationTransition(.zoom(sourceID: "\(saint.id)", in: transition))
                             } label: {
                                 HomeSaintImageView(icon: saint)
                                     .aspectRatio(contentMode: .fill)
@@ -380,7 +380,7 @@ extension HomeView {
                                     
                                     .frame(height: 430)
                                     .frame(width: 350)
-                                    .matchedTransitionSource(id: "\(saint.id)", in: transition)
+                                    //.matchedTransitionSource(id: "\(saint.id)", in: transition)
 
                                     
                             }
@@ -582,10 +582,10 @@ extension HomeView {
         VStack(alignment: .center, spacing: 24) {
             HStack {
                 Spacer()
-                Image("detail")
+                Image("illustration")
                     .resizable()
                     .scaledToFill()
-                    .frame(height: 106)
+                    .frame(width: 360, height: 54)
                 Spacer()
             }
         }
