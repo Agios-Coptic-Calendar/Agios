@@ -15,19 +15,19 @@ struct DateView: View {
     case feast
     case yearAhead
         
-        var title: String {
+        func title(using viewModel: OccasionsViewModel) -> String {
             switch self {
             case .regularDate:
-                return "Date"
+                return "\(viewModel.datePicker.formatDateShort(viewModel.datePicker))"
             case .feast:
-                return "Feast"
+                return "\(viewModel.selectedCopticDate?.month ?? "\(viewModel.newCopticDate?.month ?? "")") \(viewModel.selectedCopticDate?.day ?? "\(viewModel.newCopticDate?.day ?? "")")"
             case .yearAhead:
                 return "Year ahead"
             }
         }
         
         @ViewBuilder
-        var selectedDate: any View {
+        func selectedDate(using viewModel: OccasionsViewModel) -> some View {
             switch self {
             case .regularDate:
                 NormalDateView()
@@ -59,25 +59,30 @@ struct DateView: View {
                     Spacer()
                     
                     HStack(spacing: 8) {
-                        Text(occasionViewModel.datePicker.formatted(date: .abbreviated, time: .omitted))
-                            .lineLimit(1)
-                            .matchedGeometryEffect(id: "regularDate", in: namespace)
-                        
+                        /*
+                         Text(occasionViewModel.datePicker.formatted(date: .abbreviated, time: .omitted))
+                             .lineLimit(1)
+                             .matchedGeometryEffect(id: "regularDate", in: namespace)
+                         
 
-                            //.frame(width: 120, alignment: .leading)
-                            
+                             //.frame(width: 120, alignment: .leading)
+                             
+                         
+                         Rectangle()
+                             .fill(.gray900)
+                             .frame(width: 1, height: 17)
+                             .matchedGeometryEffect(id: "divider", in: namespace)
+                         
+                         Text("\(occasionViewModel.selectedCopticDate?.month ?? "\(occasionViewModel.newCopticDate?.month ?? "")") \(occasionViewModel.selectedCopticDate?.day ?? "\(occasionViewModel.newCopticDate?.day ?? "")")")
+                             .lineLimit(1)
+                             .foregroundStyle(.gray900)
+                             .frame(width: 100)
+                             .matchedGeometryEffect(id: "copticDate", in: namespace)
+                             //.frame(width: 120, alignment: .leading)
+                         */
                         
-                        Rectangle()
-                            .fill(.gray900)
-                            .frame(width: 1, height: 17)
-                            .matchedGeometryEffect(id: "divider", in: namespace)
-                        
-                        Text("\(occasionViewModel.selectedCopticDate?.month ?? "\(occasionViewModel.newCopticDate?.month ?? "")") \(occasionViewModel.selectedCopticDate?.day ?? "\(occasionViewModel.newCopticDate?.day ?? "")")")
-                            .lineLimit(1)
-                            .foregroundStyle(.gray900)
-                            .frame(width: 100)
-                            .matchedGeometryEffect(id: "copticDate", in: namespace)
-                            //.frame(width: 120, alignment: .leading)
+                        Text("Select date")
+                            .fontWeight(.medium)
                             
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -102,7 +107,7 @@ struct DateView: View {
                                     }
                                     
                                 } label: {
-                                    Text(mode.title)
+                                    Text(mode.title(using: occasionViewModel))
                                         .foregroundStyle(animationsMode == mode ? .gray900 : .gray400.opacity(0.7))
                                         .font(.body)
                                         .frame(maxWidth: .infinity)
@@ -132,8 +137,8 @@ struct DateView: View {
                     }
                     .animation(.spring(response: 0.4, dampingFraction: 0.9), value: animationsMode)
                     
-                    AnyView(animationsMode.selectedDate)
-                        .transition(.opacity.combined(with: .scale(scale: 0.94, anchor: .bottom)).animation(.spring(response: 0.3, dampingFraction: 1)))
+                    animationsMode.selectedDate(using: occasionViewModel)
+                                            .transition(.opacity.combined(with: .scale(scale: 0.94, anchor: .bottom)).animation(.spring(response: 0.3, dampingFraction: 1)))
                     
                 }
                 .scaleEffect(openCopticList ? 1 : 0.85, anchor: .top)
@@ -155,6 +160,7 @@ struct DateView: View {
         
             
         }
+        .scaleEffect(openCopticList ? 1 : 0.5, anchor: .top)
         
         .overlay(alignment: .topLeading) {
             Button {
@@ -180,11 +186,11 @@ struct DateView: View {
         .background(
             RoundedRectangle(cornerRadius: 24, style: .continuous)
                 .fill(.white)
-                .matchedGeometryEffect(id: "background", in: namespace)
+                //.matchedGeometryEffect(id: "background", in: namespace)
         )
         .mask({
             RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .matchedGeometryEffect(id: "mask", in: namespace)
+                //.matchedGeometryEffect(id: "mask", in: namespace)
         })
         .padding(.horizontal, 20)
         .onAppear(perform: {

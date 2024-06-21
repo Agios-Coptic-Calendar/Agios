@@ -47,7 +47,7 @@ struct HomeView: View {
                     VStack(spacing: 40) {
                         VStack(spacing: 28) {
                             VStack(alignment: .leading, spacing: 32) {
-                                VStack(spacing: 32) {
+                                VStack(spacing: 28) {
                                     illustration
                                     VStack(spacing: 16) {
                                         fastView
@@ -84,10 +84,14 @@ struct HomeView: View {
                         }
                     }
                     .opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
-                
-             if occasionViewModel.defaultDateTapped {
-                 DateView(namespace: namespace)
+                ZStack {
+                    DateView(namespace: namespace)
+                        //.transition(.scale(scale: 0.5, anchor: .bottom).combined(with: .opacity))
+                        //.scaleEffect(occasionViewModel.defaultDateTapped ? 1 : 0.5, anchor: .top)
+                        .opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
+                        .blur(radius: occasionViewModel.defaultDateTapped ? 0 : 20)
                 }
+                
             }
             .fontDesign(.rounded)
             .background(.primary100)
@@ -205,7 +209,7 @@ extension HomeView {
                              .fontWeight(.semibold)
                              .frame(maxWidth: .infinity, alignment: .leading)
                              .lineLimit(1)
-                             .matchedGeometryEffect(id: "copticDate", in: namespace)
+                             //.matchedGeometryEffect(id: "copticDate", in: namespace)
                         
                         Image(systemName: "chevron.down")
                             .fontWeight(.semibold)
@@ -216,11 +220,11 @@ extension HomeView {
                     .background(
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
                             .fill(.primary300)
-                            .matchedGeometryEffect(id: "background", in: namespace)
+                            //.matchedGeometryEffect(id: "background", in: namespace)
                     )
                     .mask({
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
-                            .matchedGeometryEffect(id: "mask", in: namespace)
+                            //.matchedGeometryEffect(id: "mask", in: namespace)
                     })
 
                 })
@@ -361,7 +365,7 @@ extension HomeView {
                                     .scrollTransition { content, phase in
                                         content
                                             .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
-                                            .blur(radius: phase.isIdentity ? 0 : 2)
+                                            .blur(radius: phase.isIdentity ? 0 : 1)
                                             .scaleEffect(phase.isIdentity ? 1 : 0.95)
                                     }
                                     .contextMenu(ContextMenu(menuItems: {
