@@ -34,9 +34,6 @@
 		578B61122BD15D9900DCDFF6 /* KatamerosRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61102BD15D9900DCDFF6 /* KatamerosRepository.swift */; };
 		578B61142BD164A900DCDFF6 /* ReadingsColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61132BD164A900DCDFF6 /* ReadingsColours.swift */; };
 		5797106F2BD138E400DFDBA3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5797106E2BD138E400DFDBA3 /* HomeView.swift */; };
-		579710922BD13FF000DFDBA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5797108F2BD13FF000DFDBA3 /* Assets.xcassets */; };
-		579710932BD13FF000DFDBA3 /* icons2023.json in Resources */ = {isa = PBXBuildFile; fileRef = 579710902BD13FF000DFDBA3 /* icons2023.json */; };
-		579710942BD13FF000DFDBA3 /* Colours.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 579710912BD13FF000DFDBA3 /* Colours.xcassets */; };
 		5797109B2BD1413800DFDBA3 /* SaintIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5797109A2BD1413800DFDBA3 /* SaintIconModel.swift */; };
 		579710A52BD1429900DFDBA3 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710A02BD1429900DFDBA3 /* ButtonStyle.swift */; };
 		579710A62BD1429900DFDBA3 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710A12BD1429900DFDBA3 /* String+Extensions.swift */; };
@@ -98,9 +95,6 @@
 		578B61102BD15D9900DCDFF6 /* KatamerosRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KatamerosRepository.swift; sourceTree = "<group>"; };
 		578B61132BD164A900DCDFF6 /* ReadingsColours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingsColours.swift; sourceTree = "<group>"; };
 		5797106E2BD138E400DFDBA3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		5797108F2BD13FF000DFDBA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		579710902BD13FF000DFDBA3 /* icons2023.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = icons2023.json; sourceTree = "<group>"; };
-		579710912BD13FF000DFDBA3 /* Colours.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colours.xcassets; sourceTree = "<group>"; };
 		5797109A2BD1413800DFDBA3 /* SaintIconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaintIconModel.swift; sourceTree = "<group>"; };
 		579710A02BD1429900DFDBA3 /* ButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
 		579710A12BD1429900DFDBA3 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
@@ -169,7 +163,6 @@
 				5797106A2BD1385900DFDBA3 /* Core */,
 				579710742BD13AD900DFDBA3 /* Domain */,
 				5797109F2BD1423400DFDBA3 /* Extensions */,
-				5797108A2BD13F3000DFDBA3 /* Resources */,
 				474C79A82BD009BF003E3A15 /* Assets.xcassets */,
 				474C79AA2BD009BF003E3A15 /* Preview Content */,
 			);
@@ -296,16 +289,6 @@
 				578B610E2BD15D7600DCDFF6 /* Gateways */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		5797108A2BD13F3000DFDBA3 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				5797108F2BD13FF000DFDBA3 /* Assets.xcassets */,
-				579710912BD13FF000DFDBA3 /* Colours.xcassets */,
-				579710902BD13FF000DFDBA3 /* icons2023.json */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		579710992BD140BB00DFDBA3 /* Model */ = {
@@ -478,10 +461,7 @@
 			files = (
 				474C79AC2BD009BF003E3A15 /* Preview Assets.xcassets in Resources */,
 				474C79A92BD009BF003E3A15 /* Assets.xcassets in Resources */,
-				579710942BD13FF000DFDBA3 /* Colours.xcassets in Resources */,
 				5798741D2C00B83300F0B2EE /* LaunchScreen.storyboard in Resources */,
-				579710922BD13FF000DFDBA3 /* Assets.xcassets in Resources */,
-				579710932BD13FF000DFDBA3 /* icons2023.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
