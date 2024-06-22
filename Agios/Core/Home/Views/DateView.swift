@@ -81,7 +81,7 @@ struct DateView: View {
                              //.frame(width: 120, alignment: .leading)
                          */
                         
-                        Text("Select date")
+                        Text("Select a date")
                             .fontWeight(.medium)
                             
                     }
@@ -160,7 +160,6 @@ struct DateView: View {
         
             
         }
-        .scaleEffect(openCopticList ? 1 : 0.5, anchor: .top)
         
         .overlay(alignment: .topLeading) {
             Button {
@@ -186,11 +185,11 @@ struct DateView: View {
         .background(
             RoundedRectangle(cornerRadius: 24, style: .continuous)
                 .fill(.white)
-                //.matchedGeometryEffect(id: "background", in: namespace)
+                .matchedGeometryEffect(id: "background", in: namespace)
         )
         .mask({
             RoundedRectangle(cornerRadius: 24, style: .continuous)
-                //.matchedGeometryEffect(id: "mask", in: namespace)
+                .matchedGeometryEffect(id: "mask", in: namespace)
         })
         .padding(.horizontal, 20)
         .onAppear(perform: {
@@ -285,7 +284,7 @@ struct FeastView: View {
                         
                     }, label: {
                         HStack {
-                            Text("\(date.name)")
+                            Text("\(date.month)")
                                 .foregroundStyle(.primary1000)
                                 .lineLimit(1)
                                 //.frame(width: 160)
@@ -393,11 +392,12 @@ struct YearAheadView: View {
                                 HapticsManager.instance.impact(style: .light)
                                 
                             }, label: {
-                                HStack {
-                                    Text("\(date.month) \(date.day)")
+                                VStack(alignment: .leading, spacing: 7) {
+                                    Text("\(date.name)")
                                         .foregroundStyle(.primary1000)
-                                    Spacer()
+                                    
                                     Text("\(occasionViewModel.formatDateStringToFullDate(dateString: date.date))")
+                                        .font(.callout)
                                         .foregroundStyle(.primary1000.opacity(0.7))
                                         .lineLimit(1)
                                     
