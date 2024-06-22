@@ -22,7 +22,7 @@ struct HomeView: View {
     
     @State private var selectedSaint: IconModel?
     //@State private var selectedSaints: IconModel?
-    @State private var selectedSection: SubSection?
+    @State private var selectedSection: Passage?
     @State private var showImageViewer: Bool = false
     @State private var scaleImage: Bool = false
     @State private var offset: CGSize = .zero
@@ -37,6 +37,7 @@ struct HomeView: View {
     
     
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
+    @EnvironmentObject private var iconImageViewModel: IconImageViewModel
     @EnvironmentObject private var imageViewModel: IconImageViewModel
     
     var body: some View {
@@ -73,6 +74,7 @@ struct HomeView: View {
                 .refreshable {
                     occasionViewModel.getPosts()
                 }
+                .scaleEffect(occasionViewModel.defaultDateTapped ? 0.95 : 1)
                 
                 Rectangle()
                     .fill(.ultraThinMaterial)
@@ -84,22 +86,33 @@ struct HomeView: View {
                         }
                     }
                     .opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
-                ZStack {
+                
+                if occasionViewModel.defaultDateTapped {
                     DateView(namespace: namespace)
                         //.transition(.scale(scale: 0.5, anchor: .bottom).combined(with: .opacity))
                         //.scaleEffect(occasionViewModel.defaultDateTapped ? 1 : 0.5, anchor: .top)
-                        .opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
-                        .blur(radius: occasionViewModel.defaultDateTapped ? 0 : 20)
+                        //.opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
+                        //.blur(radius: occasionViewModel.defaultDateTapped ? 0 : 20)
                 }
+                
                 
             }
             .fontDesign(.rounded)
             .background(.primary100)
+            .ignoresSafeArea(edges: .bottom)
             
         }
-        .fullScreenCover(isPresented: $occasionViewModel.showStory, content: {
+//        .fullScreenCover(isPresented: $occasionViewModel.showStory, content: {
+//            StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
+//        })
+        .halfSheet(showSheet: $occasionViewModel.showStory) {
             StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
-        })
+                .presentationDetents([.medium, .large])
+                .presentationCornerRadius(32)
+                .environmentObject(occasionViewModel)
+                .environmentObject(occasionViewModel)
+        } onDismiss: {}
+        
         
         
         
@@ -316,32 +329,8 @@ extension HomeView {
                 .scrollDisabled(true)
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: -28) {
-                        if !occasionViewModel.filteredIcons.isEmpty {
-                            NavigationLink {
-                                SaintGroupDetailsView(
-                                    icon: selectedSaint ?? dev.icon,
-                                    iconographer: dev.iconagrapher,
-                                    stories: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story,
-                                    showImageViewer: $showImageViewer,
-                                    selectedSaints: $selectedSaint, namespace: namespace)
-                                .environmentObject(occasionViewModel)
-                                .environmentObject(ImageViewerViewModel())
-                                .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
-                                .navigationBarBackButtonHidden(true)
-                                //.navigationTransition(.zoom(sourceID: "saint", in: transition))
-                            } label: {
-                                GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory)
-                                    
-                                    .environmentObject(occasionViewModel)
-                                    .environmentObject(ImageViewerViewModel())
-                                    .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
-                                    .frame(width: 320, height: 430, alignment: .leading)
-                                    
-                            }
-                            //.matchedTransitionSource(id: "saint", in: transition)
+                    HStack(spacing: 16) {
 
-                        }
                         
                         ForEach(occasionViewModel.icons) { saint in
                             NavigationLink {
@@ -356,7 +345,6 @@ extension HomeView {
                                 
                                 .environmentObject(occasionViewModel)
                                 .environmentObject(IconImageViewModel(icon: saint))
-                                .environmentObject(ImageViewerViewModel())
                                 .navigationBarBackButtonHidden(true)
                                 //.navigationTransition(.zoom(sourceID: "\(saint.id)", in: transition))
                             } label: {
@@ -370,7 +358,7 @@ extension HomeView {
                                     }
                                     .contextMenu(ContextMenu(menuItems: {
                                         Button {
-                                            occasionViewModel.showStory.toggle()
+                                            occasionViewModel.showStory?.toggle()
                                             selectedSaint = saint
                                         } label: {
                                             if occasionViewModel.getStory(forIcon: saint) != nil {
@@ -383,7 +371,7 @@ extension HomeView {
                                     }))
                                     
                                     .frame(height: 430)
-                                    .frame(width: 350)
+                                    //.frame(width: 350)
                                     //.matchedTransitionSource(id: "\(saint.id)", in: transition)
 
                                     
@@ -394,6 +382,31 @@ extension HomeView {
                                     selectedSaint = saint
                                 }
                             )
+                        }
+                        
+                        if !occasionViewModel.filteredIcons.isEmpty {
+                            NavigationLink {
+                                SaintGroupDetailsView(
+                                    icon: selectedSaint ?? dev.icon,
+                                    iconographer: dev.iconagrapher,
+                                    stories: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story,
+                                    showImageViewer: $showImageViewer,
+                                    selectedSaints: $selectedSaint, namespace: namespace)
+                                .environmentObject(occasionViewModel)
+                                .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
+                                .navigationBarBackButtonHidden(true)
+                                //.navigationTransition(.zoom(sourceID: "saint", in: transition))
+                            } label: {
+                                GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory)
+                                    
+                                    .environmentObject(occasionViewModel)
+                                    //.environmentObject(ImageViewerViewModel())
+                                    .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
+                                    .frame(width: 320, height: 430, alignment: .leading)
+                                    
+                            }
+                            //.matchedTransitionSource(id: "saint", in: transition)
+
                         }
                     }
                     .padding(.top, -24)
@@ -463,9 +476,7 @@ extension HomeView {
                 .foregroundColor(.black)
             }
         }
-
     }
-    
     
      private var dailyReading: some View {
          VStack (alignment: .leading, spacing: 8) {
@@ -495,26 +506,21 @@ extension HomeView {
                      } else {
                          ForEach(occasionViewModel.readings) { reading in
                              ForEach(occasionViewModel.passages, id: \.self) { passage in
-                                 ForEach(occasionViewModel.subSection) { subSection in
-                                     NavigationLink {
-                                         ReadingsView(passage: passage, verse: dev.verses, subSection: subSection)
-                                     } label: {
-                                         DailyReadingView(passage: passage, reading: reading, subSection: subSection)
-                                             
-                                     }
-                                     //.scaleEffect(selectedSection == subSection ? 1.1 : 1.0)
-                                     .animation(.spring(response: 1, dampingFraction: 0.6))
-                                     .simultaneousGesture(TapGesture().onEnded{
-                                         withAnimation(.easeIn(duration: 0.1)) {
-                                             selectedSection = subSection
+                                 DailyReadingView(passage: passage, reading: reading, subSection: dev.subSection)
+                                     .scaleEffect(selectedSection == passage ? 1.1 : 1.0)
+                                     .animation(.spring(response: 0.6, dampingFraction: 0.4))
+                                     .onTapGesture {
+                                         withAnimation {
+                                             selectedSection = passage
                                              DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                                  selectedSection = nil
-                                                 
+                                                 occasionViewModel.showReading = true
                                              }
                                          }
-                                         
-                                     })
-                                 }
+                                     }
+                                     .halfSheet(showSheet: $occasionViewModel.showReading) {
+                                         ReadingsView(passage: passage, verse: dev.verses, subSection: dev.subSection)
+                                     } onDismiss: {}
                              }
                          }
                      }

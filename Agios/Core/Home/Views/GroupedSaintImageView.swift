@@ -10,7 +10,7 @@ import SwiftUI
 struct GroupedSaintImageView: View {
     @EnvironmentObject private var vm: OccasionsViewModel
     @Binding var selectedSaint: IconModel?
-    @Binding var showStory: Bool
+    @Binding var showStory: Bool?
     
     var body: some View {
         ZStack {
@@ -26,7 +26,7 @@ struct GroupedSaintImageView: View {
                     .contextMenu(ContextMenu(menuItems: {
                         Button {
                             selectedSaint = icon
-                            showStory.toggle()
+                            showStory?.toggle()
                         } label: {
                             if vm.getStory(forIcon: icon) != nil {
                                 Label("See story", systemImage: "book")
@@ -45,7 +45,7 @@ struct GroupedSaintImageView: View {
 
 struct GroupedSaintImageView_Previews: PreviewProvider {
     @State static var selectedSaint: IconModel? = nil
-    @State static var showStory: Bool = false
+    @State static var showStory: Bool? = false
     
     static var previews: some View {
         GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $showStory)
