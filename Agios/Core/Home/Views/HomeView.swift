@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Shimmer
+import Glur
 
  
 struct HomeView: View {
@@ -29,6 +30,7 @@ struct HomeView: View {
     let iconographer: Iconagrapher
     @State private var selection: Int = 1
     @State private var showStory: Bool = false
+    @State private var keyboardHeight: CGFloat = 0
     
     
     
@@ -66,15 +68,17 @@ struct HomeView: View {
                             dailyReading
                             upcomingFeasts
                         }
-                        .padding(.vertical, 32)
+                        .padding(.vertical, 40)
                         .transition(.scale(scale: 0.95, anchor: .top))
-                        .transition(.opacity)    
+                        .transition(.opacity)   
+        
+
                     }
                     .scrollIndicators(.hidden)
                     .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
-                    .refreshable {
-                        occasionViewModel.getPosts()
-                    }
+//                    .refreshable {
+//                        occasionViewModel.getPosts()
+//                    }
                     .scaleEffect(occasionViewModel.defaultDateTapped ? 0.93 : 1)
                     
                     Rectangle()
@@ -86,6 +90,7 @@ struct HomeView: View {
                                 occasionViewModel.searchDate = ""
                                 occasionViewModel.searchText = false
                                 occasionViewModel.isTextFieldFocused = false
+                                occasionViewModel.hideKeyboard()
                             }
                         }
                         .opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
@@ -94,12 +99,14 @@ struct HomeView: View {
                     
                     
                 }
-                .ignoresSafeArea(edges: .bottom)
+                
+                
                 .fontDesign(.rounded)
                 .background(.primary100)
                 
                 if occasionViewModel.defaultDateTapped {
                     DateView(namespace: namespace)
+                        .offset(y: -keyboardHeight/2)
                         //.animation(.spring(response: 0.25, dampingFraction: 0.9, blendDuration: 1))
                     //.transition(.scale(scale: 0.5, anchor: .bottom).combined(with: .opacity))
                     //.scaleEffect(occasionViewModel.defaultDateTapped ? 1 : 0.5, anchor: .top)
@@ -108,17 +115,41 @@ struct HomeView: View {
                 }
             }
             
+            .ignoresSafeArea(edges: .bottom)
+
+            
             
         }
-//        .fullScreenCover(isPresented: $occasionViewModel.showStory, content: {
-//            StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
-//        })
+        .onAppear {
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+                if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                    withAnimation(.spring(response: 0.42, dampingFraction: 0.95)) {
+                        keyboardHeight = keyboardFrame.height
+                    }
+                }
+            }
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                withAnimation(.spring(response: 0.42, dampingFraction: 0.95)) {
+                    keyboardHeight = 0
+                }
+            }
+        }
+        .onDisappear {
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        }
         .halfSheet(showSheet: $occasionViewModel.showStory) {
             StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
                 .environmentObject(occasionViewModel)
         } onDismiss: {}
         
-        
+        .overlay(alignment: .top) {
+                GeometryReader { geom in
+                    VariableBlurView(maxBlurRadius: 12)
+                        .frame(height: geom.safeAreaInsets.leading)
+                        .ignoresSafeArea()
+                }
+            }
         
         
     

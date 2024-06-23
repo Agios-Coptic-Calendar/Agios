@@ -104,6 +104,7 @@ struct DateView: View {
                                 Button {
                                     withAnimation {
                                         animationsMode = mode
+                                        occasionViewModel.hideKeyboard()
                                     }
                                     
                                 } label: {
@@ -167,6 +168,7 @@ struct DateView: View {
                     occasionViewModel.defaultDateTapped = false
                     occasionViewModel.searchDate = ""
                     occasionViewModel.searchText = false
+                    occasionViewModel.hideKeyboard()
                 }
                 //HapticsManager.instance.impact(style: .light)
             } label: {
@@ -213,7 +215,6 @@ struct DateView: View {
         .fontDesign(.rounded)
         .animation(.spring(response: 0.35, dampingFraction: 0.9), value: animationsMode)
         .frame(maxWidth: 400)
-        .padding(.bottom, 8)
         .overlay(alignment: .bottom) {
             ZStack(content: {
                 if animationsMode == .regularDate {
@@ -241,6 +242,8 @@ struct DateView: View {
         }
         
     }
+    
+    
 }
 
 struct DateView_Preview: PreviewProvider {
@@ -444,4 +447,3 @@ struct YearAheadView: View {
 
     }
 }
-

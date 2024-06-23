@@ -419,9 +419,7 @@ extension SaintDetailsView {
             .fill(.clear)
             .frame(height: 420)
             .background(
-                ZStack(content: {
-                    
-                    
+                ZStack {
                     if let image = viewModel.image {
                         Image(uiImage: image)
                             .resizable()
@@ -436,8 +434,22 @@ extension SaintDetailsView {
                                 }
                             }
                             .transition(.scale(scale: 1))
+                    } else if viewModel.isLoading {
+                        ZStack {
+                            Image("placeholder")
+                                .resizable()
+                                .scaledToFill()
+                            
+                            ShimmerView(heightSize: 600, cornerRadius: 24)
+                                .transition(.opacity)
+                            
+                        }
+                    } else {
+                        Image("placeholder")
+                            .resizable()
+                            .scaledToFill()
                     }
-                })
+                }
                 
             )
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
