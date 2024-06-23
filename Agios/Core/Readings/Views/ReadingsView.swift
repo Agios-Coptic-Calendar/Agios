@@ -42,7 +42,7 @@ struct ReadingsView: View {
                         VStack(alignment: .leading, spacing: 32) {
                             VStack(alignment: .leading, spacing: 12) {
                                 Text("\(passage.bookTranslation ?? "")  \(passage.ref ?? "")")
-                                    .font(.largeTitle)
+                                    .font(.title)
                                     .fontWeight(.semibold)
                                 
                                 HStack(alignment: .center, spacing: 8, content: {

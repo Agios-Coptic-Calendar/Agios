@@ -28,7 +28,7 @@ struct SaintGroupDetailsView: View {
     @State private var currentScale: CGFloat = 1.0
     @State private var descriptionHeight: Int = 3
     @State private var storyHeight: Int = 6
-    @State private var openSheet: Bool = false
+    @State private var openSheet: Bool? = false
     @State private var selectedImage: UIImage?
     @EnvironmentObject var viewModel: IconImageViewModel
     @Environment(\.presentationMode) var presentationMode
@@ -81,9 +81,10 @@ struct SaintGroupDetailsView: View {
         .overlay(alignment: .topLeading, content: {
             customBackButton
         })
-        .sheet(isPresented: $openSheet) {
+        .halfSheet(showSheet: $openSheet) {
             StoryDetailView(story: stories)
-        }
+                .environmentObject(occasionViewModel)
+        } onDismiss: {}
         .onAppear {
             withAnimation {
                 selectedSaints = nil
@@ -343,7 +344,7 @@ extension SaintGroupDetailsView {
                         .lineLimit(storyHeight)
                     
                     Button {
-                        openSheet.toggle()
+                        openSheet?.toggle()
                     } label: {
                         HStack(alignment: .center, spacing: 4) {
                             Text("Read more")

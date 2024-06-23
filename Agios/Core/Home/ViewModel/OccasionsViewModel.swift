@@ -56,6 +56,10 @@ class OccasionsViewModel: ObservableObject {
     @Published var showImageView: Bool = false
     @Published var showStory: Bool? = false
     @Published var showReading: Bool? = false
+    @Published var liturgicalInfoTapped: Bool = false
+    @Published var liturgicalInformation: String?
+    @Published var searchText: Bool = false
+    @Published var isTextFieldFocused: Bool = false
     @Published var feast: String = "" {
         didSet {
             updateMockDates()
@@ -71,7 +75,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var selectedMockDate: DateModel? = nil
     
     var feastName: String?
-    var liturgicalInformation: String?
+    
     var occasionName: String {
         dataClass?.name ?? "Unknown Occasion"
     }
@@ -153,6 +157,7 @@ class OccasionsViewModel: ObservableObject {
         self.newCopticDate = response.data.copticDate ?? nil
         self.fact = response.data.facts ?? []
         self.retrievePassages()
+        self.liturgicalInformation = response.data.liturgicalInformation
         
         for icon in response.data.icons ?? [] {
             if case let .iconagrapher(iconagrapher) = icon.iconagrapher {

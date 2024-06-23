@@ -44,62 +44,70 @@ struct HomeView: View {
         
         NavigationStack {
             ZStack {
-                ScrollView {
-                    VStack(spacing: 40) {
-                        VStack(spacing: 28) {
-                            VStack(alignment: .leading, spacing: 32) {
-                                VStack(spacing: 28) {
-                                    illustration
-                                    VStack(spacing: 16) {
-                                        fastView
-                                        combinedDateView
-                                        
+                ZStack {
+                    ScrollView {
+                        VStack(spacing: 40) {
+                            VStack(spacing: 28) {
+                                VStack(alignment: .leading, spacing: 32) {
+                                    VStack(spacing: 28) {
+                                        illustration
+                                        VStack(spacing: 16) {
+                                            fastView
+                                            combinedDateView
+                                            
+                                        }
                                     }
                                 }
+                                VStack(spacing: 20) {
+                                    imageView
+                                    DailyQuoteView(fact: dev.fact)
+                                }
                             }
-                            VStack(spacing: 20) {
-                                imageView
-                                DailyQuoteView(fact: dev.fact)
+                            dailyReading
+                            upcomingFeasts
+                        }
+                        .padding(.vertical, 32)
+                        .transition(.scale(scale: 0.95, anchor: .top))
+                        .transition(.opacity)    
+                    }
+                    .scrollIndicators(.hidden)
+                    .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
+                    .refreshable {
+                        occasionViewModel.getPosts()
+                    }
+                    .scaleEffect(occasionViewModel.defaultDateTapped ? 0.93 : 1)
+                    
+                    Rectangle()
+                        .fill(.ultraThinMaterial)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
+                                occasionViewModel.defaultDateTapped = false
+                                occasionViewModel.searchDate = ""
+                                occasionViewModel.searchText = false
+                                occasionViewModel.isTextFieldFocused = false
                             }
                         }
-                        dailyReading
-                        upcomingFeasts
-                    }
-                    .padding(.vertical, 32)
-                    .transition(.scale(scale: 0.95, anchor: .top))
-                    .transition(.opacity)    
+                        .opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
+                    
+
+                    
+                    
                 }
-                .scrollIndicators(.hidden)
-                .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
-                .refreshable {
-                    occasionViewModel.getPosts()
-                }
-                .scaleEffect(occasionViewModel.defaultDateTapped ? 0.95 : 1)
-                
-                Rectangle()
-                    .fill(.ultraThinMaterial)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
-                            occasionViewModel.defaultDateTapped = false
-                            occasionViewModel.searchDate = ""
-                        }
-                    }
-                    .opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
+                .ignoresSafeArea(edges: .bottom)
+                .fontDesign(.rounded)
+                .background(.primary100)
                 
                 if occasionViewModel.defaultDateTapped {
                     DateView(namespace: namespace)
-                        //.transition(.scale(scale: 0.5, anchor: .bottom).combined(with: .opacity))
-                        //.scaleEffect(occasionViewModel.defaultDateTapped ? 1 : 0.5, anchor: .top)
-                        //.opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
-                        //.blur(radius: occasionViewModel.defaultDateTapped ? 0 : 20)
+                        //.animation(.spring(response: 0.25, dampingFraction: 0.9, blendDuration: 1))
+                    //.transition(.scale(scale: 0.5, anchor: .bottom).combined(with: .opacity))
+                    //.scaleEffect(occasionViewModel.defaultDateTapped ? 1 : 0.5, anchor: .top)
+                    //.opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
+                    //.blur(radius: occasionViewModel.defaultDateTapped ? 0 : 20)
                 }
-                
-                
             }
-            .fontDesign(.rounded)
-            .background(.primary100)
-            .ignoresSafeArea(edges: .bottom)
+            
             
         }
 //        .fullScreenCover(isPresented: $occasionViewModel.showStory, content: {
@@ -107,9 +115,6 @@ struct HomeView: View {
 //        })
         .halfSheet(showSheet: $occasionViewModel.showStory) {
             StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
-                .presentationDetents([.medium, .large])
-                .presentationCornerRadius(32)
-                .environmentObject(occasionViewModel)
                 .environmentObject(occasionViewModel)
         } onDismiss: {}
         
@@ -193,11 +198,11 @@ extension HomeView {
                     .background(
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
                             .fill(.primary300)
-                            //.matchedGeometryEffect(id: "background", in: namespace)
+                            .matchedGeometryEffect(id: "background", in: namespace)
                     )
                     .mask({
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
-                            //.matchedGeometryEffect(id: "mask", in: namespace)
+                            .matchedGeometryEffect(id: "mask", in: namespace)
                     })
 
                 })
@@ -300,12 +305,27 @@ extension HomeView {
                     .frame(width: 250)
                 
             } else {
-                Text(occasionViewModel.feast)
-                    .font(.title2)
-                     .fontWeight(.semibold)
-                     .multilineTextAlignment(.center)
-                     .foregroundColor(.primary1000)
-                     .frame(width: 250)
+                ZStack {
+                    if occasionViewModel.liturgicalInfoTapped {
+                        Text(occasionViewModel.liturgicalInformation ?? "")
+                            .blur(radius: occasionViewModel.liturgicalInfoTapped ? 0 : 10)
+                    } else {
+                        Text(occasionViewModel.feast)
+                            .blur(radius: occasionViewModel.liturgicalInfoTapped ? 10 : 0)
+                    }
+                }
+                .font(.title2)
+                 .fontWeight(.semibold)
+                 .multilineTextAlignment(.center)
+                 .foregroundColor(.primary1000)
+                 .frame(width: 250)
+                 .modifier(TapToScaleModifier())
+                 .onTapGesture {
+                     withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                         occasionViewModel.liturgicalInfoTapped.toggle()
+                     }
+                     
+                 }
             }
         }
         .padding(.horizontal, 20)
@@ -376,7 +396,6 @@ extension HomeView {
 
                                     
                             }
-                            .animation(.spring(response: 0.5, dampingFraction: 0.6))
                             .simultaneousGesture(
                                 TapGesture().onEnded {
                                     selectedSaint = saint
@@ -384,30 +403,34 @@ extension HomeView {
                             )
                         }
                         
-                        if !occasionViewModel.filteredIcons.isEmpty {
-                            NavigationLink {
-                                SaintGroupDetailsView(
-                                    icon: selectedSaint ?? dev.icon,
-                                    iconographer: dev.iconagrapher,
-                                    stories: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story,
-                                    showImageViewer: $showImageViewer,
-                                    selectedSaints: $selectedSaint, namespace: namespace)
-                                .environmentObject(occasionViewModel)
-                                .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
-                                .navigationBarBackButtonHidden(true)
-                                //.navigationTransition(.zoom(sourceID: "saint", in: transition))
-                            } label: {
-                                GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory)
-                                    
-                                    .environmentObject(occasionViewModel)
-                                    //.environmentObject(ImageViewerViewModel())
-                                    .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
-                                    .frame(width: 320, height: 430, alignment: .leading)
-                                    
-                            }
-                            //.matchedTransitionSource(id: "saint", in: transition)
+                        // Grouped Saints View - Coming back to this...
+                        
+                         if !occasionViewModel.filteredIcons.isEmpty {
+                             NavigationLink {
+                                 SaintGroupDetailsView(
+                                     icon: selectedSaint ?? dev.icon,
+                                     iconographer: dev.iconagrapher,
+                                     stories: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story,
+                                     showImageViewer: $showImageViewer,
+                                     selectedSaints: $selectedSaint, namespace: namespace)
+                                 .environmentObject(occasionViewModel)
+                                 .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
+                                 .navigationBarBackButtonHidden(true)
+                                 //.navigationTransition(.zoom(sourceID: "saint", in: transition))
+                             } label: {
+                                 GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory)
+                                     
+                                     //.environmentObject(occasionViewModel)
+                                     //.environmentObject(ImageViewerViewModel())
+                                     //.environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
+                                     .frame(width: 320, height: 430, alignment: .leading)
+                                     
+                             }
+                             //.matchedTransitionSource(id: "saint", in: transition)
 
-                        }
+                         }
+                         
+
                     }
                     .padding(.top, -24)
                     .padding(.horizontal, 24)

@@ -40,7 +40,7 @@ struct StoryDetailView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         Text(formatTitleText(story.saint ?? "Title"))
-                            .font(.largeTitle)
+                            .font(.title)
                             .foregroundStyle(.gray900)
                             .fontWeight(.semibold)
                         
