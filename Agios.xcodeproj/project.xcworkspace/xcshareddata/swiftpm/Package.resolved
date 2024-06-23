@@ -1,5 +1,5 @@
 {
-  "originHash" : "7b9e0e7e81a61cbb067ab0517fc8e7392b5a541e0bbe69559361baf741c017b7",
+  "originHash" : "085a6a1647d21394f4aa84f085f898140d18bdc265de6e4f7bacc583a9d34116",
   "pins" : [
     {
       "identity" : "lottie-ios",
@@ -8,15 +8,6 @@
       "state" : {
         "revision" : "769b88d83a42ca8d5572b020c96f47e3690b3796",
         "version" : "4.4.3"
-      }
-    },
-    {
-      "identity" : "popovers",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/aheze/Popovers.git",
-      "state" : {
-        "revision" : "de44c4dd7271ec6413fe350f7efadb14e5e18dce",
-        "version" : "1.3.2"
       }
     },
     {
