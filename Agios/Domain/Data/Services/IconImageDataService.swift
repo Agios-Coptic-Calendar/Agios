@@ -22,7 +22,7 @@ class IconImageDataService {
         self.icon = icon
         self.imageName = icon.id
         Task {
-          await getIconFromCacheOrDownload(urlString: urlString)
+          await getIconFromFileManager(urlString: urlString)
         }
         
     }
@@ -31,7 +31,7 @@ class IconImageDataService {
         if let cachedImage = cacheManager.getImage(forKey: icon.id) {
             await MainActor.run {
                 image = cachedImage
-                print("Retrieved Image from Cache")
+                print("Retrieved Image from Cache \(String(describing: image?.description))")
             }
         } else {
             await downloadIconImage(urlString: urlString)

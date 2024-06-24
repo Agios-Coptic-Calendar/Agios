@@ -7,6 +7,27 @@
 
 import SwiftUI
 
+struct GroupedDetailLoadingView: View {
+    @State var icon: IconModel?
+    let story: Story
+    @State private var showImageViewer = false
+    @Binding var selectedSaint: IconModel?
+    @Namespace private var namespace
+    
+    var body: some View {
+        if let icon = icon {
+            SaintGroupDetailsView(
+                icon: icon,
+                iconographer: dev.iconagrapher,
+                stories: story,
+                showImageViewer: $showImageViewer,
+                selectedSaint: $selectedSaint,
+                namespace: namespace
+            )
+        }
+    }
+}
+
 struct SaintGroupDetailsView: View {
     
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
@@ -30,8 +51,18 @@ struct SaintGroupDetailsView: View {
     @State private var storyHeight: Int = 6
     @State private var openSheet: Bool? = false
     @State private var selectedImage: UIImage?
-    @EnvironmentObject var viewModel: IconImageViewModel
+    @StateObject private var viewModel: IconImageViewModel
     @Environment(\.presentationMode) var presentationMode
+    
+    init(icon: IconModel, iconographer: Iconagrapher, stories: Story, showImageViewer: Binding<Bool>, selectedSaint: Binding<IconModel?>, namespace: Namespace.ID) {
+        _viewModel = StateObject(wrappedValue: IconImageViewModel(icon: icon))
+        self.iconographer = iconographer
+        self.stories = stories
+        self._showImageViewer = showImageViewer
+        self._selectedSaints = selectedSaint
+        self.namespace = namespace
+        self.icon = icon
+    }
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -87,7 +118,7 @@ struct SaintGroupDetailsView: View {
         } onDismiss: {}
         .onAppear {
             withAnimation {
-                selectedSaints = nil
+                //selectedSaints = nil
                 showImageViewer = false
             }
            
@@ -134,10 +165,8 @@ struct SaintGroupDetailsView_Preview: PreviewProvider {
     @Namespace static var namespace
     
     static var previews: some View {
-        SaintGroupDetailsView(icon: dev.icon, iconographer: dev.iconagrapher, stories: dev.story, showImageViewer: .constant(false), selectedSaints: .constant(dev.icon), namespace: namespace)
-            .environmentObject(OccasionsViewModel())
-            .environmentObject(IconImageViewModel(icon: dev.icon))
-            .environmentObject(ImageViewerViewModel())
+        SaintGroupDetailsView(icon: dev.icon, iconographer: dev.iconagrapher, stories: dev.story, showImageViewer: .constant(false), selectedSaint: .constant(dev.icon), namespace: namespace)
+            .environmentObject(dev.occasionsViewModel)
     }
 }
 
@@ -147,7 +176,7 @@ extension SaintGroupDetailsView {
         ZStack {
             Button {
                 presentationMode.wrappedValue.dismiss()
-                selectedSaints = nil
+                //selectedSaints = nil
                 
             } label: {
                 NavigationButton(labelName: .back, backgroundColor: .primary300, foregroundColor: .primary1000)
@@ -190,9 +219,10 @@ extension SaintGroupDetailsView {
                     .background(
                         ZStack(content: {
                             
-                            if let image = viewModel.image {
-                                Image(uiImage: image)
-                                    .resizable()
+                            //if let image = viewModel.image {
+                            SaintImageView(icon: selectedSaints ?? dev.icon)
+//                                Image(uiImage: image)
+//                                    .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .zoomable()
                                     .matchedGeometryEffect(id: "\(selectedSaints?.id ?? "")", in: namespace)
@@ -213,7 +243,7 @@ extension SaintGroupDetailsView {
                                             
                                         }
                                     }
-                            }
+                            //}
                             //.offset(offset)
                         })
                         

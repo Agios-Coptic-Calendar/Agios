@@ -7,6 +7,28 @@
 
 import SwiftUI
 
+struct DetailLoadingView: View {
+    @Binding var icon: IconModel?
+    let story: Story
+    
+    @State private var showImageViewer = false
+    @State private var selectedSaint: IconModel? = nil
+    @Namespace private var namespace
+    
+    var body: some View {
+        if let icon = icon {
+            SaintDetailsView(
+                icon: icon,
+                iconographer: dev.iconagrapher,
+                stories: story,
+                showImageViewer: $showImageViewer,
+                selectedSaint: $selectedSaint,
+                namespace: namespace
+            )
+        }
+    }
+}
+
 struct SaintDetailsView: View {
     
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
@@ -29,8 +51,18 @@ struct SaintDetailsView: View {
     @State private var descriptionHeight: Int = 3
     @State private var storyHeight: Int = 6
     @State private var openSheet: Bool? = false
-    @EnvironmentObject var viewModel: IconImageViewModel
+    @StateObject private var viewModel: IconImageViewModel
     @Environment(\.presentationMode) var presentationMode
+    
+    init(icon: IconModel, iconographer: Iconagrapher, stories: Story, showImageViewer: Binding<Bool>, selectedSaint: Binding<IconModel?>, namespace: Namespace.ID) {
+        _viewModel = StateObject(wrappedValue: IconImageViewModel(icon: icon))
+        self.iconographer = iconographer
+        self.stories = stories
+        self._showImageViewer = showImageViewer
+        self._selectedSaint = selectedSaint
+        self.namespace = namespace
+        self.icon = icon
+    }
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -138,9 +170,8 @@ struct SaintDetailsView_Preview: PreviewProvider {
     
     static var previews: some View {
         SaintDetailsView(icon: dev.icon, iconographer: dev.iconagrapher, stories: dev.story, showImageViewer: .constant(false), selectedSaint: .constant(dev.icon), namespace: namespace)
-            .environmentObject(OccasionsViewModel())
-            .environmentObject(IconImageViewModel(icon: dev.icon))
-            .environmentObject(ImageViewerViewModel())
+            .environmentObject(dev.occasionsViewModel)
+            //.environmentObject(dev.imageViewModel)
     }
 }
 
@@ -249,7 +280,7 @@ extension SaintDetailsView {
                         )
                             
                     )
-                    .matchedGeometryEffect(id: "bound", in: namespace)
+                    //.matchedGeometryEffect(id: "bound", in: namespace)
                    
 
             }
@@ -453,7 +484,7 @@ extension SaintDetailsView {
                 
             )
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-            .matchedGeometryEffect(id: "bound", in: namespace)
+            //.matchedGeometryEffect(id: "\(icon.id)", in: namespace)
     }
     
     private var iconCaption: some View {

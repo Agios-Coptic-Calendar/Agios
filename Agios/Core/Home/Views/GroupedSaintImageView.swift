@@ -11,6 +11,7 @@ struct GroupedSaintImageView: View {
     @EnvironmentObject private var vm: OccasionsViewModel
     @Binding var selectedSaint: IconModel?
     @Binding var showStory: Bool?
+    @State private var showGDView: Bool = false
     
     var body: some View {
         ZStack {
@@ -20,8 +21,8 @@ struct GroupedSaintImageView: View {
                     .offset(y: CGFloat(reversedIndex) * -70)
                     .scaleEffect(0.98 - (CGFloat(reversedIndex) * 0.15), anchor: .bottom)
                     .onAppear(perform: {
-                        selectedSaint = icon
-                        vm.selectedSaint = selectedSaint
+                        //selectedSaint = icon
+                        //vm.selectedSaint = selectedSaint
                     })
                     .contextMenu(ContextMenu(menuItems: {
                         Button {
@@ -38,8 +39,22 @@ struct GroupedSaintImageView: View {
                         .disabled((vm.getStory(forIcon: icon) != nil) == true ? false : true)
 
                     }))
+                    .onTapGesture {
+                        gdSegue(icon: selectedSaint ?? dev.icon)
+                        selectedSaint = icon
+                    }
+                    
             }
+            .navigationDestination(isPresented: $showGDView, destination: {
+                GroupedDetailLoadingView(icon: selectedSaint, story: vm.getStory(forIcon: vm.filteredIcons.first ?? dev.icon) ?? dev.story, selectedSaint: $selectedSaint)
+                    .navigationBarBackButtonHidden(true)
+                    .environmentObject(dev.occasionsViewModel)
+            })
         }
+    }
+    private func gdSegue(icon: IconModel) {
+        selectedSaint = icon
+        showGDView.toggle()
     }
 }
 

@@ -145,7 +145,7 @@ struct DateView: View {
                 .scaleEffect(openCopticList ? 1 : 0.85, anchor: .top)
                 .blur(radius: openCopticList ? 0 : 15)
                 .opacity(openCopticList ? 1 : 0)
-                .animation(.spring(response: 0.5, dampingFraction: 0.85), value: animationsMode)
+                .animation(.spring(response: 0.4, dampingFraction: 1), value: animationsMode)
             }
             //.padding(.horizontal, 16)
             .foregroundStyle(.gray900)
@@ -265,7 +265,7 @@ struct NormalDateView: View {
         .datePickerStyle(.graphical)
         .environment(\.colorScheme, .light)
         .padding(.horizontal, 16)
-        //.frame(height: 336, alignment: .top)
+        .frame(height: 336, alignment: .top)
         .frame(maxWidth: 350)
         
     }
@@ -391,10 +391,7 @@ struct FeastView: View {
 
 struct YearAheadView: View {
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
-    
-    
 
-    
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             
