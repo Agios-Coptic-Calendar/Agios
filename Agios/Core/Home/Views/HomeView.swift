@@ -11,7 +11,6 @@ import Shimmer
  
 struct HomeView: View {
     
-    @State private var tapNategaPlus = false
     @State private var showSynaxars: Bool? = false
     @State private var showReadings: Bool = false
     @State private var tapIcon = false
@@ -52,7 +51,6 @@ struct HomeView: View {
                                     VStack(spacing: 16) {
                                         fastView
                                         combinedDateView
-                                        
                                     }
                                 }
                             }
@@ -138,7 +136,6 @@ extension HomeView {
                     .frame(width: 200)
             } else {
                 Button(action: {
-                    //HapticsManager.instance.impact(style: .light)
                     withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                         occasionViewModel.defaultDateTapped.toggle()
                     }

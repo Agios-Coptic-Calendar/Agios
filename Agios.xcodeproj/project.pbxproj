@@ -34,7 +34,6 @@
 		578B61122BD15D9900DCDFF6 /* KatamerosRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61102BD15D9900DCDFF6 /* KatamerosRepository.swift */; };
 		578B61142BD164A900DCDFF6 /* ReadingsColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61132BD164A900DCDFF6 /* ReadingsColours.swift */; };
 		5797106F2BD138E400DFDBA3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5797106E2BD138E400DFDBA3 /* HomeView.swift */; };
-		5797109B2BD1413800DFDBA3 /* SaintIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5797109A2BD1413800DFDBA3 /* SaintIconModel.swift */; };
 		579710A52BD1429900DFDBA3 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710A02BD1429900DFDBA3 /* ButtonStyle.swift */; };
 		579710A62BD1429900DFDBA3 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710A12BD1429900DFDBA3 /* String+Extensions.swift */; };
 		579710A72BD1429900DFDBA3 /* Colours+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710A22BD1429900DFDBA3 /* Colours+Extensions.swift */; };
@@ -95,7 +94,6 @@
 		578B61102BD15D9900DCDFF6 /* KatamerosRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KatamerosRepository.swift; sourceTree = "<group>"; };
 		578B61132BD164A900DCDFF6 /* ReadingsColours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingsColours.swift; sourceTree = "<group>"; };
 		5797106E2BD138E400DFDBA3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		5797109A2BD1413800DFDBA3 /* SaintIconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaintIconModel.swift; sourceTree = "<group>"; };
 		579710A02BD1429900DFDBA3 /* ButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
 		579710A12BD1429900DFDBA3 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		579710A22BD1429900DFDBA3 /* Colours+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Colours+Extensions.swift"; sourceTree = "<group>"; };
@@ -220,7 +218,6 @@
 		579710692BD1383500DFDBA3 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				579710992BD140BB00DFDBA3 /* Model */,
 				579710702BD138F700DFDBA3 /* ViewModel */,
 				5797106D2BD138C200DFDBA3 /* Views */,
 			);
@@ -289,14 +286,6 @@
 				578B610E2BD15D7600DCDFF6 /* Gateways */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		579710992BD140BB00DFDBA3 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				5797109A2BD1413800DFDBA3 /* SaintIconModel.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		5797109F2BD1423400DFDBA3 /* Extensions */ = {
@@ -520,7 +509,6 @@
 				578B61142BD164A900DCDFF6 /* ReadingsColours.swift in Sources */,
 				579710B02BD1449000DFDBA3 /* SynaxarsDetailsView.swift in Sources */,
 				570515C42BDB186F00990A24 /* DailyReadingView.swift in Sources */,
-				5797109B2BD1413800DFDBA3 /* SaintIconModel.swift in Sources */,
 				579710B82BD146A100DFDBA3 /* PsalmAndGospel.swift in Sources */,
 				570764432BD696E000C5C98B /* IconImageDataService.swift in Sources */,
 			);
