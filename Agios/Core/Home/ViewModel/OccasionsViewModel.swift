@@ -19,6 +19,12 @@ struct DateModel: Identifiable {
     var name: String
 }
 
+enum ViewState {
+    case collapsed
+    case expanded
+    case imageView
+}
+
 class OccasionsViewModel: ObservableObject {
     @Published var icons: [IconModel] = []
     @Published var selectedCopticDate: DateModel? = nil
@@ -32,6 +38,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var passages: [Passage] = []
     @Published var iconagrapher: Iconagrapher? = nil
     @Published var highlight: [Highlight] = []
+    @Published var viewState: ViewState = .collapsed
     @Published var newCopticDate: CopticDate? = nil {
         didSet {
             updateMockDates()
@@ -60,6 +67,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var liturgicalInformation: String?
     @Published var searchText: Bool = false
     @Published var isTextFieldFocused: Bool = false
+    @Published var saintTapped: Bool = false
     @Published var feast: String = "" {
         didSet {
             updateMockDates()

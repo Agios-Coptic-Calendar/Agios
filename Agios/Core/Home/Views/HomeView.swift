@@ -34,13 +34,13 @@ struct HomeView: View {
     @State private var selection: Int = 1
     @State private var showStory: Bool = false
     @State private var keyboardHeight: CGFloat = 0
-    
-    
+    @State private var startValue: CGFloat = 0
+    @State private var currentScale: CGFloat = 1.0
+    @State private var position: CGSize = .zero
     
     var namespace: Namespace.ID
     var transition: Namespace.ID
-    
-    
+  
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
     @EnvironmentObject private var iconImageViewModel: IconImageViewModel
     @EnvironmentObject private var imageViewModel: IconImageViewModel
@@ -82,7 +82,7 @@ struct HomeView: View {
 //                    .refreshable {
 //                        occasionViewModel.getPosts()
 //                    }
-                    .scaleEffect(occasionViewModel.defaultDateTapped ? 0.93 : 1)
+                    .scaleEffect(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded ? 0.95 : 1)
                     
                     Rectangle()
                         .fill(.ultraThinMaterial)
@@ -109,13 +109,68 @@ struct HomeView: View {
                 
                 if occasionViewModel.defaultDateTapped {
                     DateView(namespace: namespace)
-                        .offset(y: -keyboardHeight/2)
-                        //.animation(.spring(response: 0.25, dampingFraction: 0.9, blendDuration: 1))
-                    //.transition(.scale(scale: 0.5, anchor: .bottom).combined(with: .opacity))
-                    //.scaleEffect(occasionViewModel.defaultDateTapped ? 1 : 0.5, anchor: .top)
-                    //.opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
-                    //.blur(radius: occasionViewModel.defaultDateTapped ? 0 : 20)
+                        .offset(y: -keyboardHeight/2.2)
                 }
+                
+//                if occasionViewModel.saintTapped {
+//                    GroupedDetailLoadingView(icon: selectedSaint, story: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story, selectedSaint: $selectedSaint, transition: transition)
+//                        .navigationBarBackButtonHidden(true)
+//                        .environmentObject(occasionViewModel)
+//                }
+                if occasionViewModel.viewState == .expanded {
+                    DetailLoadingView(icon: $selectedIcon, story: occasionViewModel.getStory(forIcon: selectedIcon ?? dev.icon) ?? dev.story, namespace: namespace)
+                        .transition(.blurReplace)
+                        .navigationBarBackButtonHidden(true)
+                        .environmentObject(occasionViewModel)
+                        .scaleEffect(1 + startValue)
+                        .offset(x: startValue > 0.2 ? offset.width + position.width : .zero, y: startValue > 0 ? offset.height + position.height : .zero)
+                        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("MagnifyGestureScaleChanged"))) { obj in
+                            if let scale = obj.object as? CGFloat {
+                                withAnimation {
+                                    currentScale = scale
+                                }
+                            }
+                        }
+                        .offset(x: offset.width)
+                        .scaleEffect(getScaleAmount())
+                        .simultaneousGesture(
+                            currentScale <= 1 ?
+                            DragGesture()
+                                .onChanged { value in
+                                    if abs(value.translation.width) > abs(value.translation.height) {
+                                        if startValue <= 0, value.translation.width > 0 {
+                                            withAnimation {
+                                                offset = CGSize(width: value.translation.width, height: .zero)
+                                            }
+                                        }
+                                    }
+                                }
+                                .onEnded { value in
+                                    let dragThreshold: CGFloat = 100
+                                    
+                                    if value.translation.width > 0 { // Only perform actions when dragging from left to right
+                                        if abs(value.translation.width) > dragThreshold {
+                                            withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                                                occasionViewModel.viewState = .collapsed
+                                                offset = .zero
+                                            }
+                                            HapticsManager.instance.impact(style: .light)
+                                        } else {
+                                            withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
+                                                offset = .zero
+                                            }
+                                        }
+                                    } else {
+                                        withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
+                                            offset = .zero
+                                        }
+                                    }
+                                }
+                            : nil
+                        )
+                }
+
+
             }
             
             .ignoresSafeArea(edges: .bottom)
@@ -149,7 +204,7 @@ struct HomeView: View {
         .overlay(alignment: .top) {
                 GeometryReader { geom in
                     VariableBlurView(maxBlurRadius: 12)
-                        .frame(height: geom.safeAreaInsets.top * 1.3)
+                        .frame(height: geom.safeAreaInsets.top)
                         .ignoresSafeArea()
                 }
             }
@@ -160,7 +215,7 @@ struct HomeView: View {
     
     private func getScaleAmount() -> CGFloat {
         let max = UIScreen.main.bounds.height / 2
-        let currentAmount = abs(offset.height)
+        let currentAmount = abs(offset.width)
         let percentage = currentAmount / max
         let scaleAmount = 1.0 - min(percentage, 0.5) * 0.5
                  
@@ -397,59 +452,8 @@ extension HomeView {
 
                         
                         ForEach(occasionViewModel.icons) { saint in
-                            /*
-                             NavigationLink {
-                                 SaintDetailsView(
-                                     icon: saint,
-                                     iconographer: occasionViewModel.iconagrapher ?? dev.iconagrapher,
-                                     stories: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story,
-                                     showImageViewer: $showImageViewer,
-                                     selectedSaint: $selectedSaint,
-                                     namespace: namespace
-                                 )
-                                 
-                                 .environmentObject(occasionViewModel)
-                                 .environmentObject(IconImageViewModel(icon: saint))
-                                 .navigationBarBackButtonHidden(true)
-                                 //.navigationTransition(.zoom(sourceID: "\(saint.id)", in: transition))
-                             } label: {
-                                 HomeSaintImageView(icon: saint)
-                                     .aspectRatio(contentMode: .fill)
-                                     .scrollTransition { content, phase in
-                                         content
-                                             .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
-                                             .blur(radius: phase.isIdentity ? 0 : 1)
-                                             .scaleEffect(phase.isIdentity ? 1 : 0.95)
-                                     }
-                                     .contextMenu(ContextMenu(menuItems: {
-                                         Button {
-                                             occasionViewModel.showStory?.toggle()
-                                             selectedSaint = saint
-                                         } label: {
-                                             if occasionViewModel.getStory(forIcon: saint) != nil {
-                                                 Label("See story", systemImage: "book")
-                                             } else {
-                                                 Text("No story")
-                                             }
-                                         }
-                                         .disabled((occasionViewModel.getStory(forIcon: saint) != nil) == true ? false : true)
-                                     }))
-                                     
-                                     .frame(height: 430)
-                                     //.frame(width: 350)
-                                     //.matchedTransitionSource(id: "\(saint.id)", in: transition)
-
-                                     
-                             }
-                             .simultaneousGesture(
-                                 TapGesture().onEnded {
-                                     selectedSaint = saint
-                                 }
-                             )
-                             */
-                            HomeSaintImageView(icon: saint)
+                            HomeSaintImageView(namespace: namespace, icon: saint)
                                 .aspectRatio(contentMode: .fill)
-                                //.matchedGeometryEffect(id: "\(saint.id)", in: namespace)
                                 .scrollTransition { content, phase in
                                     content
                                         .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
@@ -472,47 +476,26 @@ extension HomeView {
                                 .frame(height: 430)
                                 .onTapGesture {
                                     segue(icon: saint)
+                                    selectedSaint = saint
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                                        occasionViewModel.viewState = .expanded
+                                    }
+                                    
                                 }
+                                .opacity(occasionViewModel.viewState == .expanded ? 0 : 1)
                             
                         }
-                        .navigationDestination(isPresented: $showDetailedView, destination: {
-                            DetailLoadingView(icon: $selectedIcon, story: occasionViewModel.getStory(forIcon: selectedIcon ?? dev.icon) ?? dev.story)
-                                .navigationBarBackButtonHidden(true)
-                                .environmentObject(dev.occasionsViewModel)
-                        })
-//                        .sheet(isPresented: $showDetailedView, onDismiss: nil, content: {
-//                            DetailLoadingView(icon: $selectedIcon, story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
-//                        })
-                        
-                        // Grouped Saints View - Coming back to this...
                         /*
-                         if !occasionViewModel.filteredIcons.isEmpty {
-                             NavigationLink {
-                                 SaintGroupDetailsView(
-                                     icon: selectedSaint ?? dev.icon,
-                                     iconographer: dev.iconagrapher,
-                                     stories: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story,
-                                     showImageViewer: $showImageViewer,
-                                     selectedSaints: $selectedSaint, namespace: namespace)
-                                 .environmentObject(occasionViewModel)
-                                 .environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
+                         .navigationDestination(isPresented: $showDetailedView, destination: {
+                             DetailLoadingView(icon: $selectedIcon, story: occasionViewModel.getStory(forIcon: selectedIcon ?? dev.icon) ?? dev.story)
                                  .navigationBarBackButtonHidden(true)
-                                 //.navigationTransition(.zoom(sourceID: "saint", in: transition))
-                             } label: {
-                                 GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory)
-                                     
-                                     //.environmentObject(occasionViewModel)
-                                     //.environmentObject(ImageViewerViewModel())
-                                     //.environmentObject(IconImageViewModel(icon: selectedSaint ?? dev.icon))
-                                     .frame(width: 320, height: 430, alignment: .leading)
-                                     
-                             }
-                             //.matchedTransitionSource(id: "saint", in: transition)
-
-                         }
+                                 .environmentObject(occasionViewModel)
+                         })
                          */
+                        
+
                          if !occasionViewModel.filteredIcons.isEmpty {
-                             GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory)
+                             GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory, namespace: transition)
                                  .frame(width: 320, height: 430, alignment: .leading)
                                  
 

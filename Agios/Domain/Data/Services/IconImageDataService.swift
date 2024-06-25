@@ -22,7 +22,7 @@ class IconImageDataService {
         self.icon = icon
         self.imageName = icon.id
         Task {
-          await getIconFromFileManager(urlString: urlString)
+          await getIconFromCacheOrDownload(urlString: urlString)
         }
         
     }

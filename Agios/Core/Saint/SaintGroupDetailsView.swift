@@ -12,7 +12,7 @@ struct GroupedDetailLoadingView: View {
     let story: Story
     @State private var showImageViewer = false
     @Binding var selectedSaint: IconModel?
-    @Namespace private var namespace
+    @Namespace var namespace
     
     var body: some View {
         if let icon = icon {
@@ -21,7 +21,7 @@ struct GroupedDetailLoadingView: View {
                 iconographer: dev.iconagrapher,
                 stories: story,
                 showImageViewer: $showImageViewer,
-                selectedSaint: $selectedSaint,
+                selectedSaint: $selectedSaint, 
                 namespace: namespace
             )
         }
@@ -51,6 +51,7 @@ struct SaintGroupDetailsView: View {
     @State private var storyHeight: Int = 6
     @State private var openSheet: Bool? = false
     @State private var selectedImage: UIImage?
+    @State private var appear: Bool = false
     @StateObject private var viewModel: IconImageViewModel
     @Environment(\.presentationMode) var presentationMode
     
@@ -98,17 +99,12 @@ struct SaintGroupDetailsView: View {
                 
    
             }
-            .background(
-                RoundedRectangle(cornerRadius: 32, style: .continuous)
-                    .fill(.primary100)
-                    .ignoresSafeArea()
-            )
-            .mask {
-                RoundedRectangle(cornerRadius: 32, style: .continuous)
-                    .ignoresSafeArea()
-        }
+            
            closeButton
         }
+        .scaleEffect(appear ? 1 : 0.5, anchor: .center)
+        .opacity(appear ? 1 : 0)
+        .transition(.scale(scale: 1))
         .overlay(alignment: .topLeading, content: {
             customBackButton
         })
@@ -121,8 +117,23 @@ struct SaintGroupDetailsView: View {
                 //selectedSaints = nil
                 showImageViewer = false
             }
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.85, blendDuration: 1)) {
+                appear = true
+            }
            
         }
+        .background(
+            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                .fill(.primary100)
+                .matchedGeometryEffect(id: "background", in: namespace)
+                .ignoresSafeArea(.all)
+        )
+        .mask {
+            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                .matchedGeometryEffect(id: "mask", in: namespace)
+                .ignoresSafeArea(.all)
+    }
+        //.ignoresSafeArea(.all)
     }
     
     private func getScaleAmount() -> CGFloat {
@@ -177,12 +188,16 @@ extension SaintGroupDetailsView {
             Button {
                 presentationMode.wrappedValue.dismiss()
                 //selectedSaints = nil
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.85, blendDuration: 1)) {
+                    occasionViewModel.saintTapped = false
+                }
                 
             } label: {
                 NavigationButton(labelName: .back, backgroundColor: .primary300, foregroundColor: .primary1000)
             }
             .padding(20)
-            .opacity(selectedSaints != nil ? 0 : 1)
+            //.opacity(selectedSaints != nil ? 0 : 1)
+            .opacity(showImageViewer ? 0 : 1)
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
         .zIndex(showImageViewer ? -2 : 0)
@@ -208,7 +223,8 @@ extension SaintGroupDetailsView {
             .opacity(showImageViewer ? 1 : 0)
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
-        .zIndex(selectedSaints != nil ? 0 : -2)
+        //.zIndex(selectedSaints != nil ? 0 : -2)
+        .zIndex(showImageViewer ? 0 : -2)
 
     }
     private var filledImageView: some View {
@@ -262,16 +278,18 @@ extension SaintGroupDetailsView {
                                         
                                     })
                                     .onEnded({ value in
-                                        if startValue <= 0 {
-                                            withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
-                                                offset = .zero
-                                            }
-                                            
+                                        let dragThreshold: CGFloat = 100 // Set your threshold value here
+                                        
+                                        if abs(value.translation.height) > dragThreshold {
                                             withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
-                                                //self.selectedSaints = nil
-                                                HapticsManager.instance.impact(style: .light)
                                                 showImageViewer = false
                                                 selectedSaints = nil
+                                                offset = .zero
+                                                HapticsManager.instance.impact(style: .light)
+                                            }
+                                        } else {
+                                            withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
+                                                offset = .zero
                                             }
                                         }
                                     })
