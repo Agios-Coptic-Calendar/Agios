@@ -40,7 +40,7 @@ struct DateView: View {
     }
     
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
-    var namespace: Namespace.ID
+    var transition: Namespace.ID
     @State private var openCopticList: Bool = false
     @State private var datePicker: Date = Date()
     @Environment(\.colorScheme) var colorScheme
@@ -188,11 +188,11 @@ struct DateView: View {
         .background(
             RoundedRectangle(cornerRadius: 24, style: .continuous)
                 .fill(.white)
-                .matchedGeometryEffect(id: "background", in: namespace)
+                .matchedGeometryEffect(id: "background", in: transition)
         )
         .mask({
             RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .matchedGeometryEffect(id: "mask", in: namespace)
+                .matchedGeometryEffect(id: "mask", in: transition)
         })
         .padding(.horizontal, 20)
         .onAppear(perform: {
@@ -248,10 +248,10 @@ struct DateView: View {
 
 struct DateView_Preview: PreviewProvider {
     
-    @Namespace static var namespace
+    @Namespace static var transition
     
     static var previews: some View {
-        DateView(namespace: namespace)
+        DateView(transition: transition)
             .environmentObject(OccasionsViewModel())
     }
 }

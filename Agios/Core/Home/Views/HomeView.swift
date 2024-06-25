@@ -37,6 +37,7 @@ struct HomeView: View {
     @State private var startValue: CGFloat = 0
     @State private var currentScale: CGFloat = 1.0
     @State private var position: CGSize = .zero
+    @State private var hapticsTriggered = false
     
     var namespace: Namespace.ID
     var transition: Namespace.ID
@@ -73,7 +74,7 @@ struct HomeView: View {
                         }
                         .padding(.vertical, 40)
                         .transition(.scale(scale: 0.95, anchor: .top))
-                        .transition(.opacity)   
+                        .transition(.opacity)
         
 
                     }
@@ -82,7 +83,7 @@ struct HomeView: View {
 //                    .refreshable {
 //                        occasionViewModel.getPosts()
 //                    }
-                    .scaleEffect(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded ? 0.95 : 1)
+                    .scaleEffect(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 0.95 : 1)
                     
                     Rectangle()
                         .fill(.ultraThinMaterial)
@@ -96,11 +97,8 @@ struct HomeView: View {
                                 occasionViewModel.hideKeyboard()
                             }
                         }
-                        .opacity(occasionViewModel.defaultDateTapped ? 1 : 0)
-                    
-
-                    
-                    
+                        .opacity(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 1 : 0)
+                         
                 }
                 
                 
@@ -108,7 +106,7 @@ struct HomeView: View {
                 .background(.primary100)
                 
                 if occasionViewModel.defaultDateTapped {
-                    DateView(namespace: namespace)
+                    DateView(transition: transition)
                         .offset(y: -keyboardHeight/2.2)
                 }
                 
@@ -120,8 +118,7 @@ struct HomeView: View {
                 if occasionViewModel.viewState == .expanded {
                     DetailLoadingView(icon: $selectedIcon, story: occasionViewModel.getStory(forIcon: selectedIcon ?? dev.icon) ?? dev.story, namespace: namespace)
                         .transition(.blurReplace)
-                        .navigationBarBackButtonHidden(true)
-                        .environmentObject(occasionViewModel)
+                        .transition(.scale(scale: 1))
                         .scaleEffect(1 + startValue)
                         .offset(x: startValue > 0.2 ? offset.width + position.width : .zero, y: startValue > 0 ? offset.height + position.height : .zero)
                         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("MagnifyGestureScaleChanged"))) { obj in
@@ -134,13 +131,20 @@ struct HomeView: View {
                         .offset(x: offset.width)
                         .scaleEffect(getScaleAmount())
                         .simultaneousGesture(
-                            currentScale <= 1 ?
+                            !occasionViewModel.stopDragGesture ?
                             DragGesture()
                                 .onChanged { value in
+                                    let dragThreshold: CGFloat = 100
+                                    
                                     if abs(value.translation.width) > abs(value.translation.height) {
                                         if startValue <= 0, value.translation.width > 0 {
                                             withAnimation {
                                                 offset = CGSize(width: value.translation.width, height: .zero)
+                                            }
+                                            
+                                            if !hapticsTriggered && abs(value.translation.width) > dragThreshold {
+                                                HapticsManager.instance.impact(style: .light)
+                                                hapticsTriggered = true
                                             }
                                         }
                                     }
@@ -150,24 +154,36 @@ struct HomeView: View {
                                     
                                     if value.translation.width > 0 { // Only perform actions when dragging from left to right
                                         if abs(value.translation.width) > dragThreshold {
-                                            withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                                            withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                                                 occasionViewModel.viewState = .collapsed
                                                 offset = .zero
+                                                selectedSaint = nil
+                                                occasionViewModel.selectedSaint = nil
                                             }
-                                            HapticsManager.instance.impact(style: .light)
                                         } else {
-                                            withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
+                                            withAnimation(.spring(response: 0.35, dampingFraction: 1)) {
                                                 offset = .zero
                                             }
                                         }
                                     } else {
-                                        withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
+                                        withAnimation(.spring(response: 0.35, dampingFraction: 1)) {
                                             offset = .zero
                                         }
                                     }
+                                    
+                                    // Reset the haptics triggered state after dragging ends
+                                    hapticsTriggered = false
                                 }
                             : nil
                         )
+                        .environmentObject(occasionViewModel)
+                }
+                
+                if occasionViewModel.viewState == .imageView {
+                    GroupedDetailLoadingView(icon: selectedSaint, story: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story, selectedSaint: $selectedSaint, namespace: namespace)
+                        .transition(.blurReplace)
+                        .transition(.scale(scale: 1))
+                        .environmentObject(occasionViewModel)
                 }
 
 
@@ -179,6 +195,7 @@ struct HomeView: View {
             
         }
         .onAppear {
+            occasionViewModel.stopDragGesture = false
             NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
                 if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
                     withAnimation(.spring(response: 0.45, dampingFraction: 1)) {
@@ -200,7 +217,6 @@ struct HomeView: View {
             StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
                 .environmentObject(occasionViewModel)
         } onDismiss: {}
-        
         .overlay(alignment: .top) {
                 GeometryReader { geom in
                     VariableBlurView(maxBlurRadius: 12)
@@ -208,16 +224,13 @@ struct HomeView: View {
                         .ignoresSafeArea()
                 }
             }
-        
-        
-    
     }
     
     private func getScaleAmount() -> CGFloat {
         let max = UIScreen.main.bounds.height / 2
         let currentAmount = abs(offset.width)
         let percentage = currentAmount / max
-        let scaleAmount = 1.0 - min(percentage, 0.5) * 0.5
+        let scaleAmount = 1.0 - min(percentage, 0.5) * 0.4
                  
         return scaleAmount
     }
@@ -245,8 +258,6 @@ struct HomeView_Preview: PreviewProvider {
         HomeView(iconographer: dev.iconagrapher, namespace: namespace, transition: transition)
             .environmentObject(OccasionsViewModel())
             .environmentObject(IconImageViewModel(icon: dev.icon))
-            
-             
     }
 }
 
@@ -297,11 +308,11 @@ extension HomeView {
                     .background(
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
                             .fill(.primary300)
-                            .matchedGeometryEffect(id: "background", in: namespace)
+                            .matchedGeometryEffect(id: "background", in: transition)
                     )
                     .mask({
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
-                            .matchedGeometryEffect(id: "mask", in: namespace)
+                            .matchedGeometryEffect(id: "mask", in: transition)
                     })
 
                 })
@@ -454,10 +465,11 @@ extension HomeView {
                         ForEach(occasionViewModel.icons) { saint in
                             HomeSaintImageView(namespace: namespace, icon: saint)
                                 .aspectRatio(contentMode: .fill)
+                                .transition(.scale(scale: 1))
                                 .scrollTransition { content, phase in
                                     content
                                         .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
-                                        .blur(radius: phase.isIdentity ? 0 : 1)
+                                        .blur(radius: phase.isIdentity ? 0 : 0.9)
                                         .scaleEffect(phase.isIdentity ? 1 : 0.95)
                                 }
                                 .contextMenu(ContextMenu(menuItems: {
@@ -477,26 +489,21 @@ extension HomeView {
                                 .onTapGesture {
                                     segue(icon: saint)
                                     selectedSaint = saint
-                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                                    
+                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                                         occasionViewModel.viewState = .expanded
+                                        occasionViewModel.selectedSaint = saint
                                     }
                                     
                                 }
-                                .opacity(occasionViewModel.viewState == .expanded ? 0 : 1)
+                                .opacity(occasionViewModel.selectedSaint == saint ? 0 : 1)
                             
                         }
-                        /*
-                         .navigationDestination(isPresented: $showDetailedView, destination: {
-                             DetailLoadingView(icon: $selectedIcon, story: occasionViewModel.getStory(forIcon: selectedIcon ?? dev.icon) ?? dev.story)
-                                 .navigationBarBackButtonHidden(true)
-                                 .environmentObject(occasionViewModel)
-                         })
-                         */
-                        
-
                          if !occasionViewModel.filteredIcons.isEmpty {
-                             GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory, namespace: transition)
+                             GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory, namespace: namespace)
                                  .frame(width: 320, height: 430, alignment: .leading)
+                                 .transition(.scale(scale: 1))
+                             
                                  
 
                          }

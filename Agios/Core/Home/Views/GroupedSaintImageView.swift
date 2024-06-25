@@ -16,47 +16,46 @@ struct GroupedSaintImageView: View {
     
     var body: some View {
         ZStack {
-            ForEach(Array(vm.filteredIcons.enumerated()), id: \.element.id) { index, icon in
+            ForEach(Array(vm.filteredIcons.enumerated()), id: \.element.id) { index, saint in
                 let reversedIndex = vm.filteredIcons.count - index - 1
-                HomeSaintImageView(namespace: namespace, icon: icon)
+                HomeSaintImageView(namespace: namespace, icon: saint)
+                    .transition(.scale(scale: 1))
                     .offset(y: CGFloat(reversedIndex) * -70)
                     .scaleEffect(0.98 - (CGFloat(reversedIndex) * 0.15), anchor: .bottom)
-                    .onAppear(perform: {
-                        //selectedSaint = icon
-                        //vm.selectedSaint = selectedSaint
-                    })
                     .contextMenu(ContextMenu(menuItems: {
                         Button {
-                            selectedSaint = icon
+                            selectedSaint = saint
                             showStory?.toggle()
                         } label: {
-                            if vm.getStory(forIcon: icon) != nil {
+                            if vm.getStory(forIcon: saint) != nil {
                                 Label("See story", systemImage: "book")
                             } else {
                                 Text("No story")
                             }
                             
                         }
-                        .disabled((vm.getStory(forIcon: icon) != nil) == true ? false : true)
+                        .disabled((vm.getStory(forIcon: saint) != nil) == true ? false : true)
 
                     }))
                     .onTapGesture {
                         gdSegue(icon: selectedSaint ?? dev.icon)
                         vm.viewState = .expanded
-                        selectedSaint = icon
+                        selectedSaint = saint
                         
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.85, blendDuration: 1)) {
-                            //vm.saintTapped = true
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                            vm.viewState = .imageView
+                            vm.selectedSaint = saint
                         }
                         
                     }
+                    .opacity(vm.selectedSaint == saint ? 0 : 1)
                     
             }
-            .navigationDestination(isPresented: $showGDView, destination: {
-                GroupedDetailLoadingView(icon: selectedSaint, story: vm.getStory(forIcon: vm.filteredIcons.first ?? dev.icon) ?? dev.story, selectedSaint: $selectedSaint)
-                    .navigationBarBackButtonHidden(true)
-                    .environmentObject(dev.occasionsViewModel)
-            })
+//            .navigationDestination(isPresented: $showGDView, destination: {
+//                GroupedDetailLoadingView(icon: selectedSaint, story: vm.getStory(forIcon: vm.filteredIcons.first ?? dev.icon) ?? dev.story, selectedSaint: $selectedSaint)
+//                    .navigationBarBackButtonHidden(true)
+//                    .environmentObject(dev.occasionsViewModel)
+//            })
         }
 //        .background(
 //            RoundedRectangle(cornerRadius: 16, style: .continuous)

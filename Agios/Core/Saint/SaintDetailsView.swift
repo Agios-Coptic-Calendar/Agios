@@ -68,33 +68,38 @@ struct SaintDetailsView: View {
     var body: some View {
         ZStack(alignment: .topTrailing) {
             ZStack {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 16 : 32) {
-                        VStack(alignment: .leading, spacing: 32) {
-                            if !showImageViewer {
-                              fitImageView
-                            } else {
-                                Rectangle()
-                                    .fill(.clear)
-                                    .frame(width: 353, height: 460)
+                VStack(alignment: .leading) {
+                    customBackButton
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 16 : 32) {
+                            VStack(alignment: .leading, spacing: 32) {
+                                if !showImageViewer {
+                                  fitImageView
+                                } else {
+                                    Rectangle()
+                                        .fill(.clear)
+                                        .frame(width: 353, height: 460)
+                                }
+                                iconCaption
                             }
-                            iconCaption
+                            .padding(.horizontal, 20)
+                            
+                            if let explanation = icon.explanation, !explanation.isEmpty {
+                                divider
+                            }
+                            description
+                            story
+                            //divider
+                            //highlights
                         }
-                        .padding(.horizontal, 20)
+                        .kerning(-0.4)
+                        .padding(.bottom, 24)
+                        .padding(.top, 8)
+                        .fontDesign(.rounded)
+                        .foregroundStyle(.gray900)
+                        //.padding(.top, 64)
                         
-                        if let explanation = icon.explanation, !explanation.isEmpty {
-                            divider
-                        }
-                        description
-                        story
-                        //divider
-                        //highlights
                     }
-                    .kerning(-0.4)
-                    .padding(.vertical, 24)
-                    .fontDesign(.rounded)
-                    .foregroundStyle(.gray900)
-                    .padding(.top, 64)
                     
                 }
                 
@@ -102,13 +107,10 @@ struct SaintDetailsView: View {
                     filledImageView
    
             }
-            
            closeButton
             
         }
-        .overlay(alignment: .topLeading, content: {
-            customBackButton
-        })
+        //.ignoresSafeArea()
         .halfSheet(showSheet: $openSheet) {
             StoryDetailView(story: stories)
                 .presentationDetents([.medium, .large])
@@ -141,7 +143,7 @@ struct SaintDetailsView: View {
         
         // Check if the scale amount is below a certain threshold
         if scaleAmount < 0.4 {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                 showImageViewer = false
                 selectedSaint = nil
                 occasionViewModel.viewState = .expanded
@@ -187,16 +189,18 @@ extension SaintDetailsView {
             Button {
                 presentationMode.wrappedValue.dismiss()
                 selectedSaint = nil
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                     occasionViewModel.saintTapped = false
                     occasionViewModel.viewState = .collapsed
+                    occasionViewModel.selectedSaint = nil
                 }
                 HapticsManager.instance.impact(style: .light)
                 
             } label: {
                 NavigationButton(labelName: .back, backgroundColor: .primary300, foregroundColor: .primary1000)
             }
-            .padding(20)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 4)
             .opacity(showImageViewer ? 0 : 1)
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
@@ -206,7 +210,7 @@ extension SaintDetailsView {
     private var closeButton: some View {
         ZStack {
             Button {
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                     //selectedSaint = nil
                     showImageViewer = false
                     endValue = 0
@@ -214,6 +218,7 @@ extension SaintDetailsView {
                     occasionViewModel.showImageView = false
                     selectedSaint = nil
                     occasionViewModel.viewState = .expanded
+                    occasionViewModel.stopDragGesture = false
                 }
                 
             } label: {
@@ -239,7 +244,7 @@ extension SaintDetailsView {
                         .transition(.scale(scale: 1))
                         .zoomable()
                         .onTapGesture {
-                            withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                                 showImageViewer = true
                             }
                         }
@@ -270,12 +275,13 @@ extension SaintDetailsView {
                                     let dragThreshold: CGFloat = 100
                                     
                                     if abs(value.translation.height) > dragThreshold {
-                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                                        withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                                             showImageViewer = false
                                             occasionViewModel.viewState = .expanded
                                             selectedSaint = nil
                                             offset = .zero
                                             HapticsManager.instance.impact(style: .light)
+                                            occasionViewModel.stopDragGesture = false
                                         }
                                     } else {
                                         withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
@@ -372,12 +378,13 @@ extension SaintDetailsView {
                 .zIndex(10)
                 .ignoresSafeArea()
                 .onTapGesture {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                         showImageViewer = false
                         occasionViewModel.viewState = .expanded
                         endValue = 0
                         startValue = 0
                         occasionViewModel.showImageView = false
+                        occasionViewModel.stopDragGesture = false
                     }
             }
                 .allowsHitTesting(startValue > 0 ? false : true)
@@ -533,9 +540,10 @@ extension SaintDetailsView {
                 .scaledToFill()
                 .transition(.scale(scale: 1))
                 .onTapGesture {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                         showImageViewer = true
                         occasionViewModel.showImageView = true
+                        occasionViewModel.stopDragGesture = true
                         
                     }
                 }
@@ -544,45 +552,7 @@ extension SaintDetailsView {
             RoundedRectangle(cornerRadius: 24)
                 .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
         })
-        /*
-         .background(
-             ZStack {
-                 if let image = viewModel.image {
-                     Image(uiImage: image)
-                         .resizable()
-                         .aspectRatio(contentMode: .fill)
-                         .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
-                         .transition(.scale(scale: 1))
-                         .zIndex(4)
-                         .onTapGesture {
-                             withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
-                                 showImageViewer = true
-                                 occasionViewModel.showImageView = true
-                             }
-                         }
-                         .transition(.scale(scale: 1))
-                 } else if viewModel.isLoading {
-                     ZStack {
-                         Image("placeholder")
-                             .resizable()
-                             .scaledToFill()
-                         
-                         ShimmerView(heightSize: 600, cornerRadius: 24)
-                             .transition(.opacity)
-                         
-                     }
-                 } else {
-                     Image("placeholder")
-                         .resizable()
-                         .scaledToFill()
-                 }
-             }
-             
-         )
-         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-         //.matchedGeometryEffect(id: "\(icon.id)", in: namespace)
-
-         */
+        
     }
     
     private var iconCaption: some View {
