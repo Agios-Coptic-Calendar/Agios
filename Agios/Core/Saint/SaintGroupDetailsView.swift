@@ -35,7 +35,8 @@ struct SaintGroupDetailsView: View {
     let iconographer: Iconagrapher
     let stories: Story
     @Binding var showImageViewer: Bool
-    @Binding var selectedSaints: IconModel?
+    @Binding var selectedSaint: IconModel?
+    @State var setSaint: IconModel? = nil
     var namespace: Namespace.ID
     
     @State private var offset: CGSize = .zero
@@ -60,7 +61,7 @@ struct SaintGroupDetailsView: View {
         self.iconographer = iconographer
         self.stories = stories
         self._showImageViewer = showImageViewer
-        self._selectedSaints = selectedSaint
+        self._selectedSaint = selectedSaint
         self.namespace = namespace
         self.icon = icon
     }
@@ -90,14 +91,14 @@ struct SaintGroupDetailsView: View {
                             //highlights
                         }
                         .kerning(-0.4)
-                        .padding(.bottom, 24)
+                        .padding(.bottom, 40)
                         .padding(.top, 8)
                         .fontDesign(.rounded)
                         .foregroundStyle(.gray900)
-                        //.padding(.top, 56)
                         
                     }
                 }
+                .padding(.top, 48)
 
                     blurredOverlay
                     filledImageView
@@ -127,13 +128,9 @@ struct SaintGroupDetailsView: View {
         .background(
             RoundedRectangle(cornerRadius: 32, style: .continuous)
                 .fill(.primary100)
-                .matchedGeometryEffect(id: "background", in: namespace)
-                .ignoresSafeArea(.all)
         )
         .mask {
             RoundedRectangle(cornerRadius: 32, style: .continuous)
-                .matchedGeometryEffect(id: "mask", in: namespace)
-                .ignoresSafeArea(.all)
     }
         //.ignoresSafeArea(.all)
     }
@@ -148,7 +145,7 @@ struct SaintGroupDetailsView: View {
         if scaleAmount < 0.4 {
             withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                 //showImageViewer = false
-                selectedSaints = nil
+                selectedSaint = nil
             }
         }
          
@@ -189,7 +186,7 @@ extension SaintGroupDetailsView {
         ZStack {
             Button {
                 presentationMode.wrappedValue.dismiss()
-                selectedSaints = nil
+                selectedSaint = nil
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                     occasionViewModel.saintTapped = false
                     occasionViewModel.viewState = .collapsed
@@ -230,6 +227,7 @@ extension SaintGroupDetailsView {
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
         //.zIndex(selectedSaints != nil ? 0 : -2)
         .zIndex(showImageViewer ? 0 : -2)
+        .offset(y: 40)
 
     }
     private var filledImageView: some View {
@@ -239,8 +237,8 @@ extension SaintGroupDetailsView {
                 .frame(maxWidth: .infinity)
                 .frame(maxHeight: .infinity)
                 .background(
-                    SaintGroupImageView(icon: selectedSaints ?? dev.icon)
-                        .matchedGeometryEffect(id: "\(selectedSaints?.id ?? "")", in: namespace)
+                    SaintGroupImageView(icon: setSaint ?? dev.icon)
+                        .matchedGeometryEffect(id: "\(setSaint?.id ?? "")", in: namespace)
                         .scaledToFit()
                         .transition(.scale(scale: 1))
                         .zoomable()
@@ -311,7 +309,7 @@ extension SaintGroupDetailsView {
                         endValue = 0
                         startValue = 0
                         showImageViewer = false
-                        selectedSaints = nil
+                        selectedSaint = nil
                     }
             }
                 .allowsHitTesting(startValue > 0 ? false : true)
@@ -466,12 +464,15 @@ extension SaintGroupDetailsView {
                             .scaledToFill()
                             .transition(.scale(scale: 1))
                             .onTapGesture {
+                                selectedSaint = saint
+                                setSaint = saint
+                                print("this is the set saint \(setSaint?.caption)")
+                                occasionViewModel.selectedSaint = saint
                                 withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                                     occasionViewModel.showImageView = true
-                                    selectedSaints = saint
                                     showImageViewer = true
                                     offset = .zero
-                                    occasionViewModel.selectedSaint = saint
+                                    
                                     
                                 }
                             }
@@ -481,7 +482,7 @@ extension SaintGroupDetailsView {
                         RoundedRectangle(cornerRadius: 24)
                             .matchedGeometryEffect(id: "\(saint.image)", in: namespace)
                     })
-                        .zIndex(selectedSaints == saint ? 1 : 0)
+                        .zIndex(selectedSaint == saint ? 1 : 0)
                         
                         
                 }

@@ -38,15 +38,11 @@ struct GroupedSaintImageView: View {
 
                     }))
                     .onTapGesture {
-                        gdSegue(icon: selectedSaint ?? dev.icon)
-                        vm.viewState = .expanded
                         selectedSaint = saint
-                        
                         withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                             vm.viewState = .imageView
                             vm.selectedSaint = saint
                         }
-                        
                     }
                     .opacity(vm.selectedSaint == saint ? 0 : 1)
                     
@@ -57,15 +53,6 @@ struct GroupedSaintImageView: View {
 //                    .environmentObject(dev.occasionsViewModel)
 //            })
         }
-//        .background(
-//            RoundedRectangle(cornerRadius: 16, style: .continuous)
-//                .fill(.clear)
-//                .matchedGeometryEffect(id: "background", in: namespace)
-//        )
-//        .mask({
-//            RoundedRectangle(cornerRadius: 16, style: .continuous)
-//                .matchedGeometryEffect(id: "mask", in: namespace)
-//        })
     }
     private func gdSegue(icon: IconModel) {
         selectedSaint = icon
@@ -74,12 +61,11 @@ struct GroupedSaintImageView: View {
 }
 
 struct GroupedSaintImageView_Previews: PreviewProvider {
-    @State static var selectedSaint: IconModel? = nil
     @State static var showStory: Bool? = false
     @Namespace static var namespace
     
     static var previews: some View {
-        GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $showStory, namespace: namespace)
+        GroupedSaintImageView(selectedSaint: .constant(dev.icon), showStory: $showStory, namespace: namespace)
             .environmentObject(OccasionsViewModel())
     }
 }

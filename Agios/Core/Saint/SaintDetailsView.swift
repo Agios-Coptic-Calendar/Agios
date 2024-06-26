@@ -93,15 +93,14 @@ struct SaintDetailsView: View {
                             //highlights
                         }
                         .kerning(-0.4)
-                        .padding(.bottom, 24)
+                        .padding(.bottom, 40)
                         .padding(.top, 8)
                         .fontDesign(.rounded)
                         .foregroundStyle(.gray900)
-                        //.padding(.top, 64)
-                        
                     }
                     
                 }
+                .padding(.top, 48)
                 
                     blurredOverlay
                     filledImageView
@@ -110,6 +109,7 @@ struct SaintDetailsView: View {
            closeButton
             
         }
+        
         //.ignoresSafeArea()
         .halfSheet(showSheet: $openSheet) {
             StoryDetailView(story: stories)
@@ -125,12 +125,12 @@ struct SaintDetailsView: View {
         .background(
             RoundedRectangle(cornerRadius: 32, style: .continuous)
                 .fill(.primary100)
-                .ignoresSafeArea()
+                //.ignoresSafeArea()
                 //.matchedGeometryEffect(id: "\(icon.caption)", in: namespace)
         )
         .mask {
             RoundedRectangle(cornerRadius: 32, style: .continuous)
-                .ignoresSafeArea()
+                //.ignoresSafeArea()
                 //.matchedGeometryEffect(id: "m", in: namespace)
     }
     }
@@ -229,6 +229,7 @@ extension SaintDetailsView {
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
         .zIndex(showImageViewer ? 0 : -2)
+        .offset(y: 40)
 
     }
     private var filledImageView: some View {
@@ -282,6 +283,7 @@ extension SaintDetailsView {
                                             offset = .zero
                                             HapticsManager.instance.impact(style: .light)
                                             occasionViewModel.stopDragGesture = false
+                                            occasionViewModel.showImageView = false
                                         }
                                     } else {
                                         withAnimation(.spring(response: 0.30, dampingFraction: 1)) {

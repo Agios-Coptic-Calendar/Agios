@@ -51,6 +51,7 @@ struct HomeView: View {
         NavigationStack {
             ZStack {
                 ZStack {
+                    Color.primary100.ignoresSafeArea()
                     ScrollView {
                         VStack(spacing: 40) {
                             VStack(spacing: 28) {
@@ -72,7 +73,8 @@ struct HomeView: View {
                             dailyReading
                             upcomingFeasts
                         }
-                        .padding(.vertical, 40)
+                        .padding(.bottom, 48)
+                        .padding(.top, 96)
                         .transition(.scale(scale: 0.95, anchor: .top))
                         .transition(.opacity)
         
@@ -84,6 +86,8 @@ struct HomeView: View {
 //                        occasionViewModel.getPosts()
 //                    }
                     .scaleEffect(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 0.95 : 1)
+                    .blur(radius: occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 3 : 0)
+                    
                     
                     Rectangle()
                         .fill(.ultraThinMaterial)
@@ -97,24 +101,17 @@ struct HomeView: View {
                                 occasionViewModel.hideKeyboard()
                             }
                         }
-                        .opacity(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 1 : 0)
+                        .opacity(occasionViewModel.defaultDateTapped  ? 1 : 0)
                          
                 }
-                
-                
                 .fontDesign(.rounded)
-                .background(.primary100)
+                
                 
                 if occasionViewModel.defaultDateTapped {
                     DateView(transition: transition)
                         .offset(y: -keyboardHeight/2.2)
                 }
                 
-//                if occasionViewModel.saintTapped {
-//                    GroupedDetailLoadingView(icon: selectedSaint, story: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story, selectedSaint: $selectedSaint, transition: transition)
-//                        .navigationBarBackButtonHidden(true)
-//                        .environmentObject(occasionViewModel)
-//                }
                 if occasionViewModel.viewState == .expanded {
                     DetailLoadingView(icon: $selectedIcon, story: occasionViewModel.getStory(forIcon: selectedIcon ?? dev.icon) ?? dev.story, namespace: namespace)
                         .transition(.blurReplace)
@@ -178,19 +175,17 @@ struct HomeView: View {
                         )
                         .environmentObject(occasionViewModel)
                 }
-                
+                    
                 if occasionViewModel.viewState == .imageView {
                     GroupedDetailLoadingView(icon: selectedSaint, story: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story, selectedSaint: $selectedSaint, namespace: namespace)
                         .transition(.blurReplace)
                         .transition(.scale(scale: 1))
                         .environmentObject(occasionViewModel)
                 }
-
-
             }
+            .ignoresSafeArea(edges: .all)
             
-            .ignoresSafeArea(edges: .bottom)
-
+            
             
             
         }
@@ -460,8 +455,6 @@ extension HomeView {
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 16) {
-
-                        
                         ForEach(occasionViewModel.icons) { saint in
                             HomeSaintImageView(namespace: namespace, icon: saint)
                                 .aspectRatio(contentMode: .fill)
@@ -476,6 +469,7 @@ extension HomeView {
                                     Button {
                                         occasionViewModel.showStory?.toggle()
                                         selectedIcon = saint
+                                        selectedSaint = saint
                                     } label: {
                                         if occasionViewModel.getStory(forIcon: saint) != nil {
                                             Label("See story", systemImage: "book")
