@@ -47,11 +47,6 @@ struct GroupedSaintImageView: View {
                     .opacity(vm.selectedSaint == saint ? 0 : 1)
                     
             }
-//            .navigationDestination(isPresented: $showGDView, destination: {
-//                GroupedDetailLoadingView(icon: selectedSaint, story: vm.getStory(forIcon: vm.filteredIcons.first ?? dev.icon) ?? dev.story, selectedSaint: $selectedSaint)
-//                    .navigationBarBackButtonHidden(true)
-//                    .environmentObject(dev.occasionsViewModel)
-//            })
         }
     }
     private func gdSegue(icon: IconModel) {

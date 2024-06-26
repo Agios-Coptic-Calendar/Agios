@@ -51,7 +51,6 @@ struct SaintGroupDetailsView: View {
     @State private var descriptionHeight: Int = 3
     @State private var storyHeight: Int = 6
     @State private var openSheet: Bool? = false
-    @State private var selectedImage: UIImage?
     @State private var appear: Bool = false
     @StateObject private var viewModel: IconImageViewModel
     @Environment(\.presentationMode) var presentationMode
@@ -108,22 +107,12 @@ struct SaintGroupDetailsView: View {
             
            closeButton
         }
-        //.scaleEffect(appear ? 1 : 0.5, anchor: .center)
-        //.opacity(appear ? 1 : 0)
-        //.transition(.scale(scale: 1))
         .halfSheet(showSheet: $openSheet) {
             StoryDetailView(story: stories)
                 .environmentObject(occasionViewModel)
         } onDismiss: {}
         .onAppear {
-            withAnimation {
-                //selectedSaints = nil
-                showImageViewer = false
-            }
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.85, blendDuration: 1)) {
-                appear = true
-            }
-           
+            selectedSaint = nil
         }
         .background(
             RoundedRectangle(cornerRadius: 32, style: .continuous)
@@ -216,8 +205,10 @@ extension SaintGroupDetailsView {
                     startValue = min(max(startValue, 0), 0.2)
                     showImageViewer = false
                     offset = .zero
-                    setSaint = nil
+                    
                 }
+                selectedSaint = nil
+                setSaint = nil
                 
             } label: {
                 NavigationButton(labelName: .close, backgroundColor: .primary300, foregroundColor: .primary1000)
@@ -311,9 +302,9 @@ extension SaintGroupDetailsView {
                         endValue = 0
                         startValue = 0
                         showImageViewer = false
-                        selectedSaint = nil
-                        setSaint = nil
                     }
+                    selectedSaint = nil
+                    setSaint = nil
             }
                 .allowsHitTesting(startValue > 0 ? false : true)
         }
@@ -456,7 +447,7 @@ extension SaintGroupDetailsView {
     
     private var fitImageView: some View {
         ScrollView(.horizontal) {
-            HStack(spacing: 16) {
+            LazyHStack(spacing: 16) {
                 ForEach(occasionViewModel.filteredIcons.reversed()) { saint in
                     VStack {}
                     .frame(maxWidth: .infinity)
@@ -491,6 +482,7 @@ extension SaintGroupDetailsView {
                 }
             }
             .padding(.horizontal, 20)
+            
         }
         .scrollTargetBehavior(.paging)
         .scrollIndicators(.hidden)
