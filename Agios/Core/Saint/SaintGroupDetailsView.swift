@@ -187,6 +187,7 @@ extension SaintGroupDetailsView {
             Button {
                 presentationMode.wrappedValue.dismiss()
                 selectedSaint = nil
+                setSaint = nil
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                     occasionViewModel.saintTapped = false
                     occasionViewModel.viewState = .collapsed
@@ -215,6 +216,7 @@ extension SaintGroupDetailsView {
                     startValue = min(max(startValue, 0), 0.2)
                     showImageViewer = false
                     offset = .zero
+                    setSaint = nil
                 }
                 
             } label: {
@@ -310,6 +312,7 @@ extension SaintGroupDetailsView {
                         startValue = 0
                         showImageViewer = false
                         selectedSaint = nil
+                        setSaint = nil
                     }
             }
                 .allowsHitTesting(startValue > 0 ? false : true)

@@ -54,18 +54,18 @@ struct HomeView: View {
                     Color.primary100.ignoresSafeArea()
                     ScrollView {
                         VStack(spacing: 40) {
-                            VStack(spacing: 28) {
+                            VStack(spacing: 22) {
                                 VStack(alignment: .leading, spacing: 32) {
                                     VStack(spacing: 28) {
                                         illustration
-                                        VStack(spacing: 16) {
+                                        VStack(spacing: 18) {
                                             fastView
                                             combinedDateView
                                             
                                         }
                                     }
                                 }
-                                VStack(spacing: 20) {
+                                VStack(spacing: 14) {
                                     imageView
                                     DailyQuoteView(fact: dev.fact)
                                 }
