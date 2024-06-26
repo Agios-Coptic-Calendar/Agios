@@ -24,12 +24,13 @@ struct DailyQuoteView: View {
                            .font(.callout)
                            .kerning(1.3)
                    
-                       Text(fact.fact ?? "Fact is empty.")
+                       Text("〝 \(fact.fact ?? "Fact is empty.") 〞")
                                .multilineTextAlignment(.center)
                                .font(.title3)
                                .fontWeight(.semibold)
                                .foregroundStyle(.gray900)
                                .textSelection(.enabled)
+                               .kerning(-0.4)
                        
                        Text("by fr pishoy kamel".uppercased())
                            .foregroundStyle(.gray900)
@@ -47,6 +48,7 @@ struct DailyQuoteView: View {
                    })
                .padding(.horizontal, 20)
                }
+               
            }
         }
 

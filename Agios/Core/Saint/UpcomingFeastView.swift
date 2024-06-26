@@ -14,7 +14,7 @@ struct UpcomingFeastView: View {
             VStack(spacing: 24) {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .frame(width: 40, height: 5)
-                    .foregroundColor(.primary200)
+                    .foregroundColor(.primary300)
                 
                 VStack(alignment: .center, spacing: 24) {
                     HStack(alignment: .center, spacing: 16) {
@@ -41,9 +41,10 @@ struct UpcomingFeastView: View {
                         }
                     }
                     
-                    Text("Lorem ipsum dolor sit amet consectetur. Quam malesuada ut magna consectetur. Elementum scelerisque mauris sed maecenas nisi faucibus.")
+                    Text("The Feast of St. Joseph, Father of Emmanuel, celebrates St. Joseph, the earthly father of Jesus Christ and the spouse of the Virgin Mary. This feast honors Joseph's vital role in the Holy Family and his exemplary life of faith, obedience, and humility.")
                         .foregroundStyle(.gray700)
                         .fontWeight(.medium)
+                        .font(.title3)
                 }
                 
             }

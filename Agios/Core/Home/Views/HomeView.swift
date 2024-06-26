@@ -9,6 +9,10 @@ import SwiftUI
 import Shimmer
 import Popovers
 
+enum DragPhase {
+    case initial
+    case unrestricted
+}
 
  
 struct HomeView: View {
@@ -38,6 +42,7 @@ struct HomeView: View {
     @State private var currentScale: CGFloat = 1.0
     @State private var position: CGSize = .zero
     @State private var hapticsTriggered = false
+    @State private var dragPhase: DragPhase = .initial
     
     var namespace: Namespace.ID
     var transition: Namespace.ID
@@ -122,32 +127,46 @@ struct HomeView: View {
                                 }
                             }
                         }
-                        .offset(x: offset.width)
+                        .offset(offset)
                         .scaleEffect(getScaleAmount())
                         .simultaneousGesture(
                             !occasionViewModel.stopDragGesture ?
                             DragGesture()
                                 .onChanged { value in
                                     let dragThreshold: CGFloat = 100
-                                    
-                                    if abs(value.translation.width) > abs(value.translation.height) {
-                                        if startValue <= 0, value.translation.width > 0 {
+
+                                    switch dragPhase {
+                                    case .initial:
+                                        if abs(value.translation.width) > abs(value.translation.height) && value.translation.width > 0 {
+                                            // Initial phase: restrict to left-to-right dragging
                                             withAnimation {
                                                 offset = CGSize(width: value.translation.width, height: .zero)
                                             }
-                                            
-                                            if !hapticsTriggered && abs(value.translation.width) > dragThreshold {
+
+                                            if abs(value.translation.width) > dragThreshold {
+                                                dragPhase = .unrestricted
                                                 HapticsManager.instance.impact(style: .light)
                                                 hapticsTriggered = true
                                             }
+                                        }
+                                    case .unrestricted:
+                                        // Unrestricted phase: allow dragging in all directions
+                                        withAnimation {
+                                            offset = value.translation
+                                        }
+
+                                        if !hapticsTriggered && (abs(value.translation.width) > dragThreshold || abs(value.translation.height) > dragThreshold) {
+                                            HapticsManager.instance.impact(style: .light)
+                                            hapticsTriggered = true
                                         }
                                     }
                                 }
                                 .onEnded { value in
                                     let dragThreshold: CGFloat = 100
-                                    
-                                    if value.translation.width > 0 { // Only perform actions when dragging from left to right
-                                        if abs(value.translation.width) > dragThreshold {
+
+                                    switch dragPhase {
+                                    case .initial:
+                                        if value.translation.width > 0 && abs(value.translation.width) > dragThreshold {
                                             withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                                                 occasionViewModel.viewState = .collapsed
                                                 offset = .zero
@@ -159,17 +178,28 @@ struct HomeView: View {
                                                 offset = .zero
                                             }
                                         }
-                                    } else {
-                                        withAnimation(.spring(response: 0.35, dampingFraction: 1)) {
-                                            offset = .zero
+                                    case .unrestricted:
+                                        if abs(value.translation.width) > dragThreshold || abs(value.translation.height) > dragThreshold {
+                                            withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                                                occasionViewModel.viewState = .collapsed
+                                                offset = .zero
+                                                selectedSaint = nil
+                                                occasionViewModel.selectedSaint = nil
+                                            }
+                                        } else {
+                                            withAnimation(.spring(response: 0.35, dampingFraction: 1)) {
+                                                offset = .zero
+                                            }
                                         }
                                     }
-                                    
-                                    // Reset the haptics triggered state after dragging ends
+
+                                    // Reset the drag phase and haptics triggered state after dragging ends
+                                    dragPhase = .initial
                                     hapticsTriggered = false
                                 }
                             : nil
                         )
+
                         .environmentObject(occasionViewModel)
                 }
                     
@@ -241,7 +271,7 @@ struct HomeView: View {
         } onDismiss: {}
         .overlay(alignment: .top) {
                 GeometryReader { geom in
-                    VariableBlurView(maxBlurRadius: 12)
+                    VariableBlurView(maxBlurRadius: 20, direction: .blurredTopClearBottom, startOffset: 0)
                         .frame(height: geom.safeAreaInsets.top)
                         .ignoresSafeArea()
                 }
@@ -252,7 +282,7 @@ struct HomeView: View {
         let max = UIScreen.main.bounds.height / 2
         let currentAmount = abs(offset.width)
         let percentage = currentAmount / max
-        let scaleAmount = 1.0 - min(percentage, 0.5) * 0.4
+        let scaleAmount = 1.0 - min(percentage, 0.5) * 0.6
                  
         return scaleAmount
     }

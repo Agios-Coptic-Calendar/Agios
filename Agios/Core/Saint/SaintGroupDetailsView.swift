@@ -68,36 +68,42 @@ struct SaintGroupDetailsView: View {
     var body: some View {
         ZStack(alignment: .topTrailing) {
             ZStack {
-                VStack(alignment: .leading) {
-                    customBackButton
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 16 : 32) {
-                            VStack(alignment: .leading, spacing: 32) {
-                                
-                                fitImageView
+                ScrollView {
+                    VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 16 : 32) {
+                        VStack(alignment: .leading, spacing: 32) {
+                            
+                            fitImageView
 
-                                iconCaption
-                                    .padding(.horizontal, 20)
-                            }
-                            
-                            
-                            if let explanation = icon.explanation, !explanation.isEmpty {
-                                divider
-                            }
-                            description
-                            story
-                            //divider
-                            //highlights
+                            iconCaption
+                                .padding(.horizontal, 20)
                         }
-                        .kerning(-0.4)
-                        .padding(.bottom, 40)
-                        .padding(.top, 8)
-                        .fontDesign(.rounded)
-                        .foregroundStyle(.gray900)
                         
+                        
+                        if let explanation = icon.explanation, !explanation.isEmpty {
+                            divider
+                        }
+                        description
+                        story
+                        //divider
+                        //highlights
                     }
+                    .kerning(-0.4)
+                    .padding(.bottom, 40)
+                    .padding(.top, 120)
+                    .fontDesign(.rounded)
+                    .foregroundStyle(.gray900)
+                    
                 }
-                .padding(.top, 48)
+                .overlay(alignment: .top) {
+                    ZStack(alignment: .leading) {
+                        VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
+                            .blur(radius: 3)
+                            .frame(height: 110)
+                            .ignoresSafeArea()
+                        customBackButton
+                    }
+                    
+                }
 
                     blurredOverlay
                     filledImageView
@@ -193,6 +199,7 @@ extension SaintGroupDetailsView {
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
         .zIndex(showImageViewer ? -2 : 0)
+        .offset(y: 24)
     }
     
         

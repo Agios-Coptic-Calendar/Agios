@@ -68,49 +68,53 @@ struct SaintDetailsView: View {
     var body: some View {
         ZStack(alignment: .topTrailing) {
             ZStack {
-                VStack(alignment: .leading) {
-                    customBackButton
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 16 : 32) {
-                            VStack(alignment: .leading, spacing: 32) {
-                                if !showImageViewer {
-                                  fitImageView
-                                } else {
-                                    Rectangle()
-                                        .fill(.clear)
-                                        .frame(width: 353, height: 460)
-                                }
-                                iconCaption
+                ScrollView {
+                    VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 16 : 32) {
+                        VStack(alignment: .leading, spacing: 32) {
+                            if !showImageViewer {
+                              fitImageView
+                            } else {
+                                Rectangle()
+                                    .fill(.clear)
+                                    .frame(width: 353, height: 460)
                             }
-                            .padding(.horizontal, 20)
-                            
-                            if let explanation = icon.explanation, !explanation.isEmpty {
-                                divider
-                            }
-                            description
-                            story
-                            //divider
-                            //highlights
+                            iconCaption
                         }
-                        .kerning(-0.4)
-                        .padding(.bottom, 40)
-                        .padding(.top, 8)
-                        .fontDesign(.rounded)
-                        .foregroundStyle(.gray900)
+                        .padding(.horizontal, 20)
+                        
+                        if let explanation = icon.explanation, !explanation.isEmpty {
+                            divider
+                        }
+                        description
+                        story
+                        //divider
+                        //highlights
+                    }
+                    .kerning(-0.4)
+                    .padding(.bottom, 40)
+                    .padding(.top, 120)
+                    .fontDesign(.rounded)
+                    .foregroundStyle(.gray900)
+                }
+                .overlay(alignment: .top) {
+                    ZStack(alignment: .leading) {
+                        VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
+                            .blur(radius: 3)
+                            .frame(height: 110)
+                            .ignoresSafeArea()
+                        customBackButton
                     }
                     
                 }
-                .padding(.top, 48)
                 
                     blurredOverlay
                     filledImageView
    
             }
+
            closeButton
             
         }
-        
-        //.ignoresSafeArea()
         .halfSheet(showSheet: $openSheet) {
             StoryDetailView(story: stories)
                 .presentationDetents([.medium, .large])
@@ -205,6 +209,7 @@ extension SaintDetailsView {
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
         .zIndex(showImageViewer ? -2 : 0)
+        .offset(y: 24)
     }
     
     private var closeButton: some View {
@@ -298,76 +303,7 @@ extension SaintDetailsView {
                     RoundedRectangle(cornerRadius: 0)
                         .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
                 })
-                /*
-                 RoundedRectangle(cornerRadius: 25.0)
-                     .fill(.clear)
-                     .background(
-                         ZStack(content: {
-                             if let image = viewModel.image {
-                                 Image(uiImage: image)
-                                     .resizable()
-                                     .aspectRatio(contentMode: .fit)
-                                     .zoomable()
-                                     .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
-                                     .zIndex(10)
-                                     .transition(.scale(scale: 1))
-                                     .onTapGesture {
-                                         withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
-                                             showImageViewer = true
-                                         }
-                                     }
-                                 .scaleEffect(1 + startValue)
-                                 .offset(x: startValue > 0.2 ? offset.width + position.width : .zero, y: startValue > 0 ? offset.height + position.height : .zero)
-                                 .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("MagnifyGestureScaleChanged"))) { obj in
-                                         if let scale = obj.object as? CGFloat {
-                                             withAnimation {
-                                                 currentScale = scale
-                                             }
-                                             
-                                         }
-                                     }
-                             }
-                         })
-                         
-                        
-                         .offset(offset)
-                         .scaleEffect(getScaleAmount())
-                         .transition(.scale(scale: 1))
-                         .simultaneousGesture(
-                             currentScale <= 1 ?
-                             DragGesture()
-                                 .onChanged({ value in
-                                     if startValue <= 0 {
-                                         withAnimation {
-                                             offset = value.translation
-                                         }
-                                     }
-                                     
-                                 })
-                                 .onEnded({ value in
-                                     let dragThreshold: CGFloat = 100 // Set your threshold value here
-                                     
-                                     if abs(value.translation.height) > dragThreshold {
-                                         withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
-                                             showImageViewer = false
-                                             selectedSaint = nil
-                                             offset = .zero
-                                             HapticsManager.instance.impact(style: .light)
-                                         }
-                                     } else {
-                                         withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
-                                             offset = .zero
-                                         }
-                                     }
-                                 })
-                             : nil
-                         )
-                             
-                     )
-                 */
-
-                    //.matchedGeometryEffect(id: "bound", in: namespace)
-                   
+                
 
             }
         }
