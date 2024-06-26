@@ -114,6 +114,7 @@ struct HomeView: View {
                         .offset(y: -keyboardHeight/2.4)
                 }
                 
+                // This controls switching between the home view and single saint / icon details views.
                 if occasionViewModel.viewState == .expanded {
                     DetailLoadingView(icon: $selectedIcon, story: occasionViewModel.getStory(forIcon: selectedIcon ?? dev.icon) ?? dev.story, namespace: namespace)
                         .transition(.blurReplace)
@@ -202,7 +203,7 @@ struct HomeView: View {
 
                         .environmentObject(occasionViewModel)
                 }
-                    
+                // This controls switiching between the home view and grouped saint / icon view
                 if occasionViewModel.viewState == .imageView {
                     GroupedDetailLoadingView(icon: selectedSaint, story: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story, selectedSaint: $selectedSaint, namespace: namespace)
                         .transition(.blurReplace)
@@ -245,7 +246,7 @@ struct HomeView: View {
             UpcomingFeastView()
                 .environmentObject(occasionViewModel)
         }
-
+        // This controls the keyboard appearance on the search text field in the date picker in a custom way.
         .onAppear {
             occasionViewModel.stopDragGesture = false
             NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
