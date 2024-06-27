@@ -22,6 +22,7 @@ struct GroupedSaintImageView: View {
                     .transition(.scale(scale: 1))
                     .offset(y: CGFloat(reversedIndex) * -70)
                     .scaleEffect(0.98 - (CGFloat(reversedIndex) * 0.15), anchor: .bottom)
+                    .allowsHitTesting(vm.disallowTapping ? false : true)
                     .contextMenu(ContextMenu(menuItems: {
                         Button {
                             selectedSaint = saint
