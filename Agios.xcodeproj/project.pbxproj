@@ -63,6 +63,8 @@
 		995CEE0C2C25A12D004685D8 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE0B2C25A12D004685D8 /* Shimmer */; };
 		995CEE0F2C25A1AB004685D8 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE0E2C25A1AB004685D8 /* Lottie */; };
 		995CEE122C25A1C6004685D8 /* UIImageColors in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE112C25A1C6004685D8 /* UIImageColors */; };
+		99989BFC2C2CB4470033CDD3 /* copticEvents.json in Resources */ = {isa = PBXBuildFile; fileRef = 99989BFB2C2CB4470033CDD3 /* copticEvents.json */; };
+		99989BFE2C2CB6200033CDD3 /* CopticEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,6 +122,8 @@
 		57EAE6362BD7E79D00379CC5 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		57EE90642BE4096000C7E1AE /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuoteView.swift; sourceTree = "<group>"; };
+		99989BFB2C2CB4470033CDD3 /* copticEvents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = copticEvents.json; sourceTree = "<group>"; };
+		99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopticEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +165,7 @@
 				5797106A2BD1385900DFDBA3 /* Core */,
 				579710742BD13AD900DFDBA3 /* Domain */,
 				5797109F2BD1423400DFDBA3 /* Extensions */,
+				99989BFA2C2CB4300033CDD3 /* Resources */,
 				474C79A82BD009BF003E3A15 /* Assets.xcassets */,
 				474C79AA2BD009BF003E3A15 /* Preview Content */,
 			);
@@ -321,6 +326,7 @@
 				579710B52BD146A100DFDBA3 /* PresentableSection.swift */,
 				579710B32BD146A100DFDBA3 /* PsalmAndGospel.swift */,
 				579710B42BD146A100DFDBA3 /* Synaxar.swift */,
+				99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -378,6 +384,14 @@
 				57EAE6332BD7E76F00379CC5 /* Layer+Extensions.swift */,
 			);
 			path = Source;
+			sourceTree = "<group>";
+		};
+		99989BFA2C2CB4300033CDD3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				99989BFB2C2CB4470033CDD3 /* copticEvents.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -448,6 +462,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99989BFC2C2CB4470033CDD3 /* copticEvents.json in Resources */,
 				474C79AC2BD009BF003E3A15 /* Preview Assets.xcassets in Resources */,
 				474C79A92BD009BF003E3A15 /* Assets.xcassets in Resources */,
 				5798741D2C00B83300F0B2EE /* LaunchScreen.storyboard in Resources */,
@@ -489,6 +504,7 @@
 				5739B0D52C15EA8200493B4F /* GroupedSaintImageView.swift in Sources */,
 				579710A52BD1429900DFDBA3 /* ButtonStyle.swift in Sources */,
 				5728FE022BE6607A00FE4130 /* LocalFileManager.swift in Sources */,
+				99989BFE2C2CB6200033CDD3 /* CopticEvent.swift in Sources */,
 				578B61112BD15D9900DCDFF6 /* JSONRepository.swift in Sources */,
 				57EAE6342BD7E76F00379CC5 /* Layer.swift in Sources */,
 				570515B22BDA6FBB00990A24 /* CopticDateView.swift in Sources */,

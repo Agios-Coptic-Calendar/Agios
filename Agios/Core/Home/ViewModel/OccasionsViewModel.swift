@@ -67,7 +67,7 @@ class OccasionsViewModel: ObservableObject {
     
     @Published var mockDates: [DateModel] = []
     @Published var selectedMockDate: DateModel? = nil
-    
+    var copticEvents: [CopticEvent]?
     var feastName: String?
     var liturgicalInformation: String?
     var occasionName: String {
@@ -81,8 +81,35 @@ class OccasionsViewModel: ObservableObject {
         withAnimation {
             self.isLoading = true
         }
+        getCopticEvents()
         updateMockDates()
         handleChangeInUrl()
+        
+    }
+    
+    private func loadJSONFromFile(fileName: String) -> [CopticEvent]? {
+        // Get the path for the JSON file
+        guard let path = Bundle.main.path(forResource: fileName, ofType: "json") else {
+            print("Invalid file path.")
+            return nil
+        }
+
+        do {
+            // Read the data from the file
+            let data = try Data(contentsOf: URL(fileURLWithPath: path))
+            
+            // Decode the data to an array of CopticEvent
+            copticEvents = try JSONDecoder().decode([CopticEvent].self, from: data)
+
+            return copticEvents
+        } catch {
+            print("Error decoding JSON: \(error)")
+            return nil
+        }
+    }
+    
+    private func getCopticEvents() {
+       loadJSONFromFile(fileName: "copticEvents")
     }
     
     private func updateMockDates() {
@@ -93,30 +120,42 @@ class OccasionsViewModel: ObservableObject {
     }
     
     func filterDate() {
-        filteredDate = mockDates.filter {
-            Calendar.current.compare($0.customDate, to: datePicker, toGranularity: .day) == .orderedSame
-        }
         withAnimation(.spring(response: 0.25, dampingFraction: 0.9)) {
             selectedCopticDate = filteredDate.first
             self.feast = selectedCopticDate?.name ?? "Fifth Week of the Holy Fifty Days"
-            if let selectedCopticDate = selectedCopticDate {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
-                    withAnimation {
-                        self.isLoading = true
-                        self.getPosts()
-                    }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
+                withAnimation {
+                    self.isLoading = true
+                    self.getPosts()
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
-                        self.defaultDateTapped = false
-                    }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
+                    self.defaultDateTapped = false
                 }
             }
         }
     }
     
+    func copticDate(for date: Date) -> String {
+        let calendar = Calendar(identifier: .coptic)
+        let month = calendar.component(.month, from: date)
+        let day = calendar.component(.day, from: date)
+        let monthName = calendar.monthSymbols[month - 1]
+
+        return "\(monthName) \(day)"
+    }
+    
+    var occasionID: String? {
+        let copticDate = copticDate(for: datePicker)
+            if let event = copticEvents?.first(where: { $0.copticDate == copticDate }) {
+            return event.occasionID
+        }
+        return nil
+    }
+    
     func getPosts() {
-        guard let url = URL(string: "https://api.agios.co/occasions/get/\(selectedCopticDate?.urlLink ?? "a5k50zty9scwmll")") else { return }
+        guard let url = URL(string: "https://api.agios.co/occasions/get/\(occasionID ?? "a5k50zty9scwmll")") else { return }
         
         Task {
             do {
@@ -237,7 +276,6 @@ class OccasionsViewModel: ObservableObject {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
             withAnimation {
-                print("\(String(describing: self.selectedCopticDate?.urlLink))")
                 self.isLoading = true
                 self.getPosts()
             }
@@ -245,11 +283,7 @@ class OccasionsViewModel: ObservableObject {
             self.feast = self.selectedMockDate?.name ?? "Fifth Week of the Holy Fifty Days"
         }
     }
-    
-    func setDatePickerToUrl() {
-        self.datePicker = self.mockDates.last?.customDate ?? Date()
-    }
-    
+        
     func formattedDate(from dateString: String) -> String? {
         let inputFormatter = ISO8601DateFormatter()
         guard let date = inputFormatter.date(from: dateString) else { return nil }
