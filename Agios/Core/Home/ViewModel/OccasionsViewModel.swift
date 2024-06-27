@@ -31,7 +31,6 @@ class OccasionsViewModel: ObservableObject {
     @Published var filteredIcons: [IconModel] = []
     @Published var stories: [Story] = []
     @Published var readings: [DataReading] = []
-    @Published var selectedItem: Bool = false
     @Published var dataClass: DataClass? = nil
     @Published var subSection: [SubSection] = []
     @Published var subSectionReading: [SubSectionReading] = []
@@ -265,7 +264,7 @@ class OccasionsViewModel: ObservableObject {
     func setDatePickerToUrl() {
         self.datePicker = self.mockDates.last?.customDate ?? Date()
     }
-
+    
     func formattedDate(from dateString: String) -> String? {
         let inputFormatter = ISO8601DateFormatter()
         guard let date = inputFormatter.date(from: dateString) else { return nil }
@@ -274,7 +273,7 @@ class OccasionsViewModel: ObservableObject {
         outputFormatter.dateFormat = "d MMMM yyyy"
         return outputFormatter.string(from: date)
     }
-
+    
     func formatDateStringToRelativeDay(_ dateString: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -292,7 +291,7 @@ class OccasionsViewModel: ObservableObject {
             return dateFormatter.string(from: date)
         }
     }
-
+    
     func formatDateStringToFullDate(dateString: String) -> String {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
@@ -307,7 +306,7 @@ class OccasionsViewModel: ObservableObject {
         
         return outputFormatter.string(from: date)
     }
-
+    
     func formatDateStringToShortDate(dateString: String) -> String {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
@@ -322,7 +321,7 @@ class OccasionsViewModel: ObservableObject {
         
         return outputFormatter.string(from: date)
     }
-
+    
     func formatDateStringToTime(dateString: String) -> String {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"

@@ -17,7 +17,6 @@ enum DragPhase {
  
 struct HomeView: View {
     
-    @State private var tapNategaPlus = false
     @State private var showSynaxars: Bool? = false
     @State private var showReadings: Bool = false
     @State private var tapIcon = false
