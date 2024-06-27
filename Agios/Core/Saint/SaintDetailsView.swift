@@ -129,14 +129,11 @@ struct SaintDetailsView: View {
         .background(
             RoundedRectangle(cornerRadius: 32, style: .continuous)
                 .fill(.primary100)
-                //.ignoresSafeArea()
-                //.matchedGeometryEffect(id: "\(icon.caption)", in: namespace)
         )
-        .mask {
-            RoundedRectangle(cornerRadius: 32, style: .continuous)
-                //.ignoresSafeArea()
-                //.matchedGeometryEffect(id: "m", in: namespace)
-    }
+        .mask({
+            RoundedRectangle(cornerRadius: 16)
+                .matchedGeometryEffect(id: "\(icon.caption ?? "")", in: namespace)
+        })
     }
     
     private func getScaleAmount() -> CGFloat {

@@ -22,28 +22,34 @@ struct HomeSaintImageView: View {
     var body: some View {
         ZStack {
             if viewModel.allowTapping {
-                VStack(alignment: .leading) {
-                    Spacer()
-                    Text(icon.caption ?? "")
-                        .font(.body)
-                        .multilineTextAlignment(.center)
-                        .padding(8)
-                        .padding(.horizontal, 3)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.gray900.opacity(0.8))
+                ZStack {
+                    VStack(alignment: .leading) {
+                        Spacer()
+                        Text(icon.caption ?? "")
+                            .font(.body)
+                            .multilineTextAlignment(.center)
+                            .padding(8)
+                            .padding(.horizontal, 3)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.gray900.opacity(0.8))
+                    }
+                    .foregroundStyle(.white)
+                    .background(
+                        SaintImageView(icon: icon)
+                            .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
+                            .scaledToFill()
+                    )
+                    .mask({
+                        RoundedRectangle(cornerRadius: 16)
+                            .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
+                    })
+                    .frame(width: 300, height: 350)
                 }
-                .foregroundStyle(.white)
-                .background(
-                    SaintImageView(icon: icon)
-                        .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
-                        .scaledToFill()
-                )
                 .mask({
                     RoundedRectangle(cornerRadius: 16)
-                        .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
+                        .matchedGeometryEffect(id: "\(icon.caption ?? "")", in: namespace)
                 })
-                .frame(width: 300, height: 350)
                 .background(
                     SaintImageView(icon: icon)
                         .frame(maxWidth: 300, maxHeight: 350)
@@ -54,6 +60,7 @@ struct HomeSaintImageView: View {
                         .offset(x:8, y: 11)
                         .opacity(occasionViewModel.viewState == .expanded ? 0 : 0.35)
                 )
+                
      
                 
             } else {
