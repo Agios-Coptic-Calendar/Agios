@@ -1,5 +1,5 @@
 {
-  "originHash" : "6069b07964da246c2f4125e6a67f3c14d9fc1bbfa34cf837e3c62c05a88c2485",
+  "originHash" : "5c4e88a0637f018f0d670563b2c7a46ede50b7dae65746f500b0efd8f84c3b41",
   "pins" : [
     {
       "identity" : "lottie-ios",
@@ -35,6 +35,15 @@
       "state" : {
         "revision" : "ff1176d8c06c2ac81db3dfd36c63ec8a9c2ccbca",
         "version" : "0.2.1"
+      }
+    },
+    {
+      "identity" : "uiimagecolors",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jathu/UIImageColors.git",
+      "state" : {
+        "revision" : "e49e6c32ea556e9fa0109dc79686bea4a10d41a2",
+        "version" : "2.2.0"
       }
     },
     {

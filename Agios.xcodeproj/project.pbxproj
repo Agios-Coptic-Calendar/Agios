@@ -52,10 +52,15 @@
 		57B7E84A2BD2B0A70016D6A4 /* OccasionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8492BD2B0A70016D6A4 /* OccasionModel.swift */; };
 		57B7E8512BD2B4D00016D6A4 /* OccasionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8502BD2B4D00016D6A4 /* OccasionsViewModel.swift */; };
 		57B998982C2C4E0700F3B973 /* UpcomingFeastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B998972C2C4E0700F3B973 /* UpcomingFeastView.swift */; };
-		57B9989B2C2C50B000F3B973 /* Popovers in Frameworks */ = {isa = PBXBuildFile; productRef = 57B9989A2C2C50B000F3B973 /* Popovers */; };
 		57C01A9B2C28A5D70050540C /* VariableBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C01A9A2C28A5D70050540C /* VariableBlur.swift */; };
 		57CA77872BD7324C00A34725 /* OccasionDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CA77862BD7324B00A34725 /* OccasionDataService.swift */; };
 		57CF01842BE2530000508338 /* Zoomable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CF01832BE2530000508338 /* Zoomable.swift */; };
+		57DCB5FC2C2DA20400C84392 /* Popovers in Frameworks */ = {isa = PBXBuildFile; productRef = 57DCB5FB2C2DA20400C84392 /* Popovers */; };
+		57DCB5FF2C2DA2BC00C84392 /* UIImageColors in Frameworks */ = {isa = PBXBuildFile; productRef = 57DCB5FE2C2DA2BC00C84392 /* UIImageColors */; };
+		57DCB6022C2DA2EC00C84392 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 57DCB6012C2DA2EC00C84392 /* SwiftUIX */; };
+		57DCB6042C2DA3A900C84392 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 57DCB6032C2DA3A900C84392 /* Shimmer */; };
+		57DCB6062C2DA3D500C84392 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 57DCB6052C2DA3D500C84392 /* Lottie */; };
+		57DCB6082C2DA3E600C84392 /* ZoomImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 57DCB6072C2DA3E600C84392 /* ZoomImageViewer */; };
 		57EAE62F2BD7E75E00379CC5 /* LayerExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE62C2BD7E75E00379CC5 /* LayerExample.swift */; };
 		57EAE6302BD7E75E00379CC5 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE62D2BD7E75E00379CC5 /* PopupView.swift */; };
 		57EAE6312BD7E75E00379CC5 /* LayerExampleComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE62E2BD7E75E00379CC5 /* LayerExampleComponents.swift */; };
@@ -64,9 +69,6 @@
 		57EAE6372BD7E79D00379CC5 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE6362BD7E79D00379CC5 /* HapticsManager.swift */; };
 		57EE90652BE4096000C7E1AE /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90642BE4096000C7E1AE /* ShimmerView.swift */; };
 		57EE90672BE42EC600C7E1AE /* DailyQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */; };
-		995CEE0C2C25A12D004685D8 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE0B2C25A12D004685D8 /* Shimmer */; };
-		995CEE0F2C25A1AB004685D8 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE0E2C25A1AB004685D8 /* Lottie */; };
-		995CEE122C25A1C6004685D8 /* UIImageColors in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE112C25A1C6004685D8 /* UIImageColors */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -134,11 +136,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57B9989B2C2C50B000F3B973 /* Popovers in Frameworks */,
-				5798741A2BFEABF500F0B2EE /* SwiftUIX in Frameworks */,
-				57EE90632BE3F35E00C7E1AE /* Shimmer in Frameworks */,
-				5797109E2BD1420500DFDBA3 /* UIImageColors in Frameworks */,
-				57B26A532C1940C90058CD43 /* Lottie in Frameworks */,
+				57DCB6062C2DA3D500C84392 /* Lottie in Frameworks */,
+				57DCB6082C2DA3E600C84392 /* ZoomImageViewer in Frameworks */,
+				57DCB6042C2DA3A900C84392 /* Shimmer in Frameworks */,
+				57DCB6022C2DA2EC00C84392 /* SwiftUIX in Frameworks */,
+				57DCB5FF2C2DA2BC00C84392 /* UIImageColors in Frameworks */,
+				57DCB5FC2C2DA20400C84392 /* Popovers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +153,7 @@
 			children = (
 				474C79A32BD009BC003E3A15 /* Agios */,
 				474C79A22BD009BC003E3A15 /* Products */,
+				57DCB6002C2DA2EC00C84392 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -364,6 +368,13 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		57DCB6002C2DA2EC00C84392 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		57EAE6292BD7E70E00379CC5 /* Layers */ = {
 			isa = PBXGroup;
 			children = (
@@ -409,11 +420,12 @@
 			);
 			name = Agios;
 			packageProductDependencies = (
-				5797109D2BD1420500DFDBA3 /* UIImageColors */,
-				57EE90622BE3F35E00C7E1AE /* Shimmer */,
-				579874192BFEABF500F0B2EE /* SwiftUIX */,
-				57B26A522C1940C90058CD43 /* Lottie */,
-				57B9989A2C2C50B000F3B973 /* Popovers */,
+				57DCB5FB2C2DA20400C84392 /* Popovers */,
+				57DCB5FE2C2DA2BC00C84392 /* UIImageColors */,
+				57DCB6012C2DA2EC00C84392 /* SwiftUIX */,
+				57DCB6032C2DA3A900C84392 /* Shimmer */,
+				57DCB6052C2DA3D500C84392 /* Lottie */,
+				57DCB6072C2DA3E600C84392 /* ZoomImageViewer */,
 			);
 			productName = Agios;
 			productReference = 474C79A12BD009BC003E3A15 /* Agios.app */;
@@ -444,12 +456,12 @@
 			);
 			mainGroup = 474C79982BD009BC003E3A15;
 			packageReferences = (
-				5797109C2BD1420500DFDBA3 /* XCLocalSwiftPackageReference "../UIImageColors" */,
 				57EE90612BE3F35E00C7E1AE /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				579874172BFEA89F00F0B2EE /* XCRemoteSwiftPackageReference "ZoomImageViewer" */,
 				579874182BFEABF500F0B2EE /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 				57B26A4F2C190FAD0058CD43 /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				57B998992C2C50B000F3B973 /* XCRemoteSwiftPackageReference "Popovers" */,
+				57DCB5FA2C2DA20400C84392 /* XCRemoteSwiftPackageReference "Popovers" */,
+				57DCB5FD2C2DA2BC00C84392 /* XCRemoteSwiftPackageReference "UIImageColors" */,
 			);
 			productRefGroup = 474C79A22BD009BC003E3A15 /* Products */;
 			projectDirPath = "";
@@ -790,12 +802,20 @@
 				minimumVersion = 4.4.3;
 			};
 		};
-		57B998992C2C50B000F3B973 /* XCRemoteSwiftPackageReference "Popovers" */ = {
+		57DCB5FA2C2DA20400C84392 /* XCRemoteSwiftPackageReference "Popovers" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/aheze/Popovers.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.3.2;
+			};
+		};
+		57DCB5FD2C2DA2BC00C84392 /* XCRemoteSwiftPackageReference "UIImageColors" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jathu/UIImageColors.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
 			};
 		};
 		57EE90612BE3F35E00C7E1AE /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
@@ -806,44 +826,37 @@
 				version = 1.5.0;
 			};
 		};
-		995CEE0D2C25A1AB004685D8 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
-			requirement = {
-				kind = exactVersion;
-				version = 4.4.3;
-			};
-		};
-		995CEE102C25A1C6004685D8 /* XCRemoteSwiftPackageReference "UIImageColors" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jathu/UIImageColors.git";
-			requirement = {
-				kind = exactVersion;
-				version = 2.2.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		995CEE0B2C25A12D004685D8 /* Shimmer */ = {
+		57DCB5FB2C2DA20400C84392 /* Popovers */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 995CEE0A2C25A12D004685D8 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
-			productName = Shimmer;
-		};
-		995CEE0E2C25A1AB004685D8 /* Lottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 995CEE0D2C25A1AB004685D8 /* XCRemoteSwiftPackageReference "lottie-ios" */;
-			productName = Lottie;
-		};
-		57B9989A2C2C50B000F3B973 /* Popovers */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 57B998992C2C50B000F3B973 /* XCRemoteSwiftPackageReference "Popovers" */;
+			package = 57DCB5FA2C2DA20400C84392 /* XCRemoteSwiftPackageReference "Popovers" */;
 			productName = Popovers;
 		};
-		57EE90622BE3F35E00C7E1AE /* Shimmer */ = {
+		57DCB5FE2C2DA2BC00C84392 /* UIImageColors */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 995CEE102C25A1C6004685D8 /* XCRemoteSwiftPackageReference "UIImageColors" */;
+			package = 57DCB5FD2C2DA2BC00C84392 /* XCRemoteSwiftPackageReference "UIImageColors" */;
 			productName = UIImageColors;
+		};
+		57DCB6012C2DA2EC00C84392 /* SwiftUIX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 579874182BFEABF500F0B2EE /* XCRemoteSwiftPackageReference "SwiftUIX" */;
+			productName = SwiftUIX;
+		};
+		57DCB6032C2DA3A900C84392 /* Shimmer */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Shimmer;
+		};
+		57DCB6052C2DA3D500C84392 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57B26A4F2C190FAD0058CD43 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		57DCB6072C2DA3E600C84392 /* ZoomImageViewer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 579874172BFEA89F00F0B2EE /* XCRemoteSwiftPackageReference "ZoomImageViewer" */;
+			productName = ZoomImageViewer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
