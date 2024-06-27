@@ -84,6 +84,7 @@ struct HomeView: View {
         
 
                     }
+                    .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
                     .scrollIndicators(.hidden)
                     .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
                     .scaleEffect(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 0.95 : 1)
@@ -451,6 +452,10 @@ extension HomeView {
                                 .onTapGesture {
                                     segue(icon: saint)
                                     selectedSaint = saint
+                                    occasionViewModel.disallowTapping = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                        occasionViewModel.disallowTapping = false
+                                    }
                                     
                                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                                         occasionViewModel.viewState = .expanded

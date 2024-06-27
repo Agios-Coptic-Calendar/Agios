@@ -44,6 +44,10 @@ struct GroupedSaintImageView: View {
                             vm.viewState = .imageView
                             vm.selectedSaint = saint
                         }
+                        vm.disallowTapping = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                            vm.disallowTapping = false
+                        }
                     }
                     .opacity(vm.selectedSaint == saint ? 0 : 1)
                     
