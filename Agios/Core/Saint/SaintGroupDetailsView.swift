@@ -188,7 +188,10 @@ extension SaintGroupDetailsView {
                     occasionViewModel.viewState = .collapsed
                     occasionViewModel.selectedSaint = nil
                 }
-                HapticsManager.instance.impact(style: .light)
+                occasionViewModel.disallowTapping = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    occasionViewModel.disallowTapping = false
+                }
                 
             } label: {
                 NavigationButton(labelName: .back, backgroundColor: .primary300, foregroundColor: .primary1000)
