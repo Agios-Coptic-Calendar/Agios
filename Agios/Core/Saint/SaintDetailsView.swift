@@ -350,21 +350,24 @@ extension SaintDetailsView {
                             .fontWeight(.medium)
                             .lineLimit(descriptionHeight)
 
-                        Button(action: {
-                            withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
-                                descriptionHeight = (descriptionHeight == 3) ? 100 : 3
-                                HapticsManager.instance.impact(style: .soft)
-                                
-                            }
-                        }, label: {
-                            HStack(alignment: .center, spacing: 4) {
-                                Text("See \((descriptionHeight == 3) ? "more" : "less")")
-                                    .fontWeight(.semibold)
-                                Image(systemName: (descriptionHeight == 3) ? "chevron.down" : "chevron.up")
-                                    .font(.caption)
-                                    .fontWeight(.semibold)
-                            }
-                        })
+                        if icon.explanation?.count ?? 0 > 30 {
+                            Button(action: {
+                                withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
+                                    descriptionHeight = (descriptionHeight == 3) ? 100 : 3
+                                    HapticsManager.instance.impact(style: .soft)
+                                    
+                                }
+                            }, label: {
+                                HStack(alignment: .center, spacing: 4) {
+                                    Text("See \((descriptionHeight == 3) ? "more" : "less")")
+                                        .fontWeight(.semibold)
+                                    Image(systemName: (descriptionHeight == 3) ? "chevron.down" : "chevron.up")
+                                        .font(.caption)
+                                        .fontWeight(.semibold)
+                                }
+                            })
+                        }
+                        
                     }
                 }
                 .padding(.horizontal, 20)
