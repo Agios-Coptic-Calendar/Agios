@@ -89,7 +89,7 @@ struct SaintGroupDetailsView: View {
                     }
                     .kerning(-0.4)
                     .padding(.bottom, 40)
-                    .padding(.top, 120)
+                    .padding(.top, 118)
                     .fontDesign(.rounded)
                     .foregroundStyle(.gray900)
                     
@@ -98,7 +98,7 @@ struct SaintGroupDetailsView: View {
                     ZStack(alignment: .leading) {
                         VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
                             .blur(radius: 3)
-                            .frame(height: 110)
+                            .frame(height: 102)
                             .ignoresSafeArea()
                         customBackButton
                     }
@@ -199,7 +199,7 @@ extension SaintGroupDetailsView {
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
         .zIndex(showImageViewer ? -2 : 0)
-        .offset(y: 24)
+        .offset(y: 23)
     }
     
         
