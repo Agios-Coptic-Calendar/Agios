@@ -131,7 +131,7 @@ struct SaintDetailsView: View {
                 .fill(.primary100)
         )
         .mask({
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: 32)
                 .matchedGeometryEffect(id: "\(icon.caption ?? "")", in: namespace)
         })
     }
