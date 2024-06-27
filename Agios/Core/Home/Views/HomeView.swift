@@ -426,6 +426,7 @@ extension HomeView {
                             HomeSaintImageView(namespace: namespace, icon: saint)
                                 .aspectRatio(contentMode: .fill)
                                 .transition(.scale(scale: 1))
+                                .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
                                 .scrollTransition { content, phase in
                                     content
                                         .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
