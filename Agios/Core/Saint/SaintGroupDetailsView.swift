@@ -97,7 +97,6 @@ struct SaintGroupDetailsView: View {
                 .overlay(alignment: .top) {
                     ZStack(alignment: .leading) {
                         VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
-                            .blur(radius: 3)
                             .frame(height: 102)
                             .ignoresSafeArea()
                         customBackButton
