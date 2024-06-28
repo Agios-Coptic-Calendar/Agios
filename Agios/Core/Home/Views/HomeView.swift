@@ -278,13 +278,6 @@ struct HomeView: View {
             StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
                 .environmentObject(occasionViewModel)
         } onDismiss: {}
-        .overlay(alignment: .top) {
-                GeometryReader { geom in
-                    VariableBlurView(maxBlurRadius: 20, direction: .blurredTopClearBottom, startOffset: 0)
-                        .frame(height: geom.safeAreaInsets.top)
-                        .ignoresSafeArea()
-                }
-            }
     }
     
     private func getScaleAmount() -> CGFloat {
