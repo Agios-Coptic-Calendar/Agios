@@ -189,7 +189,7 @@ extension SaintGroupDetailsView {
                     occasionViewModel.selectedSaint = nil
                 }
                 occasionViewModel.disallowTapping = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
                     occasionViewModel.disallowTapping = false
                 }
                 

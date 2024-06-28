@@ -174,6 +174,10 @@ struct HomeView: View {
                                                 selectedSaint = nil
                                                 occasionViewModel.selectedSaint = nil
                                             }
+                                            occasionViewModel.disallowTapping = true
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
+                                                occasionViewModel.disallowTapping = false
+                                            }
                                         } else {
                                             withAnimation(.spring(response: 0.35, dampingFraction: 1)) {
                                                 offset = .zero
@@ -186,6 +190,10 @@ struct HomeView: View {
                                                 offset = .zero
                                                 selectedSaint = nil
                                                 occasionViewModel.selectedSaint = nil
+                                            }
+                                            occasionViewModel.disallowTapping = true
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
+                                                occasionViewModel.disallowTapping = false
                                             }
                                         } else {
                                             withAnimation(.spring(response: 0.35, dampingFraction: 1)) {
