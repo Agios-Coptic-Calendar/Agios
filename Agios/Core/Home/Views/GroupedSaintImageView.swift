@@ -40,7 +40,7 @@ struct GroupedSaintImageView: View {
                     }))
                     .onTapGesture {
                         selectedSaint = saint
-                        withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                             vm.viewState = .imageView
                             vm.selectedSaint = saint
                         }
