@@ -47,6 +47,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var fact: [Fact]? = nil
     @Published var matchedStory: Story? = nil
     @Published var stopDragGesture: Bool = false
+    @Published var disallowTapping: Bool = false
     @Published var showUpcomingView: Bool = false
     @Published var isShowingFeastName = true
     @Published var isLoading: Bool = false

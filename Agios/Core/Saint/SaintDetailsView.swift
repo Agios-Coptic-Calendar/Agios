@@ -131,7 +131,7 @@ struct SaintDetailsView: View {
                 .fill(.primary100)
         )
         .mask({
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: 32)
                 .matchedGeometryEffect(id: "\(icon.caption ?? "")", in: namespace)
         })
     }
@@ -195,7 +195,11 @@ extension SaintDetailsView {
                     occasionViewModel.viewState = .collapsed
                     occasionViewModel.selectedSaint = nil
                 }
-                HapticsManager.instance.impact(style: .light)
+                occasionViewModel.disallowTapping = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
+                    occasionViewModel.disallowTapping = false
+                }
+                //HapticsManager.instance.impact(style: .light)
                 
             } label: {
                 NavigationButton(labelName: .back, backgroundColor: .primary300, foregroundColor: .primary1000)

@@ -85,10 +85,11 @@ struct HomeView: View {
         
 
                     }
+                    .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
                     .scrollIndicators(.hidden)
                     .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
-                    .scaleEffect(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 0.95 : 1)
-                    .blur(radius: occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 3 : 0)
+                    //.scaleEffect(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 0.95 : 1)
+                    //.blur(radius: occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 3 : 0)
                     
                     
                     Rectangle()
@@ -115,100 +116,121 @@ struct HomeView: View {
                 }
                 
                 // This controls switching between the home view and single saint / icon details views.
-                if occasionViewModel.viewState == .expanded {
-                    DetailLoadingView(icon: $selectedIcon, story: occasionViewModel.getStory(forIcon: selectedIcon ?? dev.icon) ?? dev.story, namespace: namespace)
-                        .transition(.blurReplace)
-                        .transition(.scale(scale: 1))
-                        .scaleEffect(1 + startValue)
-                        .offset(x: startValue > 0.2 ? offset.width + position.width : .zero, y: startValue > 0 ? offset.height + position.height : .zero)
-                        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("MagnifyGestureScaleChanged"))) { obj in
-                            if let scale = obj.object as? CGFloat {
-                                withAnimation {
-                                    currentScale = scale
+                ZStack {
+                    switch occasionViewModel.viewState {
+                    case .expanded:
+                        DetailLoadingView(icon: $selectedIcon, story: occasionViewModel.getStory(forIcon: selectedIcon ?? dev.icon) ?? dev.story, namespace: namespace)
+                            .transition(.blurReplace)
+                            .transition(.scale(scale: 1))
+                            .scaleEffect(1 + startValue)
+                            .offset(x: startValue > 0.2 ? offset.width + position.width : .zero, y: startValue > 0 ? offset.height + position.height : .zero)
+                            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("MagnifyGestureScaleChanged"))) { obj in
+                                if let scale = obj.object as? CGFloat {
+                                    withAnimation {
+                                        currentScale = scale
+                                    }
                                 }
                             }
-                        }
-                        .offset(offset)
-                        .scaleEffect(getScaleAmount())
-                        .simultaneousGesture(
-                            !occasionViewModel.stopDragGesture ?
-                            DragGesture()
-                                .onChanged { value in
-                                    let dragThreshold: CGFloat = 100
+                            .offset(offset)
+                            .scaleEffect(getScaleAmount())
+                            .simultaneousGesture(
+                                !occasionViewModel.stopDragGesture ?
+                                DragGesture()
+                                    .onChanged { value in
+                                        let dragThreshold: CGFloat = 100
 
-                                    switch dragPhase {
-                                    case .initial:
-                                        if abs(value.translation.width) > abs(value.translation.height) && value.translation.width > 0 {
-                                            // Initial phase: restrict to left-to-right dragging
+                                        switch dragPhase {
+                                        case .initial:
+                                            if abs(value.translation.width) > abs(value.translation.height) && value.translation.width > 0 {
+                                                // Initial phase: restrict to left-to-right dragging
+                                                withAnimation {
+                                                    offset = CGSize(width: value.translation.width, height: .zero)
+                                                }
+
+                                                if abs(value.translation.width) > dragThreshold {
+                                                    dragPhase = .unrestricted
+                                                    HapticsManager.instance.impact(style: .light)
+                                                    hapticsTriggered = true
+                                                }
+                                            }
+                                        case .unrestricted:
+                                            // Unrestricted phase: allow dragging in all directions
                                             withAnimation {
-                                                offset = CGSize(width: value.translation.width, height: .zero)
+                                                offset = value.translation
                                             }
 
-                                            if abs(value.translation.width) > dragThreshold {
-                                                dragPhase = .unrestricted
+                                            if !hapticsTriggered && (abs(value.translation.width) > dragThreshold || abs(value.translation.height) > dragThreshold) {
                                                 HapticsManager.instance.impact(style: .light)
                                                 hapticsTriggered = true
                                             }
                                         }
-                                    case .unrestricted:
-                                        // Unrestricted phase: allow dragging in all directions
-                                        withAnimation {
-                                            offset = value.translation
-                                        }
-
-                                        if !hapticsTriggered && (abs(value.translation.width) > dragThreshold || abs(value.translation.height) > dragThreshold) {
-                                            HapticsManager.instance.impact(style: .light)
-                                            hapticsTriggered = true
-                                        }
                                     }
-                                }
-                                .onEnded { value in
-                                    let dragThreshold: CGFloat = 100
+                                    .onEnded { value in
+                                        let dragThreshold: CGFloat = 100
 
-                                    switch dragPhase {
-                                    case .initial:
-                                        if value.translation.width > 0 && abs(value.translation.width) > dragThreshold {
-                                            withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                                                occasionViewModel.viewState = .collapsed
-                                                offset = .zero
-                                                selectedSaint = nil
-                                                occasionViewModel.selectedSaint = nil
+                                        switch dragPhase {
+                                        case .initial:
+                                            if value.translation.width > 0 && abs(value.translation.width) > dragThreshold {
+                                                withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                                                    occasionViewModel.viewState = .collapsed
+                                                    offset = .zero
+                                                    selectedSaint = nil
+                                                    occasionViewModel.selectedSaint = nil
+                                                }
+                                                occasionViewModel.disallowTapping = true
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
+                                                    occasionViewModel.disallowTapping = false
+                                                }
+                                            } else {
+                                                withAnimation(.spring(response: 0.35, dampingFraction: 1)) {
+                                                    offset = .zero
+                                                }
                                             }
-                                        } else {
-                                            withAnimation(.spring(response: 0.35, dampingFraction: 1)) {
-                                                offset = .zero
+                                        case .unrestricted:
+                                            if abs(value.translation.width) > dragThreshold || abs(value.translation.height) > dragThreshold {
+                                                withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                                                    occasionViewModel.viewState = .collapsed
+                                                    offset = .zero
+                                                    selectedSaint = nil
+                                                    occasionViewModel.selectedSaint = nil
+                                                }
+                                                occasionViewModel.disallowTapping = true
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
+                                                    occasionViewModel.disallowTapping = false
+                                                }
+                                            } else {
+                                                withAnimation(.spring(response: 0.35, dampingFraction: 1)) {
+                                                    offset = .zero
+                                                }
                                             }
                                         }
-                                    case .unrestricted:
-                                        if abs(value.translation.width) > dragThreshold || abs(value.translation.height) > dragThreshold {
-                                            withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                                                occasionViewModel.viewState = .collapsed
-                                                offset = .zero
-                                                selectedSaint = nil
-                                                occasionViewModel.selectedSaint = nil
-                                            }
-                                        } else {
-                                            withAnimation(.spring(response: 0.35, dampingFraction: 1)) {
-                                                offset = .zero
-                                            }
-                                        }
+
+                                        // Reset the drag phase and haptics triggered state after dragging ends
+                                        dragPhase = .initial
+                                        hapticsTriggered = false
                                     }
+                                : nil
+                            )
 
-                                    // Reset the drag phase and haptics triggered state after dragging ends
-                                    dragPhase = .initial
-                                    hapticsTriggered = false
-                                }
-                            : nil
-                        )
+                            .environmentObject(occasionViewModel)
+                        
+                    case .collapsed:
+                        EmptyView()
+                    case .imageView:
+                        GroupedDetailLoadingView(icon: selectedSaint, story: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story, selectedSaint: $selectedSaint, namespace: namespace)
+                            .transition(.blurReplace)
+                            .transition(.scale(scale: 1))
+                            .environmentObject(occasionViewModel)
+                    }
+                }
+                //.transition(.opacity)
 
-                        .environmentObject(occasionViewModel)
+                if occasionViewModel.viewState == .expanded {
+                    
                 }
                 // This controls switiching between the home view and grouped saint / icon view
                 if occasionViewModel.viewState == .imageView {
-                    GroupedDetailLoadingView(icon: selectedSaint, story: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story, selectedSaint: $selectedSaint, namespace: namespace)
-                        .transition(.blurReplace)
-                        .transition(.scale(scale: 1))
-                        .environmentObject(occasionViewModel)
+                    
                 }
                 
                 Rectangle()
@@ -270,13 +292,6 @@ struct HomeView: View {
             StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
                 .environmentObject(occasionViewModel)
         } onDismiss: {}
-        .overlay(alignment: .top) {
-                GeometryReader { geom in
-                    VariableBlurView(maxBlurRadius: 20, direction: .blurredTopClearBottom, startOffset: 0)
-                        .frame(height: geom.safeAreaInsets.top)
-                        .ignoresSafeArea()
-                }
-            }
     }
     
     private func getScaleAmount() -> CGFloat {
@@ -425,8 +440,9 @@ extension HomeView {
                     HStack(spacing: 16) {
                         ForEach(occasionViewModel.icons) { saint in
                             HomeSaintImageView(namespace: namespace, icon: saint)
-                                .aspectRatio(contentMode: .fill)
-                                .transition(.scale(scale: 1))
+                                //.aspectRatio(contentMode: .fill)
+                                //.transition(.scale(scale: 1))
+                                .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
                                 .scrollTransition { content, phase in
                                     content
                                         .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
@@ -447,11 +463,14 @@ extension HomeView {
                                     }
                                     .disabled((occasionViewModel.getStory(forIcon: saint) != nil) == true ? false : true)
                                 }))
-                                .frame(height: 430)
+                                //.frame(height: 430)
                                 .onTapGesture {
                                     segue(icon: saint)
                                     selectedSaint = saint
-                                    
+                                    occasionViewModel.disallowTapping = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                        occasionViewModel.disallowTapping = false
+                                    }
                                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                                         occasionViewModel.viewState = .expanded
                                         occasionViewModel.selectedSaint = saint

@@ -22,6 +22,7 @@ struct GroupedSaintImageView: View {
                     .transition(.scale(scale: 1))
                     .offset(y: CGFloat(reversedIndex) * -70)
                     .scaleEffect(0.98 - (CGFloat(reversedIndex) * 0.15), anchor: .bottom)
+                    .allowsHitTesting(vm.disallowTapping ? false : true)
                     .contextMenu(ContextMenu(menuItems: {
                         Button {
                             selectedSaint = saint
@@ -42,6 +43,10 @@ struct GroupedSaintImageView: View {
                         withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                             vm.viewState = .imageView
                             vm.selectedSaint = saint
+                        }
+                        vm.disallowTapping = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                            vm.disallowTapping = false
                         }
                     }
                     .opacity(vm.selectedSaint == saint ? 0 : 1)
