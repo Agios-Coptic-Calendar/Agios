@@ -88,8 +88,8 @@ struct HomeView: View {
                     .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
                     .scrollIndicators(.hidden)
                     .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
-                    //.scaleEffect(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 0.95 : 1)
-                    //.blur(radius: occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 3 : 0)
+                    .scaleEffect(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 0.95 : 1)
+                    .blur(radius: occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 3 : 0)
                     
                     
                     Rectangle()
@@ -109,18 +109,21 @@ struct HomeView: View {
                 }
                 .fontDesign(.rounded)
                 
-                
-                if occasionViewModel.defaultDateTapped {
-                    DateView(transition: transition)
-                        .offset(y: -keyboardHeight/2.4)
+                ZStack {
+                    if occasionViewModel.defaultDateTapped {
+                        DateView(transition: transition)
+                            .offset(y: -keyboardHeight/2.4)
+                            .transition(.blurReplace)
+                    }
                 }
+                
                 
                 // This controls switching between the home view and single saint / icon details views.
                 ZStack {
                     switch occasionViewModel.viewState {
                     case .expanded:
                         DetailLoadingView(icon: $selectedIcon, story: occasionViewModel.getStory(forIcon: selectedIcon ?? dev.icon) ?? dev.story, namespace: namespace)
-                            .transition(.blurReplace)
+                            .transition(.blurReplace(.downUp))
                             .transition(.scale(scale: 1))
                             .scaleEffect(1 + startValue)
                             .offset(x: startValue > 0.2 ? offset.width + position.width : .zero, y: startValue > 0 ? offset.height + position.height : .zero)
@@ -471,7 +474,7 @@ extension HomeView {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                                         occasionViewModel.disallowTapping = false
                                     }
-                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
                                         occasionViewModel.viewState = .expanded
                                         occasionViewModel.selectedSaint = saint
                                     }
