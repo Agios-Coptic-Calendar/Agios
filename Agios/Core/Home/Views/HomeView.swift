@@ -88,7 +88,7 @@ struct HomeView: View {
                     .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
                     .scrollIndicators(.hidden)
                     .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
-                    .scaleEffect(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 0.95 : 1)
+                    .scaleEffect(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 0.98 : 1)
                     .blur(radius: occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 3 : 0)
                     
                     
@@ -113,7 +113,7 @@ struct HomeView: View {
                     if occasionViewModel.defaultDateTapped {
                         DateView(transition: transition)
                             .offset(y: -keyboardHeight/2.4)
-                            .transition(.blurReplace)
+                            //.transition(.blurReplace)
                     }
                 }
                 
