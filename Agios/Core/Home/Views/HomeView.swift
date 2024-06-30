@@ -474,7 +474,7 @@ extension HomeView {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                                         occasionViewModel.disallowTapping = false
                                     }
-                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.9)) {
+                                    withAnimation(.spring(response: 0.28, dampingFraction: 1)) {
                                         occasionViewModel.viewState = .expanded
                                         occasionViewModel.selectedSaint = saint
                                     }
