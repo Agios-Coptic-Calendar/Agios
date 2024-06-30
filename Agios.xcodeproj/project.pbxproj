@@ -27,7 +27,6 @@
 		5739B0D52C15EA8200493B4F /* GroupedSaintImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5739B0D42C15EA8100493B4F /* GroupedSaintImageView.swift */; };
 		5739B0DC2C1645D500493B4F /* SaintGroupImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5739B0DB2C1645D500493B4F /* SaintGroupImageView.swift */; };
 		57616ECE2BF503B800C867AC /* DateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57616ECD2BF503B800C867AC /* DateView.swift */; };
-		576AE0C52C28594C0098E2AA /* SheetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576AE0C42C28594C0098E2AA /* SheetModel.swift */; };
 		577382032C1B112B003715F6 /* SaintGroupDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577382022C1B112B003715F6 /* SaintGroupDetailsView.swift */; };
 		578293DA2BDF241200BF4162 /* ImageViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578293D92BDF241200BF4162 /* ImageViewerViewModel.swift */; };
 		578B61052BD15C7B00DCDFF6 /* HomeVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61042BD15C7B00DCDFF6 /* HomeVIewModel.swift */; };
@@ -51,16 +50,8 @@
 		5798741F2C00B99000F0B2EE /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5798741E2C00B99000F0B2EE /* LaunchView.swift */; };
 		57B7E84A2BD2B0A70016D6A4 /* OccasionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8492BD2B0A70016D6A4 /* OccasionModel.swift */; };
 		57B7E8512BD2B4D00016D6A4 /* OccasionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8502BD2B4D00016D6A4 /* OccasionsViewModel.swift */; };
-		57B998982C2C4E0700F3B973 /* UpcomingFeastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B998972C2C4E0700F3B973 /* UpcomingFeastView.swift */; };
-		57C01A9B2C28A5D70050540C /* VariableBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C01A9A2C28A5D70050540C /* VariableBlur.swift */; };
 		57CA77872BD7324C00A34725 /* OccasionDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CA77862BD7324B00A34725 /* OccasionDataService.swift */; };
 		57CF01842BE2530000508338 /* Zoomable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CF01832BE2530000508338 /* Zoomable.swift */; };
-		57DCB5FC2C2DA20400C84392 /* Popovers in Frameworks */ = {isa = PBXBuildFile; productRef = 57DCB5FB2C2DA20400C84392 /* Popovers */; };
-		57DCB5FF2C2DA2BC00C84392 /* UIImageColors in Frameworks */ = {isa = PBXBuildFile; productRef = 57DCB5FE2C2DA2BC00C84392 /* UIImageColors */; };
-		57DCB6022C2DA2EC00C84392 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 57DCB6012C2DA2EC00C84392 /* SwiftUIX */; };
-		57DCB6042C2DA3A900C84392 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 57DCB6032C2DA3A900C84392 /* Shimmer */; };
-		57DCB6062C2DA3D500C84392 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 57DCB6052C2DA3D500C84392 /* Lottie */; };
-		57DCB6082C2DA3E600C84392 /* ZoomImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 57DCB6072C2DA3E600C84392 /* ZoomImageViewer */; };
 		57EAE62F2BD7E75E00379CC5 /* LayerExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE62C2BD7E75E00379CC5 /* LayerExample.swift */; };
 		57EAE6302BD7E75E00379CC5 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE62D2BD7E75E00379CC5 /* PopupView.swift */; };
 		57EAE6312BD7E75E00379CC5 /* LayerExampleComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE62E2BD7E75E00379CC5 /* LayerExampleComponents.swift */; };
@@ -95,7 +86,6 @@
 		5739B0D42C15EA8100493B4F /* GroupedSaintImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedSaintImageView.swift; sourceTree = "<group>"; };
 		5739B0DB2C1645D500493B4F /* SaintGroupImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaintGroupImageView.swift; sourceTree = "<group>"; };
 		57616ECD2BF503B800C867AC /* DateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateView.swift; sourceTree = "<group>"; };
-		576AE0C42C28594C0098E2AA /* SheetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetModel.swift; sourceTree = "<group>"; };
 		577382022C1B112B003715F6 /* SaintGroupDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaintGroupDetailsView.swift; sourceTree = "<group>"; };
 		578293D92BDF241200BF4162 /* ImageViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerViewModel.swift; sourceTree = "<group>"; };
 		578B61042BD15C7B00DCDFF6 /* HomeVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVIewModel.swift; sourceTree = "<group>"; };
@@ -119,8 +109,6 @@
 		5798741E2C00B99000F0B2EE /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		57B7E8492BD2B0A70016D6A4 /* OccasionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccasionModel.swift; sourceTree = "<group>"; };
 		57B7E8502BD2B4D00016D6A4 /* OccasionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccasionsViewModel.swift; sourceTree = "<group>"; };
-		57B998972C2C4E0700F3B973 /* UpcomingFeastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingFeastView.swift; sourceTree = "<group>"; };
-		57C01A9A2C28A5D70050540C /* VariableBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableBlur.swift; sourceTree = "<group>"; };
 		57CA77862BD7324B00A34725 /* OccasionDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccasionDataService.swift; sourceTree = "<group>"; };
 		57CF01832BE2530000508338 /* Zoomable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zoomable.swift; sourceTree = "<group>"; };
 		57EAE62C2BD7E75E00379CC5 /* LayerExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerExample.swift; sourceTree = "<group>"; };
@@ -141,12 +129,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57DCB6062C2DA3D500C84392 /* Lottie in Frameworks */,
-				57DCB6082C2DA3E600C84392 /* ZoomImageViewer in Frameworks */,
-				57DCB6042C2DA3A900C84392 /* Shimmer in Frameworks */,
-				57DCB6022C2DA2EC00C84392 /* SwiftUIX in Frameworks */,
-				57DCB5FF2C2DA2BC00C84392 /* UIImageColors in Frameworks */,
-				57DCB5FC2C2DA20400C84392 /* Popovers in Frameworks */,
+				995CEE122C25A1C6004685D8 /* UIImageColors in Frameworks */,
+				995CEE0C2C25A12D004685D8 /* Shimmer in Frameworks */,
+				995CEE0F2C25A1AB004685D8 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,7 +143,6 @@
 			children = (
 				474C79A32BD009BC003E3A15 /* Agios */,
 				474C79A22BD009BC003E3A15 /* Products */,
-				57DCB6002C2DA2EC00C84392 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -202,7 +186,6 @@
 				570515BB2BDAE0B500990A24 /* SaintDetailsView.swift */,
 				5739B0DB2C1645D500493B4F /* SaintGroupImageView.swift */,
 				577382022C1B112B003715F6 /* SaintGroupDetailsView.swift */,
-				57B998972C2C4E0700F3B973 /* UpcomingFeastView.swift */,
 				570937042C125035006631F7 /* StoryDetailView.swift */,
 				57CF01832BE2530000508338 /* Zoomable.swift */,
 				570515BD2BDAE14700990A24 /* SaintImageView.swift */,
@@ -313,7 +296,6 @@
 			isa = PBXGroup;
 			children = (
 				570764402BD68EDA00C5C98B /* DeveloperPreview.swift */,
-				57C01A9A2C28A5D70050540C /* VariableBlur.swift */,
 				579710A02BD1429900DFDBA3 /* ButtonStyle.swift */,
 				57EAE6362BD7E79D00379CC5 /* HapticsManager.swift */,
 				579710A22BD1429900DFDBA3 /* Colours+Extensions.swift */,
@@ -329,7 +311,6 @@
 			children = (
 				579710AA2BD142EB00DFDBA3 /* ReadingsView.swift */,
 				579710AF2BD1449000DFDBA3 /* SynaxarsDetailsView.swift */,
-				576AE0C42C28594C0098E2AA /* SheetModel.swift */,
 				570515C32BDB186F00990A24 /* DailyReadingView.swift */,
 				578B61132BD164A900DCDFF6 /* ReadingsColours.swift */,
 			);
@@ -374,13 +355,6 @@
 				570764442BD6987900C5C98B /* NetworkingManager.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		57DCB6002C2DA2EC00C84392 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		57EAE6292BD7E70E00379CC5 /* Layers */ = {
@@ -436,12 +410,9 @@
 			);
 			name = Agios;
 			packageProductDependencies = (
-				57DCB5FB2C2DA20400C84392 /* Popovers */,
-				57DCB5FE2C2DA2BC00C84392 /* UIImageColors */,
-				57DCB6012C2DA2EC00C84392 /* SwiftUIX */,
-				57DCB6032C2DA3A900C84392 /* Shimmer */,
-				57DCB6052C2DA3D500C84392 /* Lottie */,
-				57DCB6072C2DA3E600C84392 /* ZoomImageViewer */,
+				995CEE0B2C25A12D004685D8 /* Shimmer */,
+				995CEE0E2C25A1AB004685D8 /* Lottie */,
+				995CEE112C25A1C6004685D8 /* UIImageColors */,
 			);
 			productName = Agios;
 			productReference = 474C79A12BD009BC003E3A15 /* Agios.app */;
@@ -472,12 +443,9 @@
 			);
 			mainGroup = 474C79982BD009BC003E3A15;
 			packageReferences = (
-				57EE90612BE3F35E00C7E1AE /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
-				579874172BFEA89F00F0B2EE /* XCRemoteSwiftPackageReference "ZoomImageViewer" */,
-				579874182BFEABF500F0B2EE /* XCRemoteSwiftPackageReference "SwiftUIX" */,
-				57B26A4F2C190FAD0058CD43 /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				57DCB5FA2C2DA20400C84392 /* XCRemoteSwiftPackageReference "Popovers" */,
-				57DCB5FD2C2DA2BC00C84392 /* XCRemoteSwiftPackageReference "UIImageColors" */,
+				995CEE0A2C25A12D004685D8 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+				995CEE0D2C25A1AB004685D8 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				995CEE102C25A1C6004685D8 /* XCRemoteSwiftPackageReference "UIImageColors" */,
 			);
 			productRefGroup = 474C79A22BD009BC003E3A15 /* Products */;
 			projectDirPath = "";
@@ -520,7 +488,6 @@
 				570515BC2BDAE0B500990A24 /* SaintDetailsView.swift in Sources */,
 				570515B92BDAB91C00990A24 /* DatePickerView.swift in Sources */,
 				579710A72BD1429900DFDBA3 /* Colours+Extensions.swift in Sources */,
-				576AE0C52C28594C0098E2AA /* SheetModel.swift in Sources */,
 				57616ECE2BF503B800C867AC /* DateView.swift in Sources */,
 				57EAE6372BD7E79D00379CC5 /* HapticsManager.swift in Sources */,
 				57CF01842BE2530000508338 /* Zoomable.swift in Sources */,
@@ -552,10 +519,8 @@
 				579710A62BD1429900DFDBA3 /* String+Extensions.swift in Sources */,
 				579710B92BD146A100DFDBA3 /* Synaxar.swift in Sources */,
 				474C79A52BD009BC003E3A15 /* AgiosApp.swift in Sources */,
-				57B998982C2C4E0700F3B973 /* UpcomingFeastView.swift in Sources */,
 				578293DA2BDF241200BF4162 /* ImageViewerViewModel.swift in Sources */,
 				570515C22BDB037300990A24 /* NavigationButton.swift in Sources */,
-				57C01A9B2C28A5D70050540C /* VariableBlur.swift in Sources */,
 				578B61142BD164A900DCDFF6 /* ReadingsColours.swift in Sources */,
 				579710B02BD1449000DFDBA3 /* SynaxarsDetailsView.swift in Sources */,
 				570515C42BDB186F00990A24 /* DailyReadingView.swift in Sources */,
@@ -798,47 +763,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		579874172BFEA89F00F0B2EE /* XCRemoteSwiftPackageReference "ZoomImageViewer" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ryanlintott/ZoomImageViewer.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.1;
-			};
-		};
-		579874182BFEABF500F0B2EE /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.1;
-			};
-		};
-		57B26A4F2C190FAD0058CD43 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.4.3;
-			};
-		};
-		57DCB5FA2C2DA20400C84392 /* XCRemoteSwiftPackageReference "Popovers" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/aheze/Popovers.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.3.2;
-			};
-		};
-		57DCB5FD2C2DA2BC00C84392 /* XCRemoteSwiftPackageReference "UIImageColors" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jathu/UIImageColors.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.2.0;
-			};
-		};
-		57EE90612BE3F35E00C7E1AE /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+		995CEE0A2C25A12D004685D8 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
 			requirement = {
@@ -846,37 +771,39 @@
 				version = 1.5.0;
 			};
 		};
+		995CEE0D2C25A1AB004685D8 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.4.3;
+			};
+		};
+		995CEE102C25A1C6004685D8 /* XCRemoteSwiftPackageReference "UIImageColors" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jathu/UIImageColors.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		57DCB5FB2C2DA20400C84392 /* Popovers */ = {
+		995CEE0B2C25A12D004685D8 /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 57DCB5FA2C2DA20400C84392 /* XCRemoteSwiftPackageReference "Popovers" */;
-			productName = Popovers;
-		};
-		57DCB5FE2C2DA2BC00C84392 /* UIImageColors */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 57DCB5FD2C2DA2BC00C84392 /* XCRemoteSwiftPackageReference "UIImageColors" */;
-			productName = UIImageColors;
-		};
-		57DCB6012C2DA2EC00C84392 /* SwiftUIX */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 579874182BFEABF500F0B2EE /* XCRemoteSwiftPackageReference "SwiftUIX" */;
-			productName = SwiftUIX;
-		};
-		57DCB6032C2DA3A900C84392 /* Shimmer */ = {
-			isa = XCSwiftPackageProductDependency;
+			package = 995CEE0A2C25A12D004685D8 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
 		};
-		57DCB6052C2DA3D500C84392 /* Lottie */ = {
+		995CEE0E2C25A1AB004685D8 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 57B26A4F2C190FAD0058CD43 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			package = 995CEE0D2C25A1AB004685D8 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
 		};
-		57DCB6072C2DA3E600C84392 /* ZoomImageViewer */ = {
+		995CEE112C25A1C6004685D8 /* UIImageColors */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 579874172BFEA89F00F0B2EE /* XCRemoteSwiftPackageReference "ZoomImageViewer" */;
-			productName = ZoomImageViewer;
+			package = 995CEE102C25A1C6004685D8 /* XCRemoteSwiftPackageReference "UIImageColors" */;
+			productName = UIImageColors;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

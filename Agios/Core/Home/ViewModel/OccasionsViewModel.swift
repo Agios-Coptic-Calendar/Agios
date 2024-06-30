@@ -19,12 +19,6 @@ struct DateModel: Identifiable {
     var name: String
 }
 
-enum ViewState {
-    case collapsed
-    case expanded
-    case imageView
-}
-
 class OccasionsViewModel: ObservableObject {
     @Published var icons: [IconModel] = []
     @Published var selectedCopticDate: DateModel? = nil
@@ -37,7 +31,6 @@ class OccasionsViewModel: ObservableObject {
     @Published var passages: [Passage] = []
     @Published var iconagrapher: Iconagrapher? = nil
     @Published var highlight: [Highlight] = []
-    @Published var viewState: ViewState = .collapsed
     @Published var newCopticDate: CopticDate? = nil {
         didSet {
             updateMockDates()
@@ -45,9 +38,7 @@ class OccasionsViewModel: ObservableObject {
     }
     @Published var fact: [Fact]? = nil
     @Published var matchedStory: Story? = nil
-    @Published var stopDragGesture: Bool = false
-    @Published var disallowTapping: Bool = false
-    @Published var showUpcomingView: Bool = false
+    
     @Published var isShowingFeastName = true
     @Published var isLoading: Bool = false
     @Published var copticDateTapped: Bool = false
@@ -62,13 +53,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var searchDate: String = ""
     @Published var showLaunchView: Bool = false
     @Published var showImageView: Bool = false
-    @Published var showStory: Bool? = false
-    @Published var showReading: Bool? = false
-    @Published var liturgicalInfoTapped: Bool = false
-    @Published var liturgicalInformation: String?
-    @Published var searchText: Bool = false
-    @Published var isTextFieldFocused: Bool = false
-    @Published var saintTapped: Bool = false
+    @Published var showStory: Bool = false
     @Published var feast: String = "" {
         didSet {
             updateMockDates()
@@ -84,7 +69,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var selectedMockDate: DateModel? = nil
     var copticEvents: [CopticEvent]?
     var feastName: String?
-    
+    var liturgicalInformation: String?
     var occasionName: String {
         dataClass?.name ?? "Unknown Occasion"
     }
@@ -102,11 +87,11 @@ class OccasionsViewModel: ObservableObject {
         
     }
     
-    private func loadJSONFromFile(fileName: String) {
+    private func loadJSONFromFile(fileName: String) -> [CopticEvent]? {
         // Get the path for the JSON file
         guard let path = Bundle.main.path(forResource: fileName, ofType: "json") else {
             print("Invalid file path.")
-            return
+            return nil
         }
 
         do {
@@ -115,9 +100,11 @@ class OccasionsViewModel: ObservableObject {
             
             // Decode the data to an array of CopticEvent
             copticEvents = try JSONDecoder().decode([CopticEvent].self, from: data)
-            
+
+            return copticEvents
         } catch {
             print("Error decoding JSON: \(error)")
+            return nil
         }
     }
     
@@ -203,7 +190,6 @@ class OccasionsViewModel: ObservableObject {
         self.newCopticDate = response.data.copticDate ?? nil
         self.fact = response.data.facts ?? []
         self.retrievePassages()
-        self.liturgicalInformation = response.data.liturgicalInformation
         
         for icon in response.data.icons ?? [] {
             if case let .iconagrapher(iconagrapher) = icon.iconagrapher {
@@ -370,10 +356,6 @@ class OccasionsViewModel: ObservableObject {
         outputFormatter.pmSymbol = "pm"
         
         return outputFormatter.string(from: date).lowercased()
-    }
-    
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 

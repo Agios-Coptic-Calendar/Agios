@@ -21,14 +21,12 @@ class DeveloperPreview {
     private init() { } 
     
     let occasionsViewModel = OccasionsViewModel()
-    //let iconsImageViewModel = IconImageViewModel(icon: dev.icon)
-    //let imageViewModel = ImageViewerViewModel()
     
     let icon = IconModel(
         id: "7hcbmyqwty25hjc", created: "2024-04-20T21:19:22.339Z",
         updated: "2024-04-20T21:19:22.339Z",
         caption: "The Honourable Archangeal Michael", explanation: "", story: [],
-        image: "htps://agios-calendar.pockethost.io/api/files/nwill40feaquna2/ghr8t4wkx9jvrfr/the_resurrection_fT2Vbnx4o6.jpeg",
+        image: "https://agios-calendar.pockethot.io/api/files/nwill40feaquna2/yl7g57ypngzbfjs/the_righteous_job_rQtvvhe5JK.jpeg",
         croppedImage: "",
         iconagrapher: .iconagrapher(Iconagrapher(id: "", name: "", url: ""))
     )
