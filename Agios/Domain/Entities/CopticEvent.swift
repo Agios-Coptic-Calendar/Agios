@@ -8,7 +8,7 @@
 import Foundation
 
 struct CopticEvent: Codable {
-    let copticDate: String
+    let date: String
     let occasionID: String
     let upcomingEvents: [UpcomingEvent]
     let widgetIcon: [WidgetIcon]

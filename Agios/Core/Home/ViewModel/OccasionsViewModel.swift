@@ -25,6 +25,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var filteredIcons: [IconModel] = []
     @Published var stories: [Story] = []
     @Published var readings: [DataReading] = []
+    var liturgy: DataReading?
     @Published var dataClass: DataClass? = nil
     @Published var subSection: [SubSection] = []
     @Published var subSectionReading: [SubSectionReading] = []
@@ -87,11 +88,11 @@ class OccasionsViewModel: ObservableObject {
         
     }
     
-    private func loadJSONFromFile(fileName: String) -> [CopticEvent]? {
+    private func loadJSONFromFile(fileName: String)  {
         // Get the path for the JSON file
         guard let path = Bundle.main.path(forResource: fileName, ofType: "json") else {
             print("Invalid file path.")
-            return nil
+            return
         }
 
         do {
@@ -100,11 +101,8 @@ class OccasionsViewModel: ObservableObject {
             
             // Decode the data to an array of CopticEvent
             copticEvents = try JSONDecoder().decode([CopticEvent].self, from: data)
-
-            return copticEvents
         } catch {
             print("Error decoding JSON: \(error)")
-            return nil
         }
     }
     
@@ -147,8 +145,10 @@ class OccasionsViewModel: ObservableObject {
     }
     
     var occasionID: String? {
-        let copticDate = copticDate(for: datePicker)
-            if let event = copticEvents?.first(where: { $0.copticDate == copticDate }) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        let formattedDate = formatter.string(from: datePicker)
+        if let event = copticEvents?.first(where: { $0.date == formattedDate }) {
             return event.occasionID
         }
         return nil
@@ -161,12 +161,9 @@ class OccasionsViewModel: ObservableObject {
             do {
                 let (data, response) = try await URLSession.shared.data(from: url)
                 let decodedResponse = try handleOutput(response: response, data: data)
-                await MainActor.run {
-                    self.updateUI(with: decodedResponse)
-                }
+                    await updateUI(with: decodedResponse)
             } catch {
-                print("Error fetching data: \(error)")
-            }
+                print("Error fetching data: \(error)")            }
         }
     }
     
@@ -178,6 +175,7 @@ class OccasionsViewModel: ObservableObject {
         return try JSONDecoder().decode(Response.self, from: data)
     }
     
+    @MainActor
     func updateUI(with response: Response) {
         withAnimation(.spring(response: 0.07, dampingFraction: 0.9, blendDuration: 1)) {
             self.isLoading = false
@@ -185,7 +183,8 @@ class OccasionsViewModel: ObservableObject {
         
         self.icons = response.data.icons ?? []
         self.stories = response.data.stories ?? []
-        self.readings = response.data.readings ?? []
+        self.readings = response.data.readings?.filter { $0.title != "Liturgy"} ?? []
+        self.liturgy = response.data.readings?.first { $0.title == "Liturgy" }
         self.dataClass = response.data
         self.newCopticDate = response.data.copticDate ?? nil
         self.fact = response.data.facts ?? []
@@ -203,10 +202,7 @@ class OccasionsViewModel: ObservableObject {
             }
         }
         
-        for reading in response.data.readings ?? [] {
-            self.subSection = reading.subSections ?? []
-        }
-        
+        self.subSection = readings.flatMap { $0.subSections ?? [] }
         for story in self.stories {
             self.highlight = story.highlights ?? []
         }

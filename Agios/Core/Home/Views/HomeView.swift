@@ -21,7 +21,7 @@ struct HomeView: View {
     
     @State private var selectedSaint: IconModel?
     //@State private var selectedSaints: IconModel?
-    @State private var selectedSection: SubSection?
+    @State private var selectedSection: DataReading?
     @State private var showImageViewer: Bool = false
     @State private var scaleImage: Bool = false
     @State private var offset: CGSize = .zero
@@ -94,10 +94,6 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $occasionViewModel.showStory, content: {
             StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
         })
-        
-        
-        
-    
     }
     
     private func getScaleAmount() -> CGFloat {
@@ -486,27 +482,47 @@ extension HomeView {
                                  .transition(.opacity)
                          }
                      } else {
-                         ForEach(occasionViewModel.readings) { reading in
-                             ForEach(occasionViewModel.passages, id: \.self) { passage in
-                                 ForEach(occasionViewModel.subSection) { subSection in
+                         HStack {
+                             ForEach(occasionViewModel.readings) { reading in
+//                                 NavigationLink {
+//                                     ReadingsView(reading: reading)
+//                                 } label: {
+                                     ReadingView(reading: reading)
+//                                 }
+                                 .scaleEffect(selectedSection == reading ? 1.1 : 1.0)
+                                 .animation(.spring(response: 1, dampingFraction: 0.6))
+//                                 .simultaneousGesture(TapGesture().onEnded{
+//                                     withAnimation(.easeIn(duration: 0.1)) {
+//                                         selectedSection = reading
+//                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+//                                             selectedSection = nil
+//                                         }
+//                                     }
+//                                     
+//                                 })
+                             }
+                             if let liturgy = occasionViewModel.liturgy {
+                                 ForEach(liturgy.subSections ?? []) { subsection in
                                      NavigationLink {
-                                         ReadingsView(passage: passage, verse: dev.verses, subSection: subSection)
+                                         LiturgyReadingDetailsView(subsection: subsection)
                                      } label: {
-                                         DailyReadingView(passage: passage, reading: reading, subSection: subSection)
-                                             
+                                         SubsectionView(mainReadingTitle: liturgy.title ?? "",
+                                                        subsection: subsection)
+                                         .padding(16)
+                                         .background(liturgy.sequentialPastel.gradient)
+                                         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                                      }
                                      //.scaleEffect(selectedSection == subSection ? 1.1 : 1.0)
-                                     .animation(.spring(response: 1, dampingFraction: 0.6))
-                                     .simultaneousGesture(TapGesture().onEnded{
-                                         withAnimation(.easeIn(duration: 0.1)) {
-                                             selectedSection = subSection
-                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                                 selectedSection = nil
-                                                 
-                                             }
-                                         }
-                                         
-                                     })
+//                                     .animation(.spring(response: 1, dampingFraction: 0.6))
+//                                     .simultaneousGesture(TapGesture().onEnded{
+//                                         withAnimation(.easeIn(duration: 0.1)) {
+//                                             selectedSection = liturgy
+//                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+//                                                 selectedSection = nil
+//                                             }
+//                                         }
+//                                         
+//                                     })
                                  }
                              }
                          }
@@ -518,7 +534,6 @@ extension HomeView {
                  .padding(.horizontal, 20)
              }
          }
-
 
      }
      
@@ -651,4 +666,3 @@ extension HomeView {
         }
     }
 }
-
