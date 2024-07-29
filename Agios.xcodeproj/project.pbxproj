@@ -60,8 +60,8 @@
 		57EAE6372BD7E79D00379CC5 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE6362BD7E79D00379CC5 /* HapticsManager.swift */; };
 		57EE90652BE4096000C7E1AE /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90642BE4096000C7E1AE /* ShimmerView.swift */; };
 		57EE90672BE42EC600C7E1AE /* DailyQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */; };
+		990F17A42C583B3900D05551 /* copticEvents.json in Resources */ = {isa = PBXBuildFile; fileRef = 990F17A32C583B3900D05551 /* copticEvents.json */; };
 		99989BFE2C2CB6200033CDD3 /* CopticEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */; };
-		99B1337C2C563EAC00445576 /* copticEvents.json in Resources */ = {isa = PBXBuildFile; fileRef = 99B1337B2C563EAC00445576 /* copticEvents.json */; };
 		99B5EA792C36FAF600FE829F /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE0B2C25A12D004685D8 /* Shimmer */; };
 		99B5EA7A2C36FAF600FE829F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE0E2C25A1AB004685D8 /* Lottie */; };
 		99B5EA7B2C36FAF600FE829F /* UIImageColors in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE112C25A1C6004685D8 /* UIImageColors */; };
@@ -123,8 +123,8 @@
 		57EAE6362BD7E79D00379CC5 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		57EE90642BE4096000C7E1AE /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuoteView.swift; sourceTree = "<group>"; };
+		990F17A32C583B3900D05551 /* copticEvents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = copticEvents.json; sourceTree = "<group>"; };
 		99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopticEvent.swift; sourceTree = "<group>"; };
-		99B1337B2C563EAC00445576 /* copticEvents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = copticEvents.json; path = ../../../../Desktop/copticEvents.json; sourceTree = "<group>"; };
 		99B5998A2C2E03B5000F6307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		99B5EA7C2C373B7700FE829F /* ReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -394,7 +394,7 @@
 		99989BFA2C2CB4300033CDD3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				99B1337B2C563EAC00445576 /* copticEvents.json */,
+				990F17A32C583B3900D05551 /* copticEvents.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -467,7 +467,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99B1337C2C563EAC00445576 /* copticEvents.json in Resources */,
+				990F17A42C583B3900D05551 /* copticEvents.json in Resources */,
 				474C79AC2BD009BF003E3A15 /* Preview Assets.xcassets in Resources */,
 				474C79A92BD009BF003E3A15 /* Assets.xcassets in Resources */,
 				5798741D2C00B83300F0B2EE /* LaunchScreen.storyboard in Resources */,
