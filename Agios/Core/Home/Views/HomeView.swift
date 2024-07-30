@@ -18,10 +18,13 @@ struct HomeView: View {
     @State private var readingTapped = false
     @State private var isFeastTapped:Bool = false
     @State private var datePicker: Date = .now
-    
+    @State private var presentedReadingSheet: Bool = false
     @State private var selectedSaint: IconModel?
     //@State private var selectedSaints: IconModel?
-    @State private var selectedSection: DataReading?
+    @State private var selectedReading: DataReading?
+    @State private var selectedReadingForAnimation: DataReading?
+    @State private var selectedLiturgy: SubSection?
+    @State private var selectedSubsection: SubSection?
     @State private var showImageViewer: Bool = false
     @State private var scaleImage: Bool = false
     @State private var offset: CGSize = .zero
@@ -373,9 +376,6 @@ extension HomeView {
                                     
                                     .frame(height: 430)
                                     .frame(width: 350)
-//                                    .matchedTransitionSource(id: "\(saint.id)", in: transition)
-
-                                    
                             }
                             .animation(.spring(response: 0.5, dampingFraction: 0.6))
                             .simultaneousGesture(
@@ -484,50 +484,64 @@ extension HomeView {
                      } else {
                          HStack {
                              ForEach(occasionViewModel.readings) { reading in
-//                                 NavigationLink {
-//                                     ReadingsView(reading: reading)
-//                                 } label: {
-                                     ReadingView(reading: reading)
-//                                 }
-                                 .scaleEffect(selectedSection == reading ? 1.1 : 1.0)
-                                 .animation(.spring(response: 1, dampingFraction: 0.6))
-//                                 .simultaneousGesture(TapGesture().onEnded{
-//                                     withAnimation(.easeIn(duration: 0.1)) {
-//                                         selectedSection = reading
-//                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//                                             selectedSection = nil
-//                                         }
-//                                     }
-//                                     
-//                                 })
+                                 ReadingView(reading: reading)
+                                     .onTapGesture {
+                                         selectedLiturgy = nil
+                                         selectedReading = reading
+                                         presentedReadingSheet = true
+                                     }
+                                     .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                     .scaleEffect(selectedReadingForAnimation == reading ? 1.1 : 1.0)
+                                     .simultaneousGesture(TapGesture().onEnded{
+                                         withAnimation(.easeIn(duration: 0.1)) {
+                                             selectedReadingForAnimation = reading
+                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                 selectedReadingForAnimation = nil
+                                             }
+                                         }
+                                     })
+                                     .sheet(isPresented: $presentedReadingSheet) {
+                                         if let selectedReading {
+                                             ReadingsView(reading: selectedReading,
+                                                          subsectionTitle: selectedReading.subSections?.first?.title ?? "")
+                                             .presentationDragIndicator(.visible)
+                                             .presentationDetents([.medium, .large])
+                                         }
+                                         if let selectedLiturgy {
+                                             LiturgyReadingDetailsView(subsection: selectedLiturgy)
+                                                 .presentationDetents([.medium, .large])
+                                                 .presentationDragIndicator(.visible)
+                                         }
+                                     }
+                                     .animation(.spring(), value: selectedReadingForAnimation)
+                                     .scaleEffect(selectedReadingForAnimation == reading ? 1.1 : 1.0)
+
                              }
                              if let liturgy = occasionViewModel.liturgy {
                                  ForEach(liturgy.subSections ?? []) { subsection in
-                                     NavigationLink {
-                                         LiturgyReadingDetailsView(subsection: subsection)
-                                     } label: {
                                          SubsectionView(mainReadingTitle: liturgy.title ?? "",
                                                         subsection: subsection)
                                          .padding(16)
                                          .background(liturgy.sequentialPastel.gradient)
                                          .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                                     }
-                                     //.scaleEffect(selectedSection == subSection ? 1.1 : 1.0)
-//                                     .animation(.spring(response: 1, dampingFraction: 0.6))
-//                                     .simultaneousGesture(TapGesture().onEnded{
-//                                         withAnimation(.easeIn(duration: 0.1)) {
-//                                             selectedSection = liturgy
-//                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//                                                 selectedSection = nil
-//                                             }
-//                                         }
-//                                         
-//                                     })
+                                         .onTapGesture {
+                                             selectedReading = nil
+                                             selectedLiturgy = subsection
+                                             presentedReadingSheet = true
+                                         }
+                                     .scaleEffect(selectedSubsection == subsection ? 1.1 : 1.0)
+                                     .simultaneousGesture(TapGesture().onEnded{
+                                         withAnimation(.easeIn(duration: 0.1)) {
+                                             selectedSubsection = subsection
+                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                 selectedSubsection = nil
+                                             }
+                                         }
+                                     })
                                  }
                              }
                          }
                      }
-
                  }
                  .padding(.top, 10)
                  .padding(.bottom, 8)
@@ -636,14 +650,6 @@ extension HomeView {
                                )
 
                        })
-                       
-//                           Text(fact.fact ?? "Fact is empty.")
-//                               .multilineTextAlignment(.center)
-//                               .font(.title3)
-//                               .fontWeight(.semibold)
-//                               .foregroundStyle(.gray900)
-//                               .textSelection(.enabled)
-                       
                        
                        Text("by fr pishoy kamel".uppercased())
                            .foregroundStyle(.gray900)

@@ -14,13 +14,7 @@ struct ReadingView: View {
         VStack(spacing: 8) {
             ForEach(reading.subSections ?? []) { subsection in
                 if let title = reading.title {
-                    NavigationLink {
-                        ReadingsView(reading: reading,
-                                     subsectionTitle: subsection.title ?? "")
-                    } label: {
-                        SubsectionView(mainReadingTitle: title, subsection: subsection)
-                    }
-
+                    SubsectionView(mainReadingTitle: title, subsection: subsection)
                 }
             }
         }
