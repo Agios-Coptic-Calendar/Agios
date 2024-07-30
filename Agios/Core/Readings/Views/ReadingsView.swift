@@ -105,35 +105,36 @@ struct LiturgyReadingDetailsView: View {
     let subsection: SubSection
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            // Display the title of SubSection
-            HStack {
-                if let subSectionTitle = subsection.title {
-                    Text(subSectionTitle)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 10) {
+                // Display the title of SubSection
+                HStack {
+                    if let subSectionTitle = subsection.title {
+                        Text(subSectionTitle)
+                    }
+                    Spacer()
+                    Text("Liturgy")
                 }
-                Spacer()
-                Text("Liturgy")
-            }
-
-            // Display the introduction of SubSection
-            if let introduction = subsection.introduction {
-                Text(introduction)
-                    .font(.subheadline)
-                    .padding(.top, 5)
-            }
-
-            // Display the details for each SubSectionReading
-            ForEach(subsection.readings ?? []) { reading in
-                VStack(alignment: .leading, spacing: 5) {
-                    // Display each passage in a separate view
-                    ForEach(reading.passages ?? []) { passage in
-                        PassageDetailView(passage: passage, introduction: reading.introduction, conclusion: reading.conclusion)
-                            .padding(.vertical, 5)
+                
+                // Display the introduction of SubSection
+                if let introduction = subsection.introduction {
+                    Text(introduction)
+                        .font(.subheadline)
+                        .padding(.top, 5)
+                }
+                
+                // Display the details for each SubSectionReading
+                ForEach(subsection.readings ?? []) { reading in
+                    VStack(alignment: .leading, spacing: 5) {
+                        // Display each passage in a separate view
+                        ForEach(reading.passages ?? []) { passage in
+                            PassageDetailView(passage: passage, introduction: reading.introduction, conclusion: reading.conclusion)
+                                .padding(.vertical, 5)
+                        }
                     }
                 }
             }
+            .padding()
         }
-        .padding()
-
     }
 }
