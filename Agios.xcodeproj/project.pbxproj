@@ -27,6 +27,7 @@
 		5739B0D52C15EA8200493B4F /* GroupedSaintImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5739B0D42C15EA8100493B4F /* GroupedSaintImageView.swift */; };
 		5739B0DC2C1645D500493B4F /* SaintGroupImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5739B0DB2C1645D500493B4F /* SaintGroupImageView.swift */; };
 		57616ECE2BF503B800C867AC /* DateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57616ECD2BF503B800C867AC /* DateView.swift */; };
+		5762837C2C45519B004143CB /* GroupHeroTransitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5762837B2C45519B004143CB /* GroupHeroTransitionView.swift */; };
 		576AE0C52C28594C0098E2AA /* SheetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576AE0C42C28594C0098E2AA /* SheetModel.swift */; };
 		577382032C1B112B003715F6 /* SaintGroupDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577382022C1B112B003715F6 /* SaintGroupDetailsView.swift */; };
 		578293DA2BDF241200BF4162 /* ImageViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578293D92BDF241200BF4162 /* ImageViewerViewModel.swift */; };
@@ -34,6 +35,7 @@
 		578B61112BD15D9900DCDFF6 /* JSONRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B610F2BD15D9900DCDFF6 /* JSONRepository.swift */; };
 		578B61122BD15D9900DCDFF6 /* KatamerosRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61102BD15D9900DCDFF6 /* KatamerosRepository.swift */; };
 		578B61142BD164A900DCDFF6 /* ReadingsColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61132BD164A900DCDFF6 /* ReadingsColours.swift */; };
+		5791383B2C3FFB45008A6E3A /* HeroTransitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5791383A2C3FFB45008A6E3A /* HeroTransitionView.swift */; };
 		5797106F2BD138E400DFDBA3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5797106E2BD138E400DFDBA3 /* HomeView.swift */; };
 		579710922BD13FF000DFDBA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5797108F2BD13FF000DFDBA3 /* Assets.xcassets */; };
 		579710932BD13FF000DFDBA3 /* icons2023.json in Resources */ = {isa = PBXBuildFile; fileRef = 579710902BD13FF000DFDBA3 /* icons2023.json */; };
@@ -55,6 +57,7 @@
 		5798741A2BFEABF500F0B2EE /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 579874192BFEABF500F0B2EE /* SwiftUIX */; };
 		5798741D2C00B83300F0B2EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5798741C2C00B83300F0B2EE /* LaunchScreen.storyboard */; };
 		5798741F2C00B99000F0B2EE /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5798741E2C00B99000F0B2EE /* LaunchView.swift */; };
+		57A440252C3EFD3600CD6C25 /* Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A440242C3EFD3600CD6C25 /* Hero.swift */; };
 		57B26A532C1940C90058CD43 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 57B26A522C1940C90058CD43 /* Lottie */; };
 		57B7E84A2BD2B0A70016D6A4 /* OccasionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8492BD2B0A70016D6A4 /* OccasionModel.swift */; };
 		57B7E8512BD2B4D00016D6A4 /* OccasionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8502BD2B4D00016D6A4 /* OccasionsViewModel.swift */; };
@@ -96,6 +99,7 @@
 		5739B0D42C15EA8100493B4F /* GroupedSaintImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedSaintImageView.swift; sourceTree = "<group>"; };
 		5739B0DB2C1645D500493B4F /* SaintGroupImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaintGroupImageView.swift; sourceTree = "<group>"; };
 		57616ECD2BF503B800C867AC /* DateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateView.swift; sourceTree = "<group>"; };
+		5762837B2C45519B004143CB /* GroupHeroTransitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupHeroTransitionView.swift; sourceTree = "<group>"; };
 		576AE0C42C28594C0098E2AA /* SheetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetModel.swift; sourceTree = "<group>"; };
 		577382022C1B112B003715F6 /* SaintGroupDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaintGroupDetailsView.swift; sourceTree = "<group>"; };
 		578293D92BDF241200BF4162 /* ImageViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerViewModel.swift; sourceTree = "<group>"; };
@@ -103,6 +107,7 @@
 		578B610F2BD15D9900DCDFF6 /* JSONRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONRepository.swift; sourceTree = "<group>"; };
 		578B61102BD15D9900DCDFF6 /* KatamerosRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KatamerosRepository.swift; sourceTree = "<group>"; };
 		578B61132BD164A900DCDFF6 /* ReadingsColours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingsColours.swift; sourceTree = "<group>"; };
+		5791383A2C3FFB45008A6E3A /* HeroTransitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroTransitionView.swift; sourceTree = "<group>"; };
 		5797106E2BD138E400DFDBA3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		5797108F2BD13FF000DFDBA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		579710902BD13FF000DFDBA3 /* icons2023.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = icons2023.json; sourceTree = "<group>"; };
@@ -122,6 +127,7 @@
 		579710B62BD146A100DFDBA3 /* Feast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feast.swift; sourceTree = "<group>"; };
 		5798741C2C00B83300F0B2EE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5798741E2C00B99000F0B2EE /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
+		57A440242C3EFD3600CD6C25 /* Hero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hero.swift; sourceTree = "<group>"; };
 		57B7E8492BD2B0A70016D6A4 /* OccasionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccasionModel.swift; sourceTree = "<group>"; };
 		57B7E8502BD2B4D00016D6A4 /* OccasionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccasionsViewModel.swift; sourceTree = "<group>"; };
 		57B998972C2C4E0700F3B973 /* UpcomingFeastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingFeastView.swift; sourceTree = "<group>"; };
@@ -261,6 +267,8 @@
 			isa = PBXGroup;
 			children = (
 				5797106E2BD138E400DFDBA3 /* HomeView.swift */,
+				5791383A2C3FFB45008A6E3A /* HeroTransitionView.swift */,
+				5762837B2C45519B004143CB /* GroupHeroTransitionView.swift */,
 				57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */,
 				57EE90642BE4096000C7E1AE /* ShimmerView.swift */,
 				570515B12BDA6FBB00990A24 /* CopticDateView.swift */,
@@ -331,6 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				570764402BD68EDA00C5C98B /* DeveloperPreview.swift */,
+				57A440242C3EFD3600CD6C25 /* Hero.swift */,
 				57C01A9A2C28A5D70050540C /* VariableBlur.swift */,
 				579710A02BD1429900DFDBA3 /* ButtonStyle.swift */,
 				57EAE6362BD7E79D00379CC5 /* HapticsManager.swift */,
@@ -520,6 +529,7 @@
 				579710BB2BD146A100DFDBA3 /* Feast.swift in Sources */,
 				57EE90652BE4096000C7E1AE /* ShimmerView.swift in Sources */,
 				579710A82BD1429900DFDBA3 /* Date+Extensions.swift in Sources */,
+				5762837C2C45519B004143CB /* GroupHeroTransitionView.swift in Sources */,
 				570515BC2BDAE0B500990A24 /* SaintDetailsView.swift in Sources */,
 				570515B92BDAB91C00990A24 /* DatePickerView.swift in Sources */,
 				579710A72BD1429900DFDBA3 /* Colours+Extensions.swift in Sources */,
@@ -557,9 +567,11 @@
 				57B998982C2C4E0700F3B973 /* UpcomingFeastView.swift in Sources */,
 				578293DA2BDF241200BF4162 /* ImageViewerViewModel.swift in Sources */,
 				570515C22BDB037300990A24 /* NavigationButton.swift in Sources */,
+				5791383B2C3FFB45008A6E3A /* HeroTransitionView.swift in Sources */,
 				57C01A9B2C28A5D70050540C /* VariableBlur.swift in Sources */,
 				578B61142BD164A900DCDFF6 /* ReadingsColours.swift in Sources */,
 				579710B02BD1449000DFDBA3 /* SynaxarsDetailsView.swift in Sources */,
+				57A440252C3EFD3600CD6C25 /* Hero.swift in Sources */,
 				570515C42BDB186F00990A24 /* DailyReadingView.swift in Sources */,
 				5797109B2BD1413800DFDBA3 /* SaintIconModel.swift in Sources */,
 				579710B82BD146A100DFDBA3 /* PsalmAndGospel.swift in Sources */,

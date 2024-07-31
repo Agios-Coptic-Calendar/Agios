@@ -22,9 +22,14 @@ struct HomeSaintImageView: View {
     var body: some View {
         ZStack {
             if viewModel.allowTapping {
-                ZStack {
-                    VStack(alignment: .leading) {
-                        Spacer()
+                Rectangle()
+                    .fill(.clear)
+                    .background(
+                        SaintImageView(icon: icon)
+                            .scaledToFill()
+                            .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
+                    )
+                    .overlay(alignment: .bottom, content: {
                         Text(icon.caption ?? "")
                             .font(.body)
                             .multilineTextAlignment(.center)
@@ -33,33 +38,53 @@ struct HomeSaintImageView: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .background(Color.gray900.opacity(0.8))
-                    }
-                    .foregroundStyle(.white)
-                    .background(
-                        SaintImageView(icon: icon)
-                            .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
-                            .scaledToFill()
-                    )
-                    .mask({
-                        RoundedRectangle(cornerRadius: 16)
-                            .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
                     })
                     .frame(width: 300, height: 350)
-                }
-                .mask({
-                    RoundedRectangle(cornerRadius: 16)
-                        .matchedGeometryEffect(id: "\(icon.caption ?? "")", in: namespace)
-                })
-                .background(
-                    SaintImageView(icon: icon)
-                        .frame(maxWidth: 300, maxHeight: 350)
-                        .opacity(viewModel.allowTapping ? 1 : 0)
-                        .clipped()
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                        .blur(radius: 10)
-                        .offset(x:8, y: 11)
-                        .opacity(occasionViewModel.viewState == .expanded ? 0 : 0.35)
-                )
+                    .mask({
+                        RoundedRectangle(cornerRadius: 20)
+                            //.matchedGeometryEffect(id: "\(icon.image)", in: namespace)
+                    })                /*
+                 ZStack {
+                     VStack(alignment: .leading) {
+                         Spacer()
+                         Text(icon.caption ?? "")
+                             .font(.body)
+                             .multilineTextAlignment(.center)
+                             .padding(8)
+                             .padding(.horizontal, 3)
+                             .foregroundColor(.white)
+                             .frame(maxWidth: .infinity)
+                             .background(Color.gray900.opacity(0.8))
+                     }
+                     .foregroundStyle(.white)
+                     .background(
+                         SaintImageView(icon: icon)
+                             .scaledToFill()
+                             .mask({
+                                 RoundedRectangle(cornerRadius: 16)
+                                     //.matchedGeometryEffect(id: "\(icon.image)", in: namespace)
+                             })
+                             .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
+                     )
+                     
+                     .frame(width: 300, height: 350)
+                 }
+                 .mask({
+                     RoundedRectangle(cornerRadius: 16)
+                         //.matchedGeometryEffect(id: "\(icon.caption ?? "")", in: namespace)
+                 })
+ //                .background(
+ //                    SaintImageView(icon: icon)
+ //                        .frame(maxWidth: 300, maxHeight: 350)
+ //                        .opacity(viewModel.allowTapping ? 1 : 0)
+ //                        .clipped()
+ //                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+ //                        .blur(radius: 10)
+ //                        .offset(x:8, y: 11)
+ //                        .opacity(occasionViewModel.viewState == .expanded ? 0 : 0.35)
+ //                )
+                 */
+                
                 
      
                 

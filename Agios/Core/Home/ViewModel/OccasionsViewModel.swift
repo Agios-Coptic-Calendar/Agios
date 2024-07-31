@@ -103,8 +103,8 @@ class OccasionsViewModel: ObservableObject {
     
     private func updateMockDates() {
         mockDates = [
-            DateModel(month: "\(newCopticDate?.month ?? "")", day: "27", date: "2024-04-21T12:00:00.000Z", urlLink: "gr3wna6vjuucyj8", customDate: Date.from(year: 2024, month: 4, day: 21), name: "Departure of Lazarus the Beloved of the Lord"),
-            DateModel(month: "\(newCopticDate?.month ?? "")", day: "30", date: "2024-06-07T00:00:00.000Z", urlLink: "a5k50zty9scwmll", customDate: Date.from(year: 2024, month: 6, day: 7), name: "Fifth Week of the Holy Fifty Days")
+            DateModel(month: "\(newCopticDate?.month ?? "")", day: "27", date: "2024-04-21T12:00:00.000Z", urlLink: "0a5iojkoqj5ktgn", customDate: Date.from(year: 2024, month: 4, day: 21), name: "Departure of Lazarus the Beloved of the Lord"),
+            DateModel(month: "\(newCopticDate?.month ?? "")", day: "30", date: "2024-06-07T00:00:00.000Z", urlLink: "sksglsm92ae42x9", customDate: Date.from(year: 2024, month: 6, day: 7), name: "Fifth Week of the Holy Fifty Days")
         ]
     }
     
@@ -132,7 +132,7 @@ class OccasionsViewModel: ObservableObject {
     }
     
     func getPosts() {
-        guard let url = URL(string: "https://api.agios.co/occasions/get/\(selectedCopticDate?.urlLink ?? "a5k50zty9scwmll")") else { return }
+        guard let url = URL(string: "https://api.agios.co/occasions/get/\(selectedCopticDate?.urlLink ?? "sksglsm92ae42x9")") else { return }
         
         Task {
             do {

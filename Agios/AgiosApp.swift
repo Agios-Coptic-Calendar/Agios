@@ -22,10 +22,15 @@ struct AgiosApp: App {
         WindowGroup {
             ZStack(content: {
                 NavigationStack {
-                    HomeView(iconographer: dev.iconagrapher, namespace: namespace, transition: transition)
-                        .environmentObject(occasionViewModel)
-                        .environmentObject(imageViewModel)
-                        .environmentObject(iconImageViewModel)
+                    HeroWrapper {
+                        //SynaxarsDetailsView()
+                        //HeroTransitionView(namespace: namespace)
+                        HomeView(iconographer: dev.iconagrapher, namespace: namespace, transition: transition)
+                            .environmentObject(occasionViewModel)
+                            .environmentObject(imageViewModel)
+                            .environmentObject(iconImageViewModel)
+                    }
+                    
                 }
                 
                 ZStack(content: {

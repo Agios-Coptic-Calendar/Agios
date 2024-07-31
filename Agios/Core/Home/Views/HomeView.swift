@@ -5,6 +5,7 @@
 //  Created by Victor on 18/04/2024.
 //
 
+
 import SwiftUI
 import Shimmer
 import Popovers
@@ -123,8 +124,8 @@ struct HomeView: View {
                     switch occasionViewModel.viewState {
                     case .expanded:
                         DetailLoadingView(icon: $selectedIcon, story: occasionViewModel.getStory(forIcon: selectedIcon ?? dev.icon) ?? dev.story, namespace: namespace)
-                            .transition(.blurReplace(.downUp))
-                            .transition(.scale(scale: 1))
+                            //.transition(.opacity)
+                            //.transition(.scale(scale: 1))
                             .scaleEffect(1 + startValue)
                             .offset(x: startValue > 0.2 ? offset.width + position.width : .zero, y: startValue > 0 ? offset.height + position.height : .zero)
                             .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("MagnifyGestureScaleChanged"))) { obj in
@@ -221,20 +222,12 @@ struct HomeView: View {
                         EmptyView()
                     case .imageView:
                         GroupedDetailLoadingView(icon: selectedSaint, story: occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) ?? dev.story, selectedSaint: $selectedSaint, namespace: namespace)
-                            .transition(.blurReplace)
+                            //.transition(.blurReplace)
                             .transition(.scale(scale: 1))
                             .environmentObject(occasionViewModel)
                     }
                 }
                 //.transition(.opacity)
-
-                if occasionViewModel.viewState == .expanded {
-                    
-                }
-                // This controls switiching between the home view and grouped saint / icon view
-                if occasionViewModel.viewState == .imageView {
-                    
-                }
                 
                 Rectangle()
                     .fill(.gray900.opacity(0.3))
@@ -326,9 +319,11 @@ struct HomeView_Preview: PreviewProvider {
     @Namespace static var transition
     
     static var previews: some View {
-        HomeView(iconographer: dev.iconagrapher, namespace: namespace, transition: transition)
-            .environmentObject(OccasionsViewModel())
-            .environmentObject(IconImageViewModel(icon: dev.icon))
+        HeroWrapper {
+            HomeView(iconographer: dev.iconagrapher, namespace: namespace, transition: transition)
+                .environmentObject(OccasionsViewModel())
+                .environmentObject(IconImageViewModel(icon: dev.icon))
+        }
     }
 }
 
@@ -442,7 +437,8 @@ extension HomeView {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 16) {
                         ForEach(occasionViewModel.icons) { saint in
-                            HomeSaintImageView(namespace: namespace, icon: saint)
+                            //HomeSaintImageView(namespace: namespace, icon: saint)
+                            CardView(icon: saint, iconographer: dev.iconagrapher, stories: occasionViewModel.getStory(forIcon: saint) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
                                 //.aspectRatio(contentMode: .fill)
                                 //.transition(.scale(scale: 1))
                                 .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
@@ -451,7 +447,7 @@ extension HomeView {
                                         .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
                                         .blur(radius: phase.isIdentity ? 0 : 0.9)
                                         .scaleEffect(phase.isIdentity ? 1 : 0.95)
-                                }
+                                } 
                                 .contextMenu(ContextMenu(menuItems: {
                                     Button {
                                         occasionViewModel.showStory?.toggle()
@@ -474,7 +470,7 @@ extension HomeView {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                                         occasionViewModel.disallowTapping = false
                                     }
-                                    withAnimation(.spring(response: 0.28, dampingFraction: 1)) {
+                                    withAnimation(.spring(response: 0.25, dampingFraction: 1)) {
                                         occasionViewModel.viewState = .expanded
                                         occasionViewModel.selectedSaint = saint
                                     }
@@ -484,7 +480,8 @@ extension HomeView {
                             
                         }
                          if !occasionViewModel.filteredIcons.isEmpty {
-                             GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory, namespace: namespace)
+                            // GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory, namespace: namespace)
+                             GroupHeroTransitionView(namespace: namespace)
                                  .frame(width: 320, height: 430, alignment: .leading)
                                  .transition(.scale(scale: 1))
                          }
@@ -577,7 +574,7 @@ extension HomeView {
              
              
              ScrollView(.horizontal, showsIndicators: false) {
-                 HStack (alignment: .center, spacing: 16) {
+                 LazyHStack (alignment: .center, spacing: 16) {
                      if occasionViewModel.isLoading {
                          ForEach(0..<5) { index in
                              ShimmerView(heightSize: 80, cornerRadius: 24)
