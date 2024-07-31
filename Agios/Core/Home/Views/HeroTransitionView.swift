@@ -484,7 +484,9 @@ extension CardView {
     private var story: some View {
        
         ZStack {
-            if occasionViewModel.getStory(forIcon: selectedSaint ?? icon) == nil {
+            // Check if both selectedSaint and icon do not have a story
+            if occasionViewModel.getStory(forIcon: selectedSaint ?? icon) == nil || occasionViewModel.getStory(forIcon: icon) == nil {
+                EmptyView()
             } else {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack(alignment: .center, spacing: 12) {
@@ -498,12 +500,10 @@ extension CardView {
                     .font(.title3)
                     
                     VStack(alignment: .leading, spacing: 20) {
-                        
                         Text(stories.story ?? "")
                             .foregroundStyle(.gray400)
                             .fontWeight(.medium)
                             .lineLimit(storyHeight)
-                        
                         
                         Button {
                             openSheet?.toggle()
@@ -516,20 +516,17 @@ extension CardView {
                                     .fontWeight(.semibold)
                             }
                         }
-
-                        
-                        
                     }
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 24)
-                .background(.gray50)
+                .background(Color.gray50)
                 .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
                 .padding(.horizontal, 20)
-            .textSelection(.enabled)
-
+                .textSelection(.enabled)
             }
         }
+
 
     }
     

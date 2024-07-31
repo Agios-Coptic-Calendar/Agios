@@ -84,7 +84,7 @@ class DeveloperPreview {
     )], html: "")
     ])
     
-    let story = Story(created: "", id: "", updated: "", saint: "No story", story: "No story", highlights: [])
+    let story = Story(created: "", id: "", updated: "", saint: "", story: "", highlights: [])
     
     let fact = Fact(created: "", id: "", updated: "", fact: "Holy Week is the final week of Lent leading into the celebration of Easter and Christ's Resurrection. It includes Holy Thursday or Maundy Thursday, the fifth day of the week.")
 }

@@ -71,7 +71,7 @@ struct HomeView: View {
                                         }
                                     }
                                 }
-                                VStack(spacing: 14) {
+                                VStack(spacing: 10) {
                                     imageView
                                     DailyQuoteView(fact: dev.fact)
                                 }
@@ -287,7 +287,10 @@ struct HomeView: View {
         .halfSheet(showSheet: $occasionViewModel.showStory) {
             StoryDetailView(story: occasionViewModel.getStory(forIcon: selectedSaint ?? dev.icon) ?? dev.story)
                 .environmentObject(occasionViewModel)
-        } onDismiss: {}
+        } onDismiss: {
+            selectedSaint = nil
+            selectedIcon = nil
+        }
     }
     
     private func getScaleAmount() -> CGFloat {
