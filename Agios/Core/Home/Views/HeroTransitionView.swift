@@ -84,7 +84,11 @@ struct CardView: View {
     @State private var descriptionHeight: Int = 3
     @State private var storyHeight: Int = 6
     @State private var openSheet: Bool? = false
+    @State private var scrollViewOffset: CGFloat = 0
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) private var dismiss
+    @State private var verticalPosition = 0.0
+    
     
     init(icon: IconModel, iconographer: Iconagrapher, stories: Story, showImageViewer: Binding<Bool>, selectedSaint: Binding<IconModel?>, namespace: Namespace.ID) {
         _viewModel = StateObject(wrappedValue: IconImageViewModel(icon: icon))
@@ -154,6 +158,7 @@ struct CardView: View {
                                         .frame(maxWidth: .infinity)
                                 }
                                 iconCaption
+                                    
                             }
                             .padding(.horizontal, 20)
                             
@@ -171,8 +176,10 @@ struct CardView: View {
                         .fontDesign(.rounded)
                         .foregroundStyle(.gray900)
                     }
+                    .scrollIndicators(.hidden)
+                    .scrollDisabled(verticalPosition > 0 ? true : false)
                     .overlay(alignment: .top) {
-                        ZStack(alignment: .leading) {
+                        ZStack(alignment: .center) {
                             VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
                                 //.blur(radius: 3)
                                 .frame(height: 102)
@@ -190,6 +197,7 @@ struct CardView: View {
                closeButton
                 
             }
+            
             .ignoresSafeArea()
             .halfSheet(showSheet: $openSheet) {
                 StoryDetailView(story: stories)
@@ -202,13 +210,21 @@ struct CardView: View {
                 }
                
             }
+            .background(BackgroundBlurView())
             .background(
                 RoundedRectangle(cornerRadius: 32, style: .continuous)
                     .fill(.primary100)
                     .ignoresSafeArea()
             )
+            
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .interactiveDismissDisabled()
+            //.interactiveDismissDisabled()
+            .offset(y: verticalPosition)
+            .simultaneousGesture(
+                scrollViewOffset < 64 ? nil : gestureVertical()
+            )
+            .transition(.slide)
+            .animation(.easeInOut, value: verticalPosition)
         }
         .heroLayer(id: "\(icon.id)", animate: $showView, sourceCornerRadius: 20, destinationCornerRadius: 24) {
             Rectangle()
@@ -245,6 +261,27 @@ struct CardView: View {
         }
     }
     
+    
+    func gestureVertical() -> some Gesture {
+        return DragGesture()
+            .onChanged { value in
+                if value.translation.height > 0 { // Only allow downward dragging
+                    verticalPosition = value.translation.height
+                }
+            }
+            .onEnded { value in
+                if value.translation.height > 100 && scrollViewOffset > 75 {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                        showView.toggle()
+                        verticalPosition = .zero
+                    }
+                } else {
+                    verticalPosition = .zero
+                }
+            }
+    }
+
+    
     private func getScaleAmount() -> CGFloat {
         let max = UIScreen.main.bounds.height / 2
         let currentAmount = abs(offset.height)
@@ -278,7 +315,23 @@ struct CardView: View {
         return positionDistance
     }
 
-
+    private func goBack() {
+        presentationMode.wrappedValue.dismiss()
+        selectedSaint = nil
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+            occasionViewModel.saintTapped = false
+            occasionViewModel.viewState = .collapsed
+            occasionViewModel.selectedSaint = nil
+        }
+        occasionViewModel.disallowTapping = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
+            occasionViewModel.disallowTapping = false
+        }
+        withAnimation(.easeIn(duration: 0.6)) {
+            showTest = false
+        }
+        showView = false
+    }
 }
 
 
@@ -286,24 +339,15 @@ extension CardView {
     private var customBackButton: some View {
         ZStack {
             Button {
-                presentationMode.wrappedValue.dismiss()
-                selectedSaint = nil
-                withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                    occasionViewModel.saintTapped = false
-                    occasionViewModel.viewState = .collapsed
-                    occasionViewModel.selectedSaint = nil
-                }
-                occasionViewModel.disallowTapping = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
-                    occasionViewModel.disallowTapping = false
-                }
-                withAnimation(.easeIn(duration: 0.6)) {
-                    showTest = false
-                }
-                showView = false
+                goBack()
                 
             } label: {
-                NavigationButton(labelName: .back, backgroundColor: .primary300, foregroundColor: .primary1000)
+                //NavigationButton(labelName: .back, backgroundColor: .primary300, foregroundColor: .primary1000)
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .frame(width: 40, height: 5)
+                    .foregroundColor(.primary400)
+                    .padding(.top, 10)
+                    .padding(.bottom, 10)
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 4)
@@ -311,7 +355,7 @@ extension CardView {
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
         .zIndex(showImageViewer ? -2 : 0)
-        .offset(y: 28)
+        .offset(y: 16)
     }
     
     private var closeButton: some View {
@@ -322,14 +366,15 @@ extension CardView {
                     showImageViewer = false
                     endValue = 0
                     startValue = min(max(startValue, 0), 0.2)
-                    occasionViewModel.showImageView = false
+                    //occasionViewModel.showImageView = false
                     selectedSaint = nil
-                    occasionViewModel.viewState = .expanded
+                    //occasionViewModel.viewState = .expanded
                     occasionViewModel.stopDragGesture = false
                 }
                 
             } label: {
                 NavigationButton(labelName: .close, backgroundColor: .primary300, foregroundColor: .primary1000)
+                
             }
             .padding(20)
             .opacity(showImageViewer ? 1 : 0)
@@ -421,10 +466,10 @@ extension CardView {
                 .onTapGesture {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                         showImageViewer = false
-                        occasionViewModel.viewState = .expanded
+                        //occasionViewModel.viewState = .expanded
                         endValue = 0
                         startValue = 0
-                        occasionViewModel.showImageView = false
+                        //occasionViewModel.showImageView = false
                         occasionViewModel.stopDragGesture = false
                     }
             }
@@ -575,6 +620,8 @@ extension CardView {
         DestinationView(id: "\(icon.id)") {
             Rectangle()
                 .fill(.clear)
+                .frame(height: 420)
+                .frame(maxWidth: .infinity)
                 .background(
                     ZStack {
                         if let image = viewModel.image {
@@ -593,18 +640,19 @@ extension CardView {
                                         
                                     }
                                 }
+                                .onScrollViewOffsetChanged { offset in
+                                    scrollViewOffset = offset
+                                }
                                 
                 
                         }
                     }
                 )
-                .frame(height: 420)
-                .frame(maxWidth: .infinity)
                 .clipShape(RoundedRectangle(cornerRadius: 24))
-//                .mask({
-//                    RoundedRectangle(cornerRadius: 24)
-//                        .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
-//                })
+                .mask({
+                    RoundedRectangle(cornerRadius: 24)
+                        .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
+                })
                 
         }
             
@@ -658,4 +706,6 @@ extension CardView {
         }
     }
 }
+
+
 
