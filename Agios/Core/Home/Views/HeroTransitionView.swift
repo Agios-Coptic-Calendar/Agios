@@ -272,11 +272,16 @@ struct CardView: View {
             .onEnded { value in
                 if value.translation.height > 100 && scrollViewOffset > 75 {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                        showView.toggle()
                         verticalPosition = .zero
+                        showView = false
+                        
+                    }
+                    withAnimation(.easeIn(duration: 0.6)) {
+                        showTest = false
                     }
                 } else {
                     verticalPosition = .zero
+                    //showView = false
                 }
             }
     }
