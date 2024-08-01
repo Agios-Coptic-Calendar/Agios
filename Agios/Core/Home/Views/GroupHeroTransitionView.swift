@@ -14,9 +14,11 @@ struct GroupHeroTransitionView: View {
     var namespace: Namespace.ID
     
     var body: some View {
-        ZStack {
-            ForEach(vm.filteredIcons) { icon in
+        ZStack(alignment: .center) {
+            ForEach(Array(vm.filteredIcons.enumerated()), id: \.element.id) { index, icon in
                 GroupCardView(icon: icon, iconographer: dev.iconagrapher, stories: vm.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
+                    .scaleEffect(1.0 - (CGFloat(index) * 0.05), anchor: .center)
+                    .offset(y: -CGFloat(index) * 11)
                 
             }
         }
@@ -46,7 +48,7 @@ struct GroupCardDetailsView: View {
     
     var body: some View {
         if let icon = icon {
-            CardView(
+            GroupCardView(
                 icon: icon,
                 iconographer: dev.iconagrapher,
                 stories: story,
@@ -85,6 +87,8 @@ struct GroupCardView: View {
     @State private var storyHeight: Int = 6
     @State private var openSheet: Bool? = false
     @Environment(\.presentationMode) var presentationMode
+    @State private var scrollViewOffset: CGFloat = 0
+    @State private var verticalPosition = 0.0
     
     init(icon: IconModel, iconographer: Iconagrapher, stories: Story, showImageViewer: Binding<Bool>, selectedSaint: Binding<IconModel?>, namespace: Namespace.ID) {
         _viewModel = StateObject(wrappedValue: IconImageViewModel(icon: icon))
@@ -108,22 +112,6 @@ struct GroupCardView: View {
                                     Image(uiImage: image)
                                         .resizable()
                                         .scaledToFill()
-                                        
-                        
-                                } else if viewModel.isLoading {
-                                    ZStack {
-                                        Image("placeholder")
-                                            .resizable()
-                                            .scaledToFill()
-                                        
-                                        ShimmerView(heightSize: 600, cornerRadius: 24)
-                                            .transition(.opacity)
-                                    }
-                                } else {
-                                    Image("placeholder")
-                                        .resizable()
-                                        .scaledToFill()
-                                    
                                 }
                             }
                         )
@@ -141,7 +129,7 @@ struct GroupCardView: View {
                                 .fontWeight(.semibold)
                         })
                         .frame(width: 300, height: 350)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
                         .onTapGesture {
                             showView.toggle()
                             
@@ -149,6 +137,7 @@ struct GroupCardView: View {
                                 showTest.toggle()
                             }
                         }
+                    
                 }
             }
         })
@@ -163,9 +152,11 @@ struct GroupCardView: View {
                                 } else {
                                     Rectangle()
                                         .fill(.clear)
-                                        .frame(width: 353, height: 460)
+                                        .frame(height: 420)
+                                        .frame(maxWidth: .infinity)
                                 }
                                 iconCaption
+                                    
                             }
                             .padding(.horizontal, 20)
                             
@@ -183,8 +174,10 @@ struct GroupCardView: View {
                         .fontDesign(.rounded)
                         .foregroundStyle(.gray900)
                     }
+                    .scrollIndicators(.hidden)
+                    .scrollDisabled(verticalPosition > 0 ? true : false)
                     .overlay(alignment: .top) {
-                        ZStack(alignment: .leading) {
+                        ZStack(alignment: .center) {
                             VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
                                 //.blur(radius: 3)
                                 .frame(height: 102)
@@ -196,7 +189,6 @@ struct GroupCardView: View {
                     
                         blurredOverlay
                         filledImageView
-       
                 }
 
                closeButton
@@ -214,15 +206,21 @@ struct GroupCardView: View {
                 }
                
             }
+            .background(BackgroundBlurView())
             .background(
                 RoundedRectangle(cornerRadius: 32, style: .continuous)
                     .fill(.primary100)
                     .ignoresSafeArea()
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .interactiveDismissDisabled()
+            .offset(y: verticalPosition)
+            .simultaneousGesture(
+                scrollViewOffset < 64 || showImageViewer ? nil : gestureVertical()
+            )
+            .transition(.slide)
+            .animation(.easeInOut, value: verticalPosition)
         }
-        .heroLayer(id: "\(icon.id)", animate: $showView) {
+        .heroLayer(id: "\(icon.id)", animate: $showView, sourceCornerRadius: 16, destinationCornerRadius: 24) {
             Rectangle()
                 .fill(.clear)
                 .background(
@@ -231,30 +229,38 @@ struct GroupCardView: View {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFill()
-                                
-                
-                        } else if viewModel.isLoading {
-                            ZStack {
-                                Image("placeholder")
-                                    .resizable()
-                                    .scaledToFill()
-                                
-                                ShimmerView(heightSize: 600, cornerRadius: 24)
-                                    .transition(.opacity)
-                            }
-                        } else {
-                            Image("placeholder")
-                                .resizable()
-                                .scaledToFill()
-                            
                         }
                     }
                 )
-                .clipShape(RoundedRectangle(cornerRadius: 20))
                 
         } completion: { status in
             print(status ? "Open" : "Close")
         }
+    }
+    
+    private func gestureVertical() -> some Gesture {
+        return DragGesture()
+            .onChanged { value in
+                if value.translation.height > 0 { // Only allow downward dragging
+                    verticalPosition = value.translation.height
+                }
+            }
+            .onEnded { value in
+                if value.translation.height > 100 && scrollViewOffset > 75 {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                        verticalPosition = .zero
+                        showView = false
+                        goBack()
+                        
+                    }
+                    withAnimation(.easeIn(duration: 0.6)) {
+                        showTest = false
+                    }
+                } else {
+                    verticalPosition = .zero
+                    //showView = false
+                }
+            }
     }
     
     private func getScaleAmount() -> CGFloat {
@@ -290,7 +296,23 @@ struct GroupCardView: View {
         return positionDistance
     }
 
-
+    private func goBack() {
+        presentationMode.wrappedValue.dismiss()
+        selectedSaint = nil
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+            occasionViewModel.saintTapped = false
+            occasionViewModel.viewState = .collapsed
+            occasionViewModel.selectedSaint = nil
+        }
+        occasionViewModel.disallowTapping = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
+            occasionViewModel.disallowTapping = false
+        }
+        withAnimation(.easeIn(duration: 0.6)) {
+            showTest = false
+        }
+        showView = false
+    }
 }
 
 
@@ -298,24 +320,15 @@ extension GroupCardView {
     private var customBackButton: some View {
         ZStack {
             Button {
-                presentationMode.wrappedValue.dismiss()
-                selectedSaint = nil
-                withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                    occasionViewModel.saintTapped = false
-                    occasionViewModel.viewState = .collapsed
-                    occasionViewModel.selectedSaint = nil
-                }
-                occasionViewModel.disallowTapping = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
-                    occasionViewModel.disallowTapping = false
-                }
-                withAnimation(.easeIn(duration: 0.6)) {
-                    showTest = false
-                }
-                showView = false
+                goBack()
                 
             } label: {
-                NavigationButton(labelName: .back, backgroundColor: .primary300, foregroundColor: .primary1000)
+                //NavigationButton(labelName: .back, backgroundColor: .primary300, foregroundColor: .primary1000)
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .frame(width: 40, height: 5)
+                    .foregroundColor(.primary400)
+                    .padding(.top, 10)
+                    .padding(.bottom, 10)
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 4)
@@ -323,20 +336,21 @@ extension GroupCardView {
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
         .zIndex(showImageViewer ? -2 : 0)
-        .offset(y: 28)
+        .offset(y: 16)
     }
     
     private var closeButton: some View {
         ZStack {
             Button {
+                showImageViewer = false
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                     //selectedSaint = nil
-                    showImageViewer = false
+                    
                     endValue = 0
                     startValue = min(max(startValue, 0), 0.2)
-                    occasionViewModel.showImageView = false
+                    //occasionViewModel.showImageView = false
                     selectedSaint = nil
-                    occasionViewModel.viewState = .expanded
+                    //occasionViewModel.viewState = .expanded
                     occasionViewModel.stopDragGesture = false
                 }
                 
@@ -353,73 +367,73 @@ extension GroupCardView {
     }
     private var filledImageView: some View {
         ZStack {
-            if showImageViewer {
-                Rectangle()
-                .fill(.clear)
-                .frame(maxWidth: .infinity)
-                .frame(maxHeight: .infinity)
-                .background(
-                    SaintImageView(icon: icon)
-                        .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
-                        .scaledToFit()
-                        .transition(.scale(scale: 1))
-                        .zoomable()
-                        .onTapGesture {
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                                showImageViewer = true
-                            }
-                        }
-                    .scaleEffect(1 + startValue)
-                    .offset(x: startValue > 0.2 ? offset.width + position.width : .zero, y: startValue > 0 ? offset.height + position.height : .zero)
-                    .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("MagnifyGestureScaleChanged"))) { obj in
-                            if let scale = obj.object as? CGFloat {
-                                withAnimation {
-                                    currentScale = scale
-                                }
-                                
-                            }
-                        }
-                        .offset(offset)
-                        .scaleEffect(getScaleAmount())
-                        .simultaneousGesture(
-                            currentScale <= 1 ?
-                            DragGesture()
-                                .onChanged({ value in
-                                    if startValue <= 0 {
-                                        withAnimation {
-                                            offset = value.translation
-                                        }
-                                    }
-                                    
-                                })
-                                .onEnded({ value in
-                                    let dragThreshold: CGFloat = 100
-                                    
-                                    if abs(value.translation.height) > dragThreshold {
-                                        withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                                            showImageViewer = false
-                                            occasionViewModel.viewState = .expanded
-                                            selectedSaint = nil
-                                            offset = .zero
-                                            HapticsManager.instance.impact(style: .light)
-                                            occasionViewModel.stopDragGesture = false
-                                            occasionViewModel.showImageView = false
-                                        }
-                                    } else {
-                                        withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
-                                            offset = .zero
-                                        }
-                                    }
-                                })
-                            : nil
-                        )
-                )
-                .mask({
-                    RoundedRectangle(cornerRadius: 0)
-                        .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
-                })
+            if showImageViewer  {
+                 Rectangle()
+                 .fill(.clear)
+                 .frame(maxWidth: .infinity)
+                 .frame(maxHeight: .infinity)
+                 .background(
+                     SaintImageView(icon: icon)
+                         .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
+                         .scaledToFit()
+                         .transition(.scale(scale: 1))
+                         .zoomable()
+                         .onTapGesture {
+                             withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                                 showImageViewer = true
+                             }
+                         }
+                     .scaleEffect(1 + startValue)
+                     .offset(x: startValue > 0.2 ? offset.width + position.width : .zero, y: startValue > 0 ? offset.height + position.height : .zero)
+                     .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("MagnifyGestureScaleChanged"))) { obj in
+                             if let scale = obj.object as? CGFloat {
+                                 withAnimation {
+                                     currentScale = scale
+                                 }
+                                 
+                             }
+                         }
+                         .offset(offset)
+                         .scaleEffect(getScaleAmount())
+                         .simultaneousGesture(
+                             currentScale <= 1 ?
+                             DragGesture()
+                                 .onChanged({ value in
+                                     if startValue <= 0 {
+                                         withAnimation {
+                                             offset = value.translation
+                                         }
+                                     }
+                                     
+                                 })
+                                 .onEnded({ value in
+                                     let dragThreshold: CGFloat = 100
+                                     
+                                     if abs(value.translation.height) > dragThreshold {
+                                         withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                                             showImageViewer = false
+                                             occasionViewModel.viewState = .expanded
+                                             selectedSaint = nil
+                                             offset = .zero
+                                             HapticsManager.instance.impact(style: .light)
+                                             occasionViewModel.stopDragGesture = false
+                                             occasionViewModel.showImageView = false
+                                         }
+                                     } else {
+                                         withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
+                                             offset = .zero
+                                         }
+                                     }
+                                 })
+                             : nil
+                         )
+                 )
+                 .mask({
+                     RoundedRectangle(cornerRadius: 0)
+                         .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
+                 })
+                 
                 
-
             }
         }
     }
@@ -588,52 +602,58 @@ extension GroupCardView {
     
     private var fitImageView: some View {
         DestinationView(id: "\(icon.id)") {
-            Rectangle()
-                .fill(.clear)
-                .background(
-                    ZStack {
-                        if let image = viewModel.image {
-                            Image(uiImage: image)
-                                .resizable()
-                                .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
-                                .scaleEffect(1 + startValue)
-                                .offset(offset)
-                                .scaleEffect(getScaleAmount())
-                                .scaledToFill()
-                                .onTapGesture {
-                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                                        showImageViewer = true
-                                        occasionViewModel.showImageView = true
-                                        occasionViewModel.stopDragGesture = true
-                                        
-                                    }
-                                }
-                                
-                
-                        } else if viewModel.isLoading {
-                            ZStack {
-                                Image("placeholder")
-                                    .resizable()
-                                    .scaledToFill()
-                                
-                                ShimmerView(heightSize: 600, cornerRadius: 24)
-                                    .transition(.opacity)
-                            }
-                        } else {
-                            Image("placeholder")
-                                .resizable()
-                                .scaledToFill()
-                            
-                        }
-                    }
-                )
-                .frame(height: 420)
-                .frame(maxWidth: .infinity)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-//                .mask({
-//                    RoundedRectangle(cornerRadius: 24)
-//                        .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
-//                })
+            
+             Rectangle()
+                 .fill(.clear)
+                 .background(
+                     ZStack {
+                         if let image = viewModel.image {
+                             Image(uiImage: image)
+                                 .resizable()
+                                 .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
+                                 .scaleEffect(1 + startValue)
+                                 .offset(offset)
+                                 .scaleEffect(getScaleAmount())
+                                 .scaledToFill()
+                                 .onTapGesture {
+                                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                                         showImageViewer = true
+                                         occasionViewModel.showImageView = true
+                                         occasionViewModel.stopDragGesture = true
+                                         
+                                     }
+                                 }
+                                 .onScrollViewOffsetChanged { offset in
+                                     scrollViewOffset = offset
+                                 }
+                                 
+                 
+                         } else if viewModel.isLoading {
+                             ZStack {
+                                 Image("placeholder")
+                                     .resizable()
+                                     .scaledToFill()
+                                 
+                                 ShimmerView(heightSize: 600, cornerRadius: 24)
+                                     .transition(.opacity)
+                             }
+                         } else {
+                             Image("placeholder")
+                                 .resizable()
+                                 .scaledToFill()
+                             
+                         }
+                     }
+                 )
+                 .frame(height: 420)
+                 .frame(maxWidth: .infinity)
+                 .clipShape(RoundedRectangle(cornerRadius: 20))
+                 .mask({
+                     RoundedRectangle(cornerRadius: 24)
+                         .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
+                 })
+             
+            
                 
         }
             

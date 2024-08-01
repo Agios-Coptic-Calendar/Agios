@@ -50,7 +50,7 @@ struct Fact: Codable, Identifiable {
 }
 
 // MARK: - Icon
-struct IconModel: Identifiable, Codable, Equatable {
+struct IconModel: Hashable, Identifiable, Codable, Equatable {
     let id: String
     let created, updated, caption: String?
     let explanation: String?
@@ -59,7 +59,7 @@ struct IconModel: Identifiable, Codable, Equatable {
     let croppedImage: String?
     let iconagrapher: IconagrapherEnum?
     
-    enum IconagrapherEnum: Codable, Equatable {
+    enum IconagrapherEnum: Codable, Equatable, Hashable {
         case iconagrapher(Iconagrapher)
         case string(String)
         
@@ -87,7 +87,7 @@ struct IconModel: Identifiable, Codable, Equatable {
 }
 
 // MARK: - Iconographer
-struct Iconagrapher: Codable, Equatable {
+struct Iconagrapher: Codable, Equatable, Hashable {
     let id: String?
     let name: String?
     let url: String?

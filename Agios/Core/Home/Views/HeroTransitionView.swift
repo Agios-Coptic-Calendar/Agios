@@ -86,7 +86,6 @@ struct CardView: View {
     @State private var openSheet: Bool? = false
     @State private var scrollViewOffset: CGFloat = 0
     @Environment(\.presentationMode) var presentationMode
-    @Environment(\.dismiss) private var dismiss
     @State private var verticalPosition = 0.0
     
     
@@ -104,7 +103,7 @@ struct CardView: View {
         ZStack(content: {
             VStack {
                 SourceView(id: "\(icon.id)") {
-                    RoundedRectangle(cornerRadius: 20)
+                    RoundedRectangle(cornerRadius: 16)
                         .fill(.clear)
                         .background(
                             ZStack {
@@ -132,7 +131,7 @@ struct CardView: View {
                         })
                         .background(.gray)
                         .frame(width: 300, height: 350)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
                         .onTapGesture {
                             showView.toggle()
                             
@@ -221,12 +220,12 @@ struct CardView: View {
             //.interactiveDismissDisabled()
             .offset(y: verticalPosition)
             .simultaneousGesture(
-                scrollViewOffset < 64 ? nil : gestureVertical()
+                scrollViewOffset < 64 || showImageViewer ? nil : gestureVertical()
             )
             .transition(.slide)
             .animation(.easeInOut, value: verticalPosition)
         }
-        .heroLayer(id: "\(icon.id)", animate: $showView, sourceCornerRadius: 20, destinationCornerRadius: 24) {
+        .heroLayer(id: "\(icon.id)", animate: $showView, sourceCornerRadius: 16, destinationCornerRadius: 24) {
             Rectangle()
                 .fill(.clear)
                 .background(
@@ -235,26 +234,9 @@ struct CardView: View {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFill()
-                                
-                 
-                        } else if viewModel.isLoading {
-                            ZStack {
-                                Image("placeholder")
-                                    .resizable()
-                                    .scaledToFill()
-                                
-                                ShimmerView(heightSize: 600, cornerRadius: 24)
-                                    .transition(.opacity)
-                            }
-                        } else {
-                            Image("placeholder")
-                                .resizable()
-                                .scaledToFill()
-                            
                         }
                     }
                 )
-                //.clipShape(RoundedRectangle(cornerRadius: 20))
                 
         } completion: { status in
             print(status ? "Open" : "Close")
@@ -262,7 +244,7 @@ struct CardView: View {
     }
     
     
-    func gestureVertical() -> some Gesture {
+    private func gestureVertical() -> some Gesture {
         return DragGesture()
             .onChanged { value in
                 if value.translation.height > 0 { // Only allow downward dragging
@@ -274,6 +256,7 @@ struct CardView: View {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                         verticalPosition = .zero
                         showView = false
+                        goBack()
                         
                     }
                     withAnimation(.easeIn(duration: 0.6)) {
@@ -436,12 +419,12 @@ extension CardView {
                                     if abs(value.translation.height) > dragThreshold {
                                         withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                                             showImageViewer = false
-                                            occasionViewModel.viewState = .expanded
+                                            //occasionViewModel.viewState = .expanded
                                             selectedSaint = nil
                                             offset = .zero
                                             HapticsManager.instance.impact(style: .light)
                                             occasionViewModel.stopDragGesture = false
-                                            occasionViewModel.showImageView = false
+                                            //occasionViewModel.showImageView = false
                                         }
                                     } else {
                                         withAnimation(.spring(response: 0.30, dampingFraction: 1)) {

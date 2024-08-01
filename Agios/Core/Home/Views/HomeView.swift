@@ -60,7 +60,7 @@ struct HomeView: View {
                     Color.primary100.ignoresSafeArea()
                     ScrollView {
                         VStack(spacing: 40) {
-                            VStack(spacing: 22) {
+                            VStack(spacing: 12) {
                                 VStack(alignment: .leading, spacing: 32) {
                                     VStack(spacing: 28) {
                                         illustration
@@ -71,7 +71,7 @@ struct HomeView: View {
                                         }
                                     }
                                 }
-                                VStack(spacing: 10) {
+                                VStack(spacing: 18) {
                                     imageView
                                     DailyQuoteView(fact: dev.fact)
                                 }
@@ -442,15 +442,6 @@ extension HomeView {
                         ForEach(occasionViewModel.icons) { saint in
                             //HomeSaintImageView(namespace: namespace, icon: saint)
                             CardView(icon: saint, iconographer: dev.iconagrapher, stories: occasionViewModel.getStory(forIcon: saint) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
-                                //.aspectRatio(contentMode: .fill)
-                                //.transition(.scale(scale: 1))
-                                .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
-                                .scrollTransition { content, phase in
-                                    content
-                                        .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
-                                        .blur(radius: phase.isIdentity ? 0 : 0.9)
-                                        .scaleEffect(phase.isIdentity ? 1 : 0.95)
-                                } 
                                 .contextMenu(ContextMenu(menuItems: {
                                     Button {
                                         occasionViewModel.showStory?.toggle()
@@ -465,7 +456,15 @@ extension HomeView {
                                     }
                                     .disabled((occasionViewModel.getStory(forIcon: saint) != nil) == true ? false : true)
                                 }))
-                                //.frame(height: 430)
+                                .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
+                                .scrollTransition { content, phase in
+                                    content
+                                        .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
+                                        .blur(radius: phase.isIdentity ? 0 : 0.9)
+                                        .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                                } 
+                                
+                                .frame(height: 400, alignment: .center)
                                 .onTapGesture {
                                     segue(icon: saint)
                                     selectedSaint = saint
@@ -485,11 +484,26 @@ extension HomeView {
                          if !occasionViewModel.filteredIcons.isEmpty {
                             // GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory, namespace: namespace)
                              GroupHeroTransitionView(namespace: namespace)
-                                 .frame(width: 320, height: 430, alignment: .leading)
-                                 .transition(.scale(scale: 1))
+                                 .contextMenu(ContextMenu(menuItems: {
+                                     Button {
+                                         selectedSaint = occasionViewModel.filteredIcons.first
+                                         occasionViewModel.showStory?.toggle()
+                                     } label: {
+                                         if occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) != nil {
+                                             Label("See story", systemImage: "book")
+                                         } else {
+                                             Text("No story")
+                                         }
+                                         
+                                     }
+                                     .disabled((occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) != nil) == true ? false : true)
+
+                                 }))
+                                 .frame(height: 400, alignment: .center)
+                                 
                          }
                     }
-                    .padding(.top, -24)
+                    //.padding(.top, -24)
                     .padding(.horizontal, 24)
                 }
                 
