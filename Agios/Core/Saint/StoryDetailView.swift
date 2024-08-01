@@ -53,6 +53,7 @@ struct StoryDetailView: View {
                     .textSelection(.enabled)
                     .fontDesign(.rounded)
                     .padding(.top, 48)
+                    .padding(.bottom, 24)
                 }
             }
             //.padding(.top, 24) 

@@ -515,10 +515,11 @@ extension GroupCardView {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack(alignment: .center, spacing: 12) {
                         Image(systemName: "book")
-                            .foregroundStyle(.gray400)
+                            .foregroundStyle(.gray900)
                         
                         Text(stories.saint ?? "")
                             .fontWeight(.semibold)
+                            .foregroundStyle(.gray900)
                             .lineLimit(2)
                     }
                     .font(.title3)
@@ -553,6 +554,10 @@ extension GroupCardView {
                 .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
                 .padding(.horizontal, 20)
             .textSelection(.enabled)
+            .onTapGesture {
+                openSheet?.toggle()
+            }
+            .shadow(color: .gray400, radius: 1.2, x: 0, y: 2)
 
             }
         }
