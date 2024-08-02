@@ -190,6 +190,7 @@ struct CardView: View {
                     
                         blurredOverlay
                         filledImageView
+       
                 }
 
                closeButton
@@ -219,7 +220,7 @@ struct CardView: View {
             //.interactiveDismissDisabled()
             .offset(y: verticalPosition)
             .simultaneousGesture(
-                scrollViewOffset < 24 || showImageViewer ? nil : gestureVertical()
+                scrollViewOffset < 16 || showImageViewer ? nil : gestureVertical()
             )
             .transition(.slide)
             .animation(.easeInOut, value: verticalPosition)
