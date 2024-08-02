@@ -47,7 +47,7 @@ struct StoryDetailView: View {
                         Text(formatStoryText(story.story ?? "story"))
                             .font(.title2)
                             .fontWeight(.medium)
-                            .foregroundStyle(.gray700)  
+                            .foregroundStyle(.gray700)
                     }
                     .padding(.horizontal, vm.filteredIcons.count > 0 ? 16 : 20)
                     .textSelection(.enabled)
@@ -56,7 +56,7 @@ struct StoryDetailView: View {
                     .padding(.bottom, 24)
                 }
             }
-            //.padding(.top, 24) 
+            //.padding(.top, 24)
         }
         .kerning(-0.4)
     }

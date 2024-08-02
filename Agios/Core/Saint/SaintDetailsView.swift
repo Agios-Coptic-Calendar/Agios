@@ -545,6 +545,3 @@ extension SaintDetailsView {
         }
     }
 }
-
-
-

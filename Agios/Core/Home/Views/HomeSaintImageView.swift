@@ -119,5 +119,3 @@ struct HomeSaintImageView_Preview: PreviewProvider {
             .environmentObject(OccasionsViewModel())
     }
 }
-
-

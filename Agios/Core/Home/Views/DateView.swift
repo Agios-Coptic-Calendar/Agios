@@ -11,33 +11,33 @@ import Lottie
 struct DateView: View {
     
     enum DateSelection: Int, CaseIterable {
-    case regularDate
-    case feast
-    case yearAhead
-        
-        func title(using viewModel: OccasionsViewModel) -> String {
-            switch self {
-            case .regularDate:
-                return "\(viewModel.datePicker.formatDateShort(viewModel.datePicker))"
-            case .feast:
-                return "\(viewModel.selectedCopticDate?.month ?? "\(viewModel.newCopticDate?.month ?? "")") \(viewModel.selectedCopticDate?.day ?? "\(viewModel.newCopticDate?.day ?? "")")"
-            case .yearAhead:
-                return "Year ahead"
-            }
-        }
-        
-        @ViewBuilder
-        func selectedDate(using viewModel: OccasionsViewModel) -> some View {
-            switch self {
-            case .regularDate:
-                NormalDateView()
-            case .feast:
-                FeastView()
-            case .yearAhead:
-                YearAheadView()
-            }
-        }
-    }
+       case regularDate
+       case feast
+       case yearAhead
+           
+       func title(using viewModel: OccasionsViewModel) -> String {
+           switch self {
+           case .regularDate:
+               return "\(viewModel.datePicker.formatDateShort(viewModel.datePicker))"
+           case .feast:
+               return "\(viewModel.selectedCopticDate?.month ?? "\(viewModel.newCopticDate?.month ?? "")") \(viewModel.selectedCopticDate?.day ?? "\(viewModel.newCopticDate?.day ?? "")")"
+           case .yearAhead:
+               return "Year ahead"
+           }
+       }
+       
+       @ViewBuilder
+       func selectedDate(using viewModel: OccasionsViewModel) -> some View {
+           switch self {
+           case .regularDate:
+               NormalDateView()
+           case .feast:
+               FeastView()
+           case .yearAhead:
+               YearAheadView()
+           }
+       }
+   }
     
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
     var transition: Namespace.ID
@@ -150,7 +150,7 @@ struct DateView: View {
             //.padding(.horizontal, 16)
             .foregroundStyle(.gray900)
             .fontWeight(.medium)
-            .fontDesign(.rounded) 
+            .fontDesign(.rounded)
             
             // Gradient
             /*
@@ -229,20 +229,17 @@ struct DateView: View {
                     .foregroundStyle(.gray900)
                     .background(.primary100)
                     .clipShape(RoundedRectangle(cornerRadius: 24))
-                    .offset(y: 50)
+                    .offset(y: 52)
                     .opacity(occasionViewModel.selectedCopticDate == nil ? 1 : 0)
                     .scaleEffect(occasionViewModel.selectedCopticDate == nil ? 1 : 0)
                     .blur(radius: occasionViewModel.selectedCopticDate == nil ? 0 : 20)
                 }
                 
             })
-            
-                
-            
+             
         }
         
     }
-    
     
 }
 
@@ -444,3 +441,4 @@ struct YearAheadView: View {
 
     }
 }
+

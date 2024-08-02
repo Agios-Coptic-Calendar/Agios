@@ -26,12 +26,6 @@ extension Date {
         return date
     }
     
-    func formatDateShort(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM d"
-        return dateFormatter.string(from: date)
-    }
-    
     static func copticDate() -> String {
         let calendar = Calendar(identifier: .gregorian)
         let date = Date()
@@ -49,5 +43,11 @@ extension Date {
         dateComponents.month = month
         dateComponents.day = day
         return calendar.date(from: dateComponents) ?? Date()
+    }
+    
+    func formatDateShort(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d"
+        return dateFormatter.string(from: date)
     }
 }

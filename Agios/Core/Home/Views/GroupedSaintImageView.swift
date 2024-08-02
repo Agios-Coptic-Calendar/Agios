@@ -69,5 +69,3 @@ struct GroupedSaintImageView_Previews: PreviewProvider {
             .environmentObject(OccasionsViewModel())
     }
 }
-
-

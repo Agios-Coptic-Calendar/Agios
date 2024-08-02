@@ -21,7 +21,7 @@ struct GroupedDetailLoadingView: View {
                 iconographer: dev.iconagrapher,
                 stories: story,
                 showImageViewer: $showImageViewer,
-                selectedSaint: $selectedSaint, 
+                selectedSaint: $selectedSaint,
                 namespace: namespace
             )
         }
@@ -521,5 +521,3 @@ extension SaintGroupDetailsView {
         }
     }
 }
-
-

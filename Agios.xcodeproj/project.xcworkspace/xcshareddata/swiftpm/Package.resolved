@@ -1,5 +1,5 @@
 {
-  "originHash" : "6069b07964da246c2f4125e6a67f3c14d9fc1bbfa34cf837e3c62c05a88c2485",
+  "originHash" : "c7548b651c43439a652e50db16adad6423efd1f532c39252ed9926af9b1a7383",
   "pins" : [
     {
       "identity" : "lottie-ios",
@@ -29,21 +29,12 @@
       }
     },
     {
-      "identity" : "swiftuix",
+      "identity" : "uiimagecolors",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SwiftUIX/SwiftUIX",
+      "location" : "https://github.com/jathu/UIImageColors.git",
       "state" : {
-        "revision" : "ff1176d8c06c2ac81db3dfd36c63ec8a9c2ccbca",
-        "version" : "0.2.1"
-      }
-    },
-    {
-      "identity" : "zoomimageviewer",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ryanlintott/ZoomImageViewer.git",
-      "state" : {
-        "revision" : "32a1f7e60f82712c10205ab9be7eec67ec20eff5",
-        "version" : "0.4.1"
+        "revision" : "e49e6c32ea556e9fa0109dc79686bea4a10d41a2",
+        "version" : "2.2.0"
       }
     }
   ],

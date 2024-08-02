@@ -45,9 +45,16 @@ struct HomeView: View {
     @State private var hapticsTriggered = false
     @State private var dragPhase: DragPhase = .initial
     
+    @State private var selectedReading: DataReading?
+    @State private var selectedReadingForAnimation: DataReading?
+    @State private var selectedLiturgy: SubSection?
+    @State private var selectedSubsection: SubSection?
+    @State private var presentedReadingSheet: Bool = false
+    
     var namespace: Namespace.ID
     var transition: Namespace.ID
-  
+    
+    
     @EnvironmentObject private var occasionViewModel: OccasionsViewModel
     @EnvironmentObject private var iconImageViewModel: IconImageViewModel
     @EnvironmentObject private var imageViewModel: IconImageViewModel
@@ -385,6 +392,92 @@ extension HomeView {
             }
         }
     }
+    private var copticDate: some View {
+        ZStack {
+            if occasionViewModel.isLoading {
+                ShimmerView(heightSize: 32, cornerRadius: 24)
+                    .transition(.opacity)
+            } else {
+                Button(action: {
+                    withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
+                        occasionViewModel.copticDateTapped.toggle()
+                    }
+                }, label: {
+                    HStack(spacing: 8) {
+                        Text(occasionViewModel.copticDate)
+                             .font(.body)
+                             .fontWeight(.semibold)
+                             .frame(maxWidth: .infinity, alignment: .leading)
+                             .lineLimit(1)
+                             .matchedGeometryEffect(id: "copticDate", in: namespace)
+                        
+                        Image(systemName: "chevron.down")
+                            .fontWeight(.semibold)
+                            .font(.caption)
+                    }
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .fill(.primary300)
+                            .matchedGeometryEffect(id: "background", in: namespace)
+                    )
+                    .mask({
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .matchedGeometryEffect(id: "mask", in: namespace)
+                    })
+
+                })
+                .foregroundColor(.gray900)
+            }
+        }
+
+    }
+    
+    private var dateView: some View {
+        ZStack {
+            if occasionViewModel.isLoading {
+                ShimmerView(heightSize: 32, cornerRadius: 24)
+                    .transition(.opacity)
+            } else {
+                Button {
+                    withAnimation(.spring(response: 0.30, dampingFraction: 0.88)) {
+                        occasionViewModel.defaultDateTapped.toggle()
+                    }
+                } label: {
+                    HStack(spacing: 8) {
+                        Text(datePicker.formatted(date: .abbreviated, time: .omitted))
+                             .font(.body)
+                             .fontWeight(.semibold)
+                             .frame(width: 117, alignment: .leading)
+                             .lineLimit(1)
+                             .matchedGeometryEffect(id: "defaultDate", in: namespace)
+                        
+                        Image(systemName: "chevron.down")
+                            .fontWeight(.semibold)
+                            .font(.caption)
+                    }
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .fill(.primary300)
+                            .matchedGeometryEffect(id: "dateBackground", in: namespace)
+                    )
+                    .mask({
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .matchedGeometryEffect(id: "maskDate", in: namespace)
+                    })
+
+                }
+                 .foregroundColor(.gray900)
+
+            }
+        }
+
+         
+
+    }
     
     private var fastView: some View {
         ZStack {
@@ -396,7 +489,7 @@ extension HomeView {
             } else {
                 ZStack {
                     if occasionViewModel.liturgicalInfoTapped {
-                        Text(occasionViewModel.liturgicalInformation ?? "")
+                        Text(occasionViewModel.liturgicalInformation ?? "No Liturgical Info")
                             .blur(radius: occasionViewModel.liturgicalInfoTapped ? 0 : 10)
                     } else {
                         Text(occasionViewModel.feast)
@@ -462,7 +555,7 @@ extension HomeView {
                                         .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
                                         .blur(radius: phase.isIdentity ? 0 : 0.9)
                                         .scaleEffect(phase.isIdentity ? 1 : 0.95)
-                                } 
+                                }
                                 
                                 .frame(height: 400, alignment: .center)
                                 .onTapGesture {
@@ -571,7 +664,9 @@ extension HomeView {
                 .foregroundColor(.black)
             }
         }
+
     }
+    
     
      private var dailyReading: some View {
          VStack (alignment: .leading, spacing: 8) {
@@ -599,34 +694,72 @@ extension HomeView {
                                  .transition(.opacity)
                          }
                      } else {
-                         ForEach(occasionViewModel.readings) { reading in
-                             ForEach(occasionViewModel.passages, id: \.self) { passage in
-                                 DailyReadingView(passage: passage, reading: reading, subSection: dev.subSection)
-                                     .scaleEffect(selectedSection == passage ? 1.1 : 1.0)
-                                     .animation(.spring(response: 0.6, dampingFraction: 0.4))
+                         LazyHStack {
+                             ForEach(occasionViewModel.readings) { reading in
+                                 ReadingView(reading: reading)
                                      .onTapGesture {
-                                         withAnimation {
-                                             selectedSection = passage
+                                         selectedLiturgy = nil
+                                         selectedReading = reading
+                                         presentedReadingSheet = true
+                                     }
+                                     .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                     .scaleEffect(selectedReadingForAnimation == reading ? 1.1 : 1.0)
+                                     .simultaneousGesture(TapGesture().onEnded{
+                                         withAnimation(.easeIn(duration: 0.1)) {
+                                             selectedReadingForAnimation = reading
                                              DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                                 selectedSection = nil
-                                                 occasionViewModel.showReading = true
+                                                 selectedReadingForAnimation = nil
                                              }
                                          }
+                                     })
+                                     .sheet(isPresented: $presentedReadingSheet) {
+                                         if let selectedReading {
+                                             ReadingsView(reading: selectedReading,
+                                                          subsectionTitle: selectedReading.subSections?.first?.title ?? "")
+                                             .presentationDragIndicator(.visible)
+                                             .presentationDetents([.medium, .large])
+                                         }
+                                         if let selectedLiturgy {
+                                             LiturgyReadingDetailsView(subsection: selectedLiturgy)
+                                                 .presentationDetents([.medium, .large])
+                                                 .presentationDragIndicator(.visible)
+                                         }
                                      }
-                                     .halfSheet(showSheet: $occasionViewModel.showReading) {
-                                         ReadingsView(passage: passage, verse: dev.verses, subSection: dev.subSection)
-                                     } onDismiss: {}
+                                     .animation(.spring(), value: selectedReadingForAnimation)
+                                     .scaleEffect(selectedReadingForAnimation == reading ? 1.1 : 1.0)
+
+                             }
+                             if let liturgy = occasionViewModel.liturgy {
+                                 ForEach(liturgy.subSections ?? []) { subsection in
+                                         SubsectionView(mainReadingTitle: liturgy.title ?? "",
+                                                        subsection: subsection)
+                                         .padding(16)
+                                         .background(liturgy.sequentialPastel.gradient)
+                                         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                         .onTapGesture {
+                                             selectedReading = nil
+                                             selectedLiturgy = subsection
+                                             presentedReadingSheet = true
+                                         }
+                                     .scaleEffect(selectedSubsection == subsection ? 1.1 : 1.0)
+                                     .simultaneousGesture(TapGesture().onEnded{
+                                         withAnimation(.easeIn(duration: 0.1)) {
+                                             selectedSubsection = subsection
+                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                 selectedSubsection = nil
+                                             }
+                                         }
+                                     })
+                                 }
                              }
                          }
                      }
-
                  }
                  .padding(.top, 10)
                  .padding(.bottom, 8)
                  .padding(.horizontal, 20)
              }
          }
-
 
      }
      
@@ -712,4 +845,3 @@ extension HomeView {
     }
     
 }
-

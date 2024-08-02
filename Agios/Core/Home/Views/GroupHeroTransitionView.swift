@@ -112,6 +112,19 @@ struct GroupCardView: View {
                                     Image(uiImage: image)
                                         .resizable()
                                         .scaledToFill()
+                                } else if viewModel.isLoading {
+                                    ZStack {
+                                        Image("placeholder")
+                                            .resizable()
+                                            .scaledToFill()
+                                        
+                                        ShimmerView(heightSize: 600, cornerRadius: 24)
+                                            .transition(.opacity)
+                                    }
+                                } else {
+                                    Image("placeholder")
+                                        .resizable()
+                                        .scaledToFill()
                                 }
                             }
                         )
