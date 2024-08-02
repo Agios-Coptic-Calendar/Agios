@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Shimmer
 
 struct HeroTransitionView: View {
     @EnvironmentObject var occasionViewModel: OccasionsViewModel
@@ -122,9 +123,15 @@ struct CardView: View {
                                     }
                                         
                                 } else {
-                                    Image("placeholder")
-                                        .resizable()
-                                        .scaledToFill()  
+                                    ZStack {
+                                        Image("placeholder")
+                                            .resizable()
+                                            .scaledToFill()
+                                        
+                                        ShimmerView(heightSize: .infinity, cornerRadius: 24)
+                                            .transition(.opacity)
+                                    }
+                                    .clipShape(Rectangle())
                                 }
                             }
                         )
@@ -152,6 +159,7 @@ struct CardView: View {
                             }
                         }
                 }
+                .allowsHitTesting(viewModel.isLoading ? true : false)
             }
         })
         .fullScreenCover(isPresented: $showView) {

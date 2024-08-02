@@ -19,7 +19,7 @@ class IconImageViewModel: ObservableObject {
     
     
     init(icon: IconModel) {
-        self.isLoading = true
+        //self.isLoading = true
         self.dataService = IconImageDataService(urlString: icon.image, icon: icon)
         self.addSubscribers()
     }
@@ -34,6 +34,10 @@ class IconImageViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self?.image = returnedImage
                     self?.allowTapping = true
+                    if (returnedImage != nil) {
+                        self?.isLoading = true
+                    }
+                    print("Loaded image \(String(describing: self?.isLoading))")
                 }
                 
             }

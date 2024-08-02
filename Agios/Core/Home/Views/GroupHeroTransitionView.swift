@@ -15,10 +15,10 @@ struct GroupHeroTransitionView: View {
     
     var body: some View {
         ZStack(alignment: .center) {
-            ForEach(Array(vm.filteredIcons.enumerated()), id: \.element.id) { index, icon in
+            ForEach(Array(vm.filteredIcons.enumerated().reversed()), id: \.element.id) { index, icon in
                 GroupCardView(icon: icon, iconographer: dev.iconagrapher, stories: vm.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
                     .scaleEffect(1.0 - (CGFloat(index) * 0.05), anchor: .center)
-                    .offset(y: -CGFloat(index) * 11)
+                    .offset(y: -CGFloat(index) * 13)
                 
             }
         }
@@ -108,24 +108,8 @@ struct GroupCardView: View {
                         .fill(.clear)
                         .background(
                             ZStack {
-                                if let image = viewModel.image {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .scaledToFill()
-                                } else if viewModel.isLoading {
-                                    ZStack {
-                                        Image("placeholder")
-                                            .resizable()
-                                            .scaledToFill()
-                                        
-                                        ShimmerView(heightSize: 600, cornerRadius: 24)
-                                            .transition(.opacity)
-                                    }
-                                } else {
-                                    Image("placeholder")
-                                        .resizable()
-                                        .scaledToFill()
-                                }
+                                SaintImageView(icon: icon)
+                                    .scaledToFill()
                             }
                         )
                         .overlay(alignment: .bottom, content: {
