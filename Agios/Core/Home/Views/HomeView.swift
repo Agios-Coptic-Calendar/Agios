@@ -722,7 +722,7 @@ extension HomeView {
                                 .transition(.opacity)
                         }
                     } else {
-                        LazyHStack {
+                        HStack {
                             ForEach(occasionViewModel.readings) { reading in
                                 ReadingView(reading: reading)
                                     .onTapGesture {
