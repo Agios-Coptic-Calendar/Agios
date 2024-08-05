@@ -19,7 +19,7 @@ struct GroupHeroTransitionView: View {
                 GroupCardView(icon: icon, iconographer: dev.iconagrapher, stories: vm.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
                     .scaleEffect(1.0 - (CGFloat(index) * 0.05), anchor: .center)
                     .offset(y: -CGFloat(index) * 13)
-                    .allowsHitTesting(index == 0) 
+                    .allowsHitTesting(index == 0)
                 
             }
         }
@@ -246,7 +246,7 @@ struct GroupCardView: View {
                 }
             }
             .onEnded { value in
-                if value.translation.height > 25 && scrollViewOffset > 75 {
+                if value.translation.height > 10 && scrollViewOffset > 600 {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                         verticalPosition = .zero
                         showView = false

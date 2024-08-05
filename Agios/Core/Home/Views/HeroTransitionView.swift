@@ -208,7 +208,8 @@ struct CardView: View {
                     
                         blurredOverlay
                         filledImageView
-                   // Text("\(scrollViewOffset) \(verticalPosition)")
+//                   Text("\(scrollViewOffset) \(verticalPosition)")
+//                        .background(.white)
                 }
 
                closeButton
@@ -270,7 +271,7 @@ struct CardView: View {
                 }
             }
             .onEnded { value in
-                if value.translation.height > 25 && scrollViewOffset > 75 {
+                if value.translation.height > 10 && scrollViewOffset > 600 {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                         verticalPosition = .zero
                         showView = false
