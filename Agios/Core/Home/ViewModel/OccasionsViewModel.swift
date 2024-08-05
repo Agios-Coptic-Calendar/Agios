@@ -71,6 +71,8 @@ class OccasionsViewModel: ObservableObject {
     @Published var searchText: Bool = false
     @Published var isTextFieldFocused: Bool = false
     @Published var saintTapped: Bool = false
+    @State var dataNotLoaded: Bool = false
+    @Published var showEventNotLoaded = false
     @Published var feast: String = "" {
         didSet {
             updateMockDates()
@@ -84,6 +86,7 @@ class OccasionsViewModel: ObservableObject {
     
     @Published var mockDates: [DateModel] = []
     @Published var selectedMockDate: DateModel? = nil
+
     var copticEvents: [CopticEvent]?
     var feastName: String?
     var liturgicalInformation: String?
@@ -178,8 +181,26 @@ class OccasionsViewModel: ObservableObject {
                 let (data, response) = try await URLSession.shared.data(from: url)
                 let decodedResponse = try handleOutput(response: response, data: data)
                     await updateUI(with: decodedResponse)
+                DispatchQueue.main.async { [weak self] in
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                        self?.showEventNotLoaded = false
+                    }
+                }
+              
             } catch {
-                print("Error fetching data: \(error)")            }
+                print("Error fetching data: \(error)")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                        self?.showEventNotLoaded = true
+                        
+                    }
+                    if self?.showEventNotLoaded ?? false && (self?.isLoading ?? false) {
+                        HapticsManager.instance.notification(type: .error)
+                    }
+                    
+                }
+                
+            }
         }
     }
     

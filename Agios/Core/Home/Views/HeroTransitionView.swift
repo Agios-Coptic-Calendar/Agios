@@ -124,12 +124,10 @@ struct CardView: View {
                                         
                                 } else {
                                     ZStack {
-                                        Image("placeholder")
-                                            .resizable()
-                                            .scaledToFill()
-                                        
-                                        ShimmerView(heightSize: .infinity, cornerRadius: 24)
+                                        ShimmerView(heightSize: 350, cornerRadius: 24)
+                                            .frame(width: 300, alignment: .leading)
                                             .transition(.opacity)
+                                            .padding(.vertical, 25)
                                     }
                                     .clipShape(Rectangle())
                                 }
@@ -144,11 +142,11 @@ struct CardView: View {
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .background(Color.gray900.opacity(0.8))
-                                .opacity(showTest ? 0 : 1)
+                                .opacity(showTest || !viewModel.isLoading ? 0 : 1)
                                 .fontDesign(.rounded)
                                 .fontWeight(.semibold)
                         })
-                        .background(.gray)
+                        .background(.primary200)
                         .frame(width: 300, height: 350)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                         .onTapGesture {
@@ -196,7 +194,7 @@ struct CardView: View {
                         .foregroundStyle(.gray900)
                     }
                     .scrollIndicators(.hidden)
-                    .scrollDisabled(verticalPosition > 0 ? true : false)
+                    .scrollDisabled(verticalPosition > 30 ? true : false)
                     .overlay(alignment: .top) {
                         ZStack(alignment: .center) {
                             VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
@@ -210,7 +208,7 @@ struct CardView: View {
                     
                         blurredOverlay
                         filledImageView
-       
+                   // Text("\(scrollViewOffset) \(verticalPosition)")
                 }
 
                closeButton
@@ -240,10 +238,10 @@ struct CardView: View {
             //.interactiveDismissDisabled()
             .offset(y: verticalPosition)
             .simultaneousGesture(
-                scrollViewOffset < 16 || showImageViewer ? nil : gestureVertical()
+                scrollViewOffset < 570 || showImageViewer ? nil : gestureVertical()
             )
             .transition(.slide)
-            .animation(.easeInOut, value: verticalPosition)
+            .animation(.smooth, value: verticalPosition)
         }
         .heroLayer(id: "\(icon.id)", animate: $showView, sourceCornerRadius: 16, destinationCornerRadius: 24) {
             Rectangle()
@@ -272,7 +270,7 @@ struct CardView: View {
                 }
             }
             .onEnded { value in
-                if value.translation.height > 100 && scrollViewOffset > 75 {
+                if value.translation.height > 25 && scrollViewOffset > 75 {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                         verticalPosition = .zero
                         showView = false
@@ -653,9 +651,7 @@ extension CardView {
                                         
                                     }
                                 }
-                                .onScrollViewOffsetChanged { offset in
-                                    scrollViewOffset = offset
-                                }
+
                         }  else if viewModel.isLoading {
                             ZStack {
                                 Image("placeholder")
@@ -712,7 +708,10 @@ extension CardView {
         VStack(alignment: .leading, spacing: 12) {
             Text(icon.caption ?? "")
                 .font(.title2)
-            .fontWeight(.semibold)
+                .fontWeight(.semibold)
+                .onScrollViewOffsetChanged { offset in
+                    scrollViewOffset = offset
+                }
             
             if !(occasionViewModel.iconagrapher == nil) {
                 Text("\(occasionViewModel.iconagrapher?.name ?? "None")")
@@ -722,6 +721,7 @@ extension CardView {
                     .padding(.vertical, 4)
                     .background(.primary300)
                     .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+                    
             }
             
             

@@ -19,6 +19,7 @@ struct GroupHeroTransitionView: View {
                 GroupCardView(icon: icon, iconographer: dev.iconagrapher, stories: vm.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
                     .scaleEffect(1.0 - (CGFloat(index) * 0.05), anchor: .center)
                     .offset(y: -CGFloat(index) * 13)
+                    .allowsHitTesting(index == 0) 
                 
             }
         }
@@ -121,10 +122,11 @@ struct GroupCardView: View {
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .background(Color.gray900.opacity(0.8))
-                                .opacity(showTest ? 0 : 1)
+                                .opacity(showTest || !viewModel.isLoading ? 0 : 1)
                                 .fontDesign(.rounded)
                                 .fontWeight(.semibold)
                         })
+                        .background(.primary200)
                         .frame(width: 300, height: 350)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                         .onTapGesture {
@@ -136,6 +138,7 @@ struct GroupCardView: View {
                         }
                     
                 }
+                .allowsHitTesting(viewModel.isLoading ? true : false)
             }
         })
         .fullScreenCover(isPresented: $showView) {
@@ -172,7 +175,7 @@ struct GroupCardView: View {
                         .foregroundStyle(.gray900)
                     }
                     .scrollIndicators(.hidden)
-                    .scrollDisabled(verticalPosition > 0 ? true : false)
+                    .scrollDisabled(verticalPosition > 30 ? true : false)
                     .overlay(alignment: .top) {
                         ZStack(alignment: .center) {
                             VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
@@ -212,10 +215,10 @@ struct GroupCardView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .offset(y: verticalPosition)
             .simultaneousGesture(
-                scrollViewOffset < 64 || showImageViewer ? nil : gestureVertical()
+                scrollViewOffset < 570 || showImageViewer ? nil : gestureVertical()
             )
             .transition(.slide)
-            .animation(.easeInOut, value: verticalPosition)
+            .animation(.smooth, value: verticalPosition)
         }
         .heroLayer(id: "\(icon.id)", animate: $showView, sourceCornerRadius: 16, destinationCornerRadius: 24) {
             Rectangle()
@@ -243,7 +246,7 @@ struct GroupCardView: View {
                 }
             }
             .onEnded { value in
-                if value.translation.height > 100 && scrollViewOffset > 75 {
+                if value.translation.height > 25 && scrollViewOffset > 75 {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                         verticalPosition = .zero
                         showView = false
@@ -625,9 +628,7 @@ extension GroupCardView {
                                          
                                      }
                                  }
-                                 .onScrollViewOffsetChanged { offset in
-                                     scrollViewOffset = offset
-                                 }
+                                 
                                  
                  
                          } else if viewModel.isLoading {
@@ -690,7 +691,10 @@ extension GroupCardView {
         VStack(alignment: .leading, spacing: 12) {
             Text(icon.caption ?? "")
                 .font(.title2)
-            .fontWeight(.semibold)
+                .fontWeight(.semibold)
+                .onScrollViewOffsetChanged { offset in
+                    scrollViewOffset = offset
+                }
             
             if !(occasionViewModel.iconagrapher == nil) {
                 Text("\(occasionViewModel.iconagrapher?.name ?? "None")")

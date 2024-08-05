@@ -28,18 +28,21 @@ struct SaintImageView: View {
     
             } else if viewModel.isLoading {
                 ZStack {
-                    Image("placeholder")
-                        .resizable()
-                        .scaledToFill()
-                    
-                    ShimmerView(heightSize: 600, cornerRadius: 24)
+                    ShimmerView(heightSize: 350, cornerRadius: 24)
+                        .frame(width: 300, alignment: .leading)
                         .transition(.opacity)
-                }     
+                        .padding(.vertical, 25)
+                }
+                .clipShape(Rectangle())
                     
             } else {
-                Image("placeholder")
-                    .resizable()
-                    .scaledToFill()
+                ZStack {
+                    ShimmerView(heightSize: 350, cornerRadius: 24)
+                        .frame(width: 300, alignment: .leading)
+                        .transition(.opacity)
+                        .padding(.vertical, 25)
+                }
+                .clipShape(Rectangle())
                 
             }
         }
