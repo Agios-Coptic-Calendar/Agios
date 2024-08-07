@@ -266,10 +266,12 @@ struct CardView: View {
                 print("changed")
             } else {
                 print("ended")
-                withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                    verticalPosition = .zero
-                    showView = false
-                    goBack()
+                if verticalPosition > 0 {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                        verticalPosition = .zero
+                        showView = false
+                        goBack()
+                    }
                 }
             }
         }
