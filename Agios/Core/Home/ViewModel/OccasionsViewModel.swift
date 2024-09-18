@@ -163,20 +163,16 @@ class OccasionsViewModel: ObservableObject {
         return "\(monthName) \(day)"
     }
     
-    var occasionID: String? {
+    var date: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
-        let formattedDate = formatter.string(from: datePicker)
-        if let event = copticEvents?.first(where: { $0.date == formattedDate }) {
-            return event.occasionID
-        }
-        return nil
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: datePicker)
     }
     
     func getPosts() {
-        guard let url = URL(string: "https://api.agios.co/occasions/get/\(occasionID ?? "sksglsm92ae42x9")") else { return }
+        guard let url = URL(string: "https://api.agios.co/occasions/get/date/\(date)") else { return }
         
-        Task {
+        Task {  
             do {
                 let (data, response) = try await URLSession.shared.data(from: url)
                 let decodedResponse = try handleOutput(response: response, data: data)
