@@ -255,10 +255,10 @@ struct DateView_Preview: PreviewProvider {
 
 struct NormalDateView: View {
     @EnvironmentObject private var vm: OccasionsViewModel
-    let startingDate: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 4, day: 21)) ?? Date()
-    let endingDate: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 6, day: 21)) ?? Date()
+    let startingDate: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 11)) ?? Date()
+    let endingDate: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 10, day: 10)) ?? Date()
     var body: some View {
-        DatePicker("", selection: $vm.datePicker, in: startingDate...Date(), displayedComponents: [.date])
+        DatePicker("", selection: $vm.datePicker, in: startingDate...endingDate, displayedComponents: [.date])
         .datePickerStyle(.graphical)
         .environment(\.colorScheme, .light)
         .padding(.horizontal, 16)

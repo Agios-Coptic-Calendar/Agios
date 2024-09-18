@@ -172,7 +172,7 @@ class OccasionsViewModel: ObservableObject {
     func getPosts() {
         guard let url = URL(string: "https://api.agios.co/occasions/get/date/\(date)") else { return }
         
-        Task {  
+        Task {
             do {
                 let (data, response) = try await URLSession.shared.data(from: url)
                 let decodedResponse = try handleOutput(response: response, data: data)
