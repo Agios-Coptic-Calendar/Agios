@@ -393,7 +393,6 @@ extension HomeView {
                                 .lineLimit(1)
                                 .foregroundStyle(.primary1000)
                                 .multilineTextAlignment(.leading)
-                                .frame(maxWidth: 100)
                                 
                             
                             Image(systemName: "chevron.down")
