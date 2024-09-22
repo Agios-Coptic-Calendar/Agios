@@ -90,15 +90,22 @@ struct HomeView: View {
                                 upcomingFeasts
                             }
                             .padding(.bottom, 48)
-                            .padding(.top, 96)
+                            .padding(.top, 48)
                             .transition(.scale(scale: 0.95, anchor: .top))
                             .transition(.opacity)
                             
                             
                         }
+                        .refreshable {
+                            withAnimation {
+                                occasionViewModel.isLoading = true
+                            }
+                            await Task.sleep(2 * 1_000_000_000) // Delay for 2 seconds
+                            occasionViewModel.getPosts()
+                        }
                         .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
                         .scrollIndicators(.hidden)
-                        .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
+                        //.scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
                         .scaleEffect(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 0.98 : 1)
                         .blur(radius: occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 3 : 0)
                         
@@ -243,7 +250,7 @@ struct HomeView: View {
                         .fill(.gray900.opacity(0.3))
                         .opacity(occasionViewModel.showUpcomingView || (occasionViewModel.showEventNotLoaded && !iconImageViewModel.isLoading && occasionViewModel.isLoading) ? 1 : 0)
                 }
-                .ignoresSafeArea(edges: .all)
+                //.ignoresSafeArea(edges: .all)
                 
                 // Pop up for when data doesn't load in view
                 ZStack {
