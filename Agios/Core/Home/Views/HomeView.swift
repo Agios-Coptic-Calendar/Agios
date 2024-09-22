@@ -392,7 +392,8 @@ extension HomeView {
                             Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")")
                                 .lineLimit(1)
                                 .foregroundStyle(.primary1000)
-                                .frame(width: 100)
+                                .multilineTextAlignment(.leading)
+                                .frame(maxWidth: 100)
                                 
                             
                             Image(systemName: "chevron.down")

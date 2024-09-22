@@ -344,7 +344,7 @@ extension GroupCardView {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .frame(width: 40, height: 5)
                     .foregroundColor(.primary400)
-                    .padding(.top, 10)
+                    .padding(.top, 38)
                     .padding(.bottom, 10)
             }
             .padding(.horizontal, 20)
