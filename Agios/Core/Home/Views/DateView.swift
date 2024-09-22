@@ -215,29 +215,32 @@ struct DateView: View {
         .fontDesign(.rounded)
         .animation(.spring(response: 0.35, dampingFraction: 0.9), value: animationsMode)
         .frame(maxWidth: 400)
-        .overlay(alignment: .bottom) {
-            ZStack(content: {
-                if animationsMode == .regularDate {
-                    HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 8, content: {
-                        Image(systemName: "seal")
-                        Text("No event for this day")
-                    })
-                    .fontDesign(.rounded)
-                    .fontWeight(.medium)
-                    .padding(.vertical, 10)
-                    .frame(width: 250)
-                    .foregroundStyle(.gray900)
-                    .background(.primary100)
-                    .clipShape(RoundedRectangle(cornerRadius: 24))
-                    .offset(y: 52)
-                    .opacity(occasionViewModel.selectedCopticDate == nil ? 1 : 0)
-                    .scaleEffect(occasionViewModel.selectedCopticDate == nil ? 1 : 0)
-                    .blur(radius: occasionViewModel.selectedCopticDate == nil ? 0 : 20)
-                }
-                
-            })
-             
-        }
+        /*
+         .overlay(alignment: .bottom) {
+             ZStack(content: {
+                 if animationsMode == .regularDate {
+                     HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 8, content: {
+                         Image(systemName: "seal")
+                         Text("No event for this day")
+                     })
+                     .fontDesign(.rounded)
+                     .fontWeight(.medium)
+                     .padding(.vertical, 10)
+                     .frame(width: 250)
+                     .foregroundStyle(.gray900)
+                     .background(.primary100)
+                     .clipShape(RoundedRectangle(cornerRadius: 24))
+                     .offset(y: 52)
+                     .opacity(occasionViewModel.selectedCopticDate == nil ? 1 : 0)
+                     .scaleEffect(occasionViewModel.selectedCopticDate == nil ? 1 : 0)
+                     .blur(radius: occasionViewModel.selectedCopticDate == nil ? 0 : 20)
+                 }
+                 
+             })
+              
+         }
+         */
+
         
     }
     
