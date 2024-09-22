@@ -40,11 +40,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var iconagrapher: Iconagrapher? = nil
     @Published var highlight: [Highlight] = []
     @Published var viewState: ViewState = .collapsed
-    @Published var newCopticDate: CopticDate? = nil {
-        didSet {
-            updateMockDates()
-        }
-    }
+    @Published var newCopticDate: CopticDate? = nil
     @Published var fact: [Fact]? = nil
     @Published var matchedStory: Story? = nil
     @Published var stopDragGesture: Bool = false
@@ -67,30 +63,25 @@ class OccasionsViewModel: ObservableObject {
     @Published var showStory: Bool? = false
     @Published var showReading: Bool? = false
     @Published var liturgicalInfoTapped: Bool = false
-    //@Published var liturgicalInformation: String?
+    @Published var liturgicalInformation: String?
     @Published var searchText: Bool = false
     @Published var isTextFieldFocused: Bool = false
     @Published var saintTapped: Bool = false
     @State var dataNotLoaded: Bool = false
     @Published var showEventNotLoaded = false
     @Published var showCrest: Bool = false
-    @Published var feast: String = "" {
-        didSet {
-            updateMockDates()
-        }
-    }
+    @Published var feast: String = ""
     @Published var datePicker: Date = Date() {
         didSet {
             filterDate()
         }
     }
-    
+    @Published var copticDates: [String] = []
     @Published var mockDates: [DateModel] = []
     @Published var selectedMockDate: DateModel? = nil
 
     var copticEvents: [CopticEvent]?
     var feastName: String?
-    var liturgicalInformation: String?
     var occasionName: String {
         dataClass?.name ?? "Unknown Occasion"
     }
@@ -103,9 +94,55 @@ class OccasionsViewModel: ObservableObject {
             self.isLoading = true
         }
         getCopticEvents()
-        updateMockDates()
-        handleChangeInUrl()
+        getPosts()
+        getCopticDates()
+    }
+    
+    func date(from copticDateString: String) -> Date? {
+        let calendar = Calendar(identifier: .coptic)
         
+        // Extract the current Coptic year
+        let currentCopticYear = calendar.component(.year, from: Date())
+        
+        // Split the input string to extract the month name and day
+        let components = copticDateString.split(separator: " ")
+        guard components.count == 2,
+              let day = Int(components[1]) else {
+            return nil // Handle incorrect format
+        }
+        
+        let monthName = String(components[0])
+        
+        // Find the month number corresponding to the Coptic month name
+        guard let monthIndex = calendar.monthSymbols.firstIndex(of: monthName) else {
+            return nil // Handle invalid month name
+        }
+        
+        // Create the Coptic date components using the current Coptic year
+        var dateComponents = DateComponents()
+        dateComponents.year = currentCopticYear
+        dateComponents.month = monthIndex + 1 // Month index is 0-based
+        dateComponents.day = day
+        
+        // Convert the Coptic date components into a Gregorian Date
+        return calendar.date(from: dateComponents)
+    }
+
+    private func getCopticDates() {
+        let range = Date.dateRange
+        let calendar = Calendar.current
+        var currentDate = range.lowerBound
+        while currentDate <= range.upperBound {
+            let copticDateString = copticDate(for: currentDate)
+            copticDates.append(copticDateString)
+            // Move to the next day
+            if let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate) {
+                currentDate = nextDate
+            } else {
+                break // In case date calculation fails
+            }
+            
+        }
     }
     
     private func loadJSONFromFile(fileName: String)  {
@@ -129,18 +166,10 @@ class OccasionsViewModel: ObservableObject {
     private func getCopticEvents() {
        loadJSONFromFile(fileName: "copticEvents")
     }
-    
-    private func updateMockDates() {
-        mockDates = [
-            DateModel(month: "\(newCopticDate?.month ?? "")", day: "27", date: "2024-04-21T12:00:00.000Z", urlLink: "0a5iojkoqj5ktgn", customDate: Date.from(year: 2024, month: 4, day: 21), name: "Departure of Lazarus the Beloved of the Lord"),
-            DateModel(month: "\(newCopticDate?.month ?? "")", day: "30", date: "2024-06-07T00:00:00.000Z", urlLink: "sksglsm92ae42x9", customDate: Date.from(year: 2024, month: 6, day: 7), name: "Fifth Week of the Holy Fifty Days")
-        ]
-    }
-    
+        
     func filterDate() {
         withAnimation(.spring(response: 0.25, dampingFraction: 0.9)) {
-            selectedCopticDate = filteredDate.first
-            self.feast = selectedCopticDate?.name ?? "Fifth Week of the Holy Fifty Days"
+            self.feast = selectedCopticDate?.name ?? ""
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
                 withAnimation {
                     self.isLoading = true
@@ -214,7 +243,8 @@ class OccasionsViewModel: ObservableObject {
         withAnimation(.spring(response: 0.07, dampingFraction: 0.9, blendDuration: 1)) {
             self.isLoading = false
         }
-        
+        self.feast = response.data.name ?? ""
+        self.liturgicalInformation = response.data.liturgicalInformation?.replaceCommaWithNewLine
         self.icons = response.data.icons ?? []
         self.stories = response.data.stories ?? []
         self.readings = response.data.readings?.filter { $0.title != "Liturgy"} ?? []
@@ -303,21 +333,7 @@ class OccasionsViewModel: ObservableObject {
         guard let storyID = icon.story?.first else { return nil }
         return stories.first { $0.id == storyID }
     }
-    
-    func handleChangeInUrl() {
-        withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
-            self.defaultDateTapped = false
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-            withAnimation {
-                self.isLoading = true
-                self.getPosts()
-            }
-            self.datePicker = self.selectedCopticDate?.customDate ?? Date()
-            self.feast = self.selectedMockDate?.name ?? "Fifth Week of the Holy Fifty Days"
-        }
-    }
-        
+            
     func formattedDate(from dateString: String) -> String? {
         let inputFormatter = ISO8601DateFormatter()
         guard let date = inputFormatter.date(from: dateString) else { return nil }

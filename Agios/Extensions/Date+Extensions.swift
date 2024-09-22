@@ -14,6 +14,13 @@ extension Date {
         return dateFormatter.string(from: Date())
     }
     
+    /// Ranged used for the date picker
+    static var dateRange: ClosedRange<Date> {
+        let startingDate: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 11)) ?? Date()
+        let endingDate: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 10, day: 10)) ?? Date()
+        return startingDate...endingDate
+    }
+    
     static var currentYear: String {
         String(Calendar.current.component(.year, from: Date()))
     }
@@ -27,7 +34,7 @@ extension Date {
     }
     
     static func copticDate() -> String {
-        let calendar = Calendar(identifier: .gregorian)
+        let calendar = Calendar(identifier: .coptic)
         let date = Date()
         let month = calendar.component(.month, from: date)
         let day = calendar.component(.day, from: date)
