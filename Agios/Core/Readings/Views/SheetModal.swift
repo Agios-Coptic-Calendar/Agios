@@ -180,28 +180,36 @@ struct HalfSheetHelper<Content: View>: UIViewControllerRepresentable {
     }
 }
 
-// Custom UIHostingController for halfSheet...
 final class CustomHostingController<Content: View>: UIHostingController<Content> {
     override func viewDidLoad() {
+        super.viewDidLoad()
         view.backgroundColor = .clear
-        if let presentationController = presentationController as? UISheetPresentationController {
-            presentationController.detents = [
-                .medium(),
-                .large()
-            ]
+        configureSheetPresentation()
+    }
+    
+    private func configureSheetPresentation() {
+        guard let presentationController = presentationController as? UISheetPresentationController else { return }
+        
+        // Set the presentation style to `.pageSheet` to allow wider presentation
+        modalPresentationStyle = .pageSheet
+        
+        // Adjust detents for different heights
+        presentationController.detents = [.medium(), .large()]
+        presentationController.prefersGrabberVisible = false
+        presentationController.prefersScrollingExpandsWhenScrolledToEdge = true
+        presentationController.preferredCornerRadius = 30
+        
+        // Expand the sheet to full screen width on iPad
+        if traitCollection.horizontalSizeClass == .regular && traitCollection.verticalSizeClass == .regular {
+            // Set the preferred content size to span the full width of the iPad screen
+            preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
-            //MARK: - sheet grabber visbility:
-            presentationController.prefersGrabberVisible = false
-            
-            // i added the code below so that you can scroll when you have medium view
-            // here is good article for customising sheet in UIKit - https://sarunw.com/posts/bottom-sheet-in-ios-15-with-uisheetpresentationcontroller/#scrolling
-            presentationController.prefersScrollingExpandsWhenScrolledToEdge = true
-            
-            //MARK: - sheet corner radius:
-            presentationController.preferredCornerRadius = 30
+            // Ensure the sheet covers the entire width, maintaining a half-sheet style
+            presentationController.largestUndimmedDetentIdentifier = .large
         }
     }
 }
+
 
 public struct LazyView<Content: View>: View {
     private let build: () -> Content

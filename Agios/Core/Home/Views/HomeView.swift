@@ -49,7 +49,7 @@ struct HomeView: View {
     @State private var selectedReadingForAnimation: DataReading?
     @State private var selectedLiturgy: SubSection?
     @State private var selectedSubsection: SubSection?
-    @State private var presentedReadingSheet: Bool = false
+    @State private var presentedReadingSheet: Bool? = false
     @State private var navigateToDateView: Bool = false
     
     var namespace: Namespace.ID
@@ -733,21 +733,27 @@ extension HomeView {
                                             }
                                         }
                                     })
-                                    .sheet(isPresented: $presentedReadingSheet) {
+                                    .halfSheet(showSheet: $presentedReadingSheet) {
                                         if let selectedReading {
                                             ReadingsView(reading: selectedReading,
                                                          subsectionTitle: selectedReading.subSections?.first?.title ?? "")
-                                            .presentationDragIndicator(.visible)
-                                            .presentationDetents([.medium, .large])
+                                            //.presentationDragIndicator(.visible)
                                         }
                                         if let selectedLiturgy {
                                             LiturgyReadingDetailsView(subsection: selectedLiturgy)
-                                                .presentationDetents([.medium, .large])
-                                                .presentationDragIndicator(.visible)
+                                                //.presentationDetents([.medium, .large])
+                                                //.presentationDragIndicator(.visible)
                                         }
+                                    } onDismiss: {
+                                        //selectedSaint = nil
+                                       // selectedIcon = nil
                                     }
-                                    .animation(.spring(), value: selectedReadingForAnimation)
-                                    .scaleEffect(selectedReadingForAnimation == reading ? 1.1 : 1.0)
+//                                    .sheet(isPresented: $presentedReadingSheet) {
+//                                       
+//                                    }
+                                    //.animation(.spring(), value: selectedReadingForAnimation)
+                                    //.scaleEffect(selectedReadingForAnimation == reading ? 1.1 : 1.0)
+                                    
 
                             }
                             if let liturgy = occasionViewModel.liturgy {
