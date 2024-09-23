@@ -48,7 +48,7 @@ struct ReadingsView: View {
                             
                             if let firstSubSection = reading.subSections?.first {
                                 if let introduction = firstSubSection.introduction {
-                                    VStack(alignment: .leading, spacing: 24) {
+                                    VStack(alignment: .leading, spacing: 12) {
                                         HStack {
                                             Text("INTRODUCTION")
                                                 .font(.headline)
