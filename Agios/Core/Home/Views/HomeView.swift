@@ -96,6 +96,7 @@ struct HomeView: View {
                             
                             
                         }
+                        .padding(.top, 40)
                         .refreshable {
                             withAnimation {
                                 occasionViewModel.isLoading = true
@@ -261,8 +262,20 @@ struct HomeView: View {
                     
                 }
                 
+                // Upcoming feast modal
+                ZStack {
+                    if occasionViewModel.showUpcomingView {
+                        UpcomingFeastView()
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 48)
+                            .environmentObject(occasionViewModel)
+                            .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
+                    }
+                    
+                }
+                
             }
-            .ignoresSafeArea(edges: .bottom)
+            .ignoresSafeArea(edges: .all)
   
         }
         .onChange(of: occasionViewModel.datePicker) { _, _ in
@@ -278,34 +291,7 @@ struct HomeView: View {
             }
             
         }
-        .popover(
-            present: $occasionViewModel.showUpcomingView,
-            attributes: {
-                $0.sourceFrameInset = UIEdgeInsets(16)
-                $0.position = .relative(
-                    popoverAnchors: [
-                        .bottom,
-                    ]
-                )
-                $0.dismissal.mode = .dragDown
-                $0.blocksBackgroundTouches = true
-                $0.presentation.animation = .spring(
-                    response: 0.4,
-                    dampingFraction: 0.85,
-                    blendDuration: 1
-                )
-                $0.presentation.transition = .move(edge: .bottom)
-                $0.dismissal.animation = .spring(
-                    response: 0.4,
-                    dampingFraction: 0.85,
-                    blendDuration: 1
-                )
-                $0.dismissal.transition = .move(edge: .bottom).combined(with: .opacity)
-            }
-        ) {
-            UpcomingFeastView()
-                .environmentObject(occasionViewModel)
-        }
+        
         // This controls the keyboard appearance on the search text field in the date picker in a custom way.
         .onAppear {
             occasionViewModel.stopDragGesture = false
@@ -846,12 +832,12 @@ extension HomeView {
                             .padding(16)
                             .background(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                            .modifier(TapToScaleModifier())
                             .onTapGesture {
                                 withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                                    occasionViewModel.showUpcomingView.toggle()
+                                    occasionViewModel.showUpcomingView = true
                                 }
                             }
+                            .modifier(TapToScaleModifier())
                         }
 
                     }
@@ -859,6 +845,7 @@ extension HomeView {
                 .padding(.top, 10)
                 .padding(.bottom, 8)
                 .padding(.leading, 20)
+                .padding(.trailing, 20)
             }
 
             
