@@ -867,6 +867,7 @@ extension HomeView {
                     .frame(width: 46.25, height: 47.5)
                     .offset(y: -17)
                     .opacity(occasionViewModel.showCrest ? 1 : 0)
+                    .blur(radius: occasionViewModel.showCrest ? 0 : 5)
                 
                 Image("details")
                     .resizable()
