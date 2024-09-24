@@ -11,7 +11,7 @@ struct ReadingView: View {
     let reading: DataReading
     
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(alignment: .leading, spacing: 8) {
             ForEach(reading.subSections ?? []) { subsection in
                 if let title = reading.title {
                     SubsectionView(mainReadingTitle: title, subsection: subsection)
@@ -35,14 +35,17 @@ struct SubsectionView: View {
     let subsection: SubSection
     
     var body: some View {
-        VStack(spacing: 10) {
-            if let readings = subsection.readings {
-                ForEach(readings) { reading in
-                    ForEach(reading.passages ?? []) { passage in
-                        PassageView(passage: passage)
+        VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 6) {
+                if let readings = subsection.readings {
+                    ForEach(readings) { reading in
+                        ForEach(reading.passages ?? []) { passage in
+                            PassageView(passage: passage)
+                        }
                     }
                 }
             }
+
             HStack(spacing: 4, content: {
                 Text(subsection.title ?? "")
 
