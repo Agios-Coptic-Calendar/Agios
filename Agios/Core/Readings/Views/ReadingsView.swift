@@ -189,9 +189,24 @@ struct LiturgyReadingDetailsView: View {
                         
                         // Display the introduction of SubSection
                         if let introduction = subsection.introduction {
-                            Text(introduction)
-                                .font(.subheadline)
-                                .padding(.top, 5)
+                            VStack(alignment: .leading, spacing: 12) {
+                                HStack {
+                                    Text("INTRODUCTION")
+                                        .font(.headline)
+                                        .foregroundStyle(.primary1000)
+                                        .kerning(0.5)
+                                    Spacer()
+                                }
+
+                                Text(introduction)
+                                    .fontWeight(.medium)
+                                    .font(.title3)
+                                    .foregroundStyle(.gray900)
+                            }
+                            .fontWeight(.medium)
+                            .padding(20)
+                            .background(.primary200)
+                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                         }
                         
                         // Display the details for each SubSectionReading

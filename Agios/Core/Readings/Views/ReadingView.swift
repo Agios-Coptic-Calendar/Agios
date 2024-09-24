@@ -19,7 +19,7 @@ struct ReadingView: View {
             }
         }
         .padding(16)
-        .background(reading.sequentialPastel.gradient)
+        .background(reading.color.gradient)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 }

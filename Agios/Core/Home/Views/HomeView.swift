@@ -761,7 +761,7 @@ extension HomeView {
                                         SubsectionView(mainReadingTitle: liturgy.title ?? "",
                                                        subsection: subsection)
                                         .padding(16)
-                                        .background(liturgy.sequentialPastel.gradient)
+                                        .background(liturgy.color(for: subsection.id ?? 0).gradient)
                                         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                                         .onTapGesture {
                                             selectedReading = nil

@@ -98,32 +98,42 @@ struct DataReading: Identifiable, Codable, Equatable {
     let id: Int?
     let title: String?
     let subSections: [SubSection]?
-    
+
     static func == (lhs: DataReading, rhs: DataReading) -> Bool {
         return lhs.id == rhs.id
     }
-    
+
     static let pastelColors: [Color] = [
-        Color(red: 253/255, green: 225/255, blue: 225/255),  // Pastel Red
-        Color(red: 253/255, green: 246/255, blue: 215/255),  // Pastel Yellow
-        Color(red: 215/255, green: 253/255, blue: 221/255),  // Pastel Green
-        Color(red: 215/255, green: 230/255, blue: 253/255),  // Pastel Blue
-        Color(red: 253/255, green: 225/255, blue: 253/255),  // Pastel Pink
-        Color(red: 1.0, green: 0.89, blue: 0.71), // Pastel Yellow (FFE4B5)
-        Color(red: 0.97, green: 0.67, blue: 0.67)  // Pastel Pink (F8ACAC)
+        Color(red: 253 / 255, green: 225 / 255, blue: 225 / 255),  // Pastel Red
+        Color(red: 253 / 255, green: 246 / 255, blue: 215 / 255),  // Pastel Yellow
+        Color(red: 215 / 255, green: 253 / 255, blue: 221 / 255),  // Pastel Green
+        Color(red: 253 / 255, green: 225 / 255, blue: 253 / 255),  // Pastel Pink
+        Color(red: 215 / 255, green: 230 / 255, blue: 253 / 255),  // Pastel Blue
+        Color(red: 1.0, green: 0.89, blue: 0.71),                  // Pastel Yellow (FFE4B5)
+        Color(red: 0.97, green: 0.67, blue: 0.67)                  // Pastel Pink (F8ACAC)
     ]
 
-    var sequentialPastel: Color {
-        struct SequentialPastelIndex {
-            static var currentIndex = 0
+    // Computed property that assigns a consistent color based on the `id`.
+    var color: Color {
+        guard let id = id else {
+            // Fallback color if id is nil
+            return DataReading.pastelColors[0]
         }
-
-        let pastColor = DataReading.pastelColors[SequentialPastelIndex.currentIndex]
-        SequentialPastelIndex.currentIndex = (SequentialPastelIndex.currentIndex + 1) % DataReading.pastelColors.count
-        return pastColor
+        let colorIndex = id % DataReading.pastelColors.count
+        return DataReading.pastelColors[colorIndex]
     }
-
+    
+    // Computed property that assigns a consistent color based on unique properties or index.
+    func color(for index: Int) -> Color {
+        // Combine multiple properties to ensure varied colors even if ids are the same
+        let hashValue = (id ?? 0) ^ (title?.hashValue ?? 0) ^ index
+        let colorIndex = abs(hashValue) % DataReading.pastelColors.count
+        return DataReading.pastelColors[colorIndex]
+    }
 }
+
+
+
 
 // MARK: - SubSection
 struct SubSection: Identifiable, Codable, Equatable {
@@ -149,37 +159,36 @@ struct SubSectionReading: Codable, Identifiable {
 
 // MARK: - Passage
 struct Passage: Identifiable, Codable, Hashable, Equatable {
-    let id = UUID() // unique identifier
+    let id = UUID()  // Unique identifier
     let bookID: Int?
     let bookTranslation: String?
     let chapter: Int?
     let ref: String?
     let verses: [Verse]?
-    
+
     static let pastelColors: [Color] = [
-        Color(red: 253/255, green: 225/255, blue: 225/255),  // Pastel Red
-        Color(red: 253/255, green: 246/255, blue: 215/255),  // Pastel Yellow
-        Color(red: 215/255, green: 253/255, blue: 221/255),  // Pastel Green
-        Color(red: 215/255, green: 230/255, blue: 253/255),  // Pastel Blue
-        Color(red: 253/255, green: 225/255, blue: 253/255),  // Pastel Pink
-        Color(red: 1.0, green: 0.89, blue: 0.71), // Pastel Yellow (FFE4B5)
-        Color(red: 0.97, green: 0.67, blue: 0.67)  // Pastel Pink (F8ACAC)
+        Color(red: 253 / 255, green: 225 / 255, blue: 225 / 255),  // Pastel Red
+        Color(red: 253 / 255, green: 246 / 255, blue: 215 / 255),  // Pastel Yellow
+        Color(red: 215 / 255, green: 253 / 255, blue: 221 / 255),  // Pastel Green
+        Color(red: 215 / 255, green: 230 / 255, blue: 253 / 255),  // Pastel Blue
+        Color(red: 253 / 255, green: 225 / 255, blue: 253 / 255),  // Pastel Pink
+        Color(red: 1.0, green: 0.89, blue: 0.71),                  // Pastel Yellow (FFE4B5)
+        Color(red: 0.97, green: 0.67, blue: 0.67)                  // Pastel Pink (F8ACAC)
     ]
 
-    var sequentialPastel: Color {
-        struct SequentialPastelIndex {
-            static var currentIndex = 0
+    // Computed property that assigns a consistent color based on a stable property, such as bookID.
+    var color: Color {
+        guard let bookID = bookID else {
+            // Fallback color if bookID is nil
+            return Passage.pastelColors[0]
         }
-
-        let pastColor = Passage.pastelColors[SequentialPastelIndex.currentIndex]
-        SequentialPastelIndex.currentIndex = (SequentialPastelIndex.currentIndex + 1) % Passage.pastelColors.count
-        return pastColor
+        // Use bookID to consistently map to a color index
+        let colorIndex = bookID % Passage.pastelColors.count
+        return Passage.pastelColors[colorIndex]
     }
 
-
     enum CodingKeys: String, CodingKey {
-        case bookID
-        case bookTranslation, chapter, ref, verses
+        case bookID, bookTranslation, chapter, ref, verses
     }
 
     // Implementing Hashable protocol
@@ -192,6 +201,7 @@ struct Passage: Identifiable, Codable, Hashable, Equatable {
         return lhs.id == rhs.id
     }
 }
+
 
 struct PastelColors: ShapeStyle {
     let pastelColors: [Color]
