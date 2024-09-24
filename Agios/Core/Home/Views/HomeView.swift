@@ -72,7 +72,7 @@ struct HomeView: View {
                             VStack(spacing: 40) {
                                 VStack(spacing: 12) {
                                     VStack(alignment: .leading, spacing: 32) {
-                                        VStack(spacing: 28) {
+                                        VStack(spacing: 18) {
                                             illustration
                                             VStack(spacing: 18) {
                                                 fastView
@@ -860,13 +860,18 @@ extension HomeView {
     
     private var illustration: some View {
         VStack(alignment: .center, spacing: 24) {
-            HStack {
-                Spacer()
-                Image("illustration")
+            ZStack {
+                Image("crest")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 360, height: 54)
-                Spacer()
+                    .frame(width: 46.25, height: 47.5)
+                    .offset(y: -17)
+                    .opacity(occasionViewModel.showCrest ? 1 : 0)
+                
+                Image("details")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 355, height: 76.26)
             }
         }
         .frame(maxWidth: 400)
