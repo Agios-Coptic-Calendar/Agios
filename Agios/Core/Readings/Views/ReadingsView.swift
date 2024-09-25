@@ -51,9 +51,10 @@ struct ReadingsView: View {
                                     VStack(alignment: .leading, spacing: 12) {
                                         HStack {
                                             Text("INTRODUCTION")
-                                                .font(.headline)
-                                                .foregroundStyle(.primary1000)
-                                                .kerning(0.5)
+                                                .foregroundStyle(.gray900.opacity(0.6))
+                                                .fontWeight(.semibold)
+                                                .font(.callout)
+                                                .kerning(1.3)
                                             Spacer()
                                         }
 
@@ -192,9 +193,10 @@ struct LiturgyReadingDetailsView: View {
                             VStack(alignment: .leading, spacing: 12) {
                                 HStack {
                                     Text("INTRODUCTION")
-                                        .font(.headline)
-                                        .foregroundStyle(.primary1000)
-                                        .kerning(0.5)
+                                        .foregroundStyle(.gray900.opacity(0.6))
+                                        .fontWeight(.semibold)
+                                        .font(.callout)
+                                        .kerning(1.3)
                                     Spacer()
                                 }
 

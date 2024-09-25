@@ -83,7 +83,7 @@ struct CardView: View {
     @State private var resetDrag: Bool = false
     @State private var currentScale: CGFloat = 1.0
     @State private var descriptionHeight: Int = 3
-    @State private var storyHeight: Int = 6
+    @State private var storyHeight: Int = 2
     @State private var openSheet: Bool? = false
     @State private var scrollViewOffset: CGFloat = 0
     @Environment(\.presentationMode) var presentationMode
@@ -165,7 +165,7 @@ struct CardView: View {
             ZStack(alignment: .topTrailing) {
                 ZStack {
                     ScrollView {
-                        VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 16 : 32) {
+                        VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 24 : 32) {
                             VStack(alignment: .leading, spacing: 32) {
                                 if !showImageViewer {
                                   fitImageView
@@ -180,22 +180,22 @@ struct CardView: View {
                             }
                             .padding(.horizontal, 20)
                             
-                            if let explanation = icon.explanation, !explanation.isEmpty {
-                                divider
-                            }
-                            description
+//                            if let explanation = icon.explanation, !explanation.isEmpty {
+//                                divider
+//                            }
+                            //description
                             story
                             //divider
                             //highlights
                         }
                         .kerning(-0.4)
                         .padding(.bottom, 40)
-                        .padding(.top, 124)
+                        .padding(.top, 115)
                         .fontDesign(.rounded)
                         .foregroundStyle(.gray900)
                     }
                     .scrollIndicators(.hidden)
-                    .scrollDisabled(verticalPosition > 10 ? true : false)
+                    .scrollDisabled(verticalPosition > 0)
                     .overlay(alignment: .top) {
                         ZStack(alignment: .center) {
                             VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
@@ -240,7 +240,7 @@ struct CardView: View {
             //.interactiveDismissDisabled()
             .offset(y: verticalPosition)
             .simultaneousGesture(
-                scrollViewOffset < 570 || showImageViewer ? nil : gestureVertical()
+                scrollViewOffset < 561 || showImageViewer ? nil : gestureVertical()
             )
             .transition(.slide)
             .animation(.smooth, value: verticalPosition)
@@ -280,9 +280,8 @@ struct CardView: View {
     
     private func gestureVertical() -> some Gesture {
         return DragGesture(minimumDistance: 0)
-            .updating($isPressed) { (value, gestureState, transaction) in
+            .updating($isPressed) { value, gestureState, _ in
                 gestureState = true
-                verticalPosition = .zero
             }
             .onChanged { value in
                 if value.translation.height > 0 { // Only allow downward dragging
@@ -370,7 +369,7 @@ extension CardView {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .frame(width: 40, height: 5)
                     .foregroundColor(.primary400)
-                    .padding(.top, 38)
+                    .padding(.top, 36)
                     .padding(.bottom, 10)
             }
             .padding(.horizontal, 20)
@@ -557,47 +556,62 @@ extension CardView {
             if occasionViewModel.getStory(forIcon: selectedSaint ?? icon) == nil || occasionViewModel.getStory(forIcon: icon) == nil {
                 EmptyView()
             } else {
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 12) {
                     HStack(alignment: .center, spacing: 12) {
-                        Image(systemName: "book")
-                            .foregroundStyle(.gray900)
+//                        Image(systemName: "book")
+//                            .foregroundStyle(.gray900)
                         
                         Text(stories.saint ?? "")
                             .fontWeight(.semibold)
                             .foregroundStyle(.gray900)
-                            .lineLimit(2)
+                            .lineLimit(1)
+                            .font(.title3)
                     }
-                    .font(.title3)
                     
                     VStack(alignment: .leading, spacing: 20) {
                         Text(stories.story ?? "")
-                            .foregroundStyle(.gray400)
+                            .foregroundStyle(.gray900.opacity(0.7))
                             .fontWeight(.medium)
                             .lineLimit(storyHeight)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         
-                        Button {
-                            openSheet?.toggle()
-                        } label: {
-                            HStack(alignment: .center, spacing: 4) {
-                                Text("Read more")
-                                    .fontWeight(.semibold)
-                                Image(systemName: "chevron.down")
-                                    .font(.caption)
-                                    .fontWeight(.semibold)
-                            }
-                        }
+                        /*
+                         Button {
+                             openSheet?.toggle()
+                         } label: {
+                             HStack(alignment: .center, spacing: 4) {
+                                 Text("Read more")
+                                     .fontWeight(.semibold)
+                                 Image(systemName: "chevron.down")
+                                     .font(.caption)
+                                     .fontWeight(.semibold)
+                             }
+                         }
+                         */
+
                     }
+                    
+                    Divider()
+                    Text("See Story")
+                        .fontWeight(.medium)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.gray900.opacity(0.7))
                 }
                 .padding(.horizontal, 16)
-                .padding(.vertical, 24)
-                .background(Color.gray50)
+                .padding(.vertical, 20)
+                .background(Color.primary100)
                 .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .stroke(Color.gray900.opacity(0.2), lineWidth: 0.7)
+                }
                 .padding(.horizontal, 20)
                 .textSelection(.enabled)
                 .onTapGesture {
                     openSheet?.toggle()
                 }
-                .shadow(color: .gray200, radius: 1.2, x: 0, y: 2)
+                //.shadow(color: .gray200.opacity(0.6), radius: 10, x: 0, y: 8)
+                
             }
         }
 
