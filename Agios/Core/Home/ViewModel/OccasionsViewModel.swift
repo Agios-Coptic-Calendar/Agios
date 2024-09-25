@@ -145,11 +145,11 @@ class OccasionsViewModel: ObservableObject {
         }
     }
     
-    private func loadJSONFromFile(fileName: String)  {
+    private func loadJSONFromFile<T: Decodable>(fileName: String) -> T? {
         // Get the path for the JSON file
         guard let path = Bundle.main.path(forResource: fileName, ofType: "json") else {
             print("Invalid file path.")
-            return
+            return nil
         }
 
         do {
@@ -157,14 +157,16 @@ class OccasionsViewModel: ObservableObject {
             let data = try Data(contentsOf: URL(fileURLWithPath: path))
             
             // Decode the data to an array of CopticEvent
-            copticEvents = try JSONDecoder().decode([CopticEvent].self, from: data)
+            let decodedData = try JSONDecoder().decode(T.self, from: data)
+            return decodedData
         } catch {
             print("Error decoding JSON: \(error)")
+            return nil
         }
     }
     
     private func getCopticEvents() {
-       loadJSONFromFile(fileName: "copticEvents")
+       copticEvents = loadJSONFromFile(fileName: "copticEvents")
     }
         
     func filterDate() {

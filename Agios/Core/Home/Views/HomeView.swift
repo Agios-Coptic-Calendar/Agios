@@ -77,13 +77,12 @@ struct HomeView: View {
                                             VStack(spacing: 18) {
                                                 fastView
                                                 combinedDateView
-                                                
                                             }
                                         }
                                     }
                                     VStack(spacing: 18) {
                                         imageView
-                                        DailyQuoteView(fact: dev.fact)
+                                        DailyQuoteView(isLoading: occasionViewModel.isLoading)
                                     }
                                 }
                                 dailyReading
