@@ -37,6 +37,7 @@ struct AgiosApp: App {
                     if showLaunchView {
                         LaunchView(showLaunchView: $showLaunchView)
                             .transition(.opacity.animation(.easeOut(duration: 0.2)))
+                            .environmentObject(occasionViewModel)
                     }
                 })
                 .zIndex(2.0)

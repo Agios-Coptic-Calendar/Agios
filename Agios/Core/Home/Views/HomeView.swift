@@ -49,7 +49,7 @@ struct HomeView: View {
     @State private var selectedReadingForAnimation: DataReading?
     @State private var selectedLiturgy: SubSection?
     @State private var selectedSubsection: SubSection?
-    @State private var presentedReadingSheet: Bool = false
+    @State private var presentedReadingSheet: Bool? = false
     @State private var navigateToDateView: Bool = false
     
     var namespace: Namespace.ID
@@ -72,7 +72,7 @@ struct HomeView: View {
                             VStack(spacing: 40) {
                                 VStack(spacing: 12) {
                                     VStack(alignment: .leading, spacing: 32) {
-                                        VStack(spacing: 28) {
+                                        VStack(spacing: 18) {
                                             illustration
                                             VStack(spacing: 18) {
                                                 fastView
@@ -90,15 +90,23 @@ struct HomeView: View {
                                 upcomingFeasts
                             }
                             .padding(.bottom, 48)
-                            .padding(.top, 96)
+                            .padding(.top, 48)
                             .transition(.scale(scale: 0.95, anchor: .top))
                             .transition(.opacity)
                             
                             
                         }
+                        .padding(.top, 40)
+                        .refreshable {
+                            withAnimation {
+                                occasionViewModel.isLoading = true
+                            }
+                            await Task.sleep(2 * 1_000_000_000) // Delay for 2 seconds
+                            occasionViewModel.getPosts()
+                        }
                         .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
                         .scrollIndicators(.hidden)
-                        .scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
+                        //.scrollDisabled(occasionViewModel.copticDateTapped || occasionViewModel.defaultDateTapped || occasionViewModel.isLoading ? true : false)
                         .scaleEffect(occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 0.98 : 1)
                         .blur(radius: occasionViewModel.defaultDateTapped || occasionViewModel.viewState == .expanded || occasionViewModel.viewState == .imageView ? 3 : 0)
                         
@@ -243,7 +251,7 @@ struct HomeView: View {
                         .fill(.gray900.opacity(0.3))
                         .opacity(occasionViewModel.showUpcomingView || (occasionViewModel.showEventNotLoaded && !iconImageViewModel.isLoading && occasionViewModel.isLoading) ? 1 : 0)
                 }
-                .ignoresSafeArea(edges: .all)
+                //.ignoresSafeArea(edges: .all)
                 
                 // Pop up for when data doesn't load in view
                 ZStack {
@@ -254,8 +262,20 @@ struct HomeView: View {
                     
                 }
                 
+                // Upcoming feast modal
+                ZStack {
+                    if occasionViewModel.showUpcomingView {
+                        UpcomingFeastView()
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 48)
+                            .environmentObject(occasionViewModel)
+                            .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
+                    }
+                    
+                }
+                
             }
-            .ignoresSafeArea(edges: .bottom)
+            .ignoresSafeArea(edges: .all)
   
         }
         .onChange(of: occasionViewModel.datePicker) { _, _ in
@@ -271,34 +291,7 @@ struct HomeView: View {
             }
             
         }
-        .popover(
-            present: $occasionViewModel.showUpcomingView,
-            attributes: {
-                $0.sourceFrameInset = UIEdgeInsets(16)
-                $0.position = .relative(
-                    popoverAnchors: [
-                        .bottom,
-                    ]
-                )
-                $0.dismissal.mode = .dragDown
-                $0.blocksBackgroundTouches = true
-                $0.presentation.animation = .spring(
-                    response: 0.4,
-                    dampingFraction: 0.85,
-                    blendDuration: 1
-                )
-                $0.presentation.transition = .move(edge: .bottom)
-                $0.dismissal.animation = .spring(
-                    response: 0.4,
-                    dampingFraction: 0.85,
-                    blendDuration: 1
-                )
-                $0.dismissal.transition = .move(edge: .bottom).combined(with: .opacity)
-            }
-        ) {
-            UpcomingFeastView()
-                .environmentObject(occasionViewModel)
-        }
+        
         // This controls the keyboard appearance on the search text field in the date picker in a custom way.
         .onAppear {
             occasionViewModel.stopDragGesture = false
@@ -393,7 +386,6 @@ extension HomeView {
                                 .lineLimit(1)
                                 .foregroundStyle(.primary1000)
                                 .multilineTextAlignment(.leading)
-                                .frame(maxWidth: 100)
                                 
                             
                             Image(systemName: "chevron.down")
@@ -741,21 +733,27 @@ extension HomeView {
                                             }
                                         }
                                     })
-                                    .sheet(isPresented: $presentedReadingSheet) {
+                                    .halfSheet(showSheet: $presentedReadingSheet) {
                                         if let selectedReading {
                                             ReadingsView(reading: selectedReading,
                                                          subsectionTitle: selectedReading.subSections?.first?.title ?? "")
-                                            .presentationDragIndicator(.visible)
-                                            .presentationDetents([.medium, .large])
+                                            //.presentationDragIndicator(.visible)
                                         }
                                         if let selectedLiturgy {
                                             LiturgyReadingDetailsView(subsection: selectedLiturgy)
-                                                .presentationDetents([.medium, .large])
-                                                .presentationDragIndicator(.visible)
+                                                //.presentationDetents([.medium, .large])
+                                                //.presentationDragIndicator(.visible)
                                         }
+                                    } onDismiss: {
+                                        //selectedSaint = nil
+                                       // selectedIcon = nil
                                     }
-                                    .animation(.spring(), value: selectedReadingForAnimation)
-                                    .scaleEffect(selectedReadingForAnimation == reading ? 1.1 : 1.0)
+//                                    .sheet(isPresented: $presentedReadingSheet) {
+//                                       
+//                                    }
+                                    //.animation(.spring(), value: selectedReadingForAnimation)
+                                    //.scaleEffect(selectedReadingForAnimation == reading ? 1.1 : 1.0)
+                                    
 
                             }
                             if let liturgy = occasionViewModel.liturgy {
@@ -763,7 +761,7 @@ extension HomeView {
                                         SubsectionView(mainReadingTitle: liturgy.title ?? "",
                                                        subsection: subsection)
                                         .padding(16)
-                                        .background(liturgy.sequentialPastel.gradient)
+                                        .background(liturgy.color(for: subsection.id ?? 0).gradient)
                                         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                                         .onTapGesture {
                                             selectedReading = nil
@@ -840,12 +838,12 @@ extension HomeView {
                             .padding(16)
                             .background(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                            .modifier(TapToScaleModifier())
                             .onTapGesture {
                                 withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                                    occasionViewModel.showUpcomingView.toggle()
+                                    occasionViewModel.showUpcomingView = true
                                 }
                             }
+                            .modifier(TapToScaleModifier())
                         }
 
                     }
@@ -853,6 +851,7 @@ extension HomeView {
                 .padding(.top, 10)
                 .padding(.bottom, 8)
                 .padding(.leading, 20)
+                .padding(.trailing, 20)
             }
 
             
@@ -861,13 +860,18 @@ extension HomeView {
     
     private var illustration: some View {
         VStack(alignment: .center, spacing: 24) {
-            HStack {
-                Spacer()
-                Image("illustration")
+            ZStack {
+                Image("crest")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 360, height: 54)
-                Spacer()
+                    .frame(width: 46.25, height: 47.5)
+                    .offset(y: -17)
+                    .opacity(occasionViewModel.showCrest ? 1 : 0)
+                
+                Image("details")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 355, height: 76.26)
             }
         }
         .frame(maxWidth: 400)

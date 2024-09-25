@@ -8,37 +8,36 @@
 import SwiftUI
 
 struct DailyReadingView: View {
-    
     let passage: Passage
     let reading: DataReading
     let subSection: SubSection
     @State private var isTapped: Bool = false
-    
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 8, content: {
+        VStack(alignment: .leading, spacing: 8) {
             Text("\(passage.bookTranslation ?? "")  \(passage.ref ?? "")")
                 .font(.title3)
                 .fontWeight(.semibold)
                 .foregroundStyle(.gray900)
             
-            HStack(alignment: .center, spacing: 4, content: {
+            HStack(alignment: .center, spacing: 4) {
                 Text(subSection.title ?? "")
-
+                
                 Circle()
-                    .frame(width: 4, height: 4, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .frame(width: 4, height: 4, alignment: .center)
                 
                 Text(reading.title ?? "")
-            })
+            }
             .font(.body)
             .fontWeight(.medium)
             .foregroundStyle(.gray900)
-        })
+        }
         .padding(16)
-        .background(passage.sequentialPastel.gradient)
+        .background(reading.color.gradient)  // Use the computed color property
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-
     }
 }
+
 
 #Preview {
     DailyReadingView(passage: dev.passages, reading: dev.reading, subSection: dev.subSection)

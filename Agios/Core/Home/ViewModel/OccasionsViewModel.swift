@@ -73,6 +73,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var saintTapped: Bool = false
     @State var dataNotLoaded: Bool = false
     @Published var showEventNotLoaded = false
+    @Published var showCrest: Bool = false
     @Published var feast: String = "" {
         didSet {
             updateMockDates()

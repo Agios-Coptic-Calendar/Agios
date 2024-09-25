@@ -12,9 +12,9 @@ struct UpcomingFeastView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 8) {
             VStack(spacing: 24) {
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .frame(width: 40, height: 5)
-                    .foregroundColor(.primary300)
+//                RoundedRectangle(cornerRadius: 12, style: .continuous)
+//                    .frame(width: 40, height: 5)
+//                    .foregroundColor(.primary300)
                 
                 VStack(alignment: .center, spacing: 24) {
                     HStack(alignment: .center, spacing: 16) {
