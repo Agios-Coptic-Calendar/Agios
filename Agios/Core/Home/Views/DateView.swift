@@ -209,39 +209,11 @@ struct DateView: View {
         
         .onChange(of: occasionViewModel.datePicker) { _, _ in
             occasionViewModel.filterDate()
-            
         }
         .environment(\.colorScheme, .light)
         .fontDesign(.rounded)
         .animation(.spring(response: 0.35, dampingFraction: 0.9), value: animationsMode)
         .frame(maxWidth: 400)
-        /*
-         .overlay(alignment: .bottom) {
-             ZStack(content: {
-                 if animationsMode == .regularDate {
-                     HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 8, content: {
-                         Image(systemName: "seal")
-                         Text("No event for this day")
-                     })
-                     .fontDesign(.rounded)
-                     .fontWeight(.medium)
-                     .padding(.vertical, 10)
-                     .frame(width: 250)
-                     .foregroundStyle(.gray900)
-                     .background(.primary100)
-                     .clipShape(RoundedRectangle(cornerRadius: 24))
-                     .offset(y: 52)
-                     .opacity(occasionViewModel.selectedCopticDate == nil ? 1 : 0)
-                     .scaleEffect(occasionViewModel.selectedCopticDate == nil ? 1 : 0)
-                     .blur(radius: occasionViewModel.selectedCopticDate == nil ? 0 : 20)
-                 }
-                 
-             })
-              
-         }
-         */
-
-        
     }
     
 }
@@ -258,10 +230,8 @@ struct DateView_Preview: PreviewProvider {
 
 struct NormalDateView: View {
     @EnvironmentObject private var vm: OccasionsViewModel
-    let startingDate: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 11)) ?? Date()
-    let endingDate: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 10, day: 10)) ?? Date()
     var body: some View {
-        DatePicker("", selection: $vm.datePicker, in: startingDate...endingDate, displayedComponents: [.date])
+        DatePicker("", selection: $vm.datePicker, in: Date.dateRange, displayedComponents: [.date])
         .datePickerStyle(.graphical)
         .environment(\.colorScheme, .light)
         .padding(.horizontal, 16)
@@ -276,15 +246,13 @@ struct FeastView: View {
     
     @FocusState private var isTextFieldFocused: Bool
     
-    var filteredDates: [DateModel] {
+    var filteredDates: [String] {
         if occasionViewModel.searchDate.isEmpty {
-            return occasionViewModel.mockDates
+            return occasionViewModel.copticDates
         } else {
-            return occasionViewModel.mockDates.filter { date in
-                let formattedDate = occasionViewModel.formatDateStringToFullDate(dateString: date.date)
-                return date.month.lowercased().contains(occasionViewModel.searchDate.lowercased()) ||
-                    date.day.lowercased().contains(occasionViewModel.searchDate.lowercased()) ||
-                    formattedDate.lowercased().contains(occasionViewModel.searchDate.lowercased())
+            return occasionViewModel.copticDates.filter { date in
+
+                return date.lowercased().contains(occasionViewModel.searchDate.lowercased())
             }
         }
     }
@@ -341,27 +309,20 @@ struct FeastView: View {
                         .padding(.top, 40)
 
                     } else {
-                        ForEach(filteredDates) { date in
+                        ForEach(filteredDates, id: \.self) { date in
                             Button(action: {
                                 withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                                     occasionViewModel.copticDateTapped = false
-                                    occasionViewModel.selectedCopticDate = date
+                                    occasionViewModel.datePicker = occasionViewModel.date(from: date) ?? Date()
                                     isTextFieldFocused = false
-                                    occasionViewModel.handleChangeInUrl()
-                                    occasionViewModel.selectedMockDate = date
                                 }
                                 HapticsManager.instance.impact(style: .light)
                                 
                             }, label: {
                                 HStack {
-                                    Text("\(date.month) \(date.day)")
+                                    Text(date)
                                         .foregroundStyle(.primary1000)
                                         .lineLimit(1)
-                                    //.frame(width: 160)
-                                    //                            Spacer()
-                                    //                            Text("\(date.month) \(date.day)")
-                                    //                                .foregroundStyle(.primary1000.opacity(0.7))
-                                    //
                                 }
                                 .fontWeight(.medium)
                                 .padding(.vertical, 9)
@@ -402,9 +363,6 @@ struct YearAheadView: View {
                             Button(action: {
                                 withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                                     occasionViewModel.copticDateTapped = false
-                                    occasionViewModel.selectedCopticDate = date
-                                    occasionViewModel.handleChangeInUrl()
-                                    occasionViewModel.selectedMockDate = date
                                 }
                                 HapticsManager.instance.impact(style: .light)
                                 

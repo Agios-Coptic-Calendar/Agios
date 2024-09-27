@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct DailyQuoteView: View {
-    @EnvironmentObject private var occasionViewModel: OccasionsViewModel
-    let fact: Fact
+    @StateObject private var viewModel: DailyQuoteViewModel = DailyQuoteViewModel()
+    let isLoading: Bool
+    
     var body: some View {
         ZStack {
-           if occasionViewModel.isLoading {
+           if isLoading {
                 ShimmerView(heightSize: 250, cornerRadius: 24)
                    .padding(.horizontal, 20)
            } else {
@@ -24,7 +25,7 @@ struct DailyQuoteView: View {
                            .font(.callout)
                            .kerning(1.3)
                    
-                       Text("〝 \(fact.fact ?? "Fact is empty.") 〞")
+                       Text("〝 \(viewModel.currentQuote?.body ?? "Fact is empty.") 〞")
                                .multilineTextAlignment(.center)
                                .font(.title3)
                                .fontWeight(.semibold)
@@ -32,7 +33,7 @@ struct DailyQuoteView: View {
                                .textSelection(.enabled)
                                .kerning(-0.4)
                        
-                       Text("by fr pishoy kamel".uppercased())
+                       Text(viewModel.currentQuote?.author.uppercased() ?? "")
                            .foregroundStyle(.gray900)
                            .fontWeight(.semibold)
                            .font(.callout)
@@ -48,14 +49,11 @@ struct DailyQuoteView: View {
                    })
                .padding(.horizontal, 20)
                }
-               
            }
         }
-
     }
 }
 
 #Preview {
-    DailyQuoteView(fact: dev.fact)
-        .environmentObject(OccasionsViewModel())
+    DailyQuoteView(isLoading: false)
 }

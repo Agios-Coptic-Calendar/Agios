@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Shake
 
 @main
 struct AgiosApp: App {
@@ -41,11 +42,10 @@ struct AgiosApp: App {
                     }
                 })
                 .zIndex(2.0)
-                
-                
             })
-            
-            
+            .onAppear {
+                Shake.start(apiKey: "s37m9XuXly1HV11xU5sVa9QJQ8WvrpEtU50GJ9NsLEst4e84m9yAwuZ")
+            }
         }
     }
 }

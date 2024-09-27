@@ -17,7 +17,7 @@ struct ColorTheme {
     let superLightBlue = Color("superLightBlue")
     let lightTurquoise = Color("lightTurquoise")
     let lightBlue = Color("lightBlue")
-    let blue = Color("blue")
+    let blue = Color("agiosBlue")
     let darkTurquoise = Color("darkTurquoise")
     let darkBlue = Color("darkBlue")
     let softBlue = Color("softBlue")

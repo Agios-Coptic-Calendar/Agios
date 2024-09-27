@@ -77,13 +77,12 @@ struct HomeView: View {
                                             VStack(spacing: 18) {
                                                 fastView
                                                 combinedDateView
-                                                
                                             }
                                         }
                                     }
                                     VStack(spacing: 18) {
                                         imageView
-                                        DailyQuoteView(fact: dev.fact)
+                                        DailyQuoteView(isLoading: occasionViewModel.isLoading)
                                     }
                                 }
                                 dailyReading
@@ -508,7 +507,7 @@ extension HomeView {
                     .frame(width: 250)
                 
             } else {
-                ZStack {
+                VStack {
                     if occasionViewModel.liturgicalInfoTapped {
                         Text(occasionViewModel.liturgicalInformation ?? "No Liturgical Info")
                             .blur(radius: occasionViewModel.liturgicalInfoTapped ? 0 : 10)
@@ -518,17 +517,15 @@ extension HomeView {
                     }
                 }
                 .font(.title2)
-                 .fontWeight(.semibold)
-                 .multilineTextAlignment(.center)
-                 .foregroundColor(.primary1000)
-                 .frame(width: 250)
-                 .modifier(TapToScaleModifier())
-                 .onTapGesture {
-                     withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                         occasionViewModel.liturgicalInfoTapped.toggle()
-                     }
-                     
-                 }
+                .fontWeight(.semibold)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.primary1000)
+                .frame(width: 250)
+                .onTapGesture {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        occasionViewModel.liturgicalInfoTapped.toggle()
+                    }
+                }
             }
         }
         .padding(.horizontal, 20)
@@ -555,7 +552,12 @@ extension HomeView {
                     HStack(spacing: 16) {
                         ForEach(occasionViewModel.icons) { saint in
                             //HomeSaintImageView(namespace: namespace, icon: saint)
-                            CardView(icon: saint, iconographer: dev.iconagrapher, stories: occasionViewModel.getStory(forIcon: saint) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
+                            CardView(icon: saint,
+                                     iconographer: dev.iconagrapher,
+                                     stories: occasionViewModel.getStory(forIcon: saint) ?? dev.story,
+                                     showImageViewer: $showImageViewer,
+                                     selectedSaint: $selectedSaint,
+                                     namespace: namespace)
                                 .contextMenu(ContextMenu(menuItems: {
                                     Button {
                                         occasionViewModel.showStory?.toggle()

@@ -11,4 +11,8 @@ extension String {
     var psalmAndGospelFormat: String {
         self.replacingOccurrences(of: "Psalm & Gospel", with: "Gospel")
     }
+    
+    var replaceCommaWithNewLine: String {
+        self.replacingOccurrences(of: ",", with: "\n")
+    }
 }
