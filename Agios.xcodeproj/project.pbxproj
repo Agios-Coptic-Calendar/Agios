@@ -68,6 +68,7 @@
 		57EE90652BE4096000C7E1AE /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90642BE4096000C7E1AE /* ShimmerView.swift */; };
 		57EE90672BE42EC600C7E1AE /* DailyQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */; };
 		990F17A42C583B3900D05551 /* copticEvents.json in Resources */ = {isa = PBXBuildFile; fileRef = 990F17A32C583B3900D05551 /* copticEvents.json */; };
+		997A63B52CA73341007720A4 /* Shake in Frameworks */ = {isa = PBXBuildFile; productRef = 997A63B42CA73341007720A4 /* Shake */; };
 		998A7B792CA0BD16000BD963 /* dailyQuotes.json in Resources */ = {isa = PBXBuildFile; fileRef = 998A7B782CA0BD16000BD963 /* dailyQuotes.json */; };
 		998A7B7B2CA35E9E000BD963 /* Quote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998A7B7A2CA35E9E000BD963 /* Quote.swift */; };
 		998A7B7D2CA35FA9000BD963 /* DailyQuoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998A7B7C2CA35FA9000BD963 /* DailyQuoteViewModel.swift */; };
@@ -157,6 +158,7 @@
 				99B5EA7A2C36FAF600FE829F /* Lottie in Frameworks */,
 				5701B0C92C5C6A0A00592193 /* Popovers in Frameworks */,
 				99B5EA792C36FAF600FE829F /* Shimmer in Frameworks */,
+				997A63B52CA73341007720A4 /* Shake in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +451,7 @@
 				995CEE0E2C25A1AB004685D8 /* Lottie */,
 				995CEE112C25A1C6004685D8 /* UIImageColors */,
 				5701B0C82C5C6A0A00592193 /* Popovers */,
+				997A63B42CA73341007720A4 /* Shake */,
 			);
 			productName = Agios;
 			productReference = 474C79A12BD009BC003E3A15 /* Agios.app */;
@@ -483,6 +486,7 @@
 				995CEE0D2C25A1AB004685D8 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				995CEE102C25A1C6004685D8 /* XCRemoteSwiftPackageReference "UIImageColors" */,
 				5701B0C72C5C6A0A00592193 /* XCRemoteSwiftPackageReference "Popovers" */,
+				997A63B32CA73341007720A4 /* XCRemoteSwiftPackageReference "shake-ios" */,
 			);
 			productRefGroup = 474C79A22BD009BC003E3A15 /* Products */;
 			projectDirPath = "";
@@ -704,7 +708,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"Agios/Preview Content\"";
@@ -732,7 +736,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielkame.Agios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Agios Distribution Profile";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Agios Dev 27/09/24";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -844,6 +848,14 @@
 				version = 2.2.0;
 			};
 		};
+		997A63B32CA73341007720A4 /* XCRemoteSwiftPackageReference "shake-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/shakebugs/shake-ios";
+			requirement = {
+				kind = exactVersion;
+				version = 17.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -866,6 +878,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 995CEE102C25A1C6004685D8 /* XCRemoteSwiftPackageReference "UIImageColors" */;
 			productName = UIImageColors;
+		};
+		997A63B42CA73341007720A4 /* Shake */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 997A63B32CA73341007720A4 /* XCRemoteSwiftPackageReference "shake-ios" */;
+			productName = Shake;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
