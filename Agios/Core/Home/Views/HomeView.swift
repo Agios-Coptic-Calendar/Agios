@@ -249,6 +249,11 @@ struct HomeView: View {
                     Rectangle()
                         .fill(.gray900.opacity(0.3))
                         .opacity(occasionViewModel.showUpcomingView || (occasionViewModel.showEventNotLoaded && !iconImageViewModel.isLoading && occasionViewModel.isLoading) ? 1 : 0)
+                        .onTapGesture {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                                occasionViewModel.showUpcomingView = false
+                            }
+                        }
                 }
                 //.ignoresSafeArea(edges: .all)
                 
