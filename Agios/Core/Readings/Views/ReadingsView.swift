@@ -32,7 +32,7 @@ struct ReadingsView: View {
                     .padding(.bottom, 10)
                 
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
+                    VStack(alignment: .leading, spacing: 32) {
                         HStack {
                             Text(subsectionTitle)
                             Spacer()
@@ -44,7 +44,7 @@ struct ReadingsView: View {
                         .font(.title3)
                         .fontWeight(.medium)
                         // Display the introduction of each SubSection
-                        VStack(alignment: .leading, spacing: 24) {
+                        VStack(alignment: .leading, spacing: 32) {
                             
                             if let firstSubSection = reading.subSections?.first {
                                 if let introduction = firstSubSection.introduction {
@@ -79,7 +79,7 @@ struct ReadingsView: View {
                                         // Display each passage in a separate view
                                         ForEach(reading.passages ?? []) { passage in
                                             PassageDetailView(passage: passage, introduction: reading.introduction, conclusion: reading.conclusion)
-                                                //.padding(.vertical, 5)
+                                                .padding(.bottom, 16)
                                         }
                                     }
                                 }
@@ -105,7 +105,7 @@ struct PassageDetailView: View {
     let conclusion: String?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 18) {
             // Display bookTranslation and ref
             if let bookTranslation = passage.bookTranslation, let ref = passage.ref {
                 HStack {
@@ -121,6 +121,10 @@ struct PassageDetailView: View {
                     .fontWeight(.medium)
                     .font(.title3)
                     .foregroundStyle(.gray900)
+                    .padding(20)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.primary200)
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
             }
 
             // Display verses
@@ -144,12 +148,12 @@ struct PassageDetailView: View {
                     Text(conclusion)
                         .fontWeight(.medium)
                         .font(.title3)
+                        .padding(20)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(.primary200)
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 }
             }
-            
-            Divider()
-                .opacity(0.8)
-                .padding(.top, 16)
         }
     }
 }
@@ -175,7 +179,7 @@ struct LiturgyReadingDetailsView: View {
                     .padding(.bottom, 10)
                 
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
+                    VStack(alignment: .leading, spacing: 32) {
                         // Display the title of SubSection
                         HStack {
                             if let subSectionTitle = subsection.title {
@@ -217,12 +221,13 @@ struct LiturgyReadingDetailsView: View {
                                 // Display each passage in a separate view
                                 ForEach(reading.passages ?? []) { passage in
                                     PassageDetailView(passage: passage, introduction: reading.introduction, conclusion: reading.conclusion)
-                                        //.padding(.vertical, 5)
+                                        .padding(.bottom, 16)
                                 }
                             }
                         }
                     }
-                    .padding()
+                    .padding(.horizontal, 20)
+                    .padding(.top, 24)
                 }
 
             }
