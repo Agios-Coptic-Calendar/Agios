@@ -41,6 +41,7 @@ struct DailyQuoteView: View {
                    }
                    .padding(.vertical, 24)
                    .padding(.horizontal, 16)
+                   .frame(maxWidth: .infinity, alignment: .center)
                    .background(.primary200)
                    .clipShape(RoundedRectangle(cornerRadius: 24, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
                    .overlay(content: {
