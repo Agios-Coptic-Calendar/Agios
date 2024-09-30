@@ -89,6 +89,7 @@ struct CardView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var verticalPosition = 0.0
     @GestureState private var isPressed = false
+    @State private var isDragging = false
     
     
     init(icon: IconModel, iconographer: Iconagrapher, stories: Story, showImageViewer: Binding<Bool>, selectedSaint: Binding<IconModel?>, namespace: Namespace.ID) {
@@ -149,7 +150,7 @@ struct CardView: View {
                         })
                         .background(.primary200)
                         .frame(width: 300, height: 350)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                         .onTapGesture {
                             showView.toggle()
                             
@@ -271,6 +272,15 @@ struct CardView: View {
                         verticalPosition = .zero
                         showView = false
                         goBack()
+                    }
+                }
+                
+                if isDragging {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                        showImageViewer = false
+                        selectedSaint = nil
+                        offset = .zero
+                        isDragging = false
                     }
                 }
             }
@@ -440,7 +450,11 @@ extension CardView {
                         .simultaneousGesture(
                             currentScale <= 1 ?
                             DragGesture()
+                                .updating($isPressed) { value, gestureState, _ in
+                                    gestureState = true
+                                }
                                 .onChanged({ value in
+                                    isDragging = true // Set dragging to true on change
                                     if startValue <= 0 {
                                         withAnimation {
                                             offset = value.translation
@@ -449,6 +463,7 @@ extension CardView {
                                     
                                 })
                                 .onEnded({ value in
+                                    isDragging = false // Reset dragging status on end
                                     let dragThreshold: CGFloat = 100
                                     
                                     if abs(value.translation.height) > dragThreshold {

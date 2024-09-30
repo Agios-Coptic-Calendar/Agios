@@ -7,6 +7,33 @@
 
 import SwiftUI
 
+struct AllGroupedIconsView: View {
+    @EnvironmentObject var vm: OccasionsViewModel
+    @State private var showImageViewer = false
+    @State private var selectedSaint: IconModel? = nil
+    var namespace: Namespace.ID
+
+    var body: some View {
+        ForEach(vm.filteredIconsGroups, id: \.self) { icons in
+            ZStack {
+                ForEach(Array(icons.enumerated().reversed()), id: \.element.id) { index, icon in
+                    GroupCardView(icon: icon, iconographer: dev.iconagrapher, stories: vm.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
+                        .scaleEffect(1.0 - (CGFloat(index) * 0.05), anchor: .center)
+                        .offset(y: (index > 0 && vm.showDetailsView && vm.selectedGroupIcons == icons) ? 0 : -CGFloat(index) * 13)
+                        .allowsHitTesting(index == 0)
+                        .opacity((index > 0 && vm.showDetailsView && vm.selectedGroupIcons == icons) ? 0 : 1)
+                }
+            }
+            .simultaneousGesture(
+                TapGesture().onEnded({ _ in
+                    vm.selectedGroupIcons = icons
+                })
+            )
+        }
+    }
+}
+
+
 struct GroupHeroTransitionView: View {
     @EnvironmentObject var vm: OccasionsViewModel
     @State private var showImageViewer = false
@@ -85,12 +112,14 @@ struct GroupCardView: View {
     @State private var resetDrag: Bool = false
     @State private var currentScale: CGFloat = 1.0
     @State private var descriptionHeight: Int = 3
-    @State private var storyHeight: Int = 6
+    @State private var storyHeight: Int = 2
     @State private var openSheet: Bool? = false
     @Environment(\.presentationMode) var presentationMode
     @State private var scrollViewOffset: CGFloat = 0
     @State private var verticalPosition = 0.0
     @GestureState private var isPressed = false
+    @State private var newSelectedIcon: IconModel? = nil
+    @State private var isDragging = false
     
     init(icon: IconModel, iconographer: Iconagrapher, stories: Story, showImageViewer: Binding<Bool>, selectedSaint: Binding<IconModel?>, namespace: Namespace.ID) {
         _viewModel = StateObject(wrappedValue: IconImageViewModel(icon: icon))
@@ -129,13 +158,14 @@ struct GroupCardView: View {
                         })
                         .background(.primary200)
                         .frame(width: 300, height: 350)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                         .onTapGesture {
                             showView.toggle()
                             
                             withAnimation(.easeIn(duration: 1)) {
                                 showTest.toggle()
                             }
+                            occasionViewModel.showDetailsView = true
                         }
                     
                 }
@@ -146,37 +176,41 @@ struct GroupCardView: View {
             ZStack(alignment: .topTrailing) {
                 ZStack {
                     ScrollView {
-                        VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 16 : 32) {
+                        VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 24 : 32) {
                             VStack(alignment: .leading, spacing: 32) {
-                                if !showImageViewer {
-                                  fitImageView
-                                } else {
-                                    Rectangle()
-                                        .fill(.clear)
-                                        .frame(height: 420)
-                                        .frame(maxWidth: .infinity)
-                                }
+//                                if !showImageViewer {
+//                                  fitImageView
+//                                } else {
+//                                    Rectangle()
+//                                        .fill(.clear)
+//                                        .frame(height: 420)
+//                                        .frame(maxWidth: .infinity)
+//                                }
+                                fitImageView
+                                    .opacity(showImageViewer ? 0 : 1)
                                 iconCaption
                                     
                             }
                             .padding(.horizontal, 20)
+
                             
-                            if let explanation = icon.explanation, !explanation.isEmpty {
-                                divider
-                            }
-                            description
+                            
+//                            if let explanation = icon.explanation, !explanation.isEmpty {
+//                                divider
+//                            }
+//                            description
                             story
                             //divider
                             //highlights
                         }
                         .kerning(-0.4)
                         .padding(.bottom, 40)
-                        .padding(.top, 124)
+                        .padding(.top, 115)
                         .fontDesign(.rounded)
                         .foregroundStyle(.gray900)
                     }
                     .scrollIndicators(.hidden)
-                    .scrollDisabled(verticalPosition > 10 ? true : false)
+                    .scrollDisabled(verticalPosition > 0)
                     .overlay(alignment: .top) {
                         ZStack(alignment: .center) {
                             VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
@@ -216,7 +250,7 @@ struct GroupCardView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .offset(y: verticalPosition)
             .simultaneousGesture(
-                scrollViewOffset < 570 || showImageViewer ? nil : gestureVertical()
+                scrollViewOffset < 561 || showImageViewer ? nil : gestureVertical()
             )
             .transition(.slide)
             .animation(.smooth, value: verticalPosition)
@@ -249,6 +283,14 @@ struct GroupCardView: View {
                         goBack()
                     }
                 }
+                if isDragging {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                        showImageViewer = false
+                        selectedSaint = nil
+                        offset = .zero
+                        isDragging = false
+                    }
+                }
             }
         }
     }
@@ -257,7 +299,6 @@ struct GroupCardView: View {
         return DragGesture(minimumDistance: 0)
             .updating($isPressed) { (value, gestureState, transaction) in
                 gestureState = true
-                verticalPosition = .zero
             }
             .onChanged { value in
                 if value.translation.height > 0 { // Only allow downward dragging
@@ -329,6 +370,13 @@ struct GroupCardView: View {
             showTest = false
         }
         showView = false
+        
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                occasionViewModel.showDetailsView = false
+
+            }
+        }
     }
 }
 
@@ -344,7 +392,7 @@ extension GroupCardView {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .frame(width: 40, height: 5)
                     .foregroundColor(.primary400)
-                    .padding(.top, 38)
+                    .padding(.top, 36)
                     .padding(.bottom, 10)
             }
             .padding(.horizontal, 20)
@@ -385,74 +433,71 @@ extension GroupCardView {
     private var filledImageView: some View {
         ZStack {
             if showImageViewer  {
-                 Rectangle()
-                 .fill(.clear)
-                 .frame(maxWidth: .infinity)
-                 .frame(maxHeight: .infinity)
-                 .background(
-                     SaintImageView(icon: icon)
-                         .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
-                         .scaledToFit()
-                         .transition(.scale(scale: 1))
-                         .zoomable()
-                         .onTapGesture {
-                             withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                                 showImageViewer = true
-                             }
-                         }
-                     .scaleEffect(1 + startValue)
-                     .offset(x: startValue > 0.2 ? offset.width + position.width : .zero, y: startValue > 0 ? offset.height + position.height : .zero)
-                     .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("MagnifyGestureScaleChanged"))) { obj in
-                             if let scale = obj.object as? CGFloat {
-                                 withAnimation {
-                                     currentScale = scale
-                                 }
-                                 
-                             }
-                         }
-                         .offset(offset)
-                         .scaleEffect(getScaleAmount())
-                         .simultaneousGesture(
-                             currentScale <= 1 ?
-                             DragGesture()
-                                 .onChanged({ value in
-                                     if startValue <= 0 {
-                                         withAnimation {
-                                             offset = value.translation
-                                         }
-                                     }
-                                     
-                                 })
-                                 .onEnded({ value in
-                                     let dragThreshold: CGFloat = 100
-                                     
-                                     if abs(value.translation.height) > dragThreshold {
-                                         withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                                             showImageViewer = false
-                                             occasionViewModel.viewState = .expanded
-                                             selectedSaint = nil
-                                             offset = .zero
-                                             HapticsManager.instance.impact(style: .light)
-                                             occasionViewModel.stopDragGesture = false
-                                             occasionViewModel.showImageView = false
-                                         }
-                                     } else {
-                                         withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
-                                             offset = .zero
-                                         }
-                                     }
-                                 })
-                             : nil
-                         )
-                 )
-                 .mask({
-                     RoundedRectangle(cornerRadius: 0)
-                         .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
-                 })
-                 
-                
+                Rectangle()
+                    .fill(.clear)
+                    .frame(maxWidth: .infinity)
+                    .frame(maxHeight: .infinity)
+                    .background(
+                        SaintImageView(icon: newSelectedIcon ?? dev.icon)
+                            .matchedGeometryEffect(id: "\(newSelectedIcon?.id ?? icon.id)", in: namespace)
+                            .scaledToFit()
+                            .transition(.scale(scale: 1))
+                            .zoomable()
+                            .scaleEffect(1 + startValue)
+                            .offset(x: startValue > 0.2 ? offset.width + position.width : .zero, y: startValue > 0 ? offset.height + position.height : .zero)
+                            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("MagnifyGestureScaleChanged"))) { obj in
+                                if let scale = obj.object as? CGFloat {
+                                    withAnimation {
+                                        currentScale = scale
+                                    }
+                                }
+                            }
+                            .offset(offset)
+                            .scaleEffect(getScaleAmount())
+                            .simultaneousGesture(
+                                currentScale <= 1 ?
+                                DragGesture()
+                                    .updating($isPressed) { value, gestureState, _ in
+                                        gestureState = true
+                                    }
+                                    .onChanged({ value in
+                                        isDragging = true // Set dragging to true on change
+                                        if startValue <= 0 {
+                                            withAnimation {
+                                                offset = value.translation
+                                            }
+                                        }
+                                    })
+                                    .onEnded({ value in
+                                        isDragging = false // Reset dragging status on end
+                                        let dragThreshold: CGFloat = 100
+                                        
+                                        if abs(value.translation.height) > dragThreshold {
+                                            withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                                                showImageViewer = false
+                                                //occasionViewModel.viewState = .expanded
+                                                selectedSaint = nil
+                                                offset = .zero
+                                                HapticsManager.instance.impact(style: .light)
+                                                occasionViewModel.stopDragGesture = false
+                                                //occasionViewModel.showImageView = false
+                                            }
+                                        } else {
+                                            withAnimation(.spring(response: 0.30, dampingFraction: 1)) {
+                                                offset = .zero
+                                            }
+                                        }
+                                    })
+                                : nil
+                            )
+                    )
+                    .mask({
+                        RoundedRectangle(cornerRadius: 0)
+                            .matchedGeometryEffect(id: "\(newSelectedIcon?.image ?? icon.image)", in: namespace)
+                    })
             }
         }
+
     }
     private var blurredOverlay: some View {
         ZStack {
@@ -527,55 +572,66 @@ extension GroupCardView {
     private var story: some View {
        
         ZStack {
-            if occasionViewModel.getStory(forIcon: selectedSaint ?? icon) == nil {
+            // Check if both selectedSaint and icon do not have a story
+            if occasionViewModel.getStory(forIcon: selectedSaint ?? icon) == nil || occasionViewModel.getStory(forIcon: icon) == nil {
+                EmptyView()
             } else {
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 12) {
                     HStack(alignment: .center, spacing: 12) {
-                        Image(systemName: "book")
-                            .foregroundStyle(.gray900)
+//                        Image(systemName: "book")
+//                            .foregroundStyle(.gray900)
                         
                         Text(stories.saint ?? "")
                             .fontWeight(.semibold)
                             .foregroundStyle(.gray900)
-                            .lineLimit(2)
+                            .lineLimit(1)
+                            .font(.title3)
                     }
-                    .font(.title3)
                     
                     VStack(alignment: .leading, spacing: 20) {
-                        
                         Text(stories.story ?? "")
-                            .foregroundStyle(.gray400)
+                            .foregroundStyle(.gray900.opacity(0.7))
                             .fontWeight(.medium)
                             .lineLimit(storyHeight)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         
-                        
-                        Button {
-                            openSheet?.toggle()
-                        } label: {
-                            HStack(alignment: .center, spacing: 4) {
-                                Text("Read more")
-                                    .fontWeight(.semibold)
-                                Image(systemName: "chevron.down")
-                                    .font(.caption)
-                                    .fontWeight(.semibold)
-                            }
-                        }
+                        /*
+                         Button {
+                             openSheet?.toggle()
+                         } label: {
+                             HStack(alignment: .center, spacing: 4) {
+                                 Text("Read more")
+                                     .fontWeight(.semibold)
+                                 Image(systemName: "chevron.down")
+                                     .font(.caption)
+                                     .fontWeight(.semibold)
+                             }
+                         }
+                         */
 
-                        
-                        
                     }
+                    
+                    Divider()
+                    Text("See Story")
+                        .fontWeight(.medium)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.gray900.opacity(0.7))
                 }
                 .padding(.horizontal, 16)
-                .padding(.vertical, 24)
-                .background(.gray50)
+                .padding(.vertical, 20)
+                .background(Color.primary100)
                 .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .stroke(Color.gray900.opacity(0.2), lineWidth: 0.7)
+                }
                 .padding(.horizontal, 20)
-            .textSelection(.enabled)
-            .onTapGesture {
-                openSheet?.toggle()
-            }
-            .shadow(color: .gray400, radius: 1.2, x: 0, y: 2)
-
+                .textSelection(.enabled)
+                .onTapGesture {
+                    openSheet?.toggle()
+                }
+                //.shadow(color: .gray200.opacity(0.6), radius: 10, x: 0, y: 8)
+                
             }
         }
 
@@ -623,8 +679,39 @@ extension GroupCardView {
     }
     
     private var fitImageView: some View {
+        
         DestinationView(id: "\(icon.id)") {
-            
+            TabView {
+                ForEach(occasionViewModel.selectedGroupIcons) { icon in
+                    HStack {
+                        SaintImageView(icon: icon)
+                            .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
+                            .scaleEffect(1 + startValue)
+                            .offset(offset)
+                            .scaleEffect(getScaleAmount())
+                            .scaledToFill()
+                            .onTapGesture {
+                                withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                                    showImageViewer = true
+                                    occasionViewModel.showImageView = true
+                                    occasionViewModel.stopDragGesture = true
+                                }
+                                newSelectedIcon = icon
+                            }
+                            .frame(width: UIScreen.main.bounds.width - 40)
+                            .clipped()
+                            .mask({
+                                RoundedRectangle(cornerRadius: 0)
+                                    .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
+                            })
+                    }
+                }
+            }
+            .matchedGeometryEffect(id: "tab", in: namespace)
+            .frame(height: 420)
+            .clipShape(RoundedRectangle(cornerRadius: 24))
+            .tabViewStyle(.page)
+            /*
              Rectangle()
                  .fill(.clear)
                  .background(
@@ -672,6 +759,9 @@ extension GroupCardView {
                      RoundedRectangle(cornerRadius: 24)
                          .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
                  })
+             */
+             
+            
              
             
                 

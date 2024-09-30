@@ -512,13 +512,13 @@ extension HomeView {
                     .frame(width: 250)
                 
             } else {
-                VStack {
+                ZStack {
                     if occasionViewModel.liturgicalInfoTapped {
                         Text(occasionViewModel.liturgicalInformation ?? "No Liturgical Info")
-                            .blur(radius: occasionViewModel.liturgicalInfoTapped ? 0 : 10)
+                            .transition(.blurReplace(.downUp))
                     } else {
                         Text(occasionViewModel.feast)
-                            .blur(radius: occasionViewModel.liturgicalInfoTapped ? 10 : 0)
+                            .transition(.blurReplace(.downUp))
                     }
                 }
                 .font(.title2)
@@ -529,6 +529,7 @@ extension HomeView {
                 .onTapGesture {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                         occasionViewModel.liturgicalInfoTapped.toggle()
+                        HapticsManager.instance.impact(style: .soft)
                     }
                 }
             }
@@ -602,27 +603,33 @@ extension HomeView {
                                 .opacity(occasionViewModel.selectedSaint == saint ? 0 : 1)
                             
                         }
-                         if !occasionViewModel.filteredIcons.isEmpty {
-                            // GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory, namespace: namespace)
-                             GroupHeroTransitionView(namespace: namespace)
-                                 .contextMenu(ContextMenu(menuItems: {
-                                     Button {
-                                         selectedSaint = occasionViewModel.filteredIcons.first
-                                         occasionViewModel.showStory?.toggle()
-                                     } label: {
-                                         if occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) != nil {
-                                             Label("See story", systemImage: "book")
-                                         } else {
-                                             Text("No story")
-                                         }
-                                         
-                                     }
-                                     .disabled((occasionViewModel.getStory(forIcon: occasionViewModel.filteredIcons.first ?? dev.icon) != nil) == true ? false : true)
+//                         if occasionViewModel.filteredIcons.isEmpty {
+//                            // GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory, namespace: namespace)
+//                         }
+                        
+                        AllGroupedIconsView(namespace: namespace)
+                            .contextMenu(ContextMenu(menuItems: {
+                                Button {
+                                    selectedSaint = occasionViewModel.selectedGroupIcons.first
+                                    occasionViewModel.showStory?.toggle()
+                                } label: {
+                                    if occasionViewModel.getStory(forIcon: occasionViewModel.selectedGroupIcons.first ?? dev.icon) != nil {
+                                        Label("See story", systemImage: "book")
+                                    } else {
+                                        Text("No story")
+                                    }
+                                    
+                                }
+                                .disabled((occasionViewModel.getStory(forIcon: occasionViewModel.selectedGroupIcons.first ?? dev.icon) != nil) == true ? false : true)
 
-                                 }))
-                                 .frame(height: 400, alignment: .center)
-                                 
-                         }
+                            }))
+                            .scrollTransition { content, phase in
+                                content
+                                    .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
+                                    .blur(radius: phase.isIdentity ? 0 : 0.9)
+                                    .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                            }
+                            .frame(height: 400, alignment: .center)
                     }
                     //.padding(.top, -24)
                     .padding(.horizontal, 24)

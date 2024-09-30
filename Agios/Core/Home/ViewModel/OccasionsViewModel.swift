@@ -79,6 +79,11 @@ class OccasionsViewModel: ObservableObject {
     @Published var copticDates: [String] = []
     @Published var mockDates: [DateModel] = []
     @Published var selectedMockDate: DateModel? = nil
+    @Published var filteredIconsGroups: [[IconModel]] = []
+    @Published var selectedGroupIcons: [IconModel] = []
+    @Published var showDetailsView: Bool = false
+
+
 
     var copticEvents: [CopticEvent]?
     var feastName: String?
@@ -273,9 +278,68 @@ class OccasionsViewModel: ObservableObject {
             self.highlight = story.highlights ?? []
         }
         
-        self.filteredIcons = filterIconsByCaption(captionKeyword: "The Resurrection of")
-        self.icons = removeIconsWithCaption(icons: self.icons, phrase: "The Resurrection of")
+        filterIconsWithSimilarStories()
     }
+    
+    // Function to filter icons that share the same or similar story strings
+    func filterIconsWithSimilarStories() {
+        var storyGroups: [String: [IconModel]] = [:]
+        var emptyStoryIcons: [IconModel] = [] // For icons with empty or nil stories
+
+        // Group icons by their story strings
+        for icon in icons {
+            if let storyArray = icon.story, !storyArray.isEmpty {
+                for storyElement in storyArray {
+                    if storyGroups[storyElement] == nil {
+                        storyGroups[storyElement] = [icon]
+                    } else {
+                        storyGroups[storyElement]?.append(icon)
+                    }
+                }
+            } else {
+                // Add icons with empty or nil stories to the emptyStoryIcons group
+                emptyStoryIcons.append(icon)
+            }
+        }
+
+        // Extract groups of icons that share the same or similar story elements
+        var seenIconIDs: Set<String> = []
+        var groupedIcons: [[IconModel]] = []
+
+        for group in storyGroups.values {
+            // Only create groups where icons share story elements
+            if group.count > 1 {
+                var iconGroup: [IconModel] = []
+                for icon in group {
+                    // Avoid duplicate additions of the same icon across groups
+                    if !seenIconIDs.contains(icon.id) {
+                        iconGroup.append(icon)
+                        seenIconIDs.insert(icon.id)
+                    }
+                }
+                // Add the group to the main grouped array
+                if !iconGroup.isEmpty {
+                    groupedIcons.append(iconGroup)
+                }
+            }
+        }
+
+        // Add the group of icons with empty or nil stories, if any
+        if !emptyStoryIcons.isEmpty {
+            groupedIcons.append(emptyStoryIcons)
+        }
+
+        // Update filteredIconsGroups with the groups of icons
+        filteredIconsGroups = groupedIcons
+
+        // Remove the grouped icons from the main icons array
+        icons.removeAll { icon in
+            seenIconIDs.contains(icon.id) || emptyStoryIcons.contains(icon)
+        }
+    }
+
+
+    
     
     func removeIconsWithCaption(icons: [IconModel], phrase: String) -> [IconModel] {
         return icons.filter { !($0.caption?.localizedCaseInsensitiveContains(phrase) ?? false) }
