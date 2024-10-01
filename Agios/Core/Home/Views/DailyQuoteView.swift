@@ -24,14 +24,19 @@ struct DailyQuoteView: View {
                            .fontWeight(.semibold)
                            .font(.callout)
                            .kerning(1.3)
-                   
-                       Text("〝 \(viewModel.currentQuote?.body ?? "Fact is empty.") 〞")
-                               .multilineTextAlignment(.center)
-                               .font(.title3)
-                               .fontWeight(.semibold)
-                               .foregroundStyle(.gray900)
-                               .textSelection(.enabled)
-                               .kerning(-0.4)
+                       
+                       ZStack {
+                           Text("❝ ").foregroundStyle(.primary900).font(.title2).fontWeight(.black).fontDesign(.monospaced) +
+                           Text("\(viewModel.currentQuote?.body ?? "Fact is empty.")") +
+                           Text(" ❞").foregroundStyle(.primary900).font(.title2).fontWeight(.black).fontDesign(.monospaced)
+                       }
+                       .multilineTextAlignment(.center)
+                       .font(.title3)
+                       .fontWeight(.semibold)
+                       .foregroundStyle(.black)
+                       .textSelection(.enabled)
+                       .kerning(-0.4)
+
                        
                        Text(viewModel.currentQuote?.author.uppercased() ?? "")
                            .foregroundStyle(.gray900)
