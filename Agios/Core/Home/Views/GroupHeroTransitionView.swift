@@ -211,6 +211,9 @@ struct GroupCardView: View {
                     }
                     .scrollIndicators(.hidden)
                     .scrollDisabled(verticalPosition > 0)
+                    .simultaneousGesture(
+                        scrollViewOffset < 561 || showImageViewer ? nil : gestureVertical()
+                        , including: .all)
                     .overlay(alignment: .top) {
                         ZStack(alignment: .center) {
                             VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
@@ -249,9 +252,6 @@ struct GroupCardView: View {
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .offset(y: verticalPosition)
-            .simultaneousGesture(
-                scrollViewOffset < 561 || showImageViewer ? nil : gestureVertical()
-            )
             .transition(.slide)
             .animation(.smooth, value: verticalPosition)
         }
