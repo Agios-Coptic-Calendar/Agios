@@ -176,44 +176,46 @@ struct GroupCardView: View {
             ZStack(alignment: .topTrailing) {
                 ZStack {
                     ScrollView {
-                        VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 24 : 32) {
-                            VStack(alignment: .leading, spacing: 32) {
-//                                if !showImageViewer {
-//                                  fitImageView
-//                                } else {
-//                                    Rectangle()
-//                                        .fill(.clear)
-//                                        .frame(height: 420)
-//                                        .frame(maxWidth: .infinity)
-//                                }
-                                fitImageView
-                                    .opacity(showImageViewer ? 0 : 1)
-                                iconCaption
-                                    
-                            }
-                            .padding(.horizontal, 20)
+                        ZStack {
+                            VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 24 : 32) {
+                                VStack(alignment: .leading, spacing: 32) {
+    //                                if !showImageViewer {
+    //                                  fitImageView
+    //                                } else {
+    //                                    Rectangle()
+    //                                        .fill(.clear)
+    //                                        .frame(height: 420)
+    //                                        .frame(maxWidth: .infinity)
+    //                                }
+                                    fitImageView
+                                        .opacity(showImageViewer ? 0 : 1)
+                                    iconCaption
+                                        
+                                }
+                                .padding(.horizontal, 20)
 
-                            
-                            
-//                            if let explanation = icon.explanation, !explanation.isEmpty {
-//                                divider
-//                            }
-//                            description
-                            story
-                            //divider
-                            //highlights
+                                
+                                
+    //                            if let explanation = icon.explanation, !explanation.isEmpty {
+    //                                divider
+    //                            }
+    //                            description
+                                story
+                                //divider
+                                //highlights
+                            }
+                            .kerning(-0.4)
+                            .padding(.bottom, 40)
+                            .padding(.top, 115)
+                            .fontDesign(.rounded)
+                            .foregroundStyle(.gray900)
+                            .simultaneousGesture(
+                                scrollViewOffset < 561 || showImageViewer ? nil : gestureVertical()
+                                , including: .all)
                         }
-                        .kerning(-0.4)
-                        .padding(.bottom, 40)
-                        .padding(.top, 115)
-                        .fontDesign(.rounded)
-                        .foregroundStyle(.gray900)
                     }
                     .scrollIndicators(.hidden)
                     .scrollDisabled(verticalPosition > 0)
-                    .simultaneousGesture(
-                        scrollViewOffset < 561 || showImageViewer ? nil : gestureVertical()
-                        , including: .all)
                     .overlay(alignment: .top) {
                         ZStack(alignment: .center) {
                             VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
