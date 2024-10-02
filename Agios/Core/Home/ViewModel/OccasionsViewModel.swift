@@ -82,6 +82,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var filteredIconsGroups: [[IconModel]] = []
     @Published var selectedGroupIcons: [IconModel] = []
     @Published var showDetailsView: Bool = false
+    @Published var draggingDetailsView: Bool = false
 
 
 

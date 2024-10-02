@@ -19,9 +19,9 @@ struct AllGroupedIconsView: View {
                 ForEach(Array(icons.enumerated().reversed()), id: \.element.id) { index, icon in
                     GroupCardView(icon: icon, iconographer: dev.iconagrapher, stories: vm.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
                         .scaleEffect(1.0 - (CGFloat(index) * 0.05), anchor: .center)
-                        .offset(y: (index > 0 && vm.showDetailsView && vm.selectedGroupIcons == icons) ? 0 : -CGFloat(index) * 13)
+                        .offset(y: (index > 0 && vm.showDetailsView && vm.selectedGroupIcons == icons && vm.draggingDetailsView) ? 0 : -CGFloat(index) * 13)
                         .allowsHitTesting(index == 0)
-                        .opacity((index > 0 && vm.showDetailsView && vm.selectedGroupIcons == icons) ? 0 : 1)
+                        .opacity((index > 0 && vm.showDetailsView && vm.selectedGroupIcons == icons && vm.draggingDetailsView) ? 0 : 1)
                 }
             }
             .simultaneousGesture(
@@ -305,6 +305,7 @@ struct GroupCardView: View {
             .onChanged { value in
                 if value.translation.height > 0 { // Only allow downward dragging
                     verticalPosition = value.translation.height
+                    occasionViewModel.draggingDetailsView = true
                 }
             }
             .onEnded { value in
@@ -312,10 +313,12 @@ struct GroupCardView: View {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                         verticalPosition = .zero
                         showView = false
+                        occasionViewModel.draggingDetailsView = false
                         goBack()
                     }
                     withAnimation(.easeIn(duration: 0.6)) {
                         showTest = false
+                        occasionViewModel.showDetailsView = false
                     }
                 } else {
                     verticalPosition = .zero
