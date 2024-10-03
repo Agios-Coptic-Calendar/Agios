@@ -22,12 +22,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          brew install cocoapods fastlane
-
-      - name: Install Pod Dependencies
-        run: |
-          cd ios
-          pod install
+          brew install fastlane
 
       - name: Build the app
         run: |
