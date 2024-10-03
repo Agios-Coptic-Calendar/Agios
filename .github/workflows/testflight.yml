@@ -47,12 +47,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          brew install cocoapods fastlane
-
-      - name: Install Pod Dependencies
-        run: |
-          cd ios
-          pod install
+          brew install fastlane
 
       - name: Build the app for distribution
         run: |
@@ -60,5 +55,4 @@ jobs:
 
       - name: Upload to TestFlight
         run: |
-          cd ios
           fastlane pilot upload --ipa Agios.ipa
