@@ -1,58 +1,41 @@
 name: iOS Build and Test
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: macos-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Homebrew
-        run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+        
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
 
-      - name: Install Dependencies
-        run: |
-          brew install fastlane
+      - uses: ruby/setup-ruby@v1
 
-      - name: Build the app
-        run: |
-          xcodebuild -workspace Agios.xcworkspace -scheme YourAppScheme -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14,OS=latest' clean build
+      - name: Install bundler
+      - run: gem install bundler
 
-      - name: Run Tests
-        run: |
-          xcodebuild test -workspace Agios.xcworkspace -scheme Agios -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest'
+      - name: Install gems
+      - run: bundle install
 
-  deploy:
-    runs-on: macos-latest
-    needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install Homebrew
-        run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-      - name: Install Dependencies
-        run: |
-          brew install fastlane
-
-      - name: Build the app for distribution
-        run: |
-          xcodebuild -workspace Agios.xcworkspace -scheme Agios -sdk iphoneos -configuration AppStoreDistribution archive -archivePath ${{ github.workspace }}/Agios.xcarchive
-
-      - name: Upload to TestFlight
-        run: |
-          fastlane pilot upload --ipa Agios.ipa
+      - name: Swift Packages Cache
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: |
+            Build/SourcePackages
+            Build/Build/Products
+          key: ${{ runner.os }}-deps-v1-${{ hashFiles('BILDsolid.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: ${{ runner.os }}-deps-v1-
