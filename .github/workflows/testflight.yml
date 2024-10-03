@@ -37,4 +37,4 @@ jobs:
             Build/SourcePackages
             Build/Build/Products
           key: ${{ runner.os }}-deps-v1-${{ hashFiles('BILDsolid.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
-          restore-keys: ${{ runner.os }}-deps-v1-
+          restore-keys: ${{ runner.os }}-deps-v1
