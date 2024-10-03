@@ -1,0 +1,69 @@
+name: iOS Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Homebrew
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+      - name: Install Dependencies
+        run: |
+          brew install cocoapods fastlane
+
+      - name: Install Pod Dependencies
+        run: |
+          cd ios
+          pod install
+
+      - name: Build the app
+        run: |
+          xcodebuild -workspace Agios.xcworkspace -scheme YourAppScheme -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14,OS=latest' clean build
+
+      - name: Run Tests
+        run: |
+          xcodebuild test -workspace Agios.xcworkspace -scheme Agios -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest'
+
+  deploy:
+    runs-on: macos-latest
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Homebrew
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+      - name: Install Dependencies
+        run: |
+          brew install cocoapods fastlane
+
+      - name: Install Pod Dependencies
+        run: |
+          cd ios
+          pod install
+
+      - name: Build the app for distribution
+        run: |
+          xcodebuild -workspace Agios.xcworkspace -scheme Agios -sdk iphoneos -configuration AppStoreDistribution archive -archivePath ${{ github.workspace }}/Agios.xcarchive
+
+      - name: Upload to TestFlight
+        run: |
+          cd ios
+          fastlane pilot upload --ipa Agios.ipa
