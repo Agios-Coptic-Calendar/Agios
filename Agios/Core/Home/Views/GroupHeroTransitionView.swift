@@ -18,10 +18,15 @@ struct AllGroupedIconsView: View {
             ZStack {
                 ForEach(Array(icons.enumerated().reversed()), id: \.element.id) { index, icon in
                     GroupCardView(icon: icon, iconographer: dev.iconagrapher, stories: vm.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
-                        .scaleEffect(1.0 - (CGFloat(index) * 0.05), anchor: .center)
-                        .offset(y: (index > 0 && vm.showDetailsView && vm.selectedGroupIcons == icons) ? 0 : (index > 0 && vm.draggingDetailsView && vm.selectedGroupIcons == icons) ? 0 : -CGFloat(index) * 13)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .opacity(index > 0 ? (CGFloat(index) * 0.5) : 0)
+                        }
+                        .scaleEffect(1.0 - (CGFloat(index) * 0.09), anchor: .center)
+                        .offset(y: getOffset(index: index, icons: icons))
                         .allowsHitTesting(index == 0)
-                        .opacity((index > 0 && vm.showDetailsView && vm.selectedGroupIcons == icons) ? 0 : ( index > 0 && vm.draggingDetailsView && vm.selectedGroupIcons == icons) ? 0 : 1)
+                        .opacity(getOpacity(index: index, icons: icons))
+                        .animation((vm.showDetailsView || vm.draggingDetailsView) ? nil : getAnimationForCondition(), value: vm.showDetailsView || vm.draggingDetailsView) // Animate conditionally
                 }
             }
             .simultaneousGesture(
@@ -30,6 +35,30 @@ struct AllGroupedIconsView: View {
                 })
             )
         }
+    }
+
+    // Helper function for calculating offset based on condition
+    private func getOffset(index: Int, icons: [IconModel]) -> CGFloat {
+        if index > 0 && (vm.showDetailsView || vm.draggingDetailsView) && vm.selectedGroupIcons == icons {
+            return 0
+        }
+        return -CGFloat(index) * 24
+    }
+
+    // Helper function for calculating opacity based on condition
+    private func getOpacity(index: Int, icons: [IconModel]) -> Double {
+        if index > 0 && (vm.showDetailsView || vm.draggingDetailsView) && vm.selectedGroupIcons == icons {
+            return 0
+        }
+        return 1
+    }
+
+    // Helper function to return animation based on condition
+    private func getAnimationForCondition() -> Animation {
+        if vm.showDetailsView || vm.draggingDetailsView {
+            return .interactiveSpring // No animation when conditions are true
+        }
+        return .spring(response: 0.3, dampingFraction: 0.75) // Animate only when condition is false
     }
 }
 
