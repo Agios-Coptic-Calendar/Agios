@@ -204,6 +204,7 @@ struct CardView: View {
                                 .frame(height: 110)
                                 .ignoresSafeArea()
                                 .gesture(gestureVertical())
+                                .offset(y: verticalPosition > 0 ? 0 : (scrollViewOffset > 567 ? currentScrollRecalulated() : 0))
                             customBackButton
                         }
                         
@@ -211,8 +212,14 @@ struct CardView: View {
                     
                         blurredOverlay
                         filledImageView
-//                   Text("\(scrollViewOffset) \(verticalPosition)")
-//                        .background(.white)
+//                    VStack(spacing: 12) {
+//                        Text("\(scrollViewOffset) \(verticalPosition)")
+//                        Text("Scroll view when divided: \((scrollViewOffset - 567) * 1)")
+//                             
+//                    }
+//                    .padding()
+//                    .background(.white)
+                   
                 }
 
                closeButton
@@ -231,11 +238,15 @@ struct CardView: View {
                 }
                
             }
-            .background(BackgroundBlurView())
+            .background(
+                BackgroundBlurView()
+                    .offset(y: verticalPosition > 0 ? 0 : (scrollViewOffset > 567 ? currentScrollRecalulated() : 0))
+            )
             .background(
                 RoundedRectangle(cornerRadius: 32, style: .continuous)
                     .fill(.primary100)
                     .ignoresSafeArea()
+                    .offset(y: verticalPosition > 0 ? 0 : (scrollViewOffset > 567 ? currentScrollRecalulated() : 0))
             )
             
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -243,6 +254,11 @@ struct CardView: View {
             .offset(y: verticalPosition)
             .transition(.slide)
             .animation(.smooth, value: verticalPosition)
+            .onChange(of: scrollViewOffset) { oldValue, newValue in
+                if scrollViewOffset > 640 {
+                    goBack()
+                }
+            }
         }
         .heroLayer(id: "\(icon.id)", animate: $showView, sourceCornerRadius: 16, destinationCornerRadius: 24) {
             Rectangle()
@@ -283,6 +299,11 @@ struct CardView: View {
                 }
             }
         }
+    }
+    
+    private func currentScrollRecalulated() -> CGFloat {
+        let offSetValue = ((scrollViewOffset - 567) * 1)
+        return offSetValue
     }
     
     
@@ -386,7 +407,8 @@ extension CardView {
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
         .zIndex(showImageViewer ? -2 : 0)
-        .offset(y: 16)
+        .offset(y: verticalPosition > 0 ? 16 : (scrollViewOffset > 567 ? (16 + currentScrollRecalulated()) : 16))
+
     }
     
     private var closeButton: some View {
