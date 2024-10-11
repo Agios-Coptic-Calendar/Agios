@@ -323,6 +323,16 @@ struct FeastView: View {
                                     Text(date)
                                         .foregroundStyle(.primary1000)
                                         .lineLimit(1)
+                                    
+                                    Spacer()
+                                    
+                                    ZStack {
+                                        if occasionViewModel.datePicker == occasionViewModel.date(from: date) ?? Date() {
+                                            Image(systemName: "checkmark.circle.fill")
+                                                .transition(.scale)
+                                        }
+                                    }
+                                    
                                 }
                                 .fontWeight(.medium)
                                 .padding(.vertical, 9)
@@ -330,7 +340,11 @@ struct FeastView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .background(.primary100)
                                 .clipShape(RoundedRectangle(cornerRadius: 12, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
-                                
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                        .stroke(Color.primary1000, lineWidth: 0.7)
+                                        .opacity((occasionViewModel.datePicker == occasionViewModel.date(from: date) ?? Date()) ? 1 : 0)
+                                }
                             })
                             .buttonStyle(BouncyButton())
                             .padding(.horizontal, 16)
