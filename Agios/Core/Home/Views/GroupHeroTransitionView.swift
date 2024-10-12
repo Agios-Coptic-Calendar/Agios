@@ -18,10 +18,15 @@ struct AllGroupedIconsView: View {
             ZStack {
                 ForEach(Array(icons.enumerated().reversed()), id: \.element.id) { index, icon in
                     GroupCardView(icon: icon, iconographer: dev.iconagrapher, stories: vm.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
-                        .scaleEffect(1.0 - (CGFloat(index) * 0.05), anchor: .center)
-                        .offset(y: (index > 0 && vm.showDetailsView && vm.selectedGroupIcons == icons) ? 0 : (index > 0 && vm.draggingDetailsView && vm.selectedGroupIcons == icons) ? 0 : -CGFloat(index) * 13)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .opacity(index > 0 ? (CGFloat(index) * 0.5) : 0)
+                        }
+                        .scaleEffect(1.0 - (CGFloat(index) * 0.09), anchor: .center)
+                        .offset(y: getOffset(index: index, icons: icons))
                         .allowsHitTesting(index == 0)
-                        .opacity((index > 0 && vm.showDetailsView && vm.selectedGroupIcons == icons) ? 0 : ( index > 0 && vm.draggingDetailsView && vm.selectedGroupIcons == icons) ? 0 : 1)
+                        .opacity(index > 0 ? (CGFloat(icons.count - index) * 0.2) : getOpacity(index: index, icons: icons))
+                        .animation((vm.showDetailsView || vm.draggingDetailsView) ? nil : getAnimationForCondition(), value: vm.showDetailsView || vm.draggingDetailsView) // Animate conditionally
                 }
             }
             .simultaneousGesture(
@@ -30,6 +35,30 @@ struct AllGroupedIconsView: View {
                 })
             )
         }
+    }
+
+    // Helper function for calculating offset based on condition
+    private func getOffset(index: Int, icons: [IconModel]) -> CGFloat {
+        if index > 0 && (vm.showDetailsView || vm.draggingDetailsView) && vm.selectedGroupIcons == icons {
+            return 0
+        }
+        return -CGFloat(index) * 24
+    }
+
+    // Helper function for calculating opacity based on condition
+    private func getOpacity(index: Int, icons: [IconModel]) -> Double {
+        if index > 0 && (vm.showDetailsView || vm.draggingDetailsView) && vm.selectedGroupIcons == icons {
+            return 0
+        }
+        return 1
+    }
+
+    // Helper function to return animation based on condition
+    private func getAnimationForCondition() -> Animation {
+        if vm.showDetailsView || vm.draggingDetailsView {
+            return .interactiveSpring // No animation when conditions are true
+        }
+        return .spring(response: 0.3, dampingFraction: 0.75) // Animate only when condition is false
     }
 }
 
@@ -222,6 +251,7 @@ struct GroupCardView: View {
 //                                    scrollViewOffset < 561 || showImageViewer ? nil : gestureVertical()
 //                                    , including: .all)
                                 .gesture(gestureVertical())
+                                .offset(y: verticalPosition > 0 ? 0 : (scrollViewOffset > 567 ? currentScrollRecalulated() : 0))
                             customBackButton
                         }
                         
@@ -246,16 +276,35 @@ struct GroupCardView: View {
                 }
                
             }
-            .background(BackgroundBlurView())
+            .background(
+                BackgroundBlurView()
+                    .offset(y: verticalPosition > 0 ? 0 : (scrollViewOffset > 567 ? currentScrollRecalulated() : 0))
+            )
             .background(
                 RoundedRectangle(cornerRadius: 32, style: .continuous)
                     .fill(.primary100)
                     .ignoresSafeArea()
+                    .offset(y: verticalPosition > 0 ? 0 : (scrollViewOffset > 567 ? currentScrollRecalulated() : 0))
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .offset(y: verticalPosition)
             .transition(.slide)
             .animation(.smooth, value: verticalPosition)
+            .onChange(of: scrollViewOffset) { _, _ in
+                if scrollViewOffset > 640 {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        verticalPosition = .zero
+                        showView = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                            occasionViewModel.draggingDetailsView = false
+                            showTest = false
+                            occasionViewModel.showDetailsView = false
+                        }
+                        goBack()
+                    }
+
+                }
+            }
         }
         .heroLayer(id: "\(icon.id)", animate: $showView, sourceCornerRadius: 16, destinationCornerRadius: 24) {
             Rectangle()
@@ -295,6 +344,11 @@ struct GroupCardView: View {
                 }
             }
         }
+    }
+    
+    private func currentScrollRecalulated() -> CGFloat {
+        let offSetValue = ((scrollViewOffset - 567) * 1)
+        return offSetValue
     }
     
     private func gestureVertical() -> some Gesture {
@@ -408,7 +462,7 @@ extension GroupCardView {
         }
         .opacity(getScaleAmount() < 1 || currentScale > 1 ? 0 : 1)
         .zIndex(showImageViewer ? -2 : 0)
-        .offset(y: 16)
+        .offset(y: verticalPosition > 0 ? 16 : (scrollViewOffset > 567 ? (16 + currentScrollRecalulated()) : 16))
     }
     
     private var closeButton: some View {

@@ -994,6 +994,7 @@ extension HomeView {
         })
         .padding(.bottom, 48)
         .padding(.horizontal, 20)
+        .frame(maxWidth: 500)
         
         
     }

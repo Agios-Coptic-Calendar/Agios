@@ -65,6 +65,7 @@ struct UpcomingFeastView: View {
         }
         .kerning(-0.4)
         .fontDesign(.rounded)
+        .frame(maxWidth: 500)
     }
 }
 
