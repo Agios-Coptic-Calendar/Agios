@@ -25,7 +25,7 @@ struct AllGroupedIconsView: View {
                         .scaleEffect(1.0 - (CGFloat(index) * 0.09), anchor: .center)
                         .offset(y: getOffset(index: index, icons: icons))
                         .allowsHitTesting(index == 0)
-                        .opacity(getOpacity(index: index, icons: icons))
+                        .opacity(index > 0 ? (CGFloat(icons.count - index) * 0.2) : getOpacity(index: index, icons: icons))
                         .animation((vm.showDetailsView || vm.draggingDetailsView) ? nil : getAnimationForCondition(), value: vm.showDetailsView || vm.draggingDetailsView) // Animate conditionally
                 }
             }
