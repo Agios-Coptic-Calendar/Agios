@@ -408,10 +408,12 @@ class OccasionsViewModel: ObservableObject {
     }
     
     func getStory(forIcon icon: IconModel) -> Story? {
-        guard let storyID = icon.story?.first else { return nil }
-        return stories.first { $0.id == storyID }
+        guard let iconStories = icon.story,
+              let story = stories.first(where: { iconStories.contains($0.id ?? "" )})
+        else { return nil }
+        return story
     }
-            
+    
     func formattedDate(from dateString: String) -> String? {
         let inputFormatter = ISO8601DateFormatter()
         guard let date = inputFormatter.date(from: dateString) else { return nil }
