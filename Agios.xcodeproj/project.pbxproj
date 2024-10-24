@@ -69,6 +69,7 @@
 		57EE90672BE42EC600C7E1AE /* DailyQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */; };
 		990F17A42C583B3900D05551 /* copticEvents.json in Resources */ = {isa = PBXBuildFile; fileRef = 990F17A32C583B3900D05551 /* copticEvents.json */; };
 		997A63B52CA73341007720A4 /* Shake in Frameworks */ = {isa = PBXBuildFile; productRef = 997A63B42CA73341007720A4 /* Shake */; };
+		9986615C2CCA50F60071698B /* Saint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9986615B2CCA50F60071698B /* Saint.swift */; };
 		998A7B792CA0BD16000BD963 /* dailyQuotes.json in Resources */ = {isa = PBXBuildFile; fileRef = 998A7B782CA0BD16000BD963 /* dailyQuotes.json */; };
 		998A7B7B2CA35E9E000BD963 /* Quote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998A7B7A2CA35E9E000BD963 /* Quote.swift */; };
 		998A7B7D2CA35FA9000BD963 /* DailyQuoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998A7B7C2CA35FA9000BD963 /* DailyQuoteViewModel.swift */; };
@@ -77,7 +78,40 @@
 		99B5EA7A2C36FAF600FE829F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE0E2C25A1AB004685D8 /* Lottie */; };
 		99B5EA7B2C36FAF600FE829F /* UIImageColors in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE112C25A1C6004685D8 /* UIImageColors */; };
 		99B5EA7D2C373B7700FE829F /* ReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5EA7C2C373B7700FE829F /* ReadingView.swift */; };
+		99B71D7C2CCA2AD60017A68C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B71D7B2CCA2AD50017A68C /* WidgetKit.framework */; };
+		99B71D7E2CCA2AD60017A68C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B71D7D2CCA2AD60017A68C /* SwiftUI.framework */; };
+		99B71D812CCA2AD60017A68C /* AgiosWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B71D802CCA2AD60017A68C /* AgiosWidgetBundle.swift */; };
+		99B71D832CCA2AD60017A68C /* AgiosWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B71D822CCA2AD60017A68C /* AgiosWidget.swift */; };
+		99B71D852CCA2AD80017A68C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99B71D842CCA2AD80017A68C /* Assets.xcassets */; };
+		99B71D892CCA2AD80017A68C /* AgiosWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 99B71D792CCA2AD50017A68C /* AgiosWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		99B71D932CCA2C2B0017A68C /* IconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B71D922CCA2C2B0017A68C /* IconService.swift */; };
+		99B71D952CCA2D3A0017A68C /* OccasionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8492BD2B0A70016D6A4 /* OccasionModel.swift */; };
+		99B71D962CCA32840017A68C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 474C79A82BD009BF003E3A15 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		99B71D872CCA2AD80017A68C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 474C79992BD009BC003E3A15 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 99B71D782CCA2AD50017A68C;
+			remoteInfo = AgiosWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		99B71D8A2CCA2AD80017A68C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				99B71D892CCA2AD80017A68C /* AgiosWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		474C79A12BD009BC003E3A15 /* Agios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Agios.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -141,12 +175,21 @@
 		57EE90642BE4096000C7E1AE /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuoteView.swift; sourceTree = "<group>"; };
 		990F17A32C583B3900D05551 /* copticEvents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = copticEvents.json; sourceTree = "<group>"; };
+		9986615B2CCA50F60071698B /* Saint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saint.swift; sourceTree = "<group>"; };
 		998A7B782CA0BD16000BD963 /* dailyQuotes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dailyQuotes.json; sourceTree = "<group>"; };
 		998A7B7A2CA35E9E000BD963 /* Quote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
 		998A7B7C2CA35FA9000BD963 /* DailyQuoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuoteViewModel.swift; sourceTree = "<group>"; };
 		99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopticEvent.swift; sourceTree = "<group>"; };
 		99B5998A2C2E03B5000F6307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		99B5EA7C2C373B7700FE829F /* ReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingView.swift; sourceTree = "<group>"; };
+		99B71D792CCA2AD50017A68C /* AgiosWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AgiosWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		99B71D7B2CCA2AD50017A68C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		99B71D7D2CCA2AD60017A68C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		99B71D802CCA2AD60017A68C /* AgiosWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgiosWidgetBundle.swift; sourceTree = "<group>"; };
+		99B71D822CCA2AD60017A68C /* AgiosWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgiosWidget.swift; sourceTree = "<group>"; };
+		99B71D842CCA2AD80017A68C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		99B71D862CCA2AD80017A68C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		99B71D922CCA2C2B0017A68C /* IconService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +205,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		99B71D762CCA2AD50017A68C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99B71D7E2CCA2AD60017A68C /* SwiftUI.framework in Frameworks */,
+				99B71D7C2CCA2AD60017A68C /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -169,6 +221,8 @@
 			isa = PBXGroup;
 			children = (
 				474C79A32BD009BC003E3A15 /* Agios */,
+				99B71D7F2CCA2AD60017A68C /* AgiosWidget */,
+				99B71D7A2CCA2AD50017A68C /* Frameworks */,
 				474C79A22BD009BC003E3A15 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -177,6 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				474C79A12BD009BC003E3A15 /* Agios.app */,
+				99B71D792CCA2AD50017A68C /* AgiosWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -421,6 +476,14 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
+		9986615A2CCA50D90071698B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9986615B2CCA50F60071698B /* Saint.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		99989BFA2C2CB4300033CDD3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -428,6 +491,36 @@
 				990F17A32C583B3900D05551 /* copticEvents.json */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		99B71D7A2CCA2AD50017A68C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				99B71D7B2CCA2AD50017A68C /* WidgetKit.framework */,
+				99B71D7D2CCA2AD60017A68C /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		99B71D7F2CCA2AD60017A68C /* AgiosWidget */ = {
+			isa = PBXGroup;
+			children = (
+				9986615A2CCA50D90071698B /* Model */,
+				99B71D912CCA2C1A0017A68C /* Service */,
+				99B71D802CCA2AD60017A68C /* AgiosWidgetBundle.swift */,
+				99B71D822CCA2AD60017A68C /* AgiosWidget.swift */,
+				99B71D842CCA2AD80017A68C /* Assets.xcassets */,
+				99B71D862CCA2AD80017A68C /* Info.plist */,
+			);
+			path = AgiosWidget;
+			sourceTree = "<group>";
+		};
+		99B71D912CCA2C1A0017A68C /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				99B71D922CCA2C2B0017A68C /* IconService.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -440,10 +533,12 @@
 				474C799D2BD009BC003E3A15 /* Sources */,
 				474C799E2BD009BC003E3A15 /* Frameworks */,
 				474C799F2BD009BC003E3A15 /* Resources */,
+				99B71D8A2CCA2AD80017A68C /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				99B71D882CCA2AD80017A68C /* PBXTargetDependency */,
 			);
 			name = Agios;
 			packageProductDependencies = (
@@ -457,6 +552,23 @@
 			productReference = 474C79A12BD009BC003E3A15 /* Agios.app */;
 			productType = "com.apple.product-type.application";
 		};
+		99B71D782CCA2AD50017A68C /* AgiosWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 99B71D8D2CCA2AD80017A68C /* Build configuration list for PBXNativeTarget "AgiosWidgetExtension" */;
+			buildPhases = (
+				99B71D752CCA2AD50017A68C /* Sources */,
+				99B71D762CCA2AD50017A68C /* Frameworks */,
+				99B71D772CCA2AD50017A68C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AgiosWidgetExtension;
+			productName = AgiosWidgetExtension;
+			productReference = 99B71D792CCA2AD50017A68C /* AgiosWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -464,11 +576,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1530;
+				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					474C79A02BD009BC003E3A15 = {
 						CreatedOnToolsVersion = 15.3;
+					};
+					99B71D782CCA2AD50017A68C = {
+						CreatedOnToolsVersion = 15.4;
 					};
 				};
 			};
@@ -493,6 +608,7 @@
 			projectRoot = "";
 			targets = (
 				474C79A02BD009BC003E3A15 /* Agios */,
+				99B71D782CCA2AD50017A68C /* AgiosWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -507,6 +623,15 @@
 				998A7B792CA0BD16000BD963 /* dailyQuotes.json in Resources */,
 				474C79A92BD009BF003E3A15 /* Assets.xcassets in Resources */,
 				5798741D2C00B83300F0B2EE /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		99B71D772CCA2AD50017A68C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99B71D962CCA32840017A68C /* Assets.xcassets in Resources */,
+				99B71D852CCA2AD80017A68C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,7 +705,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		99B71D752CCA2AD50017A68C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99B71D812CCA2AD60017A68C /* AgiosWidgetBundle.swift in Sources */,
+				99B71D932CCA2C2B0017A68C /* IconService.swift in Sources */,
+				99B71D952CCA2D3A0017A68C /* OccasionModel.swift in Sources */,
+				9986615C2CCA50F60071698B /* Saint.swift in Sources */,
+				99B71D832CCA2AD60017A68C /* AgiosWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		99B71D882CCA2AD80017A68C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 99B71D782CCA2AD50017A68C /* AgiosWidgetExtension */;
+			targetProxy = 99B71D872CCA2AD80017A68C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		474C79AD2BD009BF003E3A15 /* Debug */ = {
@@ -705,6 +850,7 @@
 		474C79B02BD009BF003E3A15 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -750,6 +896,7 @@
 		474C79B12BD009BF003E3A15 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -792,6 +939,80 @@
 			};
 			name = Release;
 		};
+		99B71D8B2CCA2AD80017A68C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 48F5YYF5VU;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AgiosWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AgiosWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielkame.Agios.AgiosWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Agios Widget Dev";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		99B71D8C2CCA2AD80017A68C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 48F5YYF5VU;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AgiosWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AgiosWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielkame.Agios.AgiosWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Agios Widget Dev";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -809,6 +1030,15 @@
 			buildConfigurations = (
 				474C79B02BD009BF003E3A15 /* Debug */,
 				474C79B12BD009BF003E3A15 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		99B71D8D2CCA2AD80017A68C /* Build configuration list for PBXNativeTarget "AgiosWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				99B71D8B2CCA2AD80017A68C /* Debug */,
+				99B71D8C2CCA2AD80017A68C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
