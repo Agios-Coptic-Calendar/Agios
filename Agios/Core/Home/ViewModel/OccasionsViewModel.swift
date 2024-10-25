@@ -77,7 +77,20 @@ class OccasionsViewModel: ObservableObject {
         }
     }
     @Published var copticDates: [String] = []
-    @Published var mockDates: [DateModel] = []
+    let mockDates: [DateModel] = [
+        DateModel(month: "12", 
+                  day: "05", 
+                  date: "2024-12-05T12:00:00.000Z",
+                  urlLink: "",
+                  customDate: Date(), 
+                  name: "Feast of the Cross"),
+        DateModel(month: "01",
+                  day: "07",
+                  date: "2025-01-07T00:00:00.000Z",
+                  urlLink: "",
+                  customDate: Date(), 
+                  name: "Feast of Nativity")
+    ]
     @Published var selectedMockDate: DateModel? = nil
     @Published var filteredIconsGroups: [[IconModel]] = []
     @Published var selectedGroupIcons: [IconModel] = []
@@ -231,9 +244,7 @@ class OccasionsViewModel: ObservableObject {
                     if self?.showEventNotLoaded ?? false && (self?.isLoading ?? false) {
                         HapticsManager.instance.notification(type: .error)
                     }
-                    
                 }
-                
             }
         }
     }
@@ -397,10 +408,12 @@ class OccasionsViewModel: ObservableObject {
     }
     
     func getStory(forIcon icon: IconModel) -> Story? {
-        guard let storyID = icon.story?.first else { return nil }
-        return stories.first { $0.id == storyID }
+        guard let iconStories = icon.story,
+              let story = stories.first(where: { iconStories.contains($0.id ?? "" )})
+        else { return nil }
+        return story
     }
-            
+    
     func formattedDate(from dateString: String) -> String? {
         let inputFormatter = ISO8601DateFormatter()
         guard let date = inputFormatter.date(from: dateString) else { return nil }
