@@ -241,6 +241,7 @@ struct CardView: View {
             .background(
                 BackgroundBlurView()
                     .offset(y: verticalPosition > 0 ? 0 : (scrollViewOffset > 567 ? currentScrollRecalulated() : 0))
+                    .ignoresSafeArea()
             )
             .background(
                 RoundedRectangle(cornerRadius: 32, style: .continuous)
