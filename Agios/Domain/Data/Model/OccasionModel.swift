@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIImageColors
 import SwiftUI
 
 // Response structure to match the JSON data

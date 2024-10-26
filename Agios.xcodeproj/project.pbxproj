@@ -76,7 +76,6 @@
 		99989BFE2C2CB6200033CDD3 /* CopticEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */; };
 		99B5EA792C36FAF600FE829F /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE0B2C25A12D004685D8 /* Shimmer */; };
 		99B5EA7A2C36FAF600FE829F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE0E2C25A1AB004685D8 /* Lottie */; };
-		99B5EA7B2C36FAF600FE829F /* UIImageColors in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE112C25A1C6004685D8 /* UIImageColors */; };
 		99B5EA7D2C373B7700FE829F /* ReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5EA7C2C373B7700FE829F /* ReadingView.swift */; };
 		99B71D7C2CCA2AD60017A68C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B71D7B2CCA2AD50017A68C /* WidgetKit.framework */; };
 		99B71D7E2CCA2AD60017A68C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B71D7D2CCA2AD60017A68C /* SwiftUI.framework */; };
@@ -197,7 +196,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99B5EA7B2C36FAF600FE829F /* UIImageColors in Frameworks */,
 				99B5EA7A2C36FAF600FE829F /* Lottie in Frameworks */,
 				5701B0C92C5C6A0A00592193 /* Popovers in Frameworks */,
 				99B5EA792C36FAF600FE829F /* Shimmer in Frameworks */,
@@ -544,7 +542,6 @@
 			packageProductDependencies = (
 				995CEE0B2C25A12D004685D8 /* Shimmer */,
 				995CEE0E2C25A1AB004685D8 /* Lottie */,
-				995CEE112C25A1C6004685D8 /* UIImageColors */,
 				5701B0C82C5C6A0A00592193 /* Popovers */,
 				997A63B42CA73341007720A4 /* Shake */,
 			);
@@ -872,6 +869,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -918,6 +916,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -982,7 +981,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -1001,7 +1000,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielkame.Agios.AgiosWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Agios Widget Dev";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Widget Distribution";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1103,11 +1102,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 995CEE0D2C25A1AB004685D8 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
-		};
-		995CEE112C25A1C6004685D8 /* UIImageColors */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 995CEE102C25A1C6004685D8 /* XCRemoteSwiftPackageReference "UIImageColors" */;
-			productName = UIImageColors;
 		};
 		997A63B42CA73341007720A4 /* Shake */ = {
 			isa = XCSwiftPackageProductDependency;
