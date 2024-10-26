@@ -70,16 +70,20 @@ struct AgiosWidgetEntryView : View {
             ZStack(alignment: .bottom) {
                 Image(uiImage: icon)
                     .resizable()
+                    .scaledToFill()
                     .frame(width: 169, height: 169)
                 
                 Text(entry.description ?? "")
                     .frame(maxWidth: .infinity)
                     .foregroundStyle(.white)
                     .font(.system(size: 12))
-                    .padding(4)
-                    .background(RoundedRectangle(cornerRadius: 6).foregroundStyle(.black.opacity(0.5)))
+                    .fontDesign(.rounded)
+                    .padding(5)
+                    .background(RoundedRectangle(cornerRadius: 12, style: .continuous).foregroundStyle(.black.opacity(0.5)))
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 6)
+                    .padding(.vertical, 12)
+                    .padding(.horizontal, 16)
             }
         } else {
             placeholderImage
