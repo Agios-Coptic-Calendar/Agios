@@ -17,7 +17,7 @@ struct AllGroupedIconsView: View {
         ForEach(vm.filteredIconsGroups, id: \.self) { icons in
             ZStack {
                 ForEach(Array(icons.enumerated().reversed()), id: \.element.id) { index, icon in
-                    GroupCardView(icon: icon, iconographer: dev.iconagrapher, stories: vm.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
+                    GroupCardView(icon: icon, iconographer: vm.iconagrapher ?? dev.iconagrapher, stories: vm.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
                         .overlay {
                             RoundedRectangle(cornerRadius: 16, style: .continuous)
                                 .opacity(index > 0 ? (CGFloat(index) * 0.5) : 0)
@@ -72,7 +72,7 @@ struct GroupHeroTransitionView: View {
     var body: some View {
         ZStack(alignment: .center) {
             ForEach(Array(vm.filteredIcons.enumerated().reversed()), id: \.element.id) { index, icon in
-                GroupCardView(icon: icon, iconographer: dev.iconagrapher, stories: vm.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
+                GroupCardView(icon: icon, iconographer: vm.iconagrapher ?? dev.iconagrapher, stories: vm.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
                     .scaleEffect(1.0 - (CGFloat(index) * 0.05), anchor: .center)
                     .offset(y: -CGFloat(index) * 13)
                     .allowsHitTesting(index == 0)
@@ -98,7 +98,7 @@ struct GroupHeroTransitionView: View {
 struct GroupCardDetailsView: View {
     @Binding var icon: IconModel?
     let story: Story
-    
+    @EnvironmentObject var vm: OccasionsViewModel
     @State private var showImageViewer = false
     @State private var selectedSaint: IconModel? = nil
     var namespace: Namespace.ID
@@ -107,7 +107,7 @@ struct GroupCardDetailsView: View {
         if let icon = icon {
             GroupCardView(
                 icon: icon,
-                iconographer: dev.iconagrapher,
+                iconographer: vm.iconagrapher ?? dev.iconagrapher,
                 stories: story,
                 showImageViewer: $showImageViewer,
                 selectedSaint: $selectedSaint,
@@ -149,6 +149,7 @@ struct GroupCardView: View {
     @GestureState private var isPressed = false
     @State private var newSelectedIcon: IconModel? = nil
     @State private var isDragging = false
+    @State private var selectedIconIndex: Int = 0
     
     init(icon: IconModel, iconographer: Iconagrapher, stories: Story, showImageViewer: Binding<Bool>, selectedSaint: Binding<IconModel?>, namespace: Namespace.ID) {
         _viewModel = StateObject(wrappedValue: IconImageViewModel(icon: icon))
@@ -237,6 +238,7 @@ struct GroupCardView: View {
                         .padding(.top, 115)
                         .fontDesign(.rounded)
                         .foregroundStyle(.gray900)
+                        .animation(.spring(response: 0.35, dampingFraction: 0.85), value: selectedIconIndex)
 
                     }
                     .scrollIndicators(.hidden)
@@ -743,8 +745,8 @@ extension GroupCardView {
     private var fitImageView: some View {
         
         DestinationView(id: "\(icon.id)") {
-            TabView {
-                ForEach(occasionViewModel.selectedGroupIcons) { icon in
+            TabView(selection: $selectedIconIndex) { // Bind selection to selectedIconIndex
+                ForEach(Array(occasionViewModel.selectedGroupIcons.enumerated()), id: \.element.id) { index, icon in
                     HStack {
                         SaintImageView(icon: icon)
                             .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
@@ -767,66 +769,18 @@ extension GroupCardView {
                                     .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
                             })
                     }
+                    .tag(index)
+                    .onDisappear {
+                        if showView == false {
+                            selectedIconIndex = 0
+                        }
+                    }
                 }
             }
             .matchedGeometryEffect(id: "tab", in: namespace)
             .frame(height: 420)
             .clipShape(RoundedRectangle(cornerRadius: 24))
             .tabViewStyle(.page)
-            /*
-             Rectangle()
-                 .fill(.clear)
-                 .background(
-                     ZStack {
-                         if let image = viewModel.image {
-                             Image(uiImage: image)
-                                 .resizable()
-                                 .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
-                                 .scaleEffect(1 + startValue)
-                                 .offset(offset)
-                                 .scaleEffect(getScaleAmount())
-                                 .scaledToFill()
-                                 .onTapGesture {
-                                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                                         showImageViewer = true
-                                         occasionViewModel.showImageView = true
-                                         occasionViewModel.stopDragGesture = true
-                                         
-                                     }
-                                 }
-                                 
-                                 
-                 
-                         } else if viewModel.isLoading {
-                             ZStack {
-                                 Image("placeholder")
-                                     .resizable()
-                                     .scaledToFill()
-                                 
-                                 ShimmerView(heightSize: 600, cornerRadius: 24)
-                                     .transition(.opacity)
-                             }
-                         } else {
-                             Image("placeholder")
-                                 .resizable()
-                                 .scaledToFill()
-                             
-                         }
-                     }
-                 )
-                 .frame(height: 420)
-                 .frame(maxWidth: .infinity)
-                 .clipShape(RoundedRectangle(cornerRadius: 20))
-                 .mask({
-                     RoundedRectangle(cornerRadius: 24)
-                         .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
-                 })
-             */
-             
-            
-             
-            
-                
         }
             
         /*
@@ -858,12 +812,21 @@ extension GroupCardView {
     
     private var iconCaption: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(icon.caption ?? "")
-                .font(.title2)
-                .fontWeight(.semibold)
-                .onScrollViewOffsetChanged { offset in
-                    scrollViewOffset = offset
-                }
+            if selectedIconIndex >= 0 && selectedIconIndex < occasionViewModel.selectedGroupIcons.count {
+                let icon = occasionViewModel.selectedGroupIcons[selectedIconIndex]
+                Text(icon.caption ?? "")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .onScrollViewOffsetChanged { offset in
+                        scrollViewOffset = offset
+                    }
+                    .animation(.spring(response: 0.35, dampingFraction: 0.85), value: selectedIconIndex)
+                    .contentTransition(.numericText(value: Double(selectedIconIndex)))
+            }
+            //            Text(icon.caption ?? "")
+//                .font(.title2)
+//                .fontWeight(.semibold)
+//                
             
             if !(occasionViewModel.iconagrapher == nil) {
                 Text("\(occasionViewModel.iconagrapher?.name ?? "None")")

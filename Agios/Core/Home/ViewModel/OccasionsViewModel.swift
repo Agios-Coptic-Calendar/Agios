@@ -276,6 +276,7 @@ class OccasionsViewModel: ObservableObject {
         for icon in response.data.icons ?? [] {
             if case let .iconagrapher(iconagrapher) = icon.iconagrapher {
                 self.iconagrapher = iconagrapher
+                print(self.iconagrapher?.name ?? "")
             }
             
             for story in response.data.stories ?? [] {

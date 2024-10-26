@@ -559,7 +559,7 @@ extension HomeView {
                         ForEach(occasionViewModel.icons) { saint in
                             //HomeSaintImageView(namespace: namespace, icon: saint)
                             CardView(icon: saint,
-                                     iconographer: dev.iconagrapher,
+                                     iconographer: occasionViewModel.iconagrapher ?? dev.iconagrapher,
                                      stories: occasionViewModel.getStory(forIcon: saint) ?? dev.story,
                                      showImageViewer: $showImageViewer,
                                      selectedSaint: $selectedSaint,
