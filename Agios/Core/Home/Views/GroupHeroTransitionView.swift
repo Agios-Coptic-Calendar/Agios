@@ -34,6 +34,12 @@ struct AllGroupedIconsView: View {
                     vm.selectedGroupIcons = icons
                 })
             )
+            .simultaneousGesture(
+                LongPressGesture(minimumDuration: 0.1, maximumDistance: 0.1).onEnded({ _ in
+                    vm.selectedGroupIcons = icons
+                })
+                
+            )
         }
     }
 
