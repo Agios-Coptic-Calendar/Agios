@@ -35,7 +35,7 @@ struct SubsectionView: View {
     let subsection: SubSection
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 4) {
             VStack(alignment: .leading, spacing: 6) {
                 if let readings = subsection.readings {
                     ForEach(readings) { reading in
@@ -45,19 +45,21 @@ struct SubsectionView: View {
                     }
                 }
             }
+            .frame(height: 60, alignment: .top)
+            .clipped()
 
+            Spacer()
             HStack(spacing: 4, content: {
-                Text(subsection.title ?? "")
-
+                Text(mainReadingTitle)
                 Circle()
                     .frame(width: 4, height: 4, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                
-                Text(mainReadingTitle)
+                Text(subsection.title ?? "")
             })
             .font(.body)
             .fontWeight(.medium)
             .foregroundStyle(.gray900)
         }
+        .frame(height: 90)
     }
 }
 

@@ -276,6 +276,7 @@ class OccasionsViewModel: ObservableObject {
         for icon in response.data.icons ?? [] {
             if case let .iconagrapher(iconagrapher) = icon.iconagrapher {
                 self.iconagrapher = iconagrapher
+                print(self.iconagrapher?.name ?? "")
             }
             
             for story in response.data.stories ?? [] {
@@ -293,20 +294,18 @@ class OccasionsViewModel: ObservableObject {
         filterIconsWithSimilarStories()
     }
     
-    // Function to filter icons that share the same or similar story strings
+    // Function to filter icons that share the same or similar story strings, and include unique icons
     func filterIconsWithSimilarStories() {
         var storyGroups: [String: [IconModel]] = [:]
         var emptyStoryIcons: [IconModel] = [] // For icons with empty or nil stories
+        var seenIconIDs: Set<String> = []
+        var groupedIcons: [[IconModel]] = []
 
         // Group icons by their story strings
         for icon in icons {
             if let storyArray = icon.story, !storyArray.isEmpty {
                 for storyElement in storyArray {
-                    if storyGroups[storyElement] == nil {
-                        storyGroups[storyElement] = [icon]
-                    } else {
-                        storyGroups[storyElement]?.append(icon)
-                    }
+                    storyGroups[storyElement, default: []].append(icon)
                 }
             } else {
                 // Add icons with empty or nil stories to the emptyStoryIcons group
@@ -314,41 +313,46 @@ class OccasionsViewModel: ObservableObject {
             }
         }
 
-        // Extract groups of icons that share the same or similar story elements
-        var seenIconIDs: Set<String> = []
-        var groupedIcons: [[IconModel]] = []
-
-        for group in storyGroups.values {
-            // Only create groups where icons share story elements
-            if group.count > 1 {
+        // Iterate over the original list of icons to maintain API order
+        for icon in icons {
+            if seenIconIDs.contains(icon.id) {
+                continue // Skip icons that have already been added
+            }
+            
+            if let storyArray = icon.story, !storyArray.isEmpty {
                 var iconGroup: [IconModel] = []
-                for icon in group {
-                    // Avoid duplicate additions of the same icon across groups
-                    if !seenIconIDs.contains(icon.id) {
-                        iconGroup.append(icon)
-                        seenIconIDs.insert(icon.id)
+                var isSharedStory = false
+
+                // Check if the icon is part of a group sharing story elements
+                for storyElement in storyArray {
+                    if let group = storyGroups[storyElement], group.count > 1 {
+                        isSharedStory = true
+                        iconGroup = group.filter { seenIconIDs.insert($0.id).inserted }
+                        break // Add the first shared story group found
                     }
                 }
-                // Add the group to the main grouped array
-                if !iconGroup.isEmpty {
+                
+                if isSharedStory {
                     groupedIcons.append(iconGroup)
+                } else {
+                    // If the icon has unique story elements, add it as a single-item group
+                    groupedIcons.append([icon])
+                    seenIconIDs.insert(icon.id)
+                }
+            } else {
+                // Handle icons with empty or nil stories as a group
+                if !emptyStoryIcons.isEmpty && emptyStoryIcons.contains(icon) {
+                    groupedIcons.append(emptyStoryIcons)
+                    seenIconIDs.formUnion(emptyStoryIcons.map { $0.id })
                 }
             }
         }
 
-        // Add the group of icons with empty or nil stories, if any
-        if !emptyStoryIcons.isEmpty {
-            groupedIcons.append(emptyStoryIcons)
-        }
-
-        // Update filteredIconsGroups with the groups of icons
+        // Update filteredIconsGroups and clear grouped icons from the main array
         filteredIconsGroups = groupedIcons
-
-        // Remove the grouped icons from the main icons array
-        icons.removeAll { icon in
-            seenIconIDs.contains(icon.id) || emptyStoryIcons.contains(icon)
-        }
+        icons.removeAll { seenIconIDs.contains($0.id) }
     }
+
 
 
     

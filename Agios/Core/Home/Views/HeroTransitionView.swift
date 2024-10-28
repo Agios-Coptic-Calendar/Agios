@@ -18,7 +18,7 @@ struct HeroTransitionView: View {
         ScrollView(.horizontal) {
             HStack {
                 ForEach(occasionViewModel.icons) { icon in
-                    CardView(icon: icon, iconographer: dev.iconagrapher, stories: occasionViewModel.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
+                    CardView(icon: icon, iconographer: occasionViewModel.iconagrapher ?? dev.iconagrapher, stories: occasionViewModel.getStory(forIcon: icon) ?? dev.story, showImageViewer: $showImageViewer, selectedSaint: $selectedSaint, namespace: namespace)
                     
                 }
             }
@@ -40,7 +40,7 @@ struct HeroTransitionView: View {
 struct CardDetailsView: View {
     @Binding var icon: IconModel?
     let story: Story
-    
+    @EnvironmentObject var vm: OccasionsViewModel
     @State private var showImageViewer = false
     @State private var selectedSaint: IconModel? = nil
     var namespace: Namespace.ID
@@ -49,7 +49,7 @@ struct CardDetailsView: View {
         if let icon = icon {
             CardView(
                 icon: icon,
-                iconographer: dev.iconagrapher,
+                iconographer: vm.iconagrapher ?? dev.iconagrapher,
                 stories: story,
                 showImageViewer: $showImageViewer,
                 selectedSaint: $selectedSaint,
@@ -241,6 +241,7 @@ struct CardView: View {
             .background(
                 BackgroundBlurView()
                     .offset(y: verticalPosition > 0 ? 0 : (scrollViewOffset > 567 ? currentScrollRecalulated() : 0))
+                    .ignoresSafeArea()
             )
             .background(
                 RoundedRectangle(cornerRadius: 32, style: .continuous)
