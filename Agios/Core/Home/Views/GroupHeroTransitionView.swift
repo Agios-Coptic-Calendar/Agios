@@ -34,12 +34,22 @@ struct AllGroupedIconsView: View {
                     vm.selectedGroupIcons = icons
                 })
             )
-            .simultaneousGesture(
-                LongPressGesture(minimumDuration: 0.1, maximumDistance: 0.1).onEnded({ _ in
+            .contextMenu(ContextMenu(menuItems: {
+                Button {
                     vm.selectedGroupIcons = icons
-                })
-                
-            )
+                    vm.showStory?.toggle()
+                } label: {
+                    if vm.getStory(forIcon: icons.first ?? dev.icon) != nil {
+                        Label("See story", systemImage: "book")
+                    } else {
+                        Text("No story")
+                    }
+                    
+                }
+                .disabled((vm.getStory(forIcon: icons.first ?? dev.icon) != nil) == true ? false : true)
+
+            }))
+
         }
     }
 
