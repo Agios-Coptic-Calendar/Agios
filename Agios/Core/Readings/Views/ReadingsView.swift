@@ -34,14 +34,14 @@ struct ReadingsView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 32) {
                         HStack {
-                            Text(subsectionTitle)
-                            Spacer()
                             if let title = reading.title {
                                 Text(title)
                             }
+                            Spacer()
+                            Text(subsectionTitle)
                         }
                         .foregroundStyle(.gray900)
-                        .font(.title3)
+                        .font(.title2)
                         .fontWeight(.medium)
                         // Display the introduction of each SubSection
                         VStack(alignment: .leading, spacing: 32) {
@@ -182,14 +182,14 @@ struct LiturgyReadingDetailsView: View {
                     VStack(alignment: .leading, spacing: 32) {
                         // Display the title of SubSection
                         HStack {
+                            Text("Liturgy")
+                            Spacer()
                             if let subSectionTitle = subsection.title {
                                 Text(subSectionTitle)
                             }
-                            Spacer()
-                            Text("Liturgy")
                         }
                         .foregroundStyle(.gray900)
-                        .font(.title3)
+                        .font(.title2)
                         .fontWeight(.medium)
                         
                         // Display the introduction of SubSection
