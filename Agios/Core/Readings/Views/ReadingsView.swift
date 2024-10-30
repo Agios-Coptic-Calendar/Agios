@@ -42,7 +42,7 @@ struct ReadingsView: View {
                         }
                         .foregroundStyle(.gray900)
                         .font(.title2)
-                        .fontWeight(.medium)
+                        .fontWeight(.semibold)
                         // Display the introduction of each SubSection
                         VStack(alignment: .leading, spacing: 32) {
                             
@@ -190,7 +190,7 @@ struct LiturgyReadingDetailsView: View {
                         }
                         .foregroundStyle(.gray900)
                         .font(.title2)
-                        .fontWeight(.medium)
+                        .fontWeight(.semibold)
                         
                         // Display the introduction of SubSection
                         if let introduction = subsection.introduction {
