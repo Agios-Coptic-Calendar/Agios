@@ -838,27 +838,46 @@ extension GroupCardView {
                     }
                     .animation(.spring(response: 0.35, dampingFraction: 0.85), value: selectedIconIndex)
                     .contentTransition(.numericText(value: Double(selectedIconIndex)))
-            }
-            //            Text(icon.caption ?? "")
-//                .font(.title2)
-//                .fontWeight(.semibold)
-//                
-            
-            if !(occasionViewModel.iconagrapher == nil) {
-                Text("\(occasionViewModel.iconagrapher?.name ?? "None")")
-                    .font(.callout)
-                    .fontWeight(.medium)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 4)
-                    .background(.primary300)
-                    .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
-            }
-            
-            
-            if !((occasionViewModel.iconagrapher?.name) == nil) {
                 
+                // Access the iconagrapher name
+                if let iconagrapher = icon.iconagrapher {
+                    switch iconagrapher {
+                    case .iconagrapher(let ag):
+                        Text(ag.name ?? "Unknown Iconagrapher")
+                            .font(.callout)
+                            .fontWeight(.medium)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 4)
+                            .background(Color.primary300)
+                            .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+                            .transition(
+                                .asymmetric(
+                                    insertion:
+                                        .move(edge: .bottom)
+                                        .combined(with: .scale(scale: 0.9, anchor: .bottomLeading)),
+                                    removal:
+                                        .move(edge: .bottom)
+                                        .combined(with: .scale(scale: 0.9, anchor: .bottom)))
+                                .animation(
+                                    .spring(
+                                        response: 0.2,
+                                        dampingFraction: 0.8))
+                                .combined(with: .opacity)
+                            )
+                        
+                    case .string(let name):
+                        if !name.isEmpty {
+                            Text(name)
+                                .animation(.spring(response: 0.35, dampingFraction: 0.85), value: selectedIconIndex)
+                                .contentTransition(.numericText(value: Double(selectedIconIndex)))
+                        }
+                    }
+                } else {
+                    Text("")
+                }
             }
         }
     }
+
 }
 

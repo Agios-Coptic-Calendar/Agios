@@ -209,6 +209,7 @@ struct DateView: View {
         
         .onChange(of: occasionViewModel.datePicker) { _, _ in
             occasionViewModel.filterDate()
+            HapticsManager.instance.impact(style: .light)
         }
         .environment(\.colorScheme, .light)
         .fontDesign(.rounded)
