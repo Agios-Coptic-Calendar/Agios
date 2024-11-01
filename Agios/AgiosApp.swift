@@ -26,7 +26,7 @@ struct AgiosApp: App {
                     HeroWrapper {
                         //SynaxarsDetailsView()
                         //HeroTransitionView(namespace: namespace)
-                        HomeView(iconographer: dev.iconagrapher, namespace: namespace, transition: transition)
+                        HomeView(namespace: namespace, transition: transition)
                             .environmentObject(occasionViewModel)
                             .environmentObject(imageViewModel)
                             .environmentObject(iconImageViewModel)

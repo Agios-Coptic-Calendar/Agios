@@ -276,8 +276,10 @@ class OccasionsViewModel: ObservableObject {
         for icon in response.data.icons ?? [] {
             if case let .iconagrapher(iconagrapher) = icon.iconagrapher {
                 self.iconagrapher = iconagrapher
-                print(self.iconagrapher?.name ?? "")
-            }
+                print(" \(icon.caption ?? "") has an Iconagrapher: \(iconagrapher)")
+                } else {
+                    print("No Iconagrapher assigned for icon with ID: \(icon.caption ?? "")")
+                }
             
             for story in response.data.stories ?? [] {
                 if icon.story?.first == story.id ?? "" {
