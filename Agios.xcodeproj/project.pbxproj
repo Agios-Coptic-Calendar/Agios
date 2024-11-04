@@ -68,6 +68,7 @@
 		57EE90652BE4096000C7E1AE /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90642BE4096000C7E1AE /* ShimmerView.swift */; };
 		57EE90672BE42EC600C7E1AE /* DailyQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */; };
 		990F17A42C583B3900D05551 /* copticEvents.json in Resources */ = {isa = PBXBuildFile; fileRef = 990F17A32C583B3900D05551 /* copticEvents.json */; };
+		99693B292CD95C0600ACB78E /* StoriesWithoutIconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99693B282CD95C0600ACB78E /* StoriesWithoutIconsView.swift */; };
 		997A63B52CA73341007720A4 /* Shake in Frameworks */ = {isa = PBXBuildFile; productRef = 997A63B42CA73341007720A4 /* Shake */; };
 		9986615C2CCA50F60071698B /* Saint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9986615B2CCA50F60071698B /* Saint.swift */; };
 		998A7B792CA0BD16000BD963 /* dailyQuotes.json in Resources */ = {isa = PBXBuildFile; fileRef = 998A7B782CA0BD16000BD963 /* dailyQuotes.json */; };
@@ -174,6 +175,7 @@
 		57EE90642BE4096000C7E1AE /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuoteView.swift; sourceTree = "<group>"; };
 		990F17A32C583B3900D05551 /* copticEvents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = copticEvents.json; sourceTree = "<group>"; };
+		99693B282CD95C0600ACB78E /* StoriesWithoutIconsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoriesWithoutIconsView.swift; sourceTree = "<group>"; };
 		9986615B2CCA50F60071698B /* Saint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saint.swift; sourceTree = "<group>"; };
 		998A7B782CA0BD16000BD963 /* dailyQuotes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dailyQuotes.json; sourceTree = "<group>"; };
 		998A7B7A2CA35E9E000BD963 /* Quote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 		5797106D2BD138C200DFDBA3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				99693B282CD95C0600ACB78E /* StoriesWithoutIconsView.swift */,
 				5797106E2BD138E400DFDBA3 /* HomeView.swift */,
 				5791383A2C3FFB45008A6E3A /* HeroTransitionView.swift */,
 				5762837B2C45519B004143CB /* GroupHeroTransitionView.swift */,
@@ -640,6 +643,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				57EAE6302BD7E75E00379CC5 /* PopupView.swift in Sources */,
+				99693B292CD95C0600ACB78E /* StoriesWithoutIconsView.swift in Sources */,
 				5798741F2C00B99000F0B2EE /* LaunchView.swift in Sources */,
 				57B7E8512BD2B4D00016D6A4 /* OccasionsViewModel.swift in Sources */,
 				5707643E2BD68D1500C5C98B /* HomeSaintImageView.swift in Sources */,
