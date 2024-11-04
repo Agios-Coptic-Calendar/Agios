@@ -96,8 +96,8 @@ class OccasionsViewModel: ObservableObject {
     @Published var selectedGroupIcons: [IconModel] = []
     @Published var showDetailsView: Bool = false
     @Published var draggingDetailsView: Bool = false
-
-
+    @Published var selectedStory: Story? = nil
+    @Published var storiesWithoutIcons: [Story] = []
 
     var copticEvents: [CopticEvent]?
     var feastName: String?
@@ -288,6 +288,7 @@ class OccasionsViewModel: ObservableObject {
             }
         }
         
+
         self.subSection = readings.flatMap { $0.subSections ?? [] }
         for story in self.stories {
             self.highlight = story.highlights ?? []
@@ -350,14 +351,13 @@ class OccasionsViewModel: ObservableObject {
             }
         }
 
+        storiesWithoutIcons = getNonMatchingStories(forIcons: icons)
+        print("Non-matching stories: \(storiesWithoutIcons.count)")
+
         // Update filteredIconsGroups and clear grouped icons from the main array
         filteredIconsGroups = groupedIcons
         icons.removeAll { seenIconIDs.contains($0.id) }
     }
-
-
-
-    
     
     func removeIconsWithCaption(icons: [IconModel], phrase: String) -> [IconModel] {
         return icons.filter { !($0.caption?.localizedCaseInsensitiveContains(phrase) ?? false) }
@@ -419,6 +419,19 @@ class OccasionsViewModel: ObservableObject {
         else { return nil }
         return story
     }
+    
+    func getNonMatchingStories(forIcons icons: [IconModel]) -> [Story] {
+        // Collect all story IDs associated with the provided icons
+        let associatedStoryIDs = Set(icons.compactMap { $0.story }.flatMap { $0 })
+        
+        // Filter out stories where the ID is not in the associated story IDs
+        return stories.filter { story in
+            guard let storyID = story.id else { return true } // Include stories with nil IDs
+            return !associatedStoryIDs.contains(storyID) // stories where the ID is not in associatedStoryIDs
+        }
+    }
+
+
     
     func formattedDate(from dateString: String) -> String? {
         let inputFormatter = ISO8601DateFormatter()
