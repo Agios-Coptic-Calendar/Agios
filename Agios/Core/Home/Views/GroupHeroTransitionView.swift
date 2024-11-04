@@ -321,7 +321,7 @@ struct GroupCardView: View {
                         }
                         goBack()
                     }
-
+                    HapticsManager.instance.impact(style: .light)
                 }
             }
         }

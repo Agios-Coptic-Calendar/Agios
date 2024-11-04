@@ -268,6 +268,7 @@ struct NoIconsCardView: View {
             .onChange(of: scrollViewOffset) { oldValue, newValue in
                 if scrollViewOffset > 640 {
                     goBack()
+                    HapticsManager.instance.impact(style: .light)
                 }
             }
         }
