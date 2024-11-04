@@ -317,7 +317,7 @@ struct HomeView: View {
             NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         }
         .halfSheet(showSheet: $occasionViewModel.showStory) {
-            StoryDetailView(story: occasionViewModel.getStory(forIcon: occasionViewModel.selectedGroupIcons.first ?? dev.icon) ?? dev.story)
+            StoryDetailView(story: (occasionViewModel.getStory(forIcon: occasionViewModel.selectedGroupIcons.first ?? dev.icon) ?? occasionViewModel.selectedStory) ?? dev.story)
                 .environmentObject(occasionViewModel)
         } onDismiss: {
             selectedSaint = nil
@@ -607,14 +607,22 @@ extension HomeView {
 //                            // GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory, namespace: namespace)
 //                         }
                         
-                        AllGroupedIconsView(namespace: namespace)
-                            .scrollTransition { content, phase in
-                                content
-                                    .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
-                                    .blur(radius: phase.isIdentity ? 0 : 0.9)
-                                    .scaleEffect(phase.isIdentity ? 1 : 0.95)
-                            }
-                            .frame(height: 400, alignment: .center)
+                        if !occasionViewModel.filteredIconsGroups.isEmpty {
+                            AllGroupedIconsView(namespace: namespace)
+                                .scrollTransition { content, phase in
+                                    content
+                                        .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
+                                        .blur(radius: phase.isIdentity ? 0 : 0.9)
+                                        .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                                }
+                                .frame(height: 400, alignment: .center)
+                        }
+                        if !occasionViewModel.storiesWithoutIcons.isEmpty {
+                            StoriesWithoutIconsView(namespace: namespace)
+                                .background(.clear)
+                                .frame(height: 400, alignment: .center)
+
+                        }
                     }
                     //.padding(.top, -24)
                     .padding(.horizontal, 24)
