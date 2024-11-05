@@ -22,6 +22,7 @@ struct StoriesWithoutIconsView: View {
                         Button {
                             occasionViewModel.showStory?.toggle()
                             occasionViewModel.selectedStory = story
+                            occasionViewModel.selectedGroupIcons = []
                         } label: {
                             Label("See story", systemImage: "book")
                         }
