@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import SwiftUI
+import WidgetKit
 
 struct DateModel: Identifiable {
     let id: String = UUID().uuidString
@@ -74,21 +75,22 @@ class OccasionsViewModel: ObservableObject {
     @Published var datePicker: Date = Date() {
         didSet {
             filterDate()
+            saveSelectedDateToSharedStorage(datePicker)
         }
     }
     @Published var copticDates: [String] = []
     let mockDates: [DateModel] = [
-        DateModel(month: "12", 
-                  day: "05", 
+        DateModel(month: "12",
+                  day: "05",
                   date: "2024-12-05T12:00:00.000Z",
                   urlLink: "",
-                  customDate: Date(), 
+                  customDate: Date(),
                   name: "Feast of the Cross"),
         DateModel(month: "01",
                   day: "07",
                   date: "2025-01-07T00:00:00.000Z",
                   urlLink: "",
-                  customDate: Date(), 
+                  customDate: Date(),
                   name: "Feast of Nativity")
     ]
     @Published var selectedMockDate: DateModel? = nil
@@ -109,13 +111,45 @@ class OccasionsViewModel: ObservableObject {
     @Published var filteredDate: [DateModel] = []
     
     init() {
+        loadSavedDate()
         withAnimation {
             self.isLoading = true
         }
         getCopticEvents()
         getPosts()
         getCopticDates()
+        WidgetCenter.shared.reloadAllTimelines()
     }
+
+    
+    private func loadSavedDate() {
+        WidgetCenter.shared.reloadAllTimelines()
+        let defaults = UserDefaults(suiteName: "group.com.agios")
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        let today = formatter.string(from: Date())
+        if let savedDate = defaults?.string(forKey: "selectedDate"), savedDate == today {
+            // If the saved date is today, load it into selectedDate
+            self.selectedDate = formatter.date(from: savedDate) ?? Date()
+        } else {
+            // Otherwise, set to today and save it
+            self.selectedDate = Date()
+            saveSelectedDateToSharedStorage(self.selectedDate)
+        }
+    }
+
+    func saveSelectedDateToSharedStorage(_ date: Date) {
+        let defaults = UserDefaults(suiteName: "group.com.agios")
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let formattedDate = formatter.string(from: date)
+        defaults?.set(formattedDate, forKey: "selectedDate")
+        
+        // Print the saved date to confirm
+        print("Saved date to app group: \(formattedDate)")
+    }
+
     
     func date(from copticDateString: String) -> Date? {
         let calendar = Calendar(identifier: .coptic)
@@ -222,7 +256,7 @@ class OccasionsViewModel: ObservableObject {
     
     func getPosts() {
         guard let url = URL(string: "https://api.agios.co/occasions/get/date/\(date)") else { return }
-        
+        WidgetCenter.shared.reloadAllTimelines()
         Task {
             do {
                 let (data, response) = try await URLSession.shared.data(from: url)
@@ -247,6 +281,7 @@ class OccasionsViewModel: ObservableObject {
                 }
             }
         }
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     func handleOutput(response: URLResponse, data: Data) throws -> Response {
@@ -507,4 +542,3 @@ class OccasionsViewModel: ObservableObject {
         return outputFormatter.string(from: date).lowercased()
     }
 }
-
