@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DailyQuoteView: View {
-    @StateObject private var viewModel: DailyQuoteViewModel = DailyQuoteViewModel()
+    @ObservedObject var viewModel: DailyQuoteViewModel
     let isLoading: Bool
     
     var body: some View {
@@ -61,5 +61,5 @@ struct DailyQuoteView: View {
 }
 
 #Preview {
-    DailyQuoteView(isLoading: false)
+    DailyQuoteView(viewModel: DailyQuoteViewModel(), isLoading: false)
 }

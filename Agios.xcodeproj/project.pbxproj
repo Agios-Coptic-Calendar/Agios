@@ -71,10 +71,10 @@
 		99693B292CD95C0600ACB78E /* StoriesWithoutIconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99693B282CD95C0600ACB78E /* StoriesWithoutIconsView.swift */; };
 		997A63B52CA73341007720A4 /* Shake in Frameworks */ = {isa = PBXBuildFile; productRef = 997A63B42CA73341007720A4 /* Shake */; };
 		9986615C2CCA50F60071698B /* Saint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9986615B2CCA50F60071698B /* Saint.swift */; };
-		998A7B792CA0BD16000BD963 /* dailyQuotes.json in Resources */ = {isa = PBXBuildFile; fileRef = 998A7B782CA0BD16000BD963 /* dailyQuotes.json */; };
 		998A7B7B2CA35E9E000BD963 /* Quote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998A7B7A2CA35E9E000BD963 /* Quote.swift */; };
 		998A7B7D2CA35FA9000BD963 /* DailyQuoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998A7B7C2CA35FA9000BD963 /* DailyQuoteViewModel.swift */; };
 		99989BFE2C2CB6200033CDD3 /* CopticEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */; };
+		99B0468F2CE6887200F39CB7 /* dailyQuotes.json in Resources */ = {isa = PBXBuildFile; fileRef = 99B0468E2CE6887200F39CB7 /* dailyQuotes.json */; };
 		99B5EA792C36FAF600FE829F /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE0B2C25A12D004685D8 /* Shimmer */; };
 		99B5EA7A2C36FAF600FE829F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE0E2C25A1AB004685D8 /* Lottie */; };
 		99B5EA7D2C373B7700FE829F /* ReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5EA7C2C373B7700FE829F /* ReadingView.swift */; };
@@ -179,10 +179,10 @@
 		990F17A32C583B3900D05551 /* copticEvents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = copticEvents.json; sourceTree = "<group>"; };
 		99693B282CD95C0600ACB78E /* StoriesWithoutIconsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoriesWithoutIconsView.swift; sourceTree = "<group>"; };
 		9986615B2CCA50F60071698B /* Saint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saint.swift; sourceTree = "<group>"; };
-		998A7B782CA0BD16000BD963 /* dailyQuotes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dailyQuotes.json; sourceTree = "<group>"; };
 		998A7B7A2CA35E9E000BD963 /* Quote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
 		998A7B7C2CA35FA9000BD963 /* DailyQuoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuoteViewModel.swift; sourceTree = "<group>"; };
 		99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopticEvent.swift; sourceTree = "<group>"; };
+		99B0468E2CE6887200F39CB7 /* dailyQuotes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dailyQuotes.json; sourceTree = "<group>"; };
 		99B5998A2C2E03B5000F6307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		99B5EA7C2C373B7700FE829F /* ReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingView.swift; sourceTree = "<group>"; };
 		99B71D792CCA2AD50017A68C /* AgiosWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AgiosWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -492,7 +492,7 @@
 		99989BFA2C2CB4300033CDD3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				998A7B782CA0BD16000BD963 /* dailyQuotes.json */,
+				99B0468E2CE6887200F39CB7 /* dailyQuotes.json */,
 				990F17A32C583B3900D05551 /* copticEvents.json */,
 			);
 			path = Resources;
@@ -624,7 +624,7 @@
 			files = (
 				990F17A42C583B3900D05551 /* copticEvents.json in Resources */,
 				474C79AC2BD009BF003E3A15 /* Preview Assets.xcassets in Resources */,
-				998A7B792CA0BD16000BD963 /* dailyQuotes.json in Resources */,
+				99B0468F2CE6887200F39CB7 /* dailyQuotes.json in Resources */,
 				474C79A92BD009BF003E3A15 /* Assets.xcassets in Resources */,
 				5798741D2C00B83300F0B2EE /* LaunchScreen.storyboard in Resources */,
 			);

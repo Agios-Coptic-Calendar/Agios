@@ -27,6 +27,7 @@ enum ViewState {
 }
 
 class OccasionsViewModel: ObservableObject {
+    let dailyQuotesViewModel = DailyQuoteViewModel()
     @Published var icons: [IconModel] = []
     @Published var selectedCopticDate: DateModel? = nil
     @Published var filteredIcons: [IconModel] = []
@@ -257,7 +258,7 @@ class OccasionsViewModel: ObservableObject {
     func getPosts() {
         guard let url = URL(string: "https://api.agios.co/occasions/get/date/\(date)") else { return }
         WidgetCenter.shared.reloadAllTimelines()
-        Task {
+        Task { @MainActor in
             do {
                 let (data, response) = try await URLSession.shared.data(from: url)
                 let decodedResponse = try handleOutput(response: response, data: data)
@@ -267,6 +268,7 @@ class OccasionsViewModel: ObservableObject {
                         self?.showEventNotLoaded = false
                     }
                 }
+                dailyQuotesViewModel.selectRandomQuote()
               
             } catch {
                 print("Error fetching data: \(error)")
@@ -293,7 +295,7 @@ class OccasionsViewModel: ObservableObject {
     }
     
     @MainActor
-    func updateUI(with response: Response) {
+    func updateUI(with response: Response) async {
         withAnimation(.spring(response: 0.07, dampingFraction: 0.9, blendDuration: 1)) {
             self.isLoading = false
         }

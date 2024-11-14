@@ -12,7 +12,13 @@ class DailyQuoteViewModel: ObservableObject {
     
     init() {
         loadQuotes()
-        selectQuoteOfTheDay()
+        Task {
+           await selectQuoteOfTheDay()
+        }
+    }
+
+    func selectRandomQuote() {
+        currentQuote = quotes.randomElement()
     }
     
     // Load the quotes from the JSON file (you'll need to adjust the JSON path accordingly)
@@ -25,12 +31,13 @@ class DailyQuoteViewModel: ObservableObject {
     }
     
     // Select a new quote if a day has passed
-    private func selectQuoteOfTheDay() {
+    @MainActor
+    private func selectQuoteOfTheDay() async {
         guard !quotes.isEmpty else { return }
         let lastUpdate = UserDefaults.standard.object(forKey: "lastUpdate") as? Date ?? Date.distantPast
         if !Calendar.current.isDateInToday(lastUpdate) {
             UserDefaults.standard.set(Date(), forKey: "lastUpdate")
-            currentQuote = quotes.randomElement()
+            selectRandomQuote()
             if let currentQuote = currentQuote {
                 UserDefaults.standard.set(currentQuote.id, forKey: "quoteOfTheDayID")
             }

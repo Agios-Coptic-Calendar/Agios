@@ -18,7 +18,6 @@ enum DragPhase {
 
  
 struct HomeView: View {
-    
     @State private var tapNategaPlus = false
     @State private var showSynaxars: Bool? = false
     @State private var showReadings: Bool = false
@@ -82,7 +81,8 @@ struct HomeView: View {
                                     }
                                     VStack(spacing: 18) {
                                         imageView
-                                        DailyQuoteView(isLoading: occasionViewModel.isLoading)
+                                        DailyQuoteView(viewModel: occasionViewModel.dailyQuotesViewModel,
+                                                       isLoading: occasionViewModel.isLoading)
                                     }
                                 }
                                 dailyReading

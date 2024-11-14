@@ -17,7 +17,7 @@ extension Date {
     /// Ranged used for the date picker
     static var dateRange: ClosedRange<Date> {
         let startingDate: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 11)) ?? Date()
-        let endingDate: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 11, day: 11)) ?? Date()
+        let endingDate: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 12, day: 31)) ?? Date()
         return startingDate...endingDate
     }
     
