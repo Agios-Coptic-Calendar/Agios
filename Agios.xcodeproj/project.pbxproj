@@ -122,6 +122,8 @@
 		5701B0C52C5C5AAA00592193 /* PreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceKey.swift; sourceTree = "<group>"; };
 		5701B0CA2C5C6AB800592193 /* SheetModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetModal.swift; sourceTree = "<group>"; };
 		5701B0CC2C5C6C2400592193 /* UpcomingFeastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingFeastView.swift; sourceTree = "<group>"; };
+		5704F0972CE126AC001C17C7 /* AgiosWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AgiosWidgetExtension.entitlements; sourceTree = "<group>"; };
+		5704F0982CE126BC001C17C7 /* Agios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Agios.entitlements; sourceTree = "<group>"; };
 		570515B12BDA6FBB00990A24 /* CopticDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopticDateView.swift; sourceTree = "<group>"; };
 		570515B82BDAB91B00990A24 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		570515BB2BDAE0B500990A24 /* SaintDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaintDetailsView.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 		474C79982BD009BC003E3A15 = {
 			isa = PBXGroup;
 			children = (
+				5704F0972CE126AC001C17C7 /* AgiosWidgetExtension.entitlements */,
 				474C79A32BD009BC003E3A15 /* Agios */,
 				99B71D7F2CCA2AD60017A68C /* AgiosWidget */,
 				99B71D7A2CCA2AD50017A68C /* Frameworks */,
@@ -239,6 +242,7 @@
 		474C79A32BD009BC003E3A15 /* Agios */ = {
 			isa = PBXGroup;
 			children = (
+				5704F0982CE126BC001C17C7 /* Agios.entitlements */,
 				99B5998A2C2E03B5000F6307 /* Info.plist */,
 				474C79A42BD009BC003E3A15 /* AgiosApp.swift */,
 				474C79A62BD009BC003E3A15 /* ContentView.swift */,
@@ -854,6 +858,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Agios/Agios.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -901,6 +906,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Agios/Agios.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -947,6 +953,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = AgiosWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -984,6 +991,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = AgiosWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;

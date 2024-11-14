@@ -9,6 +9,7 @@
 import SwiftUI
 import Shimmer
 import Popovers
+import WidgetKit
 
 enum DragPhase {
     case initial
@@ -102,6 +103,7 @@ struct HomeView: View {
                             await Task.sleep(2 * 1_000_000_000) // Delay for 2 seconds
                             occasionViewModel.datePicker = Date()
                             occasionViewModel.getPosts()
+                            WidgetCenter.shared.reloadAllTimelines()
                         }
                         .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
                         .scrollIndicators(.hidden)
