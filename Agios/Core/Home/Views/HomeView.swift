@@ -103,6 +103,7 @@ struct HomeView: View {
                             await Task.sleep(2 * 1_000_000_000) // Delay for 2 seconds
                             occasionViewModel.datePicker = Date()
                             occasionViewModel.getPosts()
+                            occasionViewModel.selectedCopticMonth = nil
                             WidgetCenter.shared.reloadAllTimelines()
                         }
                         .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)

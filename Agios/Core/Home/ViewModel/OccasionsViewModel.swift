@@ -26,6 +26,13 @@ enum ViewState {
     case imageView
 }
 
+struct CopticMonth: Identifiable {
+    var id = UUID()
+    let name: String
+    var dates: [String]
+}
+
+
 class OccasionsViewModel: ObservableObject {
     let dailyQuotesViewModel = DailyQuoteViewModel()
     @Published var icons: [IconModel] = []
@@ -80,6 +87,13 @@ class OccasionsViewModel: ObservableObject {
         }
     }
     @Published var copticDates: [String] = []
+    @Published var allCopticMonths: [CopticMonth] = []
+    @Published var selectedCopticMonth: CopticMonth? = nil
+    @Published var passedDate: [String] = []
+    @Published var setColor: Bool = false
+
+
+
     let mockDates: [DateModel] = [
         DateModel(month: "12",
                   day: "05",
@@ -101,7 +115,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var draggingDetailsView: Bool = false
     @Published var selectedStory: Story? = nil
     @Published var storiesWithoutIcons: [Story] = []
-
+    
     var copticEvents: [CopticEvent]?
     var feastName: String?
     var occasionName: String {
@@ -120,6 +134,8 @@ class OccasionsViewModel: ObservableObject {
         getPosts()
         getCopticDates()
         WidgetCenter.shared.reloadAllTimelines()
+        
+        getCopticDatesCategorized()
     }
 
     
@@ -198,6 +214,42 @@ class OccasionsViewModel: ObservableObject {
             
         }
     }
+    
+
+    private func getCopticDatesCategorized() {
+        let range = Date.dateRange
+        let calendar = Calendar.current
+        var currentDate = range.lowerBound
+        var categorizedDates: [String: [String]] = [:] // Dictionary to hold categorized dates
+        
+        while currentDate <= range.upperBound {
+            let copticDateString = copticDate(for: currentDate)
+            
+            // Assuming copticDateString is in the format "Month Day" (e.g., "Tout 1")
+            let components = copticDateString.split(separator: " ")
+            if components.count == 2 {
+                let month = String(components[0]) // Extract month (e.g., "Tout")
+                if categorizedDates[month] != nil {
+                    categorizedDates[month]?.append(copticDateString)
+                } else {
+                    categorizedDates[month] = [copticDateString]
+                }
+            }
+            
+            // Move to the next day
+            if let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate) {
+                currentDate = nextDate
+            } else {
+                break // In case date calculation fails
+            }
+        }
+        
+        // Map the dictionary into an array of CopticMonth models
+        self.allCopticMonths = categorizedDates.map { CopticMonth(name: $0.key, dates: $0.value) }
+        print(allCopticMonths)
+    }
+
+
     
     private func loadJSONFromFile<T: Decodable>(fileName: String) -> T? {
         // Get the path for the JSON file
