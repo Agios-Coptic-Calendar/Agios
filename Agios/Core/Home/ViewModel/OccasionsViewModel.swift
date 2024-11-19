@@ -222,6 +222,12 @@ class OccasionsViewModel: ObservableObject {
         var currentDate = range.lowerBound
         var categorizedDates: [String: [String]] = [:] // Dictionary to hold categorized dates
         
+        // Define the order of Coptic months
+        let copticMonthOrder = [
+            "Tout", "Baba", "Hator", "Kiahk", "Tubah", "Amshir",
+            "Baramhat", "Baramouda", "Bashans", "Baouna", "Abib", "Mesra", "Nasie"
+        ]
+        
         while currentDate <= range.upperBound {
             let copticDateString = copticDate(for: currentDate)
             
@@ -244,10 +250,17 @@ class OccasionsViewModel: ObservableObject {
             }
         }
         
-        // Map the dictionary into an array of CopticMonth models
-        self.allCopticMonths = categorizedDates.map { CopticMonth(name: $0.key, dates: $0.value) }
+        // Sort and map the dictionary into an array of CopticMonth models
+        self.allCopticMonths = copticMonthOrder.compactMap { monthName in
+            if let dates = categorizedDates[monthName] {
+                return CopticMonth(name: monthName, dates: dates)
+            }
+            return nil
+        }
+        
         print(allCopticMonths)
     }
+
 
 
     
@@ -320,7 +333,7 @@ class OccasionsViewModel: ObservableObject {
                         self?.showEventNotLoaded = false
                     }
                 }
-                dailyQuotesViewModel.selectRandomQuote()
+                //dailyQuotesViewModel.selectRandomQuote()
               
             } catch {
                 print("Error fetching data: \(error)")
