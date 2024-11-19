@@ -86,7 +86,10 @@ struct HomeView: View {
                                     }
                                 }
                                 dailyReading
-                                upcomingFeasts
+                                
+                                if !occasionViewModel.notables.isEmpty {
+                                    upcomingFeasts
+                                }
                             }
                             .padding(.bottom, 48)
                             .padding(.top, 48)
@@ -841,7 +844,7 @@ extension HomeView {
                                     .foregroundStyle(.gray900)
                                     .frame(width: 200, alignment: .leading)
                                 if let day = occasionViewModel.daysUntilFeast(feastDate: notable.expand) {
-                                    Text("In \(String(day)) days")
+                                    Text(occasionViewModel.inDaysLabel(for: day))
                                         .font(.body)
                                         .fontWeight(.medium)
                                         .foregroundStyle(.gray700)

@@ -659,4 +659,12 @@ class OccasionsViewModel: ObservableObject {
         
         return outputFormatter.string(from: date).lowercased()
     }
+    
+    func inDaysLabel(for day: Int) -> String {
+        if day == 1 {
+            return "In 1 day"
+        } else {
+            return "In \(day) days"
+        }
+    }
 }
