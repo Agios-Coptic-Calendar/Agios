@@ -42,6 +42,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var readings: [DataReading] = []
     var liturgy: DataReading?
     @Published var selectedItem: Bool = false
+    @Published var notables: [Notable] = []
     @Published var dataClass: DataClass? = nil
     @Published var subSection: [SubSection] = []
     @Published var subSectionReading: [SubSectionReading] = []
@@ -54,6 +55,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var matchedStory: Story? = nil
     @Published var stopDragGesture: Bool = false
     @Published var disallowTapping: Bool = false
+    @Published var selectedNotable: Notable?
     @Published var showUpcomingView: Bool = false
     @Published var isShowingFeastName = true
     @Published var isLoading: Bool = false
@@ -124,7 +126,12 @@ class OccasionsViewModel: ObservableObject {
     
     private weak var task: URLSessionDataTask?
     @Published var filteredDate: [DateModel] = []
-    
+    private let copticMonths = [
+        "Tout": 30, "Baba": 30, "Hator": 30, "Kiahk": 30, "Toba": 30,
+        "Amshir": 30, "Baramhat": 30, "Baramouda": 30, "Bashans": 30,
+        "Baounah": 30, "Epep": 30, "Mesra": 30, "Nasie": 5 // Leap years: 6
+    ]
+
     init() {
         loadSavedDate()
         withAnimation {
@@ -261,9 +268,6 @@ class OccasionsViewModel: ObservableObject {
         print(allCopticMonths)
     }
 
-
-
-    
     private func loadJSONFromFile<T: Decodable>(fileName: String) -> T? {
         // Get the path for the JSON file
         guard let path = Bundle.main.path(forResource: fileName, ofType: "json") else {
@@ -314,6 +318,49 @@ class OccasionsViewModel: ObservableObject {
         return "\(monthName) \(day)"
     }
     
+    let copticMonthOrder =  [
+        "Tout", "Baba", "Hator", "Kiahk", "Toba",
+        "Amshir", "Baramhat", "Baramouda", "Bashans",
+        "Baounah", "Epep", "Mesra", "Nasie" // Leap years: 6
+    ]
+
+    func daysUntilFeast(feastDate: Expand) -> Int? {
+        guard
+            let currentDay = newCopticDate?.dayInt,
+            let feastDay = feastDate.copticDate.dayInt,
+            let currentMonthDays = copticMonths[newCopticDate?.month ?? ""]
+        else {
+            return nil // Invalid month names
+        }
+
+        if newCopticDate?.month == feastDate.copticDate.month {
+            return feastDay - currentDay
+        }
+
+        let currentMonthIndex = copticMonthOrder.firstIndex(of: newCopticDate?.month ?? "")
+        let targetMonthIndex = copticMonthOrder.firstIndex(of: feastDate.copticDate.month ?? "")
+
+        guard let currentIndex = currentMonthIndex, let targetIndex = targetMonthIndex else {
+            return nil // Invalid month names
+        }
+
+        var days = 0
+        // Days remaining in the current month
+        days += currentMonthDays - currentDay
+
+        // Add days in the months between
+        var nextMonthIndex = (currentIndex + 1) % copticMonthOrder.count
+        while nextMonthIndex != targetIndex {
+            let nextMonth = copticMonthOrder[nextMonthIndex]
+            days += copticMonths[nextMonth] ?? 0
+            nextMonthIndex = (nextMonthIndex + 1) % copticMonthOrder.count
+        }
+
+        // Add days of the target month
+        days += feastDay
+        return days
+    }
+
     var date: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -373,6 +420,10 @@ class OccasionsViewModel: ObservableObject {
         self.dataClass = response.data
         self.newCopticDate = response.data.copticDate ?? nil
         self.fact = response.data.facts ?? []
+        self.notables = response.data.notables?.filter {
+            !($0.expand.copticDate.dayInt == newCopticDate?.dayInt && $0.expand.copticDate.month == newCopticDate?.month)
+        } ?? []
+
         self.retrievePassages()
         
         for icon in response.data.icons ?? [] {

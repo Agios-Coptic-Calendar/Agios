@@ -26,22 +26,27 @@ struct OccasionModel: Identifiable, Codable {
 // MARK: - DataClass
 struct DataClass: Identifiable, Codable {
     let created, date: String?
-     let copticDate: CopticDate?
-     let icons: [IconModel]?
-     let stories: [Story]?
-     let facts: [Fact]?
-     let id: String?
-     let liturgicalInformation: String?
-     let name, updated: String?
-     let readings: [DataReading]?
-     let isWellKnown: Bool?
-     let upcomingEvents: [DataClass]?
+    let copticDate: CopticDate?
+    let icons: [IconModel]?
+    let stories: [Story]?
+    let facts: [Fact]?
+    let id: String?
+    let liturgicalInformation: String?
+    let name, updated: String?
+    let readings: [DataReading]?
+    let isWellKnown: Bool?
+    let upcomingEvents: [DataClass]?
+    let notables: [Notable]?
 }
 
 // MARK: - CopticDate
 struct CopticDate: Identifiable, Codable {
     let created, day, id, month: String?
     let updated: String?
+    
+    var dayInt: Int? {
+        return Int(day ?? "")
+    }
 }
 
 struct Fact: Codable, Identifiable {
@@ -238,3 +243,17 @@ struct Highlight: Codable {
     let created, updated: String?
 }
 
+// MARK: - Notables
+struct Notable: Identifiable, Codable {
+    let copticDate: String
+    let created: String
+    let expand: Expand
+    let id: String
+    let story: String
+    let title: String
+    let updated: String
+}
+
+struct Expand: Codable {
+    let copticDate: CopticDate
+}

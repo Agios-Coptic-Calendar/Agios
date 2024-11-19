@@ -9,27 +9,21 @@ import SwiftUI
 
 struct UpcomingFeastView: View {
     @EnvironmentObject var vm: OccasionsViewModel
+    let notable: Notable
+    
     var body: some View {
         VStack(alignment: .center, spacing: 8) {
             VStack(spacing: 24) {
-//                RoundedRectangle(cornerRadius: 12, style: .continuous)
-//                    .frame(width: 40, height: 5)
-//                    .foregroundColor(.primary300)
-                
                 VStack(alignment: .center, spacing: 24) {
                     HStack(alignment: .center, spacing: 16) {
-                        Rectangle()
-                            .fill(.primary200)
-                            .frame(height: 130, alignment: .leading)
-                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                        
                         VStack(alignment: .leading, spacing: 16) {
-                            Text("St. Joseph Father of Emmanuel")
+                            Text(notable.title)
                                 .font(.title2)
                                 .foregroundStyle(.gray900)
                                 .fontWeight(.semibold)
                                 .lineLimit(3)
-                                .frame(width: 191, alignment: .leading)
+                                .frame(alignment: .leading)
+                                .frame(maxWidth: .infinity)
                             
                             Text("\(vm.datePicker.formatted(date: .abbreviated, time: .omitted))")
                                 .fontWeight(.medium)
@@ -40,13 +34,14 @@ struct UpcomingFeastView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 40))
                         }
                     }
-                    
-                    Text("The Feast of St. Joseph, Father of Emmanuel, celebrates St. Joseph, the earthly father of Jesus Christ and the spouse of the Virgin Mary. This feast honors Joseph's vital role in the Holy Family and his exemplary life of faith, obedience, and humility.")
-                        .foregroundStyle(.gray700)
-                        .fontWeight(.medium)
-                        .font(.title3)
+                    ScrollView {
+                        Text(notable.story)
+                            .foregroundStyle(.gray700)
+                            .fontWeight(.medium)
+                            .font(.title3)
+                    }
+                    .frame(maxHeight: 250)
                 }
-                
             }
             .padding(.top, 16)
             .padding(.bottom, 32)
@@ -56,6 +51,7 @@ struct UpcomingFeastView: View {
             Button {
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                     vm.showUpcomingView = false
+                    vm.selectedNotable = nil
                     HapticsManager.instance.impact(style: .soft)
                 }
             } label: {
@@ -65,11 +61,20 @@ struct UpcomingFeastView: View {
         }
         .kerning(-0.4)
         .fontDesign(.rounded)
-        .frame(maxWidth: 500)
+        .frame(maxWidth: .infinity)
     }
 }
 
 #Preview {
-    UpcomingFeastView()
+    UpcomingFeastView(notable: Notable(copticDate: "",
+                                       created: "",
+                                       expand: Expand(copticDate: CopticDate(created: nil,
+                                                                             day: "", id: "",
+                                                                             month: "12",
+                                                                             updated: "")),
+                                       id: "123",
+                                       story: "Story",
+                                       title: "title",
+                                       updated: "updated"))
         .environmentObject(OccasionsViewModel())
 }

@@ -100,7 +100,12 @@ struct HomeView: View {
                             withAnimation {
                                 occasionViewModel.isLoading = true
                             }
-                            await Task.sleep(2 * 1_000_000_000) // Delay for 2 seconds
+                            do {
+                                try await Task.sleep(nanoseconds: 2 * 1_000_000_000) // Delay for 2 seconds
+                            }
+                            catch {
+                                print(error.localizedDescription)
+                            }
                             occasionViewModel.datePicker = Date()
                             occasionViewModel.getPosts()
                             occasionViewModel.selectedCopticMonth = nil
@@ -272,11 +277,13 @@ struct HomeView: View {
                 // Upcoming feast modal
                 ZStack {
                     if occasionViewModel.showUpcomingView {
-                        UpcomingFeastView()
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, 48)
-                            .environmentObject(occasionViewModel)
-                            .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
+                        if let notable = occasionViewModel.selectedNotable {
+                            UpcomingFeastView(notable: notable)
+                                .padding(.horizontal, 20)
+                                .padding(.bottom, 48)
+                                .environmentObject(occasionViewModel)
+                                .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
+                        }
                     }
                     
                 }
@@ -820,42 +827,37 @@ extension HomeView {
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack (alignment: .center, spacing: 16) {
-                    ForEach(0..<3) { saint in
+                    ForEach(occasionViewModel.notables) { notable in
                         if occasionViewModel.isLoading {
                             ShimmerView(heightSize: 150, cornerRadius: 24)
                                 .frame(width: 260)
                                 .transition(.opacity)
                         } else {
-                            HStack(spacing: 16) {
-                                Rectangle()
-                                    .fill(.primary200)
-                                    .frame(width: 80, height: 87, alignment: .center)
-                                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                                VStack(alignment: .leading, spacing: 16, content: {
-                                    Text("St. Joseph Father of Emmanuel")
-                                        .font(.title3)
-                                        .lineLimit(2)
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(.gray900)
-                                        .frame(width: 200, alignment: .leading)
-                                    
-                                    Text("In 2 days")
+                            VStack(alignment: .leading, spacing: 16) {
+                                Text(notable.title)
+                                    .font(.title3)
+                                    .lineLimit(2)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.gray900)
+                                    .frame(width: 200, alignment: .leading)
+                                if let day = occasionViewModel.daysUntilFeast(feastDate: notable.expand) {
+                                    Text("In \(String(day)) days")
                                         .font(.body)
                                         .fontWeight(.medium)
                                         .foregroundStyle(.gray700)
-                                })
+                                }
                             }
                             .padding(16)
                             .background(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                             .onTapGesture {
                                 withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                                    occasionViewModel.selectedNotable = notable
                                     occasionViewModel.showUpcomingView = true
                                 }
                             }
                             .modifier(TapToScaleModifier())
                         }
-
                     }
                 }
                 .padding(.top, 10)
