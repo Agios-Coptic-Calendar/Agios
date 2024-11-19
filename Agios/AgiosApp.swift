@@ -14,7 +14,7 @@ struct AgiosApp: App {
     @StateObject private var occasionViewModel = OccasionsViewModel()
     @StateObject private var iconImageViewModel = IconImageViewModel(icon: dev.icon)
     @StateObject private var imageViewModel = IconImageViewModel(icon: IconModel(id: "", created: "", updated: "", caption: "", explanation: "", story: [], image: "", croppedImage: "", iconagrapher: .iconagrapher(Iconagrapher(id: "", name: "", url: ""))))
-    
+    @StateObject private var quoteViewModel = DailyQuoteViewModel()
     @Namespace var namespace
     @Namespace var transition
     @State private var showLaunchView: Bool = true
@@ -30,6 +30,7 @@ struct AgiosApp: App {
                             .environmentObject(occasionViewModel)
                             .environmentObject(imageViewModel)
                             .environmentObject(iconImageViewModel)
+                            .environmentObject(quoteViewModel)
                     }
                     
                 }
