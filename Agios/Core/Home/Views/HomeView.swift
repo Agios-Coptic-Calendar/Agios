@@ -37,6 +37,7 @@ struct HomeView: View {
     @State private var offset: CGSize = .zero
     @State private var selection: Int = 1
     @State private var showStory: Bool = false
+    @State private var showUpcomingView: Bool = false
     @State private var keyboardHeight: CGFloat = 0
     @State private var startValue: CGFloat = 0
     @State private var currentScale: CGFloat = 1.0
@@ -259,7 +260,7 @@ struct HomeView: View {
                     
                     Rectangle()
                         .fill(.gray900.opacity(0.3))
-                        .opacity(occasionViewModel.showUpcomingView || (occasionViewModel.showEventNotLoaded && !iconImageViewModel.isLoading && occasionViewModel.isLoading) ? 1 : 0)
+                        .opacity(occasionViewModel.showUpcomingView ?? false || (occasionViewModel.showEventNotLoaded && !iconImageViewModel.isLoading && occasionViewModel.isLoading) ? 1 : 0)
                         .onTapGesture {
                             withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
                                 occasionViewModel.showUpcomingView = false
@@ -277,19 +278,7 @@ struct HomeView: View {
                     
                 }
                 
-                // Upcoming feast modal
-                ZStack {
-                    if occasionViewModel.showUpcomingView {
-                        if let notable = occasionViewModel.selectedNotable {
-                            UpcomingFeastView(notable: notable)
-                                .padding(.horizontal, 20)
-                                .padding(.bottom, 48)
-                                .environmentObject(occasionViewModel)
-                                .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
-                        }
-                    }
-                    
-                }
+
                 
             }
             .ignoresSafeArea(edges: .all)
@@ -336,6 +325,19 @@ struct HomeView: View {
             selectedSaint = nil
             selectedIcon = nil
         }
+        
+        // Upcoming feast
+        .halfSheet(showSheet: $occasionViewModel.showUpcomingView) {
+            if let notable = occasionViewModel.selectedNotable {
+                UpcomingFeastView(notable: notable)
+                    .environmentObject(occasionViewModel)
+                    //.transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
+            }
+        } onDismiss: {
+            occasionViewModel.showUpcomingView = false
+            occasionViewModel.selectedNotable = nil
+        }
+
     }
     
     private func getScaleAmount() -> CGFloat {
