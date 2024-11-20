@@ -16,6 +16,10 @@ class DailyQuoteViewModel: ObservableObject {
         selectQuotesForToday()
     }
 
+    func selectRandomQuote() {
+        currentQuotes = Array(quotes.shuffled().prefix(2))
+    }
+
     private func loadQuotes() {
         if let url = Bundle.main.url(forResource: "dailyQuotes", withExtension: "json"),
            let data = try? Data(contentsOf: url),

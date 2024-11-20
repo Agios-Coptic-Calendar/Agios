@@ -381,7 +381,7 @@ class OccasionsViewModel: ObservableObject {
                         self?.showEventNotLoaded = false
                     }
                 }
-                //dailyQuotesViewModel.selectRandomQuote()
+                dailyQuotesViewModel.selectRandomQuote()
               
             } catch {
                 print("Error fetching data: \(error)")
