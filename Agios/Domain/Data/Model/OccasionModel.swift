@@ -247,7 +247,7 @@ struct Highlight: Codable {
 struct Notable: Identifiable, Codable {
     let copticDate: String
     let created: String
-    let expand: Expand
+    let expand: Expand?
     let id: String
     let story: String
     let title: String

@@ -324,8 +324,9 @@ class OccasionsViewModel: ObservableObject {
         "Baounah", "Epep", "Mesra", "Nasie" // Leap years: 6
     ]
 
-    func daysUntilFeast(feastDate: Expand) -> Int? {
+    func daysUntilFeast(feastDate: Expand?) -> Int? {
         guard
+            let feastDate,
             let currentDay = newCopticDate?.dayInt,
             let feastDay = feastDate.copticDate.dayInt,
             let currentMonthDays = copticMonths[newCopticDate?.month ?? ""]
@@ -421,7 +422,7 @@ class OccasionsViewModel: ObservableObject {
         self.newCopticDate = response.data.copticDate ?? nil
         self.fact = response.data.facts ?? []
         self.notables = response.data.notables?.filter {
-            !($0.expand.copticDate.dayInt == newCopticDate?.dayInt && $0.expand.copticDate.month == newCopticDate?.month)
+            !($0.expand?.copticDate.dayInt == newCopticDate?.dayInt && $0.expand?.copticDate.month == newCopticDate?.month)
         } ?? []
 
         self.retrievePassages()
