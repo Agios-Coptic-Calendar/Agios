@@ -57,15 +57,16 @@ struct UpcomingFeastView: View {
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.gray900)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                            Text("\(vm.regularDate(for: notable.expand.copticDate) ?? "")")
-                                .fontWeight(.medium)
-                                .padding(.vertical, 4)
-                                .padding(.horizontal, 16)
-                                .font(.title3)
-                                .background(.primary100)
-                                .foregroundStyle(.primary1000)
-                                .clipShape(RoundedRectangle(cornerRadius: 40))
-
+                            if let copticDate = notable.expand?.copticDate {
+                                Text("\(vm.regularDate(for: copticDate) ?? "")")
+                                    .fontWeight(.medium)
+                                    .padding(.vertical, 4)
+                                    .padding(.horizontal, 16)
+                                    .font(.title3)
+                                    .background(.primary100)
+                                    .foregroundStyle(.primary1000)
+                                    .clipShape(RoundedRectangle(cornerRadius: 40))
+                            }
                         }
                         Text(notable.story)
                             .font(.title2)
