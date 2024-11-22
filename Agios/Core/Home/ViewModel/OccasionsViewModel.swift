@@ -56,7 +56,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var stopDragGesture: Bool = false
     @Published var disallowTapping: Bool = false
     @Published var selectedNotable: Notable?
-    @Published var showUpcomingView: Bool = false
+    @Published var showUpcomingView: Bool? = false
     @Published var isShowingFeastName = true
     @Published var isLoading: Bool = false
     @Published var copticDateTapped: Bool = false
@@ -360,6 +360,38 @@ class OccasionsViewModel: ObservableObject {
         // Add days of the target month
         days += feastDay
         return days
+    }
+    
+    func regularDate(for copticDate: CopticDate) -> String? {
+        // Ensure the Coptic date has valid day and month
+        guard let day = copticDate.dayInt,
+              let monthName = copticDate.month,
+              let copticMonthIndex = copticMonthOrder.firstIndex(of: monthName) else {
+            return nil
+        }
+        
+        // Get the current year in the Gregorian calendar
+        _ = Calendar(identifier: .gregorian).component(.year, from: Date())
+        
+        // Create a Coptic calendar instance
+        let copticCalendar = Calendar(identifier: .coptic)
+        let copticYear = copticCalendar.component(.year, from: Date())
+        
+        // Create a DateComponents instance for the Coptic date
+        var copticDateComponents = DateComponents(calendar: copticCalendar)
+        copticDateComponents.year = copticYear
+        copticDateComponents.month = copticMonthIndex + 1 // Months are 1-indexed
+        copticDateComponents.day = day
+        
+        // Convert the Coptic date to Gregorian
+        guard let gregorianDate = copticCalendar.date(from: copticDateComponents) else {
+            return nil
+        }
+        
+        // Format the Gregorian date
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E, MMM d, yyyy" // Example: "Wed, Nov 23, 2024"
+        return formatter.string(from: gregorianDate)
     }
 
     var date: String {
