@@ -9,7 +9,6 @@ import SwiftUI
 import Lottie
 
 struct DateView: View {
-    
     enum DateSelection: Int, CaseIterable {
        case regularDate
        case feast
@@ -20,7 +19,7 @@ struct DateView: View {
            case .regularDate:
                return "\(viewModel.datePicker.formatDateShort(viewModel.datePicker))"
            case .feast:
-               return "\(viewModel.selectedCopticDate?.month ?? "\(viewModel.newCopticDate?.month ?? "")") \(viewModel.selectedCopticDate?.day ?? "\(viewModel.newCopticDate?.day ?? "")")"
+                   return "\(viewModel.newCopticDate?.month ?? "") \(viewModel.newCopticDate?.day ?? "")"
            case .yearAhead:
                return "Year ahead"
            }
@@ -59,33 +58,10 @@ struct DateView: View {
                     Spacer()
                     
                     HStack(spacing: 8) {
-                        /*
-                         Text(occasionViewModel.datePicker.formatted(date: .abbreviated, time: .omitted))
-                             .lineLimit(1)
-                             .matchedGeometryEffect(id: "regularDate", in: namespace)
-                         
-
-                             //.frame(width: 120, alignment: .leading)
-                             
-                         
-                         Rectangle()
-                             .fill(.gray900)
-                             .frame(width: 1, height: 17)
-                             .matchedGeometryEffect(id: "divider", in: namespace)
-                         
-                         Text("\(occasionViewModel.selectedCopticDate?.month ?? "\(occasionViewModel.newCopticDate?.month ?? "")") \(occasionViewModel.selectedCopticDate?.day ?? "\(occasionViewModel.newCopticDate?.day ?? "")")")
-                             .lineLimit(1)
-                             .foregroundStyle(.gray900)
-                             .frame(width: 100)
-                             .matchedGeometryEffect(id: "copticDate", in: namespace)
-                             //.frame(width: 120, alignment: .leading)
-                         */
-                        
                         Text("Select a date")
                             .fontWeight(.medium)
                             
                     }
-                    //.frame(maxWidth: .infinity, alignment: .center)
                     
                     Spacer()
                        
@@ -540,11 +516,9 @@ struct YearAheadView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            
-            
             ScrollView {
                 VStack(spacing: 8) {
-                    ForEach(occasionViewModel.mockDates) { date in
+                    ForEach(YearAheadItem.items) { item in
                             Button(action: {
                                 withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                                     occasionViewModel.copticDateTapped = false
@@ -553,10 +527,10 @@ struct YearAheadView: View {
                                 
                             }, label: {
                                 VStack(alignment: .leading, spacing: 7) {
-                                    Text("\(date.name)")
+                                    Text(item.title)
                                         .foregroundStyle(.primary1000)
                                     
-                                    Text("\(occasionViewModel.formatDateStringToFullDate(dateString: date.date))")
+                                    Text(item.date)
                                         .font(.callout)
                                         .foregroundStyle(.primary1000.opacity(0.7))
                                         .lineLimit(1)
@@ -572,8 +546,6 @@ struct YearAheadView: View {
                             .buttonStyle(BouncyButton())
                         }
                         .padding(.horizontal, 16)
-
-                    
                 }
                 .padding(.vertical, 8)
                 .padding(.bottom, 30)
@@ -582,9 +554,20 @@ struct YearAheadView: View {
             .frame(height: 250, alignment: .top)
 
         }
-        
-        
-
     }
 }
 
+struct YearAheadItem: Identifiable {
+    var id: UUID = UUID()
+    let title, date: String
+    
+    static let items: [YearAheadItem] = [
+        YearAheadItem(title: "Feast of the Holy Nativity", date: "7 January 2025"),
+        YearAheadItem(title: "Jonah's Fast", date: "10-12 February 2025"),
+        YearAheadItem(title: "Start of Lent", date: "24 February 2025"),
+        YearAheadItem(title: "Resurrection", date: "19 April 2025"),
+        YearAheadItem(title: "Ascension", date: "28 May 2025"),
+        YearAheadItem(title: "Pentecost", date: "7 June 2025"),
+        YearAheadItem(title: "Start of Apostles' Fast", date: "8 June 2025")
+    ]
+}

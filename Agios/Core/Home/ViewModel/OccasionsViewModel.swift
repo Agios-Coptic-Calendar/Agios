@@ -36,7 +36,6 @@ struct CopticMonth: Identifiable {
 class OccasionsViewModel: ObservableObject {
     let dailyQuotesViewModel = DailyQuoteViewModel()
     @Published var icons: [IconModel] = []
-    @Published var selectedCopticDate: DateModel? = nil
     @Published var filteredIcons: [IconModel] = []
     @Published var stories: [Story] = []
     @Published var readings: [DataReading] = []
@@ -94,22 +93,21 @@ class OccasionsViewModel: ObservableObject {
     @Published var passedDate: [String] = []
     @Published var setColor: Bool = false
 
-
-
     let mockDates: [DateModel] = [
-        DateModel(month: "12",
-                  day: "05",
-                  date: "2024-12-05T12:00:00.000Z",
+        DateModel(month: "01",
+                  day: "07",
+                  date: "2025-01-07T12:00:00.000Z",
                   urlLink: "",
                   customDate: Date(),
-                  name: "Feast of the Cross"),
+                  name: "Feast of the Holy Nativity"),
         DateModel(month: "01",
                   day: "07",
                   date: "2025-01-07T00:00:00.000Z",
                   urlLink: "",
                   customDate: Date(),
-                  name: "Feast of Nativity")
+                  name: "Jonah's Fast")
     ]
+
     @Published var selectedMockDate: DateModel? = nil
     @Published var filteredIconsGroups: [[IconModel]] = []
     @Published var selectedGroupIcons: [IconModel] = []
@@ -294,7 +292,6 @@ class OccasionsViewModel: ObservableObject {
         
     func filterDate() {
         withAnimation(.spring(response: 0.25, dampingFraction: 0.9)) {
-            self.feast = selectedCopticDate?.name ?? ""
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
                 withAnimation {
                     self.isLoading = true

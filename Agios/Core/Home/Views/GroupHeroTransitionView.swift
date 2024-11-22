@@ -98,19 +98,6 @@ struct GroupHeroTransitionView: View {
     }
 }
 
-//#Preview {
-//    GroupHeroTransitionView()
-//}
-
-/*
- #Preview {
-     HeroWrapper {
-         HeroTransitionView(icon: dev.icon)
-             .environmentObject(OccasionsViewModel())
-     }
- }
- */
-
 struct GroupCardDetailsView: View {
     @Binding var icon: IconModel?
     let story: Story
@@ -224,30 +211,12 @@ struct GroupCardView: View {
                     ScrollView {
                         VStack(alignment: .leading, spacing: icon.explanation?.isEmpty ?? true ? 24 : 32) {
                             VStack(alignment: .leading, spacing: 32) {
-//                                if !showImageViewer {
-//                                  fitImageView
-//                                } else {
-//                                    Rectangle()
-//                                        .fill(.clear)
-//                                        .frame(height: 420)
-//                                        .frame(maxWidth: .infinity)
-//                                }
                                 fitImageView
                                     .opacity(showImageViewer ? 0 : 1)
                                 iconCaption
-                                    
                             }
                             .padding(.horizontal, 20)
-
-                            
-                            
-//                            if let explanation = icon.explanation, !explanation.isEmpty {
-//                                divider
-//                            }
-//                            description
                             story
-                            //divider
-                            //highlights
                         }
                         .kerning(-0.4)
                         .padding(.bottom, 40)
@@ -262,19 +231,14 @@ struct GroupCardView: View {
                     .overlay(alignment: .top) {
                         ZStack(alignment: .center) {
                             VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
-                                //.blur(radius: 3)
                                 .frame(height: 110)
                                 .ignoresSafeArea()
-//                                .gesture(
-//                                    scrollViewOffset < 561 || showImageViewer ? nil : gestureVertical()
-//                                    , including: .all)
                                 .gesture(gestureVertical())
                                 .offset(y: verticalPosition > 0 ? 0 : (scrollViewOffset > 567 ? currentScrollRecalulated() : 0))
                             customBackButton
                         }
                         
                     }
-                    
                         blurredOverlay
                         filledImageView
                 }
@@ -674,21 +638,6 @@ extension GroupCardView {
                             .fontWeight(.medium)
                             .lineLimit(storyHeight)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        
-                        /*
-                         Button {
-                             openSheet?.toggle()
-                         } label: {
-                             HStack(alignment: .center, spacing: 4) {
-                                 Text("Read more")
-                                     .fontWeight(.semibold)
-                                 Image(systemName: "chevron.down")
-                                     .font(.caption)
-                                     .fontWeight(.semibold)
-                             }
-                         }
-                         */
-
                     }
                     
                     Divider()
@@ -710,52 +659,9 @@ extension GroupCardView {
                 .onTapGesture {
                     openSheet?.toggle()
                 }
-                //.shadow(color: .gray200.opacity(0.6), radius: 10, x: 0, y: 8)
-                
             }
         }
 
-    }
-    
-    private var highlights: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack(alignment: .center, spacing: 12) {
-                Image(systemName: "rays")
-                    .foregroundStyle(.gray400)
-                
-                Text("Highlights")
-                    .fontWeight(.semibold)
-            }
-            .font(.title3)
-            
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Lorem ipsum dolor sit amet consectetur. Quam malesuada ut magna consectetur. Elementum scelerisque mauris sed maecenas nisi faucibus vitae. Sed mattis sit amet quam. Id mauris.")
-                    .foregroundStyle(.gray400)
-                    .fontWeight(.medium)
-                
-                Button(action: {
-                    
-                }, label: {
-                    HStack(alignment: .center, spacing: 4) {
-                        Text("Read more")
-                            .fontWeight(.semibold)
-                        Image(systemName: "chevron.down")
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                    }
-                })
-
-                
-            }
-        }
-        .padding(.horizontal, 20)
-        .textSelection(.enabled)
-
-    }
-    
-    private var divider: some View {
-        Divider()
-            .background(.gray50)
     }
     
     private var fitImageView: some View {
@@ -798,32 +704,6 @@ extension GroupCardView {
             .clipShape(RoundedRectangle(cornerRadius: 24))
             .tabViewStyle(.page)
         }
-            
-        /*
-         VStack {}
-         .frame(maxWidth: .infinity)
-         .frame(height: 420)
-         .background(
-             SaintImageView(icon: icon)
-                 .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
-                 .scaledToFill()
-                 .transition(.scale(scale: 1))
-                 .onTapGesture {
-                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                         showImageViewer = true
-                         occasionViewModel.showImageView = true
-                         occasionViewModel.stopDragGesture = true
-                         
-                     }
-                 }
-         )
-         .mask({
-             RoundedRectangle(cornerRadius: 24)
-                 .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
-         })
-         */
-        
-        
     }
     
     private var iconCaption: some View {
@@ -878,6 +758,5 @@ extension GroupCardView {
             }
         }
     }
-
 }
 

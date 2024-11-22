@@ -571,57 +571,6 @@ extension HomeView {
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 16) {
-                        ForEach(occasionViewModel.icons) { saint in
-                            //HomeSaintImageView(namespace: namespace, icon: saint)
-//                            CardView(icon: saint,
-//                                     iconographer: occasionViewModel.iconagrapher ?? dev.iconagrapher,
-//                                     stories: occasionViewModel.getStory(forIcon: saint) ?? dev.story,
-//                                     showImageViewer: $showImageViewer,
-//                                     selectedSaint: $selectedSaint,
-//                                     namespace: namespace)
-//                                .contextMenu(ContextMenu(menuItems: {
-//                                    Button {
-//                                        occasionViewModel.showStory?.toggle()
-//                                        selectedIcon = saint
-//                                        selectedSaint = saint
-//                                    } label: {
-//                                        if occasionViewModel.getStory(forIcon: saint) != nil {
-//                                            Label("See story", systemImage: "book")
-//                                        } else {
-//                                            Text("No story")
-//                                        }
-//                                    }
-//                                    .disabled((occasionViewModel.getStory(forIcon: saint) != nil) == true ? false : true)
-//                                }))
-//                                .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
-//                                .scrollTransition { content, phase in
-//                                    content
-//                                        .rotation3DEffect(Angle(degrees: phase.isIdentity ? 0 : -10), axis: (x: 0, y: 50, z: 0))
-//                                        .blur(radius: phase.isIdentity ? 0 : 0.9)
-//                                        .scaleEffect(phase.isIdentity ? 1 : 0.95)
-//                                }
-//                                
-//                                .frame(height: 400, alignment: .center)
-//                                .onTapGesture {
-//                                    segue(icon: saint)
-//                                    selectedSaint = saint
-//                                    occasionViewModel.disallowTapping = true
-//                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-//                                        occasionViewModel.disallowTapping = false
-//                                    }
-//                                    withAnimation(.spring(response: 0.25, dampingFraction: 1)) {
-//                                        occasionViewModel.viewState = .expanded
-//                                        occasionViewModel.selectedSaint = saint
-//                                    }
-//                                    
-//                                }
-//                                .opacity(occasionViewModel.selectedSaint == saint ? 0 : 1)
-                            
-                        }
-//                         if occasionViewModel.filteredIcons.isEmpty {
-//                            // GroupedSaintImageView(selectedSaint: $selectedSaint, showStory: $occasionViewModel.showStory, namespace: namespace)
-//                         }
-                        
                         if !occasionViewModel.filteredIconsGroups.isEmpty {
                             AllGroupedIconsView(namespace: namespace)
                                 .scrollTransition { content, phase in
@@ -639,10 +588,8 @@ extension HomeView {
 
                         }
                     }
-                    //.padding(.top, -24)
                     .padding(.horizontal, 24)
                 }
-                
             }
         }
     }

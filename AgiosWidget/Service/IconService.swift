@@ -64,7 +64,15 @@ struct WidgetService {
             
             let description = icon.caption ?? "\(date.formatted(date: .abbreviated, time: .omitted))"
             
-            let imageUrl = icon.image
+            var imageUrl = ""
+            if let croppedImage = icon.croppedImage,
+               !croppedImage.isEmpty {
+                print("using cropped image")
+                imageUrl = croppedImage
+            } else {
+                print("using full image")
+                imageUrl = icon.image
+            }
             guard let imageDownloadURL = URL(string: imageUrl),
                   ["jpeg", "jpg", "png"].contains(imageDownloadURL.pathExtension.lowercased()) else {
                 print("Image URL is invalid or format is unsupported.")

@@ -121,8 +121,8 @@ struct AgiosWidget: Widget {
                     Color.white
                 }
         }
-        .configurationDisplayName("Daily Saint")
-        .description("Displays a daily icon and caption.")
+        .configurationDisplayName("Agios Widget")
+        .description("A Coptic icon on your home screen that updates daily so you never miss a Saint's Feast ever again!")
         .supportedFamilies([.systemSmall])
     }
 }

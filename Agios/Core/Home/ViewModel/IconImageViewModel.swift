@@ -16,14 +16,18 @@ class IconImageViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     private let dataService: IconImageDataService
-    
+    private let icon: IconModel
     
     init(icon: IconModel) {
-        //self.isLoading = true
-        self.dataService = IconImageDataService(urlString: icon.image, icon: icon)
+        self.icon = icon
+        if let croppedImage = icon.croppedImage,
+           !croppedImage.isEmpty {
+            self.dataService = IconImageDataService(urlString: croppedImage, icon: icon)
+        } else {
+            self.dataService = IconImageDataService(urlString: icon.image, icon: icon)
+        }
         self.addSubscribers()
     }
-    
     
     func addSubscribers() {
         dataService.$image
