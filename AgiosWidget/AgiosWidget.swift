@@ -91,6 +91,7 @@ struct AgiosWidgetEntryView : View {
                     .foregroundStyle(.white)
                     .font(.system(size: 12))
                     .fontDesign(.rounded)
+                    .fontWeight(.semibold)
                     .padding(5)
                     .background(RoundedRectangle(cornerRadius: 12, style: .continuous).foregroundStyle(.black.opacity(0.5)))
                     .multilineTextAlignment(.center)
