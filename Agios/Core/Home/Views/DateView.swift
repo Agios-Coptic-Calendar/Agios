@@ -464,7 +464,7 @@ struct FeastView: View {
                                                     
                                                 Spacer()
                                                 ZStack {
-                                                    if occasionViewModel.datePicker == occasionViewModel.date(from: date) ?? Date() {
+                                                    if occasionViewModel.datePicker == occasionViewModel.date(from: date) ?? Date() || "\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")" == date {
                                                         Image(systemName: "checkmark.circle.fill")
                                                             .transition(.scale)
                                                     }
@@ -478,7 +478,7 @@ struct FeastView: View {
                                             .overlay {
                                                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                                                     .stroke(Color.primary1000, lineWidth: 0.7)
-                                                    .opacity((occasionViewModel.datePicker == occasionViewModel.date(from: date) ?? Date()) ? 1 : 0)
+                                                    .opacity(occasionViewModel.datePicker == occasionViewModel.date(from: date) ?? Date() || "\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")" == date ? 1 : 0)
                                             }
                                             .padding(.horizontal, 16)
 
