@@ -83,6 +83,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var feast: String = ""
     @Published var datePicker: Date = Date() {
         didSet {
+            isTriggeredFromDatePicker = true
             filterDate()
             saveSelectedDateToSharedStorage(datePicker)
         }
@@ -92,6 +93,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var selectedCopticMonth: CopticMonth? = nil
     @Published var passedDate: [String] = []
     @Published var setColor: Bool = false
+    private var isTriggeredFromDatePicker: Bool = false
 
     let mockDates: [DateModel] = [
         DateModel(month: "01",
@@ -410,7 +412,10 @@ class OccasionsViewModel: ObservableObject {
                         self?.showEventNotLoaded = false
                     }
                 }
-                dailyQuotesViewModel.selectRandomQuote()
+                if isTriggeredFromDatePicker {
+                    dailyQuotesViewModel.selectRandomQuote()
+                    isTriggeredFromDatePicker = false
+                }
               
             } catch {
                 print("Error fetching data: \(error)")

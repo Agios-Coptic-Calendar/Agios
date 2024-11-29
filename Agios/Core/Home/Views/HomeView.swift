@@ -110,7 +110,6 @@ struct HomeView: View {
                             catch {
                                 print(error.localizedDescription)
                             }
-                            occasionViewModel.datePicker = Date()
                             occasionViewModel.getPosts()
                             occasionViewModel.selectedCopticMonth = nil
                             WidgetCenter.shared.reloadAllTimelines()
