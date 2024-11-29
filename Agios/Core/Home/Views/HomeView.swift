@@ -46,7 +46,6 @@ struct HomeView: View {
     @State private var dragPhase: DragPhase = .initial
     
     @State private var selectedReadingForAnimation: DataReading?
-    @State private var selectedLiturgy: SubSection?
     @State private var selectedSubsection: SubSection?
     @State private var presentedReadingSheet: Bool? = false
     @State private var navigateToDateView: Bool = false
@@ -675,7 +674,7 @@ extension HomeView {
                             ForEach(occasionViewModel.readings) { reading in
                                 ReadingView(reading: reading)
                                     .onTapGesture {
-                                        selectedLiturgy = nil
+                                        occasionViewModel.selectedLiturgy = nil
                                         occasionViewModel.selectedReading = reading
                                         presentedReadingSheet = true
                                     }
@@ -695,10 +694,12 @@ extension HomeView {
                                                          subsectionTitle: occasionViewModel.selectedReading?.subSections?.first?.title ?? "",
                                                          occasionViewModel: occasionViewModel)
                                         }
-                                        if let selectedLiturgy {
-                                            LiturgyReadingDetailsView(subsection: selectedLiturgy)
+                                        if let liturgy = occasionViewModel.selectedLiturgy {
+                                            LiturgyReadingDetailsView(subsection: liturgy)
                                         }
                                     } onDismiss: {
+                                        occasionViewModel.selectedLiturgy = nil
+                                        occasionViewModel.selectedReading = nil
                                     }
                             }
                             if let liturgy = occasionViewModel.liturgy {
@@ -710,7 +711,7 @@ extension HomeView {
                                         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                                         .onTapGesture {
                                             occasionViewModel.selectedReading = nil
-                                            selectedLiturgy = subsection
+                                            occasionViewModel.selectedLiturgy = subsection
                                             presentedReadingSheet = true
                                         }
                                     .scaleEffect(selectedSubsection == subsection ? 1.1 : 1.0)

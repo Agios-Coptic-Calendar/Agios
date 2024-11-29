@@ -70,6 +70,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var searchDate: String = ""
     @Published var showLaunchView: Bool = false
     @Published var selectedReading: DataReading?
+    @Published var selectedLiturgy: SubSection?
     @Published var showImageView: Bool = false
     @Published var showStory: Bool? = false
     @Published var showReading: Bool? = false
@@ -405,7 +406,6 @@ class OccasionsViewModel: ObservableObject {
         WidgetCenter.shared.reloadAllTimelines()
         Task { @MainActor in
             do {
-                selectedReading = nil
                 let (data, response) = try await URLSession.shared.data(from: url)
                 let decodedResponse = try handleOutput(response: response, data: data)
                 await MainActor.run {
