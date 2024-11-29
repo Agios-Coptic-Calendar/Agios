@@ -12,7 +12,13 @@ struct ReadingsView: View {
     
     let reading: DataReading
     let subsectionTitle: String
-    @EnvironmentObject private var occasionViewModel: OccasionsViewModel
+    @ObservedObject private var occasionViewModel: OccasionsViewModel
+    
+    init(reading: DataReading, subsectionTitle: String, occasionViewModel: OccasionsViewModel) {
+        self.reading = reading
+        self.subsectionTitle = subsectionTitle
+        self.occasionViewModel = occasionViewModel
+    }
     
     var body: some View {
         ZStack(alignment: .top) {

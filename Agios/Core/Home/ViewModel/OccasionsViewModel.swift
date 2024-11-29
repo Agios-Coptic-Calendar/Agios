@@ -406,7 +406,9 @@ class OccasionsViewModel: ObservableObject {
             do {
                 let (data, response) = try await URLSession.shared.data(from: url)
                 let decodedResponse = try handleOutput(response: response, data: data)
-                    await updateUI(with: decodedResponse)
+                await MainActor.run {
+                    updateUI(with: decodedResponse)
+                }
                 DispatchQueue.main.async { [weak self] in
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                         self?.showEventNotLoaded = false
@@ -441,11 +443,7 @@ class OccasionsViewModel: ObservableObject {
         return try JSONDecoder().decode(Response.self, from: data)
     }
     
-    @MainActor
-    func updateUI(with response: Response) async {
-        withAnimation(.spring(response: 0.07, dampingFraction: 0.9, blendDuration: 1)) {
-            self.isLoading = false
-        }
+    func updateUI(with response: Response) {
         self.feast = response.data.name ?? ""
         self.liturgicalInformation = response.data.liturgicalInformation?.replaceCommaWithNewLine
         self.icons = response.data.icons ?? []
@@ -483,6 +481,9 @@ class OccasionsViewModel: ObservableObject {
         }
         
         filterIconsWithSimilarStories()
+        withAnimation(.spring(response: 0.07, dampingFraction: 0.9, blendDuration: 1)) {
+            self.isLoading = false
+        }
     }
     
     // Function to filter icons that share the same or similar story strings, and include unique icons

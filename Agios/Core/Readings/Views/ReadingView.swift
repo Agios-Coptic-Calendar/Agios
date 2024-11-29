@@ -12,10 +12,8 @@ struct ReadingView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            ForEach(reading.subSections ?? []) { subsection in
-                if let title = reading.title {
-                    SubsectionView(mainReadingTitle: title, subsection: subsection)
-                }
+            ForEach(reading.subSections!) { subsection in
+                SubsectionView(mainReadingTitle: reading.title ?? "No title", subsection: subsection)
             }
         }
         .padding(16)
@@ -39,7 +37,7 @@ struct SubsectionView: View {
             VStack(alignment: .leading, spacing: 6) {
                 if let readings = subsection.readings {
                     ForEach(readings) { reading in
-                        ForEach(reading.passages ?? []) { passage in
+                        ForEach(reading.passages!) { passage in
                             PassageView(passage: passage)
                         }
                     }
