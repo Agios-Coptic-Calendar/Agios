@@ -45,7 +45,6 @@ struct HomeView: View {
     @State private var hapticsTriggered = false
     @State private var dragPhase: DragPhase = .initial
     
-    @State private var selectedReading: DataReading?
     @State private var selectedReadingForAnimation: DataReading?
     @State private var selectedLiturgy: SubSection?
     @State private var selectedSubsection: SubSection?
@@ -677,7 +676,7 @@ extension HomeView {
                                 ReadingView(reading: reading)
                                     .onTapGesture {
                                         selectedLiturgy = nil
-                                        selectedReading = reading
+                                        occasionViewModel.selectedReading = reading
                                         presentedReadingSheet = true
                                     }
                                     .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
@@ -691,28 +690,16 @@ extension HomeView {
                                         }
                                     })
                                     .halfSheet(showSheet: $presentedReadingSheet) {
-                                        if let selectedReading {
-                                            ReadingsView(reading: selectedReading,
-                                                         subsectionTitle: selectedReading.subSections?.first?.title ?? "",
+                                        if let reading = occasionViewModel.selectedReading {
+                                            ReadingsView(reading: reading,
+                                                         subsectionTitle: occasionViewModel.selectedReading?.subSections?.first?.title ?? "",
                                                          occasionViewModel: occasionViewModel)
-                                            //.presentationDragIndicator(.visible)
                                         }
                                         if let selectedLiturgy {
                                             LiturgyReadingDetailsView(subsection: selectedLiturgy)
-                                                //.presentationDetents([.medium, .large])
-                                                //.presentationDragIndicator(.visible)
                                         }
                                     } onDismiss: {
-                                        //selectedSaint = nil
-                                       // selectedIcon = nil
                                     }
-//                                    .sheet(isPresented: $presentedReadingSheet) {
-//                                       
-//                                    }
-                                    //.animation(.spring(), value: selectedReadingForAnimation)
-                                    //.scaleEffect(selectedReadingForAnimation == reading ? 1.1 : 1.0)
-                                    
-
                             }
                             if let liturgy = occasionViewModel.liturgy {
                                 ForEach(liturgy.subSections ?? []) { subsection in
@@ -722,7 +709,7 @@ extension HomeView {
                                         .background(liturgy.color(for: subsection.id ?? 0).gradient)
                                         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                                         .onTapGesture {
-                                            selectedReading = nil
+                                            occasionViewModel.selectedReading = nil
                                             selectedLiturgy = subsection
                                             presentedReadingSheet = true
                                         }
