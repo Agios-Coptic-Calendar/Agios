@@ -8,7 +8,6 @@
 import Foundation
 import Combine
 import SwiftUI
-import WidgetKit
 
 struct DateModel: Identifiable {
     let id: String = UUID().uuidString
@@ -142,14 +141,12 @@ class OccasionsViewModel: ObservableObject {
         getCopticEvents()
         getPosts()
         getCopticDates()
-        WidgetCenter.shared.reloadAllTimelines()
         
         getCopticDatesCategorized()
     }
 
     
     private func loadSavedDate() {
-        WidgetCenter.shared.reloadAllTimelines()
         let defaults = UserDefaults(suiteName: "group.com.agios")
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -403,7 +400,6 @@ class OccasionsViewModel: ObservableObject {
     
     func getPosts() {
         guard let url = URL(string: "https://api.agios.co/occasions/get/date/\(date)") else { return }
-        WidgetCenter.shared.reloadAllTimelines()
         Task { @MainActor in
             do {
                 let (data, response) = try await URLSession.shared.data(from: url)
@@ -434,7 +430,6 @@ class OccasionsViewModel: ObservableObject {
                 }
             }
         }
-        WidgetCenter.shared.reloadAllTimelines()
     }
     
     func handleOutput(response: URLResponse, data: Data) throws -> Response {

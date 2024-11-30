@@ -9,7 +9,6 @@
 import SwiftUI
 import Shimmer
 import Popovers
-import WidgetKit
 
 enum DragPhase {
     case initial
@@ -114,7 +113,6 @@ struct HomeView: View {
                             }
                             occasionViewModel.getPosts()
                             occasionViewModel.selectedCopticMonth = nil
-                            WidgetCenter.shared.reloadAllTimelines()
                         }
                         .allowsHitTesting(occasionViewModel.disallowTapping ? false : true)
                         .scrollIndicators(.hidden)

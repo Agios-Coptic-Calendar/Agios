@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import WidgetKit
 
 struct WidgetService {
     enum WidgetServiceError: Error {
