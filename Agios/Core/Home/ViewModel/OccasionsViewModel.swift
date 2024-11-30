@@ -93,7 +93,6 @@ class OccasionsViewModel: ObservableObject {
     @Published var selectedCopticMonth: CopticMonth? = nil
     @Published var passedDate: [String] = []
     @Published var setColor: Bool = false
-    private var isTriggeredFromDatePicker: Bool = false
 
     let mockDates: [DateModel] = [
         DateModel(month: "01",
