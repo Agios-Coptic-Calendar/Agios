@@ -84,7 +84,6 @@ class OccasionsViewModel: ObservableObject {
     @Published var feast: String = ""
     @Published var datePicker: Date = Date() {
         didSet {
-            isTriggeredFromDatePicker = true
             filterDate()
             saveSelectedDateToSharedStorage(datePicker)
         }
@@ -412,11 +411,6 @@ class OccasionsViewModel: ObservableObject {
                         self?.showEventNotLoaded = false
                     }
                 }
-                if isTriggeredFromDatePicker {
-                    dailyQuotesViewModel.selectRandomQuote()
-                    isTriggeredFromDatePicker = false
-                }
-              
             } catch {
                 print("Error fetching data: \(error)")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
