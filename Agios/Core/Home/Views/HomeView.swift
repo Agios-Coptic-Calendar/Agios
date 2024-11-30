@@ -104,6 +104,7 @@ struct HomeView: View {
                         .refreshable {
                             withAnimation {
                                 occasionViewModel.isLoading = true
+                                occasionViewModel.datePicker = Date()
                             }
                             do {
                                 try await Task.sleep(nanoseconds: 2 * 1_000_000_000) // Delay for 2 seconds
