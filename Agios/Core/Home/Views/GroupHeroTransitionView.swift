@@ -230,7 +230,7 @@ struct GroupCardView: View {
 
                     }
                     .scrollIndicators(.hidden)
-                    .scrollDisabled(disableScrolling || verticalPosition > 0)
+                    .scrollDisabled(verticalPosition > 0)
                     .overlay(alignment: .top) {
                         ZStack(alignment: .center) {
                             VariableBlurView(maxBlurRadius: 15, direction: .blurredTopClearBottom, startOffset: 0)
