@@ -254,19 +254,19 @@ struct GroupCardView: View {
                 StoryDetailView(story: stories, vm: occasionViewModel)
                     .presentationDetents([.medium, .large])
             } onDismiss: {
-                disableScrolling = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    print("Dismissed")
-                    
-                    disableScrolling = true
-                    print("Value for disabling scrolling \(disableScrolling)")
-
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        disableScrolling = false
-                        print("Value for disabling scrolling \(disableScrolling)")
-
-                    }
-                }
+//                disableScrolling = true
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+//                    print("Dismissed")
+//                    
+//                    disableScrolling = true
+//                    print("Value for disabling scrolling \(disableScrolling)")
+//
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                        disableScrolling = false
+//                        print("Value for disabling scrolling \(disableScrolling)")
+//
+//                    }
+//                }
                 
             }
             .onAppear {
