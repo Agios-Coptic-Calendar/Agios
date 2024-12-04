@@ -175,11 +175,17 @@ struct GroupCardView: View {
                         .fill(.clear)
                         .background(
                             ZStack {
-                                SaintImageView(icon: icon)
-                                    .scaledToFill()
+                                // Check for croppedImage availability, then instantiate SaintImageView with the correct type
+                                if icon.croppedImage != nil && !icon.croppedImage!.isEmpty {
+                                    SaintImageView(icon: icon, imageType: .cropped)
+                                        .scaledToFill()
+                                } else {
+                                    SaintImageView(icon: icon, imageType: .full)
+                                        .scaledToFill()
+                                }
                             }
                         )
-                        .overlay(alignment: .bottom, content: {
+                        .overlay(alignment: .bottom) {
                             Text(icon.caption ?? "")
                                 .font(.body)
                                 .multilineTextAlignment(.center)
@@ -191,7 +197,7 @@ struct GroupCardView: View {
                                 .opacity(showTest || !viewModel.isLoading ? 0 : 1)
                                 .fontDesign(.rounded)
                                 .fontWeight(.semibold)
-                        })
+                        }
                         .background(.primary200)
                         .frame(width: 300, height: 350)
                         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
@@ -203,10 +209,10 @@ struct GroupCardView: View {
                             }
                             occasionViewModel.showDetailsView = true
                         }
-                    
                 }
                 .allowsHitTesting(viewModel.isLoading ? true : false)
             }
+
         })
         .fullScreenCover(isPresented: $showView) {
             ZStack(alignment: .topTrailing) {
@@ -311,8 +317,12 @@ struct GroupCardView: View {
                 .fill(.clear)
                 .background(
                     ZStack {
-                        if let image = viewModel.image {
+                        if let image = viewModel.croppedImage {
                             Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                        } else if let croppedImage = viewModel.fullImage {
+                            Image(uiImage: croppedImage)
                                 .resizable()
                                 .scaledToFill()
                         }
@@ -499,8 +509,8 @@ extension GroupCardView {
                     .frame(maxWidth: .infinity)
                     .frame(maxHeight: .infinity)
                     .background(
-                        SaintImageView(icon: newSelectedIcon ?? dev.icon)
-                            .matchedGeometryEffect(id: "\(newSelectedIcon?.id ?? icon.id)", in: namespace)
+                        SaintImageView(icon: newSelectedIcon ?? dev.icon, imageType: showImageViewer ? .full : .cropped)
+                            //.matchedGeometryEffect(id: "\(newSelectedIcon?.id ?? icon.id)", in: namespace)
                             .scaledToFit()
                             .transition(.scale(scale: 1))
                             .zoomable()
@@ -554,7 +564,7 @@ extension GroupCardView {
                     )
                     .mask({
                         RoundedRectangle(cornerRadius: 0)
-                            .matchedGeometryEffect(id: "\(newSelectedIcon?.image ?? icon.image)", in: namespace)
+                            //.matchedGeometryEffect(id: "\(newSelectedIcon?.image ?? icon.image)", in: namespace)
                     })
             }
         }
@@ -687,26 +697,51 @@ extension GroupCardView {
             TabView(selection: $selectedIconIndex) { // Bind selection to selectedIconIndex
                 ForEach(Array(occasionViewModel.selectedGroupIcons.enumerated()), id: \.element.id) { index, icon in
                     HStack {
-                        SaintImageView(icon: icon)
-                            .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
-                            .scaleEffect(1 + startValue)
-                            .offset(offset)
-                            .scaleEffect(getScaleAmount())
-                            .scaledToFill()
-                            .onTapGesture {
-                                withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
-                                    showImageViewer = true
-                                    occasionViewModel.showImageView = true
-                                    occasionViewModel.stopDragGesture = true
+                        // Conditional SaintImageView instantiation
+                        if let croppedImage = icon.croppedImage, !croppedImage.isEmpty {
+                            SaintImageView(icon: icon, imageType: .cropped)
+                                .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
+                                .scaleEffect(1 + startValue)
+                                .offset(offset)
+                                .scaleEffect(getScaleAmount())
+                                .scaledToFill()
+                                .onTapGesture {
+                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                                        showImageViewer = true
+                                        occasionViewModel.showImageView = true
+                                        occasionViewModel.stopDragGesture = true
+                                    }
+                                    newSelectedIcon = icon
+                                    ImageCacheManager.shared.removeImage(forKey: icon.id)
                                 }
-                                newSelectedIcon = icon
-                            }
-                            .frame(width: UIScreen.main.bounds.width - 40)
-                            .clipped()
-                            .mask({
-                                RoundedRectangle(cornerRadius: 0)
-                                    .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
-                            })
+                                .frame(width: UIScreen.main.bounds.width - 40)
+                                .clipped()
+                                .mask(
+                                    RoundedRectangle(cornerRadius: 0)
+                                        .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
+                                )
+                        } else {
+                            SaintImageView(icon: icon, imageType: .full)
+                                .matchedGeometryEffect(id: "\(icon.id)", in: namespace)
+                                .scaleEffect(1 + startValue)
+                                .offset(offset)
+                                .scaleEffect(getScaleAmount())
+                                .scaledToFill()
+                                .onTapGesture {
+                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
+                                        showImageViewer = true
+                                        occasionViewModel.showImageView = true
+                                        occasionViewModel.stopDragGesture = true
+                                    }
+                                    newSelectedIcon = icon
+                                }
+                                .frame(width: UIScreen.main.bounds.width - 40)
+                                .clipped()
+                                .mask(
+                                    RoundedRectangle(cornerRadius: 0)
+                                        .matchedGeometryEffect(id: "\(icon.image)", in: namespace)
+                                )
+                        }
                     }
                     .tag(index)
                     .onDisappear {
@@ -721,6 +756,7 @@ extension GroupCardView {
             .clipShape(RoundedRectangle(cornerRadius: 24))
             .tabViewStyle(.page)
         }
+
     }
     
     private var iconCaption: some View {

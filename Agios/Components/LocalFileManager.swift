@@ -83,6 +83,12 @@ class ImageCacheManager {
     func getImage(forKey key: String) -> UIImage? {
         return cache.object(forKey: key as NSString)
     }
+    
+    func removeImage(forKey key: String) {
+        cache.removeObject(forKey: key as NSString)
+        print("Image cache cleared")
+    }
+
 }
 
 

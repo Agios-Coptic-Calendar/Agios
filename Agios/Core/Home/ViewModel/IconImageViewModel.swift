@@ -10,45 +10,66 @@ import SwiftUI
 import Combine
 
 class IconImageViewModel: ObservableObject {
-    @Published var image: UIImage? = nil
+    @Published var croppedImage: UIImage? = nil
+    @Published var fullImage: UIImage? = nil
     @Published var isLoading: Bool = false
     @Published var allowTapping: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
-    private let dataService: IconImageDataService
-    private let icon: IconModel
+    private let croppedImageService: IconImageDataService?
+    private let fullImageService: IconImageDataService
     
     init(icon: IconModel) {
-        self.icon = icon
-        if let croppedImage = icon.croppedImage,
-           !croppedImage.isEmpty {
-            self.dataService = IconImageDataService(urlString: croppedImage, icon: icon)
+        // Initialize full image service
+        self.fullImageService = IconImageDataService(urlString: icon.image, icon: icon)
+        
+        // Initialize cropped image service only if the URL is valid
+        if let croppedImageUrl = icon.croppedImage, !croppedImageUrl.isEmpty {
+            self.croppedImageService = IconImageDataService(urlString: croppedImageUrl, icon: icon)
         } else {
-            self.dataService = IconImageDataService(urlString: icon.image, icon: icon)
+            self.croppedImageService = nil
         }
+        
         self.addSubscribers()
     }
     
     func addSubscribers() {
-        dataService.$image
-            .sink {[weak self] _ in
+        // Subscribe to the full image service
+        fullImageService.$image
+            .sink { [weak self] _ in
                 self?.isLoading = false
-                self?.allowTapping = false
-            } receiveValue: {[weak self] (returnedImage) in
+            } receiveValue: { [weak self] returnedImage in
                 DispatchQueue.main.async {
-                    self?.image = returnedImage
-                    self?.allowTapping = true
-                    if (returnedImage != nil) {
-                        self?.isLoading = true
-                    }
-                    print("Loaded image \(String(describing: self?.isLoading))")
+                    self?.fullImage = returnedImage
+                    print("Loaded full image")
+                    self?.checkImageAvailability()
                 }
-                
             }
             .store(in: &cancellables)
-
+        
+        // Subscribe to the cropped image service if it exists
+        croppedImageService?.$image
+            .sink { [weak self] _ in
+                self?.isLoading = false
+            } receiveValue: { [weak self] returnedImage in
+                DispatchQueue.main.async {
+                    self?.croppedImage = returnedImage
+                    print("Loaded cropped image")
+                    self?.checkImageAvailability()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func checkImageAvailability() {
+        // Decide which image to display
+        if croppedImage != nil || fullImage != nil {
+            isLoading = true
+            allowTapping = true
+        }
     }
 }
+
 
 
 
