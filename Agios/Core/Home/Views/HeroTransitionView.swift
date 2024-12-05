@@ -111,7 +111,7 @@ struct CardView: View {
                         .fill(.clear)
                         .background(
                             ZStack {
-                                if let image = viewModel.image {
+                                if let image = viewModel.fullImage {
                                     Image(uiImage: image)
                                         .resizable()
                                         .scaledToFill()
@@ -266,7 +266,7 @@ struct CardView: View {
                 .fill(.clear)
                 .background(
                     ZStack {
-                        if let image = viewModel.image {
+                        if let image = viewModel.fullImage {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFill()
@@ -703,7 +703,7 @@ extension CardView {
                 .frame(maxWidth: .infinity)
                 .background(
                     ZStack {
-                        if let image = viewModel.image {
+                        if let image = viewModel.fullImage {
                             Image(uiImage: image)
                                 .resizable()
                                 .matchedGeometryEffect(id: "\(icon.id)", in: namespace)

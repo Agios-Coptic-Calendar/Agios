@@ -122,7 +122,7 @@ struct NoIconsCardView: View {
                         .fill(.clear)
                         .background(
                             ZStack {
-                                if let _ = viewModel.image {
+                                if let _ = viewModel.fullImage {
                                     Image("placeholder")
                                         .resizable()
                                         .scaledToFill()
@@ -714,7 +714,7 @@ extension NoIconsCardView {
                 .frame(maxWidth: .infinity)
                 .background(
                     ZStack {
-                        if viewModel.image != nil {
+                        if viewModel.fullImage != nil {
                             Image("placeholder")
                                 .resizable()
                                 .scaledToFill()

@@ -21,7 +21,7 @@ struct SaintGroupImageView: View {
     
     var body: some View {
         ZStack {
-            if let image = viewModel.image {
+            if let image = viewModel.fullImage {
                 Image(uiImage: image)
                     .resizable()
             } else if viewModel.isLoading {

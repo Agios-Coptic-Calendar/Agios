@@ -21,6 +21,7 @@ class IconImageDataService {
     init(urlString: String, icon: IconModel) {
         self.icon = icon
         self.imageName = icon.id
+        clearCache()
         Task {
           await getIconFromCacheOrDownload(urlString: urlString)
         }
@@ -38,6 +39,12 @@ class IconImageDataService {
             print("Downloading Image Now")
         }
     }
+    
+    func clearCache() {
+        cacheManager.removeImage(forKey: icon.id)
+        print("Cache cleared for image: \(icon.id)")
+    }
+
     
     private func getIconFromFileManager(urlString: String) async {
            if let savedImage = fileManager.getImage(imageName: icon.id, folderName: folderName) {
