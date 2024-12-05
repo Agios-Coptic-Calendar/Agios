@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import WidgetKit
 
 struct WidgetService {
     enum WidgetServiceError: Error {
@@ -52,6 +53,7 @@ struct WidgetService {
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let response = try? JSONDecoder().decode(Response.self, from: data)
+            WidgetCenter.shared.reloadTimelines(ofKind: "AgiosWidget")
             let icon = response?.data.icons?.first
             let description = icon?.caption ?? ""
             var imageUrl: String?
