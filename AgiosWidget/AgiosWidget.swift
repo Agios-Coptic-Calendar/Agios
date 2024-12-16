@@ -38,6 +38,14 @@ struct Provider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<DailyIconEntry>) -> Void) {
         Task {
             guard let saint = try? await WidgetService.fetchSaint() else {
+                // Handle case when fetching saint fails even after retries
+                let placeholder = Saint(image: UIImage(named: "placeholder")!, description: "No data available")
+                let entry = DailyIconEntry(date: Date(), image: placeholder.image, description: placeholder.description)
+                
+                // Schedule the next update
+                let nextUpdate = Calendar.current.nextDate(after: Date(), matching: DateComponents(hour: 0), matchingPolicy: .nextTime)!
+                let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+                completion(timeline)
                 return
             }
             

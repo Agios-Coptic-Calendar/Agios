@@ -12,6 +12,9 @@ import WidgetKit
 struct WidgetService {
     enum WidgetServiceError: Error {
         case imageDataCorrupted
+        case imageResizingFailed
+        case imageDataConversionFailed
+        case imageTooLarge
     }
     
     private static var cacheImagePath: URL {
@@ -45,17 +48,23 @@ struct WidgetService {
     }
     
     static func fetchSaint() async throws -> Saint? {
-        guard let url = URL(string: "https://api.agios.co/occasions/get/date/\(WidgetService.date)")
-        else {
+        // Attempt to build the request URL
+        guard let url = URL(string: "https://api.agios.co/occasions/get/date/\(WidgetService.date)") else {
             return nil
         }
-        
+
         do {
+            // Fetch the JSON data from the API
             let (data, _) = try await URLSession.shared.data(from: url)
+            
+            // Decode the JSON response into a Response object
             let response = try? JSONDecoder().decode(Response.self, from: data)
-            WidgetCenter.shared.reloadTimelines(ofKind: "AgiosWidget")
+            
+            // Extract the first icon and its description (caption)
             let icon = response?.data.icons?.first
             let description = icon?.caption ?? ""
+            
+            // Determine which image URL to use (croppedImage first, else image)
             var imageUrl: String?
             if let croppedImage = icon?.croppedImage,
                let image = icon?.image {
@@ -65,28 +74,94 @@ struct WidgetService {
                     imageUrl = image
                 }
             }
-            
+
+            // If we have an image URL, proceed to fetch and process the image
             if let imageUrl, !imageUrl.isEmpty {
+                // Fetch the image data from the determined URL
                 let (imageData, _) = try await URLSession.shared.data(from: URL(string: imageUrl)!)
-                guard let image = UIImage(data: imageData) else {
+                
+                // Convert the fetched data into a UIImage
+                guard let originalImage = UIImage(data: imageData) else {
                     throw WidgetServiceError.imageDataCorrupted
                 }
+
+                // -----------------------------------------------------------------------------------
+                // New Resizing Logic:
+                // 1. Check if the image exceeds 300,000 pixels in area.
+                // 2. If it does, compute the scale factor to reduce its area to <= 300,000 pixels while maintaining aspect ratio.
+                // 3. If it doesn't, leave the image as is.
+                // -----------------------------------------------------------------------------------
                 
-                Task {
-                    try? await WidgetService.cacheImage(imageData)
-                    try? await WidgetService.cacheDescription(description)
+                // Maximum allowed pixel area
+                let maxPixelArea: CGFloat = 90_000
+                
+                // Calculate the current pixel area of the image
+                let currentArea = originalImage.size.width * originalImage.size.height
+                
+                // Start with the final image as the original image
+                var finalImage = originalImage
+                
+                // Check if resizing is needed
+                if currentArea > maxPixelArea {
+                    // Compute the new size while maintaining aspect ratio
+                    let newSize = CGSize(
+                        width: 200,
+                        height: 200
+                    )
+                    
+                    // Attempt to resize the image to the new dimensions
+                    guard let aspectResizedImage = resizeImage(image: originalImage, targetSize: newSize) else {
+                        throw WidgetServiceError.imageResizingFailed
+                    }
+                    
+                    // Replace finalImage with the resized version
+                    finalImage = aspectResizedImage
+                }
+                // -----------------------------------------------------------------------------------
+
+                // Compress the final image to JPEG with a 0.5 compression quality
+                guard let compressedImageData = finalImage.jpegData(compressionQuality: 0.5) else {
+                    throw WidgetServiceError.imageDataConversionFailed
                 }
                 
-                return Saint(image: image, description: description)
+                // Validate the file size (must be <= 500 KB)
+                if compressedImageData.count > 500_000 {
+                    throw WidgetServiceError.imageTooLarge
+                }
+                
+                // Cache the compressed image and the description
+                Task {
+                    do {
+                        try await WidgetService.cacheImage(compressedImageData)
+                        try await WidgetService.cacheDescription(description)
+                    } catch {
+                        throw WidgetServiceError.imageDataCorrupted
+                    }
+                }
+                
+                // Return the Saint object with the processed image and description
+                return Saint(image: finalImage, description: description)
             }
             
+            // If no valid image URL or no icon, return a placeholder
             return Saint(image: UIImage(named: "placeholder")!, description: "")
         } catch {
+            // If any step above fails, print error and return nil
             print("Error fetching icon: \(error)")
             return nil
         }
     }
-    
+
+    // Helper function to resize an image to a given target size.
+    // This will maintain aspect ratio as long as the targetSize is computed accordingly.
+    static func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
+        // Use UIGraphicsImageRenderer to draw the image into a new context of the given target size
+        let renderer = UIGraphicsImageRenderer(size: targetSize)
+        return renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: targetSize))
+        }
+    }
+
     private static func cacheImage(_ imageData: Data) async throws {
         try imageData.write(to: cacheImagePath)
     }
