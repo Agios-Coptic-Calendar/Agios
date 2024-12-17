@@ -69,9 +69,9 @@ struct WidgetService {
             if let croppedImage = icon?.croppedImage,
                let image = icon?.image {
                 if !croppedImage.isEmpty {
-                    imageUrl = croppedImage
+                    imageUrl = croppedImage + "?thumb=0x500"
                 } else if !image.isEmpty {
-                    imageUrl = image
+                    imageUrl = image + "?thumb=0x500"
                 }
             }
 
@@ -84,55 +84,11 @@ struct WidgetService {
                 guard let originalImage = UIImage(data: imageData) else {
                     throw WidgetServiceError.imageDataCorrupted
                 }
-
-                // -----------------------------------------------------------------------------------
-                // New Resizing Logic:
-                // 1. Check if the image exceeds 300,000 pixels in area.
-                // 2. If it does, compute the scale factor to reduce its area to <= 300,000 pixels while maintaining aspect ratio.
-                // 3. If it doesn't, leave the image as is.
-                // -----------------------------------------------------------------------------------
-                
-                // Maximum allowed pixel area
-                let maxPixelArea: CGFloat = 90_000
-                
-                // Calculate the current pixel area of the image
-                let currentArea = originalImage.size.width * originalImage.size.height
-                
-                // Start with the final image as the original image
-                var finalImage = originalImage
-                
-                // Check if resizing is needed
-                if currentArea > maxPixelArea {
-                    // Compute the new size while maintaining aspect ratio
-                    let newSize = CGSize(
-                        width: 200,
-                        height: 200
-                    )
-                    
-                    // Attempt to resize the image to the new dimensions
-                    guard let aspectResizedImage = resizeImage(image: originalImage, targetSize: newSize) else {
-                        throw WidgetServiceError.imageResizingFailed
-                    }
-                    
-                    // Replace finalImage with the resized version
-                    finalImage = aspectResizedImage
-                }
-                // -----------------------------------------------------------------------------------
-
-                // Compress the final image to JPEG with a 0.5 compression quality
-                guard let compressedImageData = finalImage.jpegData(compressionQuality: 0.5) else {
-                    throw WidgetServiceError.imageDataConversionFailed
-                }
-                
-                // Validate the file size (must be <= 500 KB)
-                if compressedImageData.count > 500_000 {
-                    throw WidgetServiceError.imageTooLarge
-                }
                 
                 // Cache the compressed image and the description
                 Task {
                     do {
-                        try await WidgetService.cacheImage(compressedImageData)
+                        try await WidgetService.cacheImage(imageData)
                         try await WidgetService.cacheDescription(description)
                     } catch {
                         throw WidgetServiceError.imageDataCorrupted
@@ -140,7 +96,7 @@ struct WidgetService {
                 }
                 
                 // Return the Saint object with the processed image and description
-                return Saint(image: finalImage, description: description)
+                return Saint(image: originalImage, description: description)
             }
             
             // If no valid image URL or no icon, return a placeholder
