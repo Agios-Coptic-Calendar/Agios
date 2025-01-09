@@ -58,10 +58,10 @@ struct WidgetService {
             let (data, _) = try await URLSession.shared.data(from: url)
             
             // Decode the JSON response into a Response object
-            let response = try? JSONDecoder().decode(Response.self, from: data)
+            let response = try JSONDecoder().decode(Response.self, from: data)
             
             // Extract the first icon and its description (caption)
-            let icon = response?.data.icons?.first
+            let icon = response.data.icons?.first
             let description = icon?.caption ?? ""
             
             // Determine which image URL to use (croppedImage first, else image)
@@ -104,7 +104,7 @@ struct WidgetService {
         } catch {
             // If any step above fails, print error and return nil
             print("Error fetching icon: \(error)")
-            return nil
+            return Saint(image: UIImage(named: "placeholder")!, description: "\(error)")
         }
     }
 
