@@ -228,7 +228,7 @@ class OccasionsViewModel: ObservableObject {
         
         // Define the order of Coptic months
         let copticMonthOrder = [
-            "Tout", "Baba", "Hator", "Kiahk", "Toba", "Amshir",
+            "Tout", "Baba", "Epep", "Hator", "Kiahk", "Toba", "Amshir",
             "Baramhat", "Baramouda", "Bashans", "Baouna", "Abib", "Mesra", "Nasie"
         ]
         
@@ -256,6 +256,12 @@ class OccasionsViewModel: ObservableObject {
         
         // Sort and map the dictionary into an array of CopticMonth models
         self.allCopticMonths = copticMonthOrder.compactMap { monthName in
+            if monthName == "Baouna" {
+                if let dates = categorizedDates["Paona"] {
+                    let updatedArray = dates.map { $0.replacingOccurrences(of: "Paona", with: "Baouna") }
+                    return CopticMonth(name: "Baouna", dates: updatedArray)
+                }
+            }
             if let dates = categorizedDates[monthName] {
                 return CopticMonth(name: monthName, dates: dates)
             }

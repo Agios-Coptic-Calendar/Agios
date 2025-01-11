@@ -377,8 +377,11 @@ struct FeastView: View {
                                                 Button {
                                                     withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                                                         occasionViewModel.copticDateTapped = false
-                                                        occasionViewModel.datePicker = occasionViewModel.date(from: date) ?? Date()
-                                                        isTextFieldFocused = false
+                                                        if date.contains("Baouna") {
+                                                            let paona = date.replacingOccurrences(of: "Baouna", with: "Paona")
+                                                            occasionViewModel.datePicker = occasionViewModel.date(from: paona) ?? Date()
+                                                            isTextFieldFocused = false
+                                                        }
                                                         
                                                         if (occasionViewModel.datePicker == occasionViewModel.date(from: date) ?? Date()) {
                                                             occasionViewModel.setColor = true
@@ -396,9 +399,12 @@ struct FeastView: View {
                                                             
                                                         Spacer()
                                                         ZStack {
-                                                            if occasionViewModel.datePicker == occasionViewModel.date(from: date) ?? Date() || "\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")" == date {
-                                                                Image(systemName: "checkmark.circle.fill")
-                                                                    .transition(.scale)
+                                                            if date.contains("Baouna") {
+                                                                let paona = date.replacingOccurrences(of: "Baouna", with: "Paona")
+                                                                if occasionViewModel.datePicker == occasionViewModel.date(from: paona) ?? Date() || "\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")" == date {
+                                                                    Image(systemName: "checkmark.circle.fill")
+                                                                        .transition(.scale)
+                                                                }
                                                             }
                                                         }
                                                     }
