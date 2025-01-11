@@ -228,7 +228,7 @@ class OccasionsViewModel: ObservableObject {
         
         // Define the order of Coptic months
         let copticMonthOrder = [
-            "Tout", "Baba", "Hator", "Kiahk", "Tubah", "Amshir",
+            "Tout", "Baba", "Hator", "Kiahk", "Toba", "Amshir",
             "Baramhat", "Baramouda", "Bashans", "Baouna", "Abib", "Mesra", "Nasie"
         ]
         
