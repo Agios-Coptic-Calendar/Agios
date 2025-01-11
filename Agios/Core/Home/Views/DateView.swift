@@ -381,6 +381,10 @@ struct FeastView: View {
                                                             let paona = date.replacingOccurrences(of: "Baouna", with: "Paona")
                                                             occasionViewModel.datePicker = occasionViewModel.date(from: paona) ?? Date()
                                                             isTextFieldFocused = false
+                                                        } else {
+                                                            occasionViewModel.datePicker = occasionViewModel.date(from: date) ?? Date()
+                                                            isTextFieldFocused = false
+
                                                         }
                                                         
                                                         if (occasionViewModel.datePicker == occasionViewModel.date(from: date) ?? Date()) {
@@ -405,6 +409,9 @@ struct FeastView: View {
                                                                     Image(systemName: "checkmark.circle.fill")
                                                                         .transition(.scale)
                                                                 }
+                                                            } else if occasionViewModel.datePicker == occasionViewModel.date(from: date) ?? Date() || "\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")" == date {
+                                                                Image(systemName: "checkmark.circle.fill")
+                                                                    .transition(.scale)
                                                             }
                                                         }
                                                     }
