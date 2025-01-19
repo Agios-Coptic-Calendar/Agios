@@ -7,10 +7,12 @@
 
 import SwiftUI
 import Shake
+import WidgetKit
 
 @main
 struct AgiosApp: App {
-    
+    @Environment(\.scenePhase) private var scenePhase
+
     private var occasionViewModel = OccasionsViewModel()
     @StateObject private var iconImageViewModel = IconImageViewModel(icon: dev.icon)
     @StateObject private var imageViewModel = IconImageViewModel(icon: IconModel(id: "", created: "", updated: "", caption: "", explanation: "", story: [], image: "", croppedImage: "", iconagrapher: .iconagrapher(Iconagrapher(id: "", name: "", url: ""))))
@@ -28,6 +30,14 @@ struct AgiosApp: App {
                             .environmentObject(imageViewModel)
                             .environmentObject(iconImageViewModel)
                             .environmentObject(quoteViewModel)
+                            .onAppear {
+                                reloadWidget()
+                            }
+                            .onChange(of: scenePhase) { _, newPhase in
+                                if newPhase == .active {
+                                    reloadWidget()
+                                }
+                            }
                     }
                     
                 }
@@ -44,5 +54,9 @@ struct AgiosApp: App {
                 Shake.start(apiKey: "s37m9XuXly1HV11xU5sVa9QJQ8WvrpEtU50GJ9NsLEst4e84m9yAwuZ")
             }
         }
+    }
+    
+    private func reloadWidget() {
+        WidgetCenter.shared.reloadAllTimelines()
     }
 }
