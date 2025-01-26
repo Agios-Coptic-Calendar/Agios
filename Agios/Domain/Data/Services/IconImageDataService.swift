@@ -58,20 +58,6 @@ class IconImageDataService {
            }
        }
     
-//    private func downloadIconImage(urlString: String) async {
-//        guard let url = URL(string: urlString) else { return }
-//        do {
-//            let (data, _) = try await URLSession.shared.data(from: url)
-//            if let downloadedImage = UIImage(data: data) {
-//                image = downloadedImage
-//                fileManager.saveImage(image: downloadedImage, imageName: imageName, folderName: folderName)
-//            }
-//        } catch {
-//            print(error)
-//        }
-//    }
-//    
-//    
     private func downloadIconImage(urlString: String) async {
         guard let url = URL(string: urlString) else { return }
         do {
