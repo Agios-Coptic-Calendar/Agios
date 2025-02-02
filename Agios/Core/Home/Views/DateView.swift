@@ -571,7 +571,7 @@ struct YearAheadView: View {
             }
             .scrollIndicators(.hidden)
             .frame(height: 250, alignment: .top)
-
+            .padding(.top, 8)
         }
     }
 }
