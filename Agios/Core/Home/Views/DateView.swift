@@ -581,12 +581,12 @@ struct YearAheadItem: Identifiable {
     let title, date: String
     
     static let items: [YearAheadItem] = [
-        YearAheadItem(title: "Feast of the Holy Nativity", date: "7 January 2025"),
         YearAheadItem(title: "Jonah's Fast", date: "10-12 February 2025"),
         YearAheadItem(title: "Start of Lent", date: "24 February 2025"),
-        YearAheadItem(title: "Resurrection", date: "19 April 2025"),
-        YearAheadItem(title: "Ascension", date: "28 May 2025"),
-        YearAheadItem(title: "Pentecost", date: "7 June 2025"),
-        YearAheadItem(title: "Start of Apostles' Fast", date: "8 June 2025")
+        YearAheadItem(title: "Holy Week", date: "14-19 April 2025"),
+        YearAheadItem(title: "Resurrection", date: "20 April 2025"),
+        YearAheadItem(title: "Ascension", date: "29 May 2025"),
+        YearAheadItem(title: "Pentecost", date: "8 June 2025"),
+        YearAheadItem(title: "Start of Apostles' Fast", date: "9 June 2025")
     ]
 }
