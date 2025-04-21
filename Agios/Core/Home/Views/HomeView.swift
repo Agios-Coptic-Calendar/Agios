@@ -670,18 +670,18 @@ extension HomeView {
                         }
                     } else {
                         HStack {
-                            ForEach(occasionViewModel.readings) { reading in
+                            ForEach($occasionViewModel.readings) { reading in
                                 ReadingView(reading: reading)
                                     .onTapGesture {
                                         occasionViewModel.selectedLiturgy = nil
-                                        occasionViewModel.selectedReading = reading
+                                        occasionViewModel.selectedReading = reading.wrappedValue
                                         presentedReadingSheet = true
                                     }
                                     .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                                    .scaleEffect(selectedReadingForAnimation == reading ? 1.1 : 1.0)
+                                    .scaleEffect(selectedReadingForAnimation == reading.wrappedValue ? 1.1 : 1.0)
                                     .simultaneousGesture(TapGesture().onEnded{
                                         withAnimation(.easeIn(duration: 0.1)) {
-                                            selectedReadingForAnimation = reading
+                                            selectedReadingForAnimation = reading.wrappedValue
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                                 selectedReadingForAnimation = nil
                                             }

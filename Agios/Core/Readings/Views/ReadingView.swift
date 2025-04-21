@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ReadingView: View {
-    let reading: DataReading
+    @Binding var reading: DataReading
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -23,8 +23,8 @@ struct ReadingView: View {
 }
 
 #Preview {
-    ReadingView(reading: DataReading(id: 1, title: "Vespres", subSections: [SubSection(id: 2,
-                                                                                       title: "Psalm & Gospel", introduction: nil, readings: [SubSectionReading(id: 3, title: nil, introduction: nil, conclusion: nil, passages: [Passage(bookID: 0, bookTranslation: "Psalms", chapter: nil, ref: "118:8-9", verses: [])], html: nil)])]))
+    ReadingView(reading: .constant(DataReading(id: 1, title: "Vespres", subSections: [SubSection(id: 2,
+                                                                                       title: "Psalm & Gospel", introduction: nil, readings: [SubSectionReading(id: 3, title: nil, introduction: nil, conclusion: nil, passages: [Passage(bookID: 0, bookTranslation: "Psalms", chapter: nil, ref: "118:8-9", verses: [])], html: nil)])])))
 }
 
 

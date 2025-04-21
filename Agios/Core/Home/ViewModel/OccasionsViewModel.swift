@@ -408,9 +408,7 @@ class OccasionsViewModel: ObservableObject {
             do {
                 let (data, response) = try await URLSession.shared.data(from: url)
                 let decodedResponse = try handleOutput(response: response, data: data)
-                await MainActor.run {
                     updateUI(with: decodedResponse)
-                }
                 DispatchQueue.main.async { [weak self] in
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                         self?.showEventNotLoaded = false

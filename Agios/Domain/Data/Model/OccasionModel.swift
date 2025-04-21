@@ -147,12 +147,15 @@ struct SubSection: Identifiable, Codable, Equatable {
     let readings: [SubSectionReading]?
     
     static func == (lhs: SubSection, rhs: SubSection) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.id == rhs.id &&
+               lhs.title == rhs.title &&
+               lhs.introduction == rhs.introduction &&
+               lhs.readings == rhs.readings
     }
 }
 
 // MARK: - SubSectionReading
-struct SubSectionReading: Codable, Identifiable {
+struct SubSectionReading: Codable, Identifiable, Equatable {
     let id: Int?
     let title: String?
     let introduction: String?
@@ -163,12 +166,15 @@ struct SubSectionReading: Codable, Identifiable {
 
 // MARK: - Passage
 struct Passage: Identifiable, Codable, Hashable, Equatable {
-    let id = UUID()  // Unique identifier
     let bookID: Int?
     let bookTranslation: String?
     let chapter: Int?
     let ref: String?
     let verses: [Verse]?
+    
+    var id: String {
+        return "\(bookID ?? -1)-\(chapter ?? -1)-\(ref ?? "unknown")"
+    }
 
     static let pastelColors: [Color] = [
         Color(red: 253 / 255, green: 225 / 255, blue: 225 / 255),  // Pastel Red
@@ -202,7 +208,12 @@ struct Passage: Identifiable, Codable, Hashable, Equatable {
 
     // Implementing Equatable protocol
     static func == (lhs: Passage, rhs: Passage) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.id == rhs.id &&
+        lhs.bookID == rhs.bookID &&
+        lhs.bookTranslation == rhs.bookTranslation &&
+        lhs.chapter == rhs.chapter &&
+        lhs.ref == rhs.ref &&
+        lhs.verses == rhs.verses
     }
 }
 
@@ -218,7 +229,7 @@ struct ColorsArray: ShapeStyle {
 
 
 // MARK: - Verse
-struct Verse: Identifiable, Codable {
+struct Verse: Identifiable, Codable, Equatable {
     let id, bibleID, bookID, chapter: Int?
     let number: Int?
     let text: String?
