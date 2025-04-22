@@ -66,6 +66,9 @@
 		57EE90652BE4096000C7E1AE /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90642BE4096000C7E1AE /* ShimmerView.swift */; };
 		57EE90672BE42EC600C7E1AE /* DailyQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */; };
 		990F17A42C583B3900D05551 /* copticEvents.json in Resources */ = {isa = PBXBuildFile; fileRef = 990F17A32C583B3900D05551 /* copticEvents.json */; };
+		99647C452DB6E7DF009FD998 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99647C442DB6E7DF009FD998 /* AppEnvironment.swift */; };
+		99647C462DB6EA78009FD998 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99647C442DB6E7DF009FD998 /* AppEnvironment.swift */; };
+		996641922DB7DBA300BE2C89 /* AgiosWidgetExtensionBetaInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99CECE2A2DB7D4C800C4E381 /* AgiosWidgetExtensionBetaInfo.plist */; };
 		99693B292CD95C0600ACB78E /* StoriesWithoutIconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99693B282CD95C0600ACB78E /* StoriesWithoutIconsView.swift */; };
 		997A63B52CA73341007720A4 /* Shake in Frameworks */ = {isa = PBXBuildFile; productRef = 997A63B42CA73341007720A4 /* Shake */; };
 		9986615C2CCA50F60071698B /* Saint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9986615B2CCA50F60071698B /* Saint.swift */; };
@@ -85,6 +88,91 @@
 		99B71D932CCA2C2B0017A68C /* IconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B71D922CCA2C2B0017A68C /* IconService.swift */; };
 		99B71D952CCA2D3A0017A68C /* OccasionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8492BD2B0A70016D6A4 /* OccasionModel.swift */; };
 		99B71D962CCA32840017A68C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 474C79A82BD009BF003E3A15 /* Assets.xcassets */; };
+		99CECDC52DB6F8CA00C4E381 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE62D2BD7E75E00379CC5 /* PopupView.swift */; };
+		99CECDC62DB6F8CA00C4E381 /* StoriesWithoutIconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99693B282CD95C0600ACB78E /* StoriesWithoutIconsView.swift */; };
+		99CECDC72DB6F8CA00C4E381 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5798741E2C00B99000F0B2EE /* LaunchView.swift */; };
+		99CECDC82DB6F8CA00C4E381 /* OccasionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8502BD2B4D00016D6A4 /* OccasionsViewModel.swift */; };
+		99CECDC92DB6F8CA00C4E381 /* HomeSaintImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5707643D2BD68D1500C5C98B /* HomeSaintImageView.swift */; };
+		99CECDCA2DB6F8CA00C4E381 /* IconImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570764462BD69B9D00C5C98B /* IconImageViewModel.swift */; };
+		99CECDCB2DB6F8CA00C4E381 /* Layer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE6332BD7E76F00379CC5 /* Layer+Extensions.swift */; };
+		99CECDCC2DB6F8CA00C4E381 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570764442BD6987900C5C98B /* NetworkingManager.swift */; };
+		99CECDCD2DB6F8CA00C4E381 /* Feast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710B62BD146A100DFDBA3 /* Feast.swift */; };
+		99CECDCE2DB6F8CA00C4E381 /* SheetModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5701B0CA2C5C6AB800592193 /* SheetModal.swift */; };
+		99CECDCF2DB6F8CA00C4E381 /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90642BE4096000C7E1AE /* ShimmerView.swift */; };
+		99CECDD02DB6F8CA00C4E381 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710A32BD1429900DFDBA3 /* Date+Extensions.swift */; };
+		99CECDD12DB6F8CA00C4E381 /* GroupHeroTransitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5762837B2C45519B004143CB /* GroupHeroTransitionView.swift */; };
+		99CECDD22DB6F8CA00C4E381 /* SaintDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570515BB2BDAE0B500990A24 /* SaintDetailsView.swift */; };
+		99CECDD32DB6F8CA00C4E381 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570515B82BDAB91B00990A24 /* DatePickerView.swift */; };
+		99CECDD42DB6F8CA00C4E381 /* Colours+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710A22BD1429900DFDBA3 /* Colours+Extensions.swift */; };
+		99CECDD52DB6F8CA00C4E381 /* DateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57616ECD2BF503B800C867AC /* DateView.swift */; };
+		99CECDD62DB6F8CA00C4E381 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE6362BD7E79D00379CC5 /* HapticsManager.swift */; };
+		99CECDD72DB6F8CA00C4E381 /* Zoomable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CF01832BE2530000508338 /* Zoomable.swift */; };
+		99CECDD82DB6F8CA00C4E381 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710A42BD1429900DFDBA3 /* Image+Extensions.swift */; };
+		99CECDD92DB6F8CA00C4E381 /* SaintGroupDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577382022C1B112B003715F6 /* SaintGroupDetailsView.swift */; };
+		99CECDDA2DB6F8CA00C4E381 /* IconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710B22BD146A100DFDBA3 /* IconModel.swift */; };
+		99CECDDB2DB6F8CA00C4E381 /* DailyQuoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998A7B7C2CA35FA9000BD963 /* DailyQuoteViewModel.swift */; };
+		99CECDDC2DB6F8CA00C4E381 /* OccasionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8492BD2B0A70016D6A4 /* OccasionModel.swift */; };
+		99CECDDD2DB6F8CA00C4E381 /* KatamerosRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61102BD15D9900DCDFF6 /* KatamerosRepository.swift */; };
+		99CECDDE2DB6F8CA00C4E381 /* DailyQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */; };
+		99CECDDF2DB6F8CA00C4E381 /* HomeVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61042BD15C7B00DCDFF6 /* HomeVIewModel.swift */; };
+		99CECDE02DB6F8CA00C4E381 /* OccasionDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CA77862BD7324B00A34725 /* OccasionDataService.swift */; };
+		99CECDE12DB6F8CA00C4E381 /* StoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570937042C125035006631F7 /* StoryDetailView.swift */; };
+		99CECDE22DB6F8CA00C4E381 /* GroupedSaintImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5739B0D42C15EA8100493B4F /* GroupedSaintImageView.swift */; };
+		99CECDE32DB6F8CA00C4E381 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710A02BD1429900DFDBA3 /* ButtonStyle.swift */; };
+		99CECDE42DB6F8CA00C4E381 /* Quote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998A7B7A2CA35E9E000BD963 /* Quote.swift */; };
+		99CECDE52DB6F8CA00C4E381 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5728FE012BE6607A00FE4130 /* LocalFileManager.swift */; };
+		99CECDE62DB6F8CA00C4E381 /* CopticEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */; };
+		99CECDE72DB6F8CA00C4E381 /* ReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B5EA7C2C373B7700FE829F /* ReadingView.swift */; };
+		99CECDE82DB6F8CA00C4E381 /* JSONRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B610F2BD15D9900DCDFF6 /* JSONRepository.swift */; };
+		99CECDE92DB6F8CA00C4E381 /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE6322BD7E76F00379CC5 /* Layer.swift */; };
+		99CECDEA2DB6F8CA00C4E381 /* CopticDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570515B12BDA6FBB00990A24 /* CopticDateView.swift */; };
+		99CECDEB2DB6F8CA00C4E381 /* DeveloperPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570764402BD68EDA00C5C98B /* DeveloperPreview.swift */; };
+		99CECDEC2DB6F8CA00C4E381 /* ReadingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710AA2BD142EB00DFDBA3 /* ReadingsView.swift */; };
+		99CECDED2DB6F8CA00C4E381 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5797106E2BD138E400DFDBA3 /* HomeView.swift */; };
+		99CECDEE2DB6F8CA00C4E381 /* PresentableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710B52BD146A100DFDBA3 /* PresentableSection.swift */; };
+		99CECDEF2DB6F8CA00C4E381 /* SaintGroupImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5739B0DB2C1645D500493B4F /* SaintGroupImageView.swift */; };
+		99CECDF02DB6F8CA00C4E381 /* SaintImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570515BD2BDAE14700990A24 /* SaintImageView.swift */; };
+		99CECDF12DB6F8CA00C4E381 /* LayerExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE62C2BD7E75E00379CC5 /* LayerExample.swift */; };
+		99CECDF22DB6F8CA00C4E381 /* LayerExampleComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EAE62E2BD7E75E00379CC5 /* LayerExampleComponents.swift */; };
+		99CECDF32DB6F8CA00C4E381 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710A12BD1429900DFDBA3 /* String+Extensions.swift */; };
+		99CECDF42DB6F8CA00C4E381 /* Synaxar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710B42BD146A100DFDBA3 /* Synaxar.swift */; };
+		99CECDF52DB6F8CA00C4E381 /* UpcomingFeastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5701B0CC2C5C6C2400592193 /* UpcomingFeastView.swift */; };
+		99CECDF62DB6F8CA00C4E381 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99647C442DB6E7DF009FD998 /* AppEnvironment.swift */; };
+		99CECDF72DB6F8CA00C4E381 /* AgiosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474C79A42BD009BC003E3A15 /* AgiosApp.swift */; };
+		99CECDF82DB6F8CA00C4E381 /* ImageViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578293D92BDF241200BF4162 /* ImageViewerViewModel.swift */; };
+		99CECDF92DB6F8CA00C4E381 /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570515C12BDB037300990A24 /* NavigationButton.swift */; };
+		99CECDFA2DB6F8CA00C4E381 /* HeroTransitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5791383A2C3FFB45008A6E3A /* HeroTransitionView.swift */; };
+		99CECDFB2DB6F8CA00C4E381 /* ReadingsColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578B61132BD164A900DCDFF6 /* ReadingsColours.swift */; };
+		99CECDFC2DB6F8CA00C4E381 /* Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A440242C3EFD3600CD6C25 /* Hero.swift */; };
+		99CECDFD2DB6F8CA00C4E381 /* DailyReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570515C32BDB186F00990A24 /* DailyReadingView.swift */; };
+		99CECDFE2DB6F8CA00C4E381 /* PreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5701B0C52C5C5AAA00592193 /* PreferenceKey.swift */; };
+		99CECDFF2DB6F8CA00C4E381 /* PsalmAndGospel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579710B32BD146A100DFDBA3 /* PsalmAndGospel.swift */; };
+		99CECE002DB6F8CA00C4E381 /* IconImageDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570764422BD696E000C5C98B /* IconImageDataService.swift */; };
+		99CECE022DB6F8CA00C4E381 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 99CECDBE2DB6F8CA00C4E381 /* Lottie */; };
+		99CECE032DB6F8CA00C4E381 /* Popovers in Frameworks */ = {isa = PBXBuildFile; productRef = 99CECDC02DB6F8CA00C4E381 /* Popovers */; };
+		99CECE042DB6F8CA00C4E381 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 99CECDBC2DB6F8CA00C4E381 /* Shimmer */; };
+		99CECE052DB6F8CA00C4E381 /* Shake in Frameworks */ = {isa = PBXBuildFile; productRef = 99CECDC22DB6F8CA00C4E381 /* Shake */; };
+		99CECE072DB6F8CA00C4E381 /* copticEvents.json in Resources */ = {isa = PBXBuildFile; fileRef = 990F17A32C583B3900D05551 /* copticEvents.json */; };
+		99CECE082DB6F8CA00C4E381 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 474C79AB2BD009BF003E3A15 /* Preview Assets.xcassets */; };
+		99CECE092DB6F8CA00C4E381 /* dailyQuotes.json in Resources */ = {isa = PBXBuildFile; fileRef = 99B0468E2CE6887200F39CB7 /* dailyQuotes.json */; };
+		99CECE0A2DB6F8CA00C4E381 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 474C79A82BD009BF003E3A15 /* Assets.xcassets */; };
+		99CECE0B2DB6F8CA00C4E381 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5798741C2C00B83300F0B2EE /* LaunchScreen.storyboard */; };
+		99CECE152DB79F2F00C4E381 /* AgiosWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B71D802CCA2AD60017A68C /* AgiosWidgetBundle.swift */; };
+		99CECE162DB79F2F00C4E381 /* IconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B71D922CCA2C2B0017A68C /* IconService.swift */; };
+		99CECE172DB79F2F00C4E381 /* OccasionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8492BD2B0A70016D6A4 /* OccasionModel.swift */; };
+		99CECE182DB79F2F00C4E381 /* Saint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9986615B2CCA50F60071698B /* Saint.swift */; };
+		99CECE1A2DB79F2F00C4E381 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99647C442DB6E7DF009FD998 /* AppEnvironment.swift */; };
+		99CECE1C2DB79F2F00C4E381 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B71D7D2CCA2AD60017A68C /* SwiftUI.framework */; };
+		99CECE1D2DB79F2F00C4E381 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B71D7B2CCA2AD50017A68C /* WidgetKit.framework */; };
+		99CECE1F2DB79F2F00C4E381 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 474C79A82BD009BF003E3A15 /* Assets.xcassets */; };
+		99CECE202DB79F2F00C4E381 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99B71D842CCA2AD80017A68C /* Assets.xcassets */; };
+		99CECE262DB79F9900C4E381 /* AgiosWidgetExtensionBeta.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 99CECE242DB79F2F00C4E381 /* AgiosWidgetExtensionBeta.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		99CECE292DB7A00600C4E381 /* AgiosWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B71D822CCA2AD60017A68C /* AgiosWidget.swift */; };
+		99CECE2B2DB7D4C800C4E381 /* AgiosWidgetExtensionBetaInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99CECE2A2DB7D4C800C4E381 /* AgiosWidgetExtensionBetaInfo.plist */; };
+		99CECE2F2DB7D5F700C4E381 /* AgiosBetaInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99CECE2D2DB7D5F700C4E381 /* AgiosBetaInfo.plist */; };
+		99CECE342DB7D85000C4E381 /* AgiosWidgetExtensionInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99CECE302DB7D6FE00C4E381 /* AgiosWidgetExtensionInfo.plist */; };
+		99CECE352DB7D85000C4E381 /* AgiosWidgetExtensionInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99CECE302DB7D6FE00C4E381 /* AgiosWidgetExtensionInfo.plist */; };
+		99CECE362DB7D90900C4E381 /* AgiosInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99B5998A2C2E03B5000F6307 /* AgiosInfo.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +182,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 99B71D782CCA2AD50017A68C;
 			remoteInfo = AgiosWidgetExtension;
+		};
+		99CECE272DB79F9900C4E381 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 474C79992BD009BC003E3A15 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 99CECE132DB79F2F00C4E381;
+			remoteInfo = "AgiosWidgetExtension Beta";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -105,6 +200,17 @@
 			dstSubfolderSpec = 13;
 			files = (
 				99B71D892CCA2AD80017A68C /* AgiosWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		99CECE0C2DB6F8CA00C4E381 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				99CECE262DB79F9900C4E381 /* AgiosWidgetExtensionBeta.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -173,13 +279,14 @@
 		57EE90642BE4096000C7E1AE /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuoteView.swift; sourceTree = "<group>"; };
 		990F17A32C583B3900D05551 /* copticEvents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = copticEvents.json; sourceTree = "<group>"; };
+		99647C442DB6E7DF009FD998 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		99693B282CD95C0600ACB78E /* StoriesWithoutIconsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoriesWithoutIconsView.swift; sourceTree = "<group>"; };
 		9986615B2CCA50F60071698B /* Saint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saint.swift; sourceTree = "<group>"; };
 		998A7B7A2CA35E9E000BD963 /* Quote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
 		998A7B7C2CA35FA9000BD963 /* DailyQuoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuoteViewModel.swift; sourceTree = "<group>"; };
 		99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopticEvent.swift; sourceTree = "<group>"; };
 		99B0468E2CE6887200F39CB7 /* dailyQuotes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dailyQuotes.json; sourceTree = "<group>"; };
-		99B5998A2C2E03B5000F6307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		99B5998A2C2E03B5000F6307 /* AgiosInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AgiosInfo.plist; sourceTree = "<group>"; };
 		99B5EA7C2C373B7700FE829F /* ReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingView.swift; sourceTree = "<group>"; };
 		99B71D792CCA2AD50017A68C /* AgiosWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AgiosWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		99B71D7B2CCA2AD50017A68C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -187,8 +294,12 @@
 		99B71D802CCA2AD60017A68C /* AgiosWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgiosWidgetBundle.swift; sourceTree = "<group>"; };
 		99B71D822CCA2AD60017A68C /* AgiosWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgiosWidget.swift; sourceTree = "<group>"; };
 		99B71D842CCA2AD80017A68C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		99B71D862CCA2AD80017A68C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99B71D922CCA2C2B0017A68C /* IconService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconService.swift; sourceTree = "<group>"; };
+		99CECE112DB6F8CA00C4E381 /* Agios Beta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Agios Beta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		99CECE242DB79F2F00C4E381 /* AgiosWidgetExtensionBeta.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AgiosWidgetExtensionBeta.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		99CECE2A2DB7D4C800C4E381 /* AgiosWidgetExtensionBetaInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AgiosWidgetExtensionBetaInfo.plist; sourceTree = "<group>"; };
+		99CECE2D2DB7D5F700C4E381 /* AgiosBetaInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AgiosBetaInfo.plist; sourceTree = "<group>"; };
+		99CECE302DB7D6FE00C4E381 /* AgiosWidgetExtensionInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AgiosWidgetExtensionInfo.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,12 +323,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		99CECE012DB6F8CA00C4E381 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99CECE022DB6F8CA00C4E381 /* Lottie in Frameworks */,
+				99CECE032DB6F8CA00C4E381 /* Popovers in Frameworks */,
+				99CECE042DB6F8CA00C4E381 /* Shimmer in Frameworks */,
+				99CECE052DB6F8CA00C4E381 /* Shake in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		99CECE1B2DB79F2F00C4E381 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99CECE1C2DB79F2F00C4E381 /* SwiftUI.framework in Frameworks */,
+				99CECE1D2DB79F2F00C4E381 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		474C79982BD009BC003E3A15 = {
 			isa = PBXGroup;
 			children = (
+				99CECE2D2DB7D5F700C4E381 /* AgiosBetaInfo.plist */,
+				99CECE2A2DB7D4C800C4E381 /* AgiosWidgetExtensionBetaInfo.plist */,
+				99CECE302DB7D6FE00C4E381 /* AgiosWidgetExtensionInfo.plist */,
+				99B5998A2C2E03B5000F6307 /* AgiosInfo.plist */,
 				5704F0972CE126AC001C17C7 /* AgiosWidgetExtension.entitlements */,
 				474C79A32BD009BC003E3A15 /* Agios */,
 				99B71D7F2CCA2AD60017A68C /* AgiosWidget */,
@@ -231,6 +366,8 @@
 			children = (
 				474C79A12BD009BC003E3A15 /* Agios.app */,
 				99B71D792CCA2AD50017A68C /* AgiosWidgetExtension.appex */,
+				99CECE112DB6F8CA00C4E381 /* Agios Beta.app */,
+				99CECE242DB79F2F00C4E381 /* AgiosWidgetExtensionBeta.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -238,8 +375,8 @@
 		474C79A32BD009BC003E3A15 /* Agios */ = {
 			isa = PBXGroup;
 			children = (
+				99647C432DB6E7D4009FD998 /* Environment */,
 				5704F0982CE126BC001C17C7 /* Agios.entitlements */,
-				99B5998A2C2E03B5000F6307 /* Info.plist */,
 				474C79A42BD009BC003E3A15 /* AgiosApp.swift */,
 				570515C02BDB035F00990A24 /* Components */,
 				5797106A2BD1385900DFDBA3 /* Core */,
@@ -475,6 +612,14 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
+		99647C432DB6E7D4009FD998 /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				99647C442DB6E7DF009FD998 /* AppEnvironment.swift */,
+			);
+			path = Environment;
+			sourceTree = "<group>";
+		};
 		9986615A2CCA50D90071698B /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -509,7 +654,6 @@
 				99B71D802CCA2AD60017A68C /* AgiosWidgetBundle.swift */,
 				99B71D822CCA2AD60017A68C /* AgiosWidget.swift */,
 				99B71D842CCA2AD80017A68C /* Assets.xcassets */,
-				99B71D862CCA2AD80017A68C /* Info.plist */,
 			);
 			path = AgiosWidget;
 			sourceTree = "<group>";
@@ -567,6 +711,48 @@
 			productReference = 99B71D792CCA2AD50017A68C /* AgiosWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		99CECDB92DB6F8CA00C4E381 /* Agios Beta */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 99CECE0E2DB6F8CA00C4E381 /* Build configuration list for PBXNativeTarget "Agios Beta" */;
+			buildPhases = (
+				99CECDC42DB6F8CA00C4E381 /* Sources */,
+				99CECE012DB6F8CA00C4E381 /* Frameworks */,
+				99CECE062DB6F8CA00C4E381 /* Resources */,
+				99CECE0C2DB6F8CA00C4E381 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				99CECE282DB79F9900C4E381 /* PBXTargetDependency */,
+			);
+			name = "Agios Beta";
+			packageProductDependencies = (
+				99CECDBC2DB6F8CA00C4E381 /* Shimmer */,
+				99CECDBE2DB6F8CA00C4E381 /* Lottie */,
+				99CECDC02DB6F8CA00C4E381 /* Popovers */,
+				99CECDC22DB6F8CA00C4E381 /* Shake */,
+			);
+			productName = Agios;
+			productReference = 99CECE112DB6F8CA00C4E381 /* Agios Beta.app */;
+			productType = "com.apple.product-type.application";
+		};
+		99CECE132DB79F2F00C4E381 /* AgiosWidgetExtensionBeta */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 99CECE212DB79F2F00C4E381 /* Build configuration list for PBXNativeTarget "AgiosWidgetExtensionBeta" */;
+			buildPhases = (
+				99CECE142DB79F2F00C4E381 /* Sources */,
+				99CECE1B2DB79F2F00C4E381 /* Frameworks */,
+				99CECE1E2DB79F2F00C4E381 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AgiosWidgetExtensionBeta;
+			productName = AgiosWidgetExtension;
+			productReference = 99CECE242DB79F2F00C4E381 /* AgiosWidgetExtensionBeta.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -574,7 +760,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1540;
+				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					474C79A02BD009BC003E3A15 = {
@@ -606,7 +792,9 @@
 			projectRoot = "";
 			targets = (
 				474C79A02BD009BC003E3A15 /* Agios */,
+				99CECDB92DB6F8CA00C4E381 /* Agios Beta */,
 				99B71D782CCA2AD50017A68C /* AgiosWidgetExtension */,
+				99CECE132DB79F2F00C4E381 /* AgiosWidgetExtensionBeta */,
 			);
 		};
 /* End PBXProject section */
@@ -618,8 +806,10 @@
 			files = (
 				990F17A42C583B3900D05551 /* copticEvents.json in Resources */,
 				474C79AC2BD009BF003E3A15 /* Preview Assets.xcassets in Resources */,
+				99CECE362DB7D90900C4E381 /* AgiosInfo.plist in Resources */,
 				99B0468F2CE6887200F39CB7 /* dailyQuotes.json in Resources */,
 				474C79A92BD009BF003E3A15 /* Assets.xcassets in Resources */,
+				99CECE342DB7D85000C4E381 /* AgiosWidgetExtensionInfo.plist in Resources */,
 				5798741D2C00B83300F0B2EE /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -629,7 +819,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				99B71D962CCA32840017A68C /* Assets.xcassets in Resources */,
+				99CECE352DB7D85000C4E381 /* AgiosWidgetExtensionInfo.plist in Resources */,
 				99B71D852CCA2AD80017A68C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		99CECE062DB6F8CA00C4E381 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99CECE072DB6F8CA00C4E381 /* copticEvents.json in Resources */,
+				99CECE082DB6F8CA00C4E381 /* Preview Assets.xcassets in Resources */,
+				99CECE2F2DB7D5F700C4E381 /* AgiosBetaInfo.plist in Resources */,
+				99CECE092DB6F8CA00C4E381 /* dailyQuotes.json in Resources */,
+				996641922DB7DBA300BE2C89 /* AgiosWidgetExtensionBetaInfo.plist in Resources */,
+				99CECE0A2DB6F8CA00C4E381 /* Assets.xcassets in Resources */,
+				99CECE0B2DB6F8CA00C4E381 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		99CECE1E2DB79F2F00C4E381 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99CECE2B2DB7D4C800C4E381 /* AgiosWidgetExtensionBetaInfo.plist in Resources */,
+				99CECE1F2DB79F2F00C4E381 /* Assets.xcassets in Resources */,
+				99CECE202DB79F2F00C4E381 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -689,6 +904,7 @@
 				579710A62BD1429900DFDBA3 /* String+Extensions.swift in Sources */,
 				579710B92BD146A100DFDBA3 /* Synaxar.swift in Sources */,
 				5701B0CD2C5C6C2400592193 /* UpcomingFeastView.swift in Sources */,
+				99647C452DB6E7DF009FD998 /* AppEnvironment.swift in Sources */,
 				474C79A52BD009BC003E3A15 /* AgiosApp.swift in Sources */,
 				578293DA2BDF241200BF4162 /* ImageViewerViewModel.swift in Sources */,
 				570515C22BDB037300990A24 /* NavigationButton.swift in Sources */,
@@ -711,6 +927,87 @@
 				99B71D952CCA2D3A0017A68C /* OccasionModel.swift in Sources */,
 				9986615C2CCA50F60071698B /* Saint.swift in Sources */,
 				99B71D832CCA2AD60017A68C /* AgiosWidget.swift in Sources */,
+				99647C462DB6EA78009FD998 /* AppEnvironment.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		99CECDC42DB6F8CA00C4E381 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99CECDC52DB6F8CA00C4E381 /* PopupView.swift in Sources */,
+				99CECDC62DB6F8CA00C4E381 /* StoriesWithoutIconsView.swift in Sources */,
+				99CECDC72DB6F8CA00C4E381 /* LaunchView.swift in Sources */,
+				99CECDC82DB6F8CA00C4E381 /* OccasionsViewModel.swift in Sources */,
+				99CECDC92DB6F8CA00C4E381 /* HomeSaintImageView.swift in Sources */,
+				99CECDCA2DB6F8CA00C4E381 /* IconImageViewModel.swift in Sources */,
+				99CECDCB2DB6F8CA00C4E381 /* Layer+Extensions.swift in Sources */,
+				99CECDCC2DB6F8CA00C4E381 /* NetworkingManager.swift in Sources */,
+				99CECDCD2DB6F8CA00C4E381 /* Feast.swift in Sources */,
+				99CECDCE2DB6F8CA00C4E381 /* SheetModal.swift in Sources */,
+				99CECDCF2DB6F8CA00C4E381 /* ShimmerView.swift in Sources */,
+				99CECDD02DB6F8CA00C4E381 /* Date+Extensions.swift in Sources */,
+				99CECDD12DB6F8CA00C4E381 /* GroupHeroTransitionView.swift in Sources */,
+				99CECDD22DB6F8CA00C4E381 /* SaintDetailsView.swift in Sources */,
+				99CECDD32DB6F8CA00C4E381 /* DatePickerView.swift in Sources */,
+				99CECDD42DB6F8CA00C4E381 /* Colours+Extensions.swift in Sources */,
+				99CECDD52DB6F8CA00C4E381 /* DateView.swift in Sources */,
+				99CECDD62DB6F8CA00C4E381 /* HapticsManager.swift in Sources */,
+				99CECDD72DB6F8CA00C4E381 /* Zoomable.swift in Sources */,
+				99CECDD82DB6F8CA00C4E381 /* Image+Extensions.swift in Sources */,
+				99CECDD92DB6F8CA00C4E381 /* SaintGroupDetailsView.swift in Sources */,
+				99CECDDA2DB6F8CA00C4E381 /* IconModel.swift in Sources */,
+				99CECDDB2DB6F8CA00C4E381 /* DailyQuoteViewModel.swift in Sources */,
+				99CECDDC2DB6F8CA00C4E381 /* OccasionModel.swift in Sources */,
+				99CECDDD2DB6F8CA00C4E381 /* KatamerosRepository.swift in Sources */,
+				99CECDDE2DB6F8CA00C4E381 /* DailyQuoteView.swift in Sources */,
+				99CECDDF2DB6F8CA00C4E381 /* HomeVIewModel.swift in Sources */,
+				99CECDE02DB6F8CA00C4E381 /* OccasionDataService.swift in Sources */,
+				99CECDE12DB6F8CA00C4E381 /* StoryDetailView.swift in Sources */,
+				99CECDE22DB6F8CA00C4E381 /* GroupedSaintImageView.swift in Sources */,
+				99CECDE32DB6F8CA00C4E381 /* ButtonStyle.swift in Sources */,
+				99CECDE42DB6F8CA00C4E381 /* Quote.swift in Sources */,
+				99CECDE52DB6F8CA00C4E381 /* LocalFileManager.swift in Sources */,
+				99CECDE62DB6F8CA00C4E381 /* CopticEvent.swift in Sources */,
+				99CECDE72DB6F8CA00C4E381 /* ReadingView.swift in Sources */,
+				99CECDE82DB6F8CA00C4E381 /* JSONRepository.swift in Sources */,
+				99CECDE92DB6F8CA00C4E381 /* Layer.swift in Sources */,
+				99CECDEA2DB6F8CA00C4E381 /* CopticDateView.swift in Sources */,
+				99CECDEB2DB6F8CA00C4E381 /* DeveloperPreview.swift in Sources */,
+				99CECDEC2DB6F8CA00C4E381 /* ReadingsView.swift in Sources */,
+				99CECDED2DB6F8CA00C4E381 /* HomeView.swift in Sources */,
+				99CECDEE2DB6F8CA00C4E381 /* PresentableSection.swift in Sources */,
+				99CECDEF2DB6F8CA00C4E381 /* SaintGroupImageView.swift in Sources */,
+				99CECDF02DB6F8CA00C4E381 /* SaintImageView.swift in Sources */,
+				99CECDF12DB6F8CA00C4E381 /* LayerExample.swift in Sources */,
+				99CECDF22DB6F8CA00C4E381 /* LayerExampleComponents.swift in Sources */,
+				99CECDF32DB6F8CA00C4E381 /* String+Extensions.swift in Sources */,
+				99CECDF42DB6F8CA00C4E381 /* Synaxar.swift in Sources */,
+				99CECDF52DB6F8CA00C4E381 /* UpcomingFeastView.swift in Sources */,
+				99CECDF62DB6F8CA00C4E381 /* AppEnvironment.swift in Sources */,
+				99CECDF72DB6F8CA00C4E381 /* AgiosApp.swift in Sources */,
+				99CECDF82DB6F8CA00C4E381 /* ImageViewerViewModel.swift in Sources */,
+				99CECDF92DB6F8CA00C4E381 /* NavigationButton.swift in Sources */,
+				99CECDFA2DB6F8CA00C4E381 /* HeroTransitionView.swift in Sources */,
+				99CECDFB2DB6F8CA00C4E381 /* ReadingsColours.swift in Sources */,
+				99CECDFC2DB6F8CA00C4E381 /* Hero.swift in Sources */,
+				99CECDFD2DB6F8CA00C4E381 /* DailyReadingView.swift in Sources */,
+				99CECDFE2DB6F8CA00C4E381 /* PreferenceKey.swift in Sources */,
+				99CECDFF2DB6F8CA00C4E381 /* PsalmAndGospel.swift in Sources */,
+				99CECE002DB6F8CA00C4E381 /* IconImageDataService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		99CECE142DB79F2F00C4E381 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99CECE152DB79F2F00C4E381 /* AgiosWidgetBundle.swift in Sources */,
+				99CECE292DB7A00600C4E381 /* AgiosWidget.swift in Sources */,
+				99CECE162DB79F2F00C4E381 /* IconService.swift in Sources */,
+				99CECE172DB79F2F00C4E381 /* OccasionModel.swift in Sources */,
+				99CECE182DB79F2F00C4E381 /* Saint.swift in Sources */,
+				99CECE1A2DB79F2F00C4E381 /* AppEnvironment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -721,6 +1018,11 @@
 			isa = PBXTargetDependency;
 			target = 99B71D782CCA2AD50017A68C /* AgiosWidgetExtension */;
 			targetProxy = 99B71D872CCA2AD80017A68C /* PBXContainerItemProxy */;
+		};
+		99CECE282DB79F9900C4E381 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 99CECE132DB79F2F00C4E381 /* AgiosWidgetExtensionBeta */;
+			targetProxy = 99CECE272DB79F9900C4E381 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -848,11 +1150,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconDev AppIcon";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Agios/Agios.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_ASSET_PATHS = "\"Agios/Preview Content\"";
@@ -860,7 +1164,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 48F5YYF5VU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Agios/Info.plist;
+				INFOPLIST_FILE = AgiosInfo.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Agios;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -881,7 +1185,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielkame.Agios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Agios Dev 27/09/24";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Agios Distribution Profile";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -896,8 +1200,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconDev AppIcon";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Agios/Agios.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
@@ -908,7 +1214,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 48F5YYF5VU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Agios/Info.plist;
+				INFOPLIST_FILE = AgiosInfo.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Agios;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -947,13 +1253,13 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = AgiosWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 48F5YYF5VU;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = AgiosWidget/Info.plist;
+				INFOPLIST_FILE = AgiosWidgetExtensionInfo.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AgiosWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -966,7 +1272,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielkame.Agios.AgiosWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Agios Widget Dev";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Widget Distribution";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -991,7 +1297,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 48F5YYF5VU;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = AgiosWidget/Info.plist;
+				INFOPLIST_FILE = AgiosWidgetExtensionInfo.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AgiosWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1005,6 +1311,184 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Widget Distribution";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		99CECE0F2DB6F8CA00C4E381 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconDev AppIcon";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Agios/Agios.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Agios/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 48F5YYF5VU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AgiosBetaInfo.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Agios Beta";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-DAGIOS_BETA";
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielkame.AgiosBeta;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Agios Dev 27/09/24";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		99CECE102DB6F8CA00C4E381 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconDev AppIcon";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Agios/Agios.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Agios/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 48F5YYF5VU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AgiosBetaInfo.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Agios Beta";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-DAGIOS_BETA";
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielkame.AgiosBeta;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Agios Beta Distribution";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		99CECE222DB79F2F00C4E381 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = AgiosWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 48F5YYF5VU;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AgiosWidgetExtensionBetaInfo.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AgiosWidgetBeta;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielkame.AgiosBeta.AgiosWidgetBeta;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Agios Widget Dev";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		99CECE232DB79F2F00C4E381 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = AgiosWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 48F5YYF5VU;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AgiosWidgetExtensionBetaInfo.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AgiosWidgetBeta;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielkame.AgiosBeta.AgiosWidgetBeta;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Agios Beta Widget Distribution";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1042,6 +1526,24 @@
 			buildConfigurations = (
 				99B71D8B2CCA2AD80017A68C /* Debug */,
 				99B71D8C2CCA2AD80017A68C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		99CECE0E2DB6F8CA00C4E381 /* Build configuration list for PBXNativeTarget "Agios Beta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				99CECE0F2DB6F8CA00C4E381 /* Debug */,
+				99CECE102DB6F8CA00C4E381 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		99CECE212DB79F2F00C4E381 /* Build configuration list for PBXNativeTarget "AgiosWidgetExtensionBeta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				99CECE222DB79F2F00C4E381 /* Debug */,
+				99CECE232DB79F2F00C4E381 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1089,6 +1591,38 @@
 				version = 17.0.1;
 			};
 		};
+		99CECDBD2DB6F8CA00C4E381 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
+			requirement = {
+				kind = exactVersion;
+				version = 1.5.0;
+			};
+		};
+		99CECDBF2DB6F8CA00C4E381 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.4.3;
+			};
+		};
+		99CECDC12DB6F8CA00C4E381 /* XCRemoteSwiftPackageReference "Popovers" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aheze/Popovers.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.2;
+			};
+		};
+		99CECDC32DB6F8CA00C4E381 /* XCRemoteSwiftPackageReference "shake-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/shakebugs/shake-ios";
+			requirement = {
+				kind = exactVersion;
+				version = 17.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1110,6 +1644,26 @@
 		997A63B42CA73341007720A4 /* Shake */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 997A63B32CA73341007720A4 /* XCRemoteSwiftPackageReference "shake-ios" */;
+			productName = Shake;
+		};
+		99CECDBC2DB6F8CA00C4E381 /* Shimmer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 99CECDBD2DB6F8CA00C4E381 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			productName = Shimmer;
+		};
+		99CECDBE2DB6F8CA00C4E381 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 99CECDBF2DB6F8CA00C4E381 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		99CECDC02DB6F8CA00C4E381 /* Popovers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 99CECDC12DB6F8CA00C4E381 /* XCRemoteSwiftPackageReference "Popovers" */;
+			productName = Popovers;
+		};
+		99CECDC22DB6F8CA00C4E381 /* Shake */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 99CECDC32DB6F8CA00C4E381 /* XCRemoteSwiftPackageReference "shake-ios" */;
 			productName = Shake;
 		};
 /* End XCSwiftPackageProductDependency section */

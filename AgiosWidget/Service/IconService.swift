@@ -104,7 +104,11 @@ struct WidgetService {
         } catch {
             // If any step above fails, print error and return nil
             print("Error fetching icon: \(error)")
-            return Saint(image: UIImage(named: "placeholder")!, description: "Tap to reload")
+            if AppEnvironment.isDebug {
+                return Saint(image: UIImage(named: "placeholder")!, description: "\(error)")
+            } else {
+                return Saint(image: UIImage(named: "placeholder")!, description: "Tap to reload")
+            }
         }
     }
 
