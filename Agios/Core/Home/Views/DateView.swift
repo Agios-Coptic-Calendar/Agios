@@ -537,7 +537,7 @@ struct YearAheadView: View {
         VStack(alignment: .leading, spacing: 4) {
             ScrollView {
                 VStack(spacing: 8) {
-                    ForEach(YearAheadItem.items) { item in
+                    ForEach(occasionViewModel.yearAheadFeasts) { item in
                             Button(action: {
                                 withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                                     occasionViewModel.copticDateTapped = false
@@ -546,10 +546,10 @@ struct YearAheadView: View {
                                 
                             }, label: {
                                 VStack(alignment: .leading, spacing: 7) {
-                                    Text(item.title)
+                                    Text(item.feastName)
                                         .foregroundStyle(.primary1000)
                                     
-                                    Text(item.date)
+                                    Text(item.dateString)
                                         .font(.callout)
                                         .foregroundStyle(.primary1000.opacity(0.7))
                                         .lineLimit(1)
@@ -576,19 +576,37 @@ struct YearAheadView: View {
     }
 }
 
-struct YearAheadItem: Identifiable {
-    var id: UUID = UUID()
-    let title, date: String
+struct YearAheadFeast: Codable, Identifiable {
+    let id: UUID
+    let feastName: String
+    let dateString: String
+
+    init(feastName: String, dateString: String) {
+        self.id = UUID()
+        self.feastName = feastName
+        self.dateString = dateString
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case feastName, dateString
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        feastName = try container.decode(String.self, forKey: .feastName)
+        dateString = try container.decode(String.self, forKey: .dateString)
+        id = UUID()
+    }
     
-    static let items: [YearAheadItem] = [
-        YearAheadItem(title: "Jonah's Fast", date: "10-12 February 2025"),
-        YearAheadItem(title: "Start of Lent", date: "24 February 2025"),
-        YearAheadItem(title: "Holy Week", date: "14-19 April 2025"),
-        YearAheadItem(title: "Resurrection", date: "20 April 2025"),
-        YearAheadItem(title: "Ascension", date: "29 May 2025"),
-        YearAheadItem(title: "Pentecost", date: "8 June 2025"),
-        YearAheadItem(title: "Start of Apostles' Fast", date: "9 June 2025"),
-        YearAheadItem(title: "Coptic New Year (Feast of El Nayrouz)", date: "11 September 2025"),
-        YearAheadItem(title: "The Start of Kiahk", date: "10 December 2025")
+    static let items: [YearAheadFeast] = [
+        YearAheadFeast(feastName: "Jonah's Fast", dateString: "10-12 February 2025"),
+        YearAheadFeast(feastName: "Start of Lent", dateString: "24 February 2025"),
+        YearAheadFeast(feastName: "Holy Week", dateString: "14-19 April 2025"),
+        YearAheadFeast(feastName: "Resurrection", dateString: "20 April 2025"),
+        YearAheadFeast(feastName: "Ascension", dateString: "29 May 2025"),
+        YearAheadFeast(feastName: "Pentecost", dateString: "8 June 2025"),
+        YearAheadFeast(feastName: "Start of Apostles' Fast", dateString: "9 June 2025"),
+        YearAheadFeast(feastName: "Coptic New Year (Feast of El Nayrouz)", dateString: "11 September 2025"),
+        YearAheadFeast(feastName: "The Start of Kiahk", dateString: "10 December 2025")
     ]
 }

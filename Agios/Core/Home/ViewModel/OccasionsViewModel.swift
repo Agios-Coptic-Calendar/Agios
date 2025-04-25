@@ -93,6 +93,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var selectedCopticMonth: CopticMonth? = nil
     @Published var passedDate: [String] = []
     @Published var setColor: Bool = false
+    private var yearAheadFeastsFetched = false
 
     let mockDates: [DateModel] = [
         DateModel(month: "01",
@@ -116,6 +117,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var draggingDetailsView: Bool = false
     @Published var selectedStory: Story? = nil
     @Published var storiesWithoutIcons: [Story] = []
+    @Published var yearAheadFeasts: [YearAheadFeast] = YearAheadFeast.items
     
     var copticEvents: [CopticEvent]?
     var feastName: String?
@@ -142,8 +144,24 @@ class OccasionsViewModel: ObservableObject {
         
         getCopticDatesCategorized()
     }
-
     
+    func fetchFeasts() {
+        guard let url = URL(string: "https://api.agios.co/yearAheadFeasts"),
+        !yearAheadFeastsFetched else {
+            return
+        }
+        Task { @MainActor in
+            do {
+                let (data, _) = try await URLSession.shared.data(from: url)
+                
+                yearAheadFeasts = try JSONDecoder().decode([YearAheadFeast].self, from: data)
+                yearAheadFeastsFetched = true
+            } catch {
+                print(error)
+            }
+        }
+    }
+
     private func loadSavedDate() {
         let defaults = UserDefaults(suiteName: "group.com.agios")
         let formatter = DateFormatter()
@@ -409,6 +427,7 @@ class OccasionsViewModel: ObservableObject {
                 let (data, response) = try await URLSession.shared.data(from: url)
                 let decodedResponse = try handleOutput(response: response, data: data)
                     updateUI(with: decodedResponse)
+                fetchFeasts()
                 DispatchQueue.main.async { [weak self] in
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                         self?.showEventNotLoaded = false
