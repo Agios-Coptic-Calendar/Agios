@@ -94,7 +94,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var passedDate: [String] = []
     @Published var setColor: Bool = false
     private var yearAheadFeastsFetched = false
-
+    private var datePickerLimitsFetched = false
     let mockDates: [DateModel] = [
         DateModel(month: "01",
                   day: "07",
@@ -118,7 +118,8 @@ class OccasionsViewModel: ObservableObject {
     @Published var selectedStory: Story? = nil
     @Published var storiesWithoutIcons: [Story] = []
     @Published var yearAheadFeasts: [YearAheadFeast] = YearAheadFeast.items
-    
+    @Published var dateRange: DateRange = DateRange(startDate: Date(),
+                                                    endDate: Date())
     var copticEvents: [CopticEvent]?
     var feastName: String?
     var occasionName: String {
@@ -141,8 +142,6 @@ class OccasionsViewModel: ObservableObject {
         getCopticEvents()
         getPosts()
         getCopticDates()
-        
-        getCopticDatesCategorized()
     }
     
     func fetchFeasts() {
@@ -156,10 +155,32 @@ class OccasionsViewModel: ObservableObject {
                 
                 yearAheadFeasts = try JSONDecoder().decode([YearAheadFeast].self, from: data)
                 yearAheadFeastsFetched = true
+                fetchDatePickerLimits()
             } catch {
                 print(error)
             }
         }
+    }
+    func fetchDatePickerLimits() {
+        guard let url = URL(string: "https://api.agios.co/datePickerLimits"),
+        !datePickerLimitsFetched else {
+            return
+        }
+        Task { @MainActor in
+            do {
+                let (data, _) = try await URLSession.shared.data(from: url)
+                let decoder = JSONDecoder()
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSZ"
+                decoder.dateDecodingStrategy = .formatted(formatter)
+                dateRange = try decoder.decode(DateRange.self, from: data)
+                AppEnvironment.updateDateRange(from: dateRange)
+                datePickerLimitsFetched = true
+            } catch {
+                print(error)
+            }
+        }
+        getCopticDatesCategorized()
     }
 
     private func loadSavedDate() {
@@ -221,7 +242,7 @@ class OccasionsViewModel: ObservableObject {
     }
 
     private func getCopticDates() {
-        let range = Date.dateRange
+        let range = AppEnvironment.dateRange
         let calendar = Calendar.current
         var currentDate = range.lowerBound
         while currentDate <= range.upperBound {
@@ -239,7 +260,7 @@ class OccasionsViewModel: ObservableObject {
     
 
     private func getCopticDatesCategorized() {
-        let range = Date.dateRange
+        let range = AppEnvironment.dateRange
         let calendar = Calendar.current
         var currentDate = range.lowerBound
         var categorizedDates: [String: [String]] = [:] // Dictionary to hold categorized dates

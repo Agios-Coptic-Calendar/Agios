@@ -206,7 +206,9 @@ struct NormalDateView: View {
         self.vm = vm
     }
     var body: some View {
-        DatePicker("", selection: $vm.datePicker, in: Date.dateRange, displayedComponents: [.date])
+        DatePicker("", selection: $vm.datePicker,
+                   in: AppEnvironment.dateRange,
+                   displayedComponents: [.date])
         .datePickerStyle(.graphical)
         .environment(\.colorScheme, .light)
         .padding(.horizontal, 16)

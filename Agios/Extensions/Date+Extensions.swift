@@ -13,14 +13,7 @@ extension Date {
         dateFormatter.dateFormat = "dd-MM-yyyy"
         return dateFormatter.string(from: Date())
     }
-    
-    /// Ranged used for the date picker
-    static var dateRange: ClosedRange<Date> {
-        let startingDate: Date = AppEnvironment.startingDate
-        let endingDate: Date = AppEnvironment.endingDate
-        return startingDate...endingDate
-    }
-    
+        
     static var currentYear: String {
         String(Calendar.current.component(.year, from: Date()))
     }

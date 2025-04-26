@@ -67,7 +67,6 @@
 		57EE90672BE42EC600C7E1AE /* DailyQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE90662BE42EC600C7E1AE /* DailyQuoteView.swift */; };
 		990F17A42C583B3900D05551 /* copticEvents.json in Resources */ = {isa = PBXBuildFile; fileRef = 990F17A32C583B3900D05551 /* copticEvents.json */; };
 		99647C452DB6E7DF009FD998 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99647C442DB6E7DF009FD998 /* AppEnvironment.swift */; };
-		99647C462DB6EA78009FD998 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99647C442DB6E7DF009FD998 /* AppEnvironment.swift */; };
 		996641922DB7DBA300BE2C89 /* AgiosWidgetExtensionBetaInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99CECE2A2DB7D4C800C4E381 /* AgiosWidgetExtensionBetaInfo.plist */; };
 		99693B292CD95C0600ACB78E /* StoriesWithoutIconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99693B282CD95C0600ACB78E /* StoriesWithoutIconsView.swift */; };
 		997A63B52CA73341007720A4 /* Shake in Frameworks */ = {isa = PBXBuildFile; productRef = 997A63B42CA73341007720A4 /* Shake */; };
@@ -75,6 +74,12 @@
 		998A7B7B2CA35E9E000BD963 /* Quote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998A7B7A2CA35E9E000BD963 /* Quote.swift */; };
 		998A7B7D2CA35FA9000BD963 /* DailyQuoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998A7B7C2CA35FA9000BD963 /* DailyQuoteViewModel.swift */; };
 		99989BFE2C2CB6200033CDD3 /* CopticEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */; };
+		99AF639F2DBC5B5D001FFF78 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99647C442DB6E7DF009FD998 /* AppEnvironment.swift */; };
+		99AF63A02DBC5B5D001FFF78 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99647C442DB6E7DF009FD998 /* AppEnvironment.swift */; };
+		99AF63A22DBC5BC2001FFF78 /* DateRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AF63A12DBC5BC2001FFF78 /* DateRange.swift */; };
+		99AF63A32DBC5BC2001FFF78 /* DateRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AF63A12DBC5BC2001FFF78 /* DateRange.swift */; };
+		99AF63A42DBC5BC2001FFF78 /* DateRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AF63A12DBC5BC2001FFF78 /* DateRange.swift */; };
+		99AF63A52DBC5BC2001FFF78 /* DateRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AF63A12DBC5BC2001FFF78 /* DateRange.swift */; };
 		99B0468F2CE6887200F39CB7 /* dailyQuotes.json in Resources */ = {isa = PBXBuildFile; fileRef = 99B0468E2CE6887200F39CB7 /* dailyQuotes.json */; };
 		99B5EA792C36FAF600FE829F /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE0B2C25A12D004685D8 /* Shimmer */; };
 		99B5EA7A2C36FAF600FE829F /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 995CEE0E2C25A1AB004685D8 /* Lottie */; };
@@ -161,7 +166,6 @@
 		99CECE162DB79F2F00C4E381 /* IconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B71D922CCA2C2B0017A68C /* IconService.swift */; };
 		99CECE172DB79F2F00C4E381 /* OccasionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7E8492BD2B0A70016D6A4 /* OccasionModel.swift */; };
 		99CECE182DB79F2F00C4E381 /* Saint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9986615B2CCA50F60071698B /* Saint.swift */; };
-		99CECE1A2DB79F2F00C4E381 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99647C442DB6E7DF009FD998 /* AppEnvironment.swift */; };
 		99CECE1C2DB79F2F00C4E381 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B71D7D2CCA2AD60017A68C /* SwiftUI.framework */; };
 		99CECE1D2DB79F2F00C4E381 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B71D7B2CCA2AD50017A68C /* WidgetKit.framework */; };
 		99CECE1F2DB79F2F00C4E381 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 474C79A82BD009BF003E3A15 /* Assets.xcassets */; };
@@ -285,6 +289,7 @@
 		998A7B7A2CA35E9E000BD963 /* Quote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
 		998A7B7C2CA35FA9000BD963 /* DailyQuoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyQuoteViewModel.swift; sourceTree = "<group>"; };
 		99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopticEvent.swift; sourceTree = "<group>"; };
+		99AF63A12DBC5BC2001FFF78 /* DateRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRange.swift; sourceTree = "<group>"; };
 		99B0468E2CE6887200F39CB7 /* dailyQuotes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dailyQuotes.json; sourceTree = "<group>"; };
 		99B5998A2C2E03B5000F6307 /* AgiosInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AgiosInfo.plist; sourceTree = "<group>"; };
 		99B5EA7C2C373B7700FE829F /* ReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingView.swift; sourceTree = "<group>"; };
@@ -385,6 +390,7 @@
 				99989BFA2C2CB4300033CDD3 /* Resources */,
 				474C79A82BD009BF003E3A15 /* Assets.xcassets */,
 				474C79AA2BD009BF003E3A15 /* Preview Content */,
+				99AF63A12DBC5BC2001FFF78 /* DateRange.swift */,
 			);
 			path = Agios;
 			sourceTree = "<group>";
@@ -889,6 +895,7 @@
 				998A7B7B2CA35E9E000BD963 /* Quote.swift in Sources */,
 				5728FE022BE6607A00FE4130 /* LocalFileManager.swift in Sources */,
 				99989BFE2C2CB6200033CDD3 /* CopticEvent.swift in Sources */,
+				99AF63A32DBC5BC2001FFF78 /* DateRange.swift in Sources */,
 				99B5EA7D2C373B7700FE829F /* ReadingView.swift in Sources */,
 				578B61112BD15D9900DCDFF6 /* JSONRepository.swift in Sources */,
 				57EAE6342BD7E76F00379CC5 /* Layer.swift in Sources */,
@@ -923,11 +930,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				99B71D812CCA2AD60017A68C /* AgiosWidgetBundle.swift in Sources */,
+				99AF63A42DBC5BC2001FFF78 /* DateRange.swift in Sources */,
 				99B71D932CCA2C2B0017A68C /* IconService.swift in Sources */,
 				99B71D952CCA2D3A0017A68C /* OccasionModel.swift in Sources */,
 				9986615C2CCA50F60071698B /* Saint.swift in Sources */,
 				99B71D832CCA2AD60017A68C /* AgiosWidget.swift in Sources */,
-				99647C462DB6EA78009FD998 /* AppEnvironment.swift in Sources */,
+				99AF639F2DBC5B5D001FFF78 /* AppEnvironment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -969,6 +977,7 @@
 				99CECDE42DB6F8CA00C4E381 /* Quote.swift in Sources */,
 				99CECDE52DB6F8CA00C4E381 /* LocalFileManager.swift in Sources */,
 				99CECDE62DB6F8CA00C4E381 /* CopticEvent.swift in Sources */,
+				99AF63A22DBC5BC2001FFF78 /* DateRange.swift in Sources */,
 				99CECDE72DB6F8CA00C4E381 /* ReadingView.swift in Sources */,
 				99CECDE82DB6F8CA00C4E381 /* JSONRepository.swift in Sources */,
 				99CECDE92DB6F8CA00C4E381 /* Layer.swift in Sources */,
@@ -1003,11 +1012,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				99CECE152DB79F2F00C4E381 /* AgiosWidgetBundle.swift in Sources */,
+				99AF63A52DBC5BC2001FFF78 /* DateRange.swift in Sources */,
 				99CECE292DB7A00600C4E381 /* AgiosWidget.swift in Sources */,
 				99CECE162DB79F2F00C4E381 /* IconService.swift in Sources */,
 				99CECE172DB79F2F00C4E381 /* OccasionModel.swift in Sources */,
 				99CECE182DB79F2F00C4E381 /* Saint.swift in Sources */,
-				99CECE1A2DB79F2F00C4E381 /* AppEnvironment.swift in Sources */,
+				99AF63A02DBC5B5D001FFF78 /* AppEnvironment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
