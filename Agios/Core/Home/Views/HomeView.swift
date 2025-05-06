@@ -89,12 +89,13 @@ struct HomeView: View {
                                     }
                                 }
                                 dailyReading
-                                if versionCheckViewModel.updateType == .optional {
-                                    newVersionInfo
-                                }
                                 
                                 if !occasionViewModel.notables.isEmpty {
                                     upcomingFeasts
+                                }
+                                
+                                if versionCheckViewModel.updateType == .optional {
+                                    newVersionInfo
                                 }
                             }
                             .padding(.bottom, 48)
@@ -957,5 +958,8 @@ extension HomeView {
             }
 
         }
+        .padding()
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 }
