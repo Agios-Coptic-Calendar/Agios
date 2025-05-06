@@ -17,9 +17,9 @@ enum DragPhase {
 
  
 struct HomeView: View {
+    @ObservedObject var versionCheckViewModel: VersionCheckViewModel
     @State private var tapNategaPlus = false
     @State private var showSynaxars: Bool? = false
-    @State private var showReadings: Bool = false
     @State private var tapIcon = false
     @State private var imageTapped = false
     @State private var readingTapped = false
@@ -51,8 +51,9 @@ struct HomeView: View {
     
     var namespace: Namespace.ID
     var transition: Namespace.ID
-    init(occasionViewModel: OccasionsViewModel, namespace: Namespace.ID, transition: Namespace.ID) {
+    init(occasionViewModel: OccasionsViewModel, versionVM: VersionCheckViewModel, namespace: Namespace.ID, transition: Namespace.ID) {
         self.occasionViewModel = occasionViewModel
+        self.versionCheckViewModel = versionVM
         self.namespace = namespace
         self.transition = transition
     }
@@ -88,6 +89,9 @@ struct HomeView: View {
                                     }
                                 }
                                 dailyReading
+                                if versionCheckViewModel.updateType == .optional {
+                                    newVersionInfo
+                                }
                                 
                                 if !occasionViewModel.notables.isEmpty {
                                     upcomingFeasts
@@ -920,8 +924,38 @@ extension HomeView {
         .padding(.bottom, 48)
         .padding(.horizontal, 20)
         .frame(maxWidth: 500)
-        
-        
     }
     
+    private var newVersionInfo: some View {
+        VStack {
+            Text("A new version of Agios is available")
+                .bold()
+            Button {
+                if let url = URL(string: versionCheckViewModel.updateUrl) {
+                    UIApplication.shared.open(url)
+                }
+            } label: {
+                Text("Update now")
+                    .bold()
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .foregroundStyle(
+                        .white
+                    )
+                    .background(
+                        RoundedRectangle(
+                            cornerSize: CGSize(
+                                width: 10,
+                                height: 10
+                            )
+                        )
+                            .fill()
+                            .foregroundStyle(
+                                Color.accent
+                            )
+                    )
+            }
+
+        }
+    }
 }

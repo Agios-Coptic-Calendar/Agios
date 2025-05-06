@@ -177,6 +177,12 @@
 		99CECE342DB7D85000C4E381 /* AgiosWidgetExtensionInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99CECE302DB7D6FE00C4E381 /* AgiosWidgetExtensionInfo.plist */; };
 		99CECE352DB7D85000C4E381 /* AgiosWidgetExtensionInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99CECE302DB7D6FE00C4E381 /* AgiosWidgetExtensionInfo.plist */; };
 		99CECE362DB7D90900C4E381 /* AgiosInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99B5998A2C2E03B5000F6307 /* AgiosInfo.plist */; };
+		99F045EC2DCA822F005530FB /* VersionCheckResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F045EB2DCA822F005530FB /* VersionCheckResponse.swift */; };
+		99F045ED2DCA822F005530FB /* VersionCheckResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F045EB2DCA822F005530FB /* VersionCheckResponse.swift */; };
+		99F045EF2DCA8255005530FB /* VersionCheckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F045EE2DCA8255005530FB /* VersionCheckService.swift */; };
+		99F045F02DCA8255005530FB /* VersionCheckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F045EE2DCA8255005530FB /* VersionCheckService.swift */; };
+		99F045F22DCA82A4005530FB /* VersionCheckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F045F12DCA82A4005530FB /* VersionCheckViewModel.swift */; };
+		99F045F32DCA82A4005530FB /* VersionCheckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F045F12DCA82A4005530FB /* VersionCheckViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -305,6 +311,9 @@
 		99CECE2A2DB7D4C800C4E381 /* AgiosWidgetExtensionBetaInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AgiosWidgetExtensionBetaInfo.plist; sourceTree = "<group>"; };
 		99CECE2D2DB7D5F700C4E381 /* AgiosBetaInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AgiosBetaInfo.plist; sourceTree = "<group>"; };
 		99CECE302DB7D6FE00C4E381 /* AgiosWidgetExtensionInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AgiosWidgetExtensionInfo.plist; sourceTree = "<group>"; };
+		99F045EB2DCA822F005530FB /* VersionCheckResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionCheckResponse.swift; sourceTree = "<group>"; };
+		99F045EE2DCA8255005530FB /* VersionCheckService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionCheckService.swift; sourceTree = "<group>"; };
+		99F045F12DCA82A4005530FB /* VersionCheckViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionCheckViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -490,6 +499,7 @@
 				578B61042BD15C7B00DCDFF6 /* HomeVIewModel.swift */,
 				57B7E8502BD2B4D00016D6A4 /* OccasionsViewModel.swift */,
 				570764462BD69B9D00C5C98B /* IconImageViewModel.swift */,
+				99F045F12DCA82A4005530FB /* VersionCheckViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -559,6 +569,7 @@
 				579710B42BD146A100DFDBA3 /* Synaxar.swift */,
 				99989BFD2C2CB6200033CDD3 /* CopticEvent.swift */,
 				998A7B7A2CA35E9E000BD963 /* Quote.swift */,
+				99F045EB2DCA822F005530FB /* VersionCheckResponse.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -584,6 +595,7 @@
 			isa = PBXGroup;
 			children = (
 				570764422BD696E000C5C98B /* IconImageDataService.swift */,
+				99F045EE2DCA8255005530FB /* VersionCheckService.swift */,
 				57CA77862BD7324B00A34725 /* OccasionDataService.swift */,
 				570764442BD6987900C5C98B /* NetworkingManager.swift */,
 			);
@@ -867,6 +879,7 @@
 				57B7E8512BD2B4D00016D6A4 /* OccasionsViewModel.swift in Sources */,
 				5707643E2BD68D1500C5C98B /* HomeSaintImageView.swift in Sources */,
 				570764472BD69B9D00C5C98B /* IconImageViewModel.swift in Sources */,
+				99F045F32DCA82A4005530FB /* VersionCheckViewModel.swift in Sources */,
 				57EAE6352BD7E76F00379CC5 /* Layer+Extensions.swift in Sources */,
 				570764452BD6987900C5C98B /* NetworkingManager.swift in Sources */,
 				579710BB2BD146A100DFDBA3 /* Feast.swift in Sources */,
@@ -877,6 +890,7 @@
 				570515BC2BDAE0B500990A24 /* SaintDetailsView.swift in Sources */,
 				570515B92BDAB91C00990A24 /* DatePickerView.swift in Sources */,
 				579710A72BD1429900DFDBA3 /* Colours+Extensions.swift in Sources */,
+				99F045ED2DCA822F005530FB /* VersionCheckResponse.swift in Sources */,
 				57616ECE2BF503B800C867AC /* DateView.swift in Sources */,
 				57EAE6372BD7E79D00379CC5 /* HapticsManager.swift in Sources */,
 				57CF01842BE2530000508338 /* Zoomable.swift in Sources */,
@@ -912,6 +926,7 @@
 				579710B92BD146A100DFDBA3 /* Synaxar.swift in Sources */,
 				5701B0CD2C5C6C2400592193 /* UpcomingFeastView.swift in Sources */,
 				99647C452DB6E7DF009FD998 /* AppEnvironment.swift in Sources */,
+				99F045EF2DCA8255005530FB /* VersionCheckService.swift in Sources */,
 				474C79A52BD009BC003E3A15 /* AgiosApp.swift in Sources */,
 				578293DA2BDF241200BF4162 /* ImageViewerViewModel.swift in Sources */,
 				570515C22BDB037300990A24 /* NavigationButton.swift in Sources */,
@@ -949,6 +964,7 @@
 				99CECDC82DB6F8CA00C4E381 /* OccasionsViewModel.swift in Sources */,
 				99CECDC92DB6F8CA00C4E381 /* HomeSaintImageView.swift in Sources */,
 				99CECDCA2DB6F8CA00C4E381 /* IconImageViewModel.swift in Sources */,
+				99F045F22DCA82A4005530FB /* VersionCheckViewModel.swift in Sources */,
 				99CECDCB2DB6F8CA00C4E381 /* Layer+Extensions.swift in Sources */,
 				99CECDCC2DB6F8CA00C4E381 /* NetworkingManager.swift in Sources */,
 				99CECDCD2DB6F8CA00C4E381 /* Feast.swift in Sources */,
@@ -959,6 +975,7 @@
 				99CECDD22DB6F8CA00C4E381 /* SaintDetailsView.swift in Sources */,
 				99CECDD32DB6F8CA00C4E381 /* DatePickerView.swift in Sources */,
 				99CECDD42DB6F8CA00C4E381 /* Colours+Extensions.swift in Sources */,
+				99F045EC2DCA822F005530FB /* VersionCheckResponse.swift in Sources */,
 				99CECDD52DB6F8CA00C4E381 /* DateView.swift in Sources */,
 				99CECDD62DB6F8CA00C4E381 /* HapticsManager.swift in Sources */,
 				99CECDD72DB6F8CA00C4E381 /* Zoomable.swift in Sources */,
@@ -994,6 +1011,7 @@
 				99CECDF42DB6F8CA00C4E381 /* Synaxar.swift in Sources */,
 				99CECDF52DB6F8CA00C4E381 /* UpcomingFeastView.swift in Sources */,
 				99CECDF62DB6F8CA00C4E381 /* AppEnvironment.swift in Sources */,
+				99F045F02DCA8255005530FB /* VersionCheckService.swift in Sources */,
 				99CECDF72DB6F8CA00C4E381 /* AgiosApp.swift in Sources */,
 				99CECDF82DB6F8CA00C4E381 /* ImageViewerViewModel.swift in Sources */,
 				99CECDF92DB6F8CA00C4E381 /* NavigationButton.swift in Sources */,
