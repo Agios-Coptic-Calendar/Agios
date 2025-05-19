@@ -369,18 +369,18 @@ class OccasionsViewModel: ObservableObject {
         guard
             let feastDate,
             let currentDay = newCopticDate?.dayInt,
-            let feastDay = feastDate.copticDate.dayInt,
+            let feastDay = feastDate.copticDate?.dayInt,
             let currentMonthDays = copticMonths[newCopticDate?.month ?? ""]
         else {
             return nil // Invalid month names
         }
 
-        if newCopticDate?.month == feastDate.copticDate.month {
+        if newCopticDate?.month == feastDate.copticDate?.month {
             return feastDay - currentDay
         }
 
         let currentMonthIndex = copticMonthOrder.firstIndex(of: newCopticDate?.month ?? "")
-        let targetMonthIndex = copticMonthOrder.firstIndex(of: feastDate.copticDate.month ?? "")
+        let targetMonthIndex = copticMonthOrder.firstIndex(of: feastDate.copticDate?.month ?? "")
 
         guard let currentIndex = currentMonthIndex, let targetIndex = targetMonthIndex else {
             return nil // Invalid month names
@@ -488,7 +488,7 @@ class OccasionsViewModel: ObservableObject {
         self.newCopticDate = response.data.copticDate ?? nil
         self.fact = response.data.facts ?? []
         self.notables = response.data.notables?.filter {
-            !($0.expand?.copticDate.dayInt == newCopticDate?.dayInt && $0.expand?.copticDate.month == newCopticDate?.month)
+            !($0.expand?.copticDate?.dayInt == newCopticDate?.dayInt && $0.expand?.copticDate?.month == newCopticDate?.month)
         } ?? []
 
         self.retrievePassages()

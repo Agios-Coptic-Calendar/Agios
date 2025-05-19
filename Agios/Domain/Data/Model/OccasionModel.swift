@@ -266,5 +266,5 @@ struct Notable: Identifiable, Codable {
 }
 
 struct Expand: Codable {
-    let copticDate: CopticDate
+    let copticDate: CopticDate?
 }

@@ -656,10 +656,12 @@ extension HomeView {
                         .frame(width: 160)
                         .transition(.opacity)
                 } else {
-                    Text("Daily readings")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.gray900)
+                    if !occasionViewModel.readings.isEmpty {
+                        Text("Daily readings")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.gray900)
+                    }
                 }
             }
             .padding(.leading, 20)
