@@ -61,7 +61,6 @@ struct HomeView: View {
     @ObservedObject private var occasionViewModel: OccasionsViewModel
     @EnvironmentObject private var iconImageViewModel: IconImageViewModel
     @EnvironmentObject private var imageViewModel: IconImageViewModel
-    @State private var showEventNotLoaded = false
     
     var body: some View {
         
@@ -395,7 +394,7 @@ extension HomeView {
                                 .lineLimit(1)
                                 .foregroundStyle(.primary1000)
                                 .multilineTextAlignment(.leading)
-                                
+                            
                             
                             Image(systemName: "chevron.down")
                                 .font(.caption2)
@@ -416,9 +415,9 @@ extension HomeView {
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
                             .matchedGeometryEffect(id: "mask", in: transition)
                     })
-
+                    
                 })
-
+                
             }
         }
     }
@@ -435,11 +434,11 @@ extension HomeView {
                 }, label: {
                     HStack(spacing: 8) {
                         Text(occasionViewModel.copticDate)
-                             .font(.body)
-                             .fontWeight(.semibold)
-                             .frame(maxWidth: .infinity, alignment: .leading)
-                             .lineLimit(1)
-                             .matchedGeometryEffect(id: "copticDate", in: namespace)
+                            .font(.body)
+                            .fontWeight(.semibold)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .lineLimit(1)
+                            .matchedGeometryEffect(id: "copticDate", in: namespace)
                         
                         Image(systemName: "chevron.down")
                             .fontWeight(.semibold)
@@ -456,12 +455,12 @@ extension HomeView {
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
                             .matchedGeometryEffect(id: "mask", in: namespace)
                     })
-
+                    
                 })
                 .foregroundColor(.gray900)
             }
         }
-
+        
     }
     
     private var dateView: some View {
@@ -477,11 +476,11 @@ extension HomeView {
                 } label: {
                     HStack(spacing: 8) {
                         Text(datePicker.formatted(date: .abbreviated, time: .omitted))
-                             .font(.body)
-                             .fontWeight(.semibold)
-                             .frame(width: 117, alignment: .leading)
-                             .lineLimit(1)
-                             .matchedGeometryEffect(id: "defaultDate", in: namespace)
+                            .font(.body)
+                            .fontWeight(.semibold)
+                            .frame(width: 117, alignment: .leading)
+                            .lineLimit(1)
+                            .matchedGeometryEffect(id: "defaultDate", in: namespace)
                         
                         Image(systemName: "chevron.down")
                             .fontWeight(.semibold)
@@ -498,15 +497,15 @@ extension HomeView {
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
                             .matchedGeometryEffect(id: "maskDate", in: namespace)
                     })
-
+                    
                 }
-                 .foregroundColor(.gray900)
-
+                .foregroundColor(.gray900)
+                
             }
         }
-
-         
-
+        
+        
+        
     }
     
     private var fastView: some View {
@@ -575,7 +574,7 @@ extension HomeView {
                             StoriesWithoutIconsView(occasionViewModel: occasionViewModel, namespace: namespace)
                                 .background(.clear)
                                 .frame(height: 400, alignment: .center)
-
+                            
                         }
                     }
                     .padding(.horizontal, 24)
@@ -583,7 +582,7 @@ extension HomeView {
             }
         }
     }
-
+    
     
     private var commemorations: some View {
         ZStack {
@@ -597,54 +596,54 @@ extension HomeView {
                     .padding(.horizontal, 16)
             } else {
                 VStack(alignment: .leading, spacing: 16) {
-                     Text("Commemorations")
-                         .font(.system(size: 20, weight: .bold, design: .rounded))
-                         .foregroundColor(.black)
-                         .padding(.horizontal, 16)
-                     HStack(spacing: 16) {
-                         if occasionViewModel.readings.isEmpty {
-                             // Add an empty view or placeholder here
-                             Text("As today is a Major Feast of the Lord, the Synaxarium is not read today.")
-                                 .padding(.bottom, 5)
-                                 .padding(.horizontal, 16)
-                         } else {
-                             TabView {
-                                 ForEach(occasionViewModel.stories) { story in
-                                     Text("\(story.story ?? "")")
-                                         .padding(16)
-                                         .lineLimit(6)
-                                         .background(.white)
-                                         .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-                                         //.scaleEffect(selectedCommemoration == reading ? 1.05 : 1.0)
-                                         //.animation(.spring(response: 0.6, dampingFraction: 0.4))
-                                         .onTapGesture {
-                                             withAnimation() {
-                                                 //selectedCommemoration = reading
-                                             }
-                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                                 withAnimation {
-                                                     //selectedCommemoration = nil
-                                                     //self.reading = reading
-                                                     showSynaxars = true
-                                                 }
-                                             }
-                                         }
-                                         .padding(.bottom, 40)
-                                         .padding(.horizontal, 16)
-                                 }
-                             }
-                             .frame(height: 200)
-
-                         }
-                     }
-                     .multilineTextAlignment(.center)
-                     .font(.title3)
-                     .tabViewStyle(.page)
-                 }
+                    Text("Commemorations")
+                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                        .foregroundColor(.black)
+                        .padding(.horizontal, 16)
+                    HStack(spacing: 16) {
+                        if occasionViewModel.readings.isEmpty {
+                            // Add an empty view or placeholder here
+                            Text("As today is a Major Feast of the Lord, the Synaxarium is not read today.")
+                                .padding(.bottom, 5)
+                                .padding(.horizontal, 16)
+                        } else {
+                            TabView {
+                                ForEach(occasionViewModel.stories) { story in
+                                    Text("\(story.story ?? "")")
+                                        .padding(16)
+                                        .lineLimit(6)
+                                        .background(.white)
+                                        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+                                    //.scaleEffect(selectedCommemoration == reading ? 1.05 : 1.0)
+                                    //.animation(.spring(response: 0.6, dampingFraction: 0.4))
+                                        .onTapGesture {
+                                            withAnimation() {
+                                                //selectedCommemoration = reading
+                                            }
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                withAnimation {
+                                                    //selectedCommemoration = nil
+                                                    //self.reading = reading
+                                                    showSynaxars = true
+                                                }
+                                            }
+                                        }
+                                        .padding(.bottom, 40)
+                                        .padding(.horizontal, 16)
+                                }
+                            }
+                            .frame(height: 200)
+                            
+                        }
+                    }
+                    .multilineTextAlignment(.center)
+                    .font(.title3)
+                    .tabViewStyle(.page)
+                }
                 .foregroundColor(.black)
             }
         }
-
+        
     }
     
     
@@ -710,16 +709,16 @@ extension HomeView {
                             }
                             if let liturgy = occasionViewModel.liturgy {
                                 ForEach(liturgy.subSections ?? []) { subsection in
-                                        SubsectionView(mainReadingTitle: liturgy.title ?? "",
-                                                       subsection: subsection)
-                                        .padding(16)
-                                        .background(liturgy.color(for: subsection.id ?? 0).gradient)
-                                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                                        .onTapGesture {
-                                            occasionViewModel.selectedReading = nil
-                                            occasionViewModel.selectedLiturgy = subsection
-                                            presentedReadingSheet = true
-                                        }
+                                    SubsectionView(mainReadingTitle: liturgy.title ?? "",
+                                                   subsection: subsection)
+                                    .padding(16)
+                                    .background(liturgy.color(for: subsection.id ?? 0).gradient)
+                                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                    .onTapGesture {
+                                        occasionViewModel.selectedReading = nil
+                                        occasionViewModel.selectedLiturgy = subsection
+                                        presentedReadingSheet = true
+                                    }
                                     .scaleEffect(selectedSubsection == subsection ? 1.1 : 1.0)
                                     .simultaneousGesture(TapGesture().onEnded{
                                         withAnimation(.easeIn(duration: 0.1)) {
@@ -739,10 +738,10 @@ extension HomeView {
                 .padding(.horizontal, 20)
             }
         }
-
+        
     }
-     
-
+    
+    
     
     private var upcomingFeasts: some View {
         VStack (alignment: .leading, spacing: 8) {
@@ -759,7 +758,7 @@ extension HomeView {
                 }
             }
             .padding(.leading, 20)
-
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack (alignment: .center, spacing: 16) {
                     ForEach(occasionViewModel.notables) { notable in
@@ -800,7 +799,7 @@ extension HomeView {
                 .padding(.leading, 20)
                 .padding(.trailing, 20)
             }
-
+            
             
         }
     }
@@ -930,38 +929,41 @@ extension HomeView {
     }
     
     private var newVersionInfo: some View {
-        VStack {
-            Text("A new version of Agios is available")
-                .bold()
+        return VStack (spacing: 3) {
+            HStack (spacing: 5) {
+                Image(systemName: "sparkles")
+                    .foregroundColor(Color(#colorLiteral(red: 0.98, green: 0.82, blue: 0.32, alpha: 1)))
+                    .font(.system(size: 20))
+                Text("A new version of Agios is available")
+                    .fontWeight(.medium)
+            }
             Button {
                 if let url = URL(string: versionCheckViewModel.updateUrl) {
                     UIApplication.shared.open(url)
                 }
             } label: {
                 Text("Update now")
-                    .bold()
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
+                    .fontWeight(.medium)
+                    .padding(.vertical, 3)
+                    .padding(.horizontal, 10)
                     .foregroundStyle(
                         .white
                     )
                     .background(
-                        RoundedRectangle(
-                            cornerSize: CGSize(
-                                width: 10,
-                                height: 10
-                            )
-                        )
+                        RoundedRectangle(cornerRadius: 100, style: .continuous)
                             .fill()
                             .foregroundStyle(
-                                Color.accent
+                                (Color(#colorLiteral(red: 0.6980392157, green: 0.6, blue: 0.4039215686, alpha: 1)))
                             )
                     )
             }
-
         }
-        .padding()
-        .background(.white)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .padding(.horizontal, 30)
+        .padding(.vertical, 10)
+        .background(Color(#colorLiteral(red: 0.9607843137, green: 0.9490196078, blue: 0.9176470588, alpha: 1)))
+        .overlay(
+            RoundedRectangle(cornerRadius: 15, style: .continuous)
+                .stroke(Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)).opacity(0.2), lineWidth: 1)
+        )
     }
 }

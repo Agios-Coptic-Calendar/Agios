@@ -100,7 +100,7 @@ struct WidgetService {
             }
             
             // If no valid image URL or no icon, return a placeholder
-            return Saint(image: UIImage(named: "placeholder")!, description: "No data available")
+            return Saint(image: UIImage(named: "placeholder")!, description: response.data.name ?? "No data available")
         } catch {
             // If any step above fails, print error and return nil
             print("Error fetching icon: \(error)")
