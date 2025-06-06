@@ -127,19 +127,9 @@ struct DateView: View {
                 .opacity(openCopticList ? 1 : 0)
                 .animation(.spring(response: 0.4, dampingFraction: 1), value: animationsMode)
             }
-            //.padding(.horizontal, 16)
             .foregroundStyle(.gray900)
             .fontWeight(.medium)
             .fontDesign(.rounded)
-            
-            // Gradient
-            /*
-             Rectangle()
-                     .fill(.linearGradient(colors: [.white, .clear], startPoint: .bottom, endPoint: .top))
-                     .frame(height: 40)
-             */
-        
-            
         }
         
         .overlay(alignment: .topLeading) {
