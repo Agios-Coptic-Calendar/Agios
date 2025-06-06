@@ -240,7 +240,9 @@ struct FeastView: View {
     }
     
     var searchedDatesFromAllMonths: [String] {
-        let allDates = filteredDates.flatMap { month in
+        let dataSource = !occasionViewModel.allCopticMonths.isEmpty ? occasionViewModel.allCopticMonths : filteredDates
+        
+        let allDates = dataSource.flatMap { month in
             month.dates.map { date in
                 "\(date)"
             }
@@ -249,8 +251,9 @@ struct FeastView: View {
         if occasionViewModel.searchDate.isEmpty {
             return allDates
         } else {
+            let searchTerm = occasionViewModel.searchDate.trimmingCharacters(in: .whitespacesAndNewlines)
             return allDates.filter { dateString in
-                return dateString.lowercased().contains(occasionViewModel.searchDate.lowercased())
+                return dateString.lowercased().contains(searchTerm.lowercased())
             }
         }
     }
