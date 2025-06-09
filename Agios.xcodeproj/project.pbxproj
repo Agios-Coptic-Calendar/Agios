@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29D242B12DF65A5E0069484A /* UpdateComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D242B02DF65A5E0069484A /* UpdateComponent.swift */; };
+		29D242B22DF65A5E0069484A /* UpdateComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D242B02DF65A5E0069484A /* UpdateComponent.swift */; };
+		29D242B42DF65DD20069484A /* SunburstShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D242B32DF65DD20069484A /* SunburstShapeView.swift */; };
+		29D242B52DF65DD20069484A /* SunburstShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D242B32DF65DD20069484A /* SunburstShapeView.swift */; };
+		29D242B72DF664D60069484A /* AnimatedPulseImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D242B62DF664D60069484A /* AnimatedPulseImage.swift */; };
+		29D242B82DF664D60069484A /* AnimatedPulseImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D242B62DF664D60069484A /* AnimatedPulseImage.swift */; };
+		29D242BB2DF703FD0069484A /* SpringAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D242BA2DF703FD0069484A /* SpringAnimation.swift */; };
+		29D242BC2DF703FD0069484A /* SpringAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D242BA2DF703FD0069484A /* SpringAnimation.swift */; };
+		29D242BE2DF724B10069484A /* AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D242BD2DF724B10069484A /* AnimatedImage.swift */; };
+		29D242BF2DF724B10069484A /* AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D242BD2DF724B10069484A /* AnimatedImage.swift */; };
 		474C79A52BD009BC003E3A15 /* AgiosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474C79A42BD009BC003E3A15 /* AgiosApp.swift */; };
 		474C79A92BD009BF003E3A15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 474C79A82BD009BF003E3A15 /* Assets.xcassets */; };
 		474C79AC2BD009BF003E3A15 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 474C79AB2BD009BF003E3A15 /* Preview Assets.xcassets */; };
@@ -228,6 +238,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		29D242B02DF65A5E0069484A /* UpdateComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateComponent.swift; sourceTree = "<group>"; };
+		29D242B32DF65DD20069484A /* SunburstShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunburstShapeView.swift; sourceTree = "<group>"; };
+		29D242B62DF664D60069484A /* AnimatedPulseImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedPulseImage.swift; sourceTree = "<group>"; };
+		29D242BA2DF703FD0069484A /* SpringAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringAnimation.swift; sourceTree = "<group>"; };
+		29D242BD2DF724B10069484A /* AnimatedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImage.swift; sourceTree = "<group>"; };
 		474C79A12BD009BC003E3A15 /* Agios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Agios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		474C79A42BD009BC003E3A15 /* AgiosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgiosApp.swift; sourceTree = "<group>"; };
 		474C79A82BD009BF003E3A15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -360,6 +375,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		29D242B92DF664E00069484A /* UpdateComponent */ = {
+			isa = PBXGroup;
+			children = (
+				29D242B62DF664D60069484A /* AnimatedPulseImage.swift */,
+				29D242BD2DF724B10069484A /* AnimatedImage.swift */,
+				29D242B32DF65DD20069484A /* SunburstShapeView.swift */,
+				29D242B02DF65A5E0069484A /* UpdateComponent.swift */,
+			);
+			path = UpdateComponent;
+			sourceTree = "<group>";
+		};
 		474C79982BD009BC003E3A15 = {
 			isa = PBXGroup;
 			children = (
@@ -432,6 +458,7 @@
 			children = (
 				570515C12BDB037300990A24 /* NavigationButton.swift */,
 				5728FE012BE6607A00FE4130 /* LocalFileManager.swift */,
+				29D242B92DF664E00069484A /* UpdateComponent */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -535,6 +562,7 @@
 			isa = PBXGroup;
 			children = (
 				570764402BD68EDA00C5C98B /* DeveloperPreview.swift */,
+				29D242BA2DF703FD0069484A /* SpringAnimation.swift */,
 				57A440242C3EFD3600CD6C25 /* Hero.swift */,
 				5701B0C52C5C5AAA00592193 /* PreferenceKey.swift */,
 				579710A02BD1429900DFDBA3 /* ButtonStyle.swift */,
@@ -880,18 +908,22 @@
 				5707643E2BD68D1500C5C98B /* HomeSaintImageView.swift in Sources */,
 				570764472BD69B9D00C5C98B /* IconImageViewModel.swift in Sources */,
 				99F045F32DCA82A4005530FB /* VersionCheckViewModel.swift in Sources */,
+				29D242B72DF664D60069484A /* AnimatedPulseImage.swift in Sources */,
 				57EAE6352BD7E76F00379CC5 /* Layer+Extensions.swift in Sources */,
 				570764452BD6987900C5C98B /* NetworkingManager.swift in Sources */,
 				579710BB2BD146A100DFDBA3 /* Feast.swift in Sources */,
 				5701B0CB2C5C6AB800592193 /* SheetModal.swift in Sources */,
 				57EE90652BE4096000C7E1AE /* ShimmerView.swift in Sources */,
 				579710A82BD1429900DFDBA3 /* Date+Extensions.swift in Sources */,
+				29D242BF2DF724B10069484A /* AnimatedImage.swift in Sources */,
 				5762837C2C45519B004143CB /* GroupHeroTransitionView.swift in Sources */,
 				570515BC2BDAE0B500990A24 /* SaintDetailsView.swift in Sources */,
 				570515B92BDAB91C00990A24 /* DatePickerView.swift in Sources */,
 				579710A72BD1429900DFDBA3 /* Colours+Extensions.swift in Sources */,
+				29D242B22DF65A5E0069484A /* UpdateComponent.swift in Sources */,
 				99F045ED2DCA822F005530FB /* VersionCheckResponse.swift in Sources */,
 				57616ECE2BF503B800C867AC /* DateView.swift in Sources */,
+				29D242B52DF65DD20069484A /* SunburstShapeView.swift in Sources */,
 				57EAE6372BD7E79D00379CC5 /* HapticsManager.swift in Sources */,
 				57CF01842BE2530000508338 /* Zoomable.swift in Sources */,
 				579710A92BD1429900DFDBA3 /* Image+Extensions.swift in Sources */,
@@ -905,6 +937,7 @@
 				57CA77872BD7324C00A34725 /* OccasionDataService.swift in Sources */,
 				570937052C125035006631F7 /* StoryDetailView.swift in Sources */,
 				5739B0D52C15EA8200493B4F /* GroupedSaintImageView.swift in Sources */,
+				29D242BB2DF703FD0069484A /* SpringAnimation.swift in Sources */,
 				579710A52BD1429900DFDBA3 /* ButtonStyle.swift in Sources */,
 				998A7B7B2CA35E9E000BD963 /* Quote.swift in Sources */,
 				5728FE022BE6607A00FE4130 /* LocalFileManager.swift in Sources */,
@@ -965,18 +998,22 @@
 				99CECDC92DB6F8CA00C4E381 /* HomeSaintImageView.swift in Sources */,
 				99CECDCA2DB6F8CA00C4E381 /* IconImageViewModel.swift in Sources */,
 				99F045F22DCA82A4005530FB /* VersionCheckViewModel.swift in Sources */,
+				29D242B82DF664D60069484A /* AnimatedPulseImage.swift in Sources */,
 				99CECDCB2DB6F8CA00C4E381 /* Layer+Extensions.swift in Sources */,
 				99CECDCC2DB6F8CA00C4E381 /* NetworkingManager.swift in Sources */,
 				99CECDCD2DB6F8CA00C4E381 /* Feast.swift in Sources */,
 				99CECDCE2DB6F8CA00C4E381 /* SheetModal.swift in Sources */,
 				99CECDCF2DB6F8CA00C4E381 /* ShimmerView.swift in Sources */,
 				99CECDD02DB6F8CA00C4E381 /* Date+Extensions.swift in Sources */,
+				29D242BE2DF724B10069484A /* AnimatedImage.swift in Sources */,
 				99CECDD12DB6F8CA00C4E381 /* GroupHeroTransitionView.swift in Sources */,
 				99CECDD22DB6F8CA00C4E381 /* SaintDetailsView.swift in Sources */,
 				99CECDD32DB6F8CA00C4E381 /* DatePickerView.swift in Sources */,
 				99CECDD42DB6F8CA00C4E381 /* Colours+Extensions.swift in Sources */,
+				29D242B12DF65A5E0069484A /* UpdateComponent.swift in Sources */,
 				99F045EC2DCA822F005530FB /* VersionCheckResponse.swift in Sources */,
 				99CECDD52DB6F8CA00C4E381 /* DateView.swift in Sources */,
+				29D242B42DF65DD20069484A /* SunburstShapeView.swift in Sources */,
 				99CECDD62DB6F8CA00C4E381 /* HapticsManager.swift in Sources */,
 				99CECDD72DB6F8CA00C4E381 /* Zoomable.swift in Sources */,
 				99CECDD82DB6F8CA00C4E381 /* Image+Extensions.swift in Sources */,
@@ -990,6 +1027,7 @@
 				99CECDE02DB6F8CA00C4E381 /* OccasionDataService.swift in Sources */,
 				99CECDE12DB6F8CA00C4E381 /* StoryDetailView.swift in Sources */,
 				99CECDE22DB6F8CA00C4E381 /* GroupedSaintImageView.swift in Sources */,
+				29D242BC2DF703FD0069484A /* SpringAnimation.swift in Sources */,
 				99CECDE32DB6F8CA00C4E381 /* ButtonStyle.swift in Sources */,
 				99CECDE42DB6F8CA00C4E381 /* Quote.swift in Sources */,
 				99CECDE52DB6F8CA00C4E381 /* LocalFileManager.swift in Sources */,

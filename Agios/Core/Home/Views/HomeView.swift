@@ -65,7 +65,7 @@ struct HomeView: View {
     var body: some View {
         
         NavigationStack {
-            ZStack(alignment: .bottom) {
+            ZStack(alignment: .bottomTrailing) {
                 ZStack {
                     ZStack {
                         Color.primary100.ignoresSafeArea()
@@ -91,10 +91,6 @@ struct HomeView: View {
                                 
                                 if !occasionViewModel.notables.isEmpty {
                                     upcomingFeasts
-                                }
-                                
-                                if versionCheckViewModel.updateType == .optional {
-                                    newVersionInfo
                                 }
                             }
                             .padding(.bottom, 48)
@@ -157,6 +153,16 @@ struct HomeView: View {
                                 occasionViewModel.showUpcomingView = false
                             }
                         }
+                    
+                    
+                    Rectangle()
+                        .fill(.gray900.opacity(0.3))
+                        .opacity(versionCheckViewModel.versionUpdateIsExpanded ? 1 : 0)
+                        .onTapGesture {
+                            withBouncySpringAnimation {
+                                versionCheckViewModel.versionUpdateIsExpanded = false
+                            }
+                        }
                 }
                 
                 // Pop up for when data doesn't load in view
@@ -166,6 +172,19 @@ struct HomeView: View {
                             .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
                     }
                     
+                }
+                // Version check modal
+                ZStack {
+                    if !occasionViewModel.isLoading {
+                        UpdateComponent(versionCheckViewModel: versionCheckViewModel, onTap: { shouldUpdate in
+                            if let url = URL(string: versionCheckViewModel.updateUrl) {
+                                UIApplication.shared.open(url)
+                            }
+                        })
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 48)
+                            .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
+                    }
                 }
                 
                 

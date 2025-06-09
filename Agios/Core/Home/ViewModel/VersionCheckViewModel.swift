@@ -4,6 +4,7 @@ class VersionCheckViewModel: ObservableObject {
     @Published var updateType: UpdateType = .none
     @Published var updateMessage: String = ""
     @Published var updateUrl: String = ""
+    @Published var versionUpdateIsExpanded = false
 
     func performVersionCheck() async {
         guard let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
