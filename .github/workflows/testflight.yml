@@ -5,19 +5,12 @@ on:
     branches:
       - main
   workflow_dispatch:
-  
-  concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-    paths:
-      - "fastlane/**"
-      - "**/*.xcodeproj"
-      - "**/*.swift"
-      - "**/Info.plist"
-
 jobs:
   release:
+    concurrency:
+      group: testflight-release
+      cancel-in-progress: true
+      
     runs-on: macos-latest
 
     steps:
