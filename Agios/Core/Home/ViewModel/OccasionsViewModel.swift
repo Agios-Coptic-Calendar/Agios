@@ -134,14 +134,22 @@ class OccasionsViewModel: ObservableObject {
         "Baounah": 30, "Epep": 30, "Mesra": 30, "Nasie": 5 // Leap years: 6
     ]
 
+    private var debounceTimer: Timer?
+    private var retryCount = 0
+    private let maxRetries = 3
+
     init() {
         loadSavedDate()
-        withAnimation {
-            self.isLoading = true
-        }
         getCopticEvents()
-        getPosts()
         getCopticDates()
+        
+        // Delay the initial API call slightly to avoid conflicts
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            withAnimation {
+                self.isLoading = true
+            }
+            self.getPosts()
+        }
     }
     
     func fetchFeasts() {
@@ -176,11 +184,15 @@ class OccasionsViewModel: ObservableObject {
                 dateRange = try decoder.decode(DateRange.self, from: data)
                 AppEnvironment.updateDateRange(from: dateRange)
                 datePickerLimitsFetched = true
+                
+                // Add a small delay to ensure the date range is properly set
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
+                    getCopticDatesCategorized()
+                }
             } catch {
-                print(error)
+                print("Error fetching date picker limits: \(error)")
             }
         }
-        getCopticDatesCategorized()
     }
 
     private func loadSavedDate() {
@@ -265,11 +277,9 @@ class OccasionsViewModel: ObservableObject {
         var currentDate = range.lowerBound
         var categorizedDates: [String: [String]] = [:] // Dictionary to hold categorized dates
         
-        // Define the order of Coptic months
-        let copticMonthOrder = [
-            "Tout", "Baba", "Epep", "Hator", "Kiahk", "Toba", "Amshir",
-            "Baramhat", "Baramouda", "Bashans", "Baouna", "Abib", "Mesra", "Nasie"
-        ]
+        let copticMonthOrder = self.copticMonthOrder
+        
+        print("Date range: \(range.lowerBound) to \(range.upperBound)")
         
         while currentDate <= range.upperBound {
             let copticDateString = copticDate(for: currentDate)
@@ -286,28 +296,30 @@ class OccasionsViewModel: ObservableObject {
             }
             
             // Move to the next day
-            if let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate) {
-                currentDate = nextDate
-            } else {
-                break // In case date calculation fails
+            guard let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate) else {
+                print("Failed to calculate next date for: \(currentDate)")
+                break
             }
+            currentDate = nextDate
         }
         
         // Sort and map the dictionary into an array of CopticMonth models
         self.allCopticMonths = copticMonthOrder.compactMap { monthName in
-            if monthName == "Baouna" {
-                if let dates = categorizedDates["Paona"] {
-                    let updatedArray = dates.map { $0.replacingOccurrences(of: "Paona", with: "Baouna") }
-                    return CopticMonth(name: "Baouna", dates: updatedArray)
+
+            if monthName == "Baounah" {
+                if let dates = categorizedDates["Baounah"] {
+                    return CopticMonth(name: "Baounah", dates: dates)
+                } else if let dates = categorizedDates["Paona"] {
+                    let updatedArray = dates.map { $0.replacingOccurrences(of: "Paona", with: "Baounah") }
+                    return CopticMonth(name: "Baounah", dates: updatedArray)
                 }
             }
+            
             if let dates = categorizedDates[monthName] {
                 return CopticMonth(name: monthName, dates: dates)
             }
             return nil
         }
-        
-        print(allCopticMonths)
     }
 
     private func loadJSONFromFile<T: Decodable>(fileName: String) -> T? {
@@ -333,15 +345,22 @@ class OccasionsViewModel: ObservableObject {
     private func getCopticEvents() {
        copticEvents = loadJSONFromFile(fileName: "copticEvents")
     }
-        
+
     func filterDate() {
+        // Cancel previous timer
+        debounceTimer?.invalidate()
+        
         withAnimation(.spring(response: 0.25, dampingFraction: 0.9)) {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
-                withAnimation {
-                    self.isLoading = true
-                    self.getPosts()
+            // Debounce the API call by 500ms
+            debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
+                DispatchQueue.main.async {
+                    withAnimation {
+                        self?.isLoading = true
+                        self?.getPosts()
+                    }
                 }
             }
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 withAnimation(.spring(response: 0.25, dampingFraction: 0.88)) {
                     self.defaultDateTapped = false
@@ -440,30 +459,66 @@ class OccasionsViewModel: ObservableObject {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: datePicker)
     }
-    
-    func getPosts() {
+
+    func getPosts(isRetry: Bool = false) {
+        if !isRetry {
+            retryCount = 0
+        }        // Cancel any existing task
+        task?.cancel()
+        
         guard let url = URL(string: "https://api.agios.co/occasions/get/date/\(date)") else { return }
-        Task { @MainActor in
-            do {
-                let (data, response) = try await URLSession.shared.data(from: url)
-                let decodedResponse = try handleOutput(response: response, data: data)
-                    updateUI(with: decodedResponse)
-                fetchFeasts()
-                DispatchQueue.main.async { [weak self] in
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                        self?.showEventNotLoaded = false
-                    }
+        
+        task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                
+                if let error = error as NSError?, error.code == NSURLErrorCancelled {
+                    return
                 }
-            } catch {
-                print("Error fetching data: \(error)")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                
+                if let error = error {
+                    print("Error fetching data: \(error)")
+                    self.handleError()
+                    return
+                }
+                
+                guard let data = data, let response = response else {
+                    print("No data or response received")
+                    self.handleError()
+                    return
+                }
+                
+                do {
+                    let decodedResponse = try self.handleOutput(response: response, data: data)
+                    self.updateUI(with: decodedResponse)
+                    self.fetchFeasts()
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                        self?.showEventNotLoaded = true
-                        
+                        self.showEventNotLoaded = false
                     }
-                    if self?.showEventNotLoaded ?? false && (self?.isLoading ?? false) {
-                        HapticsManager.instance.notification(type: .error)
-                    }
+                } catch {
+                    print("Error decoding data: \(error)")
+                    self.handleError()
+                }
+            }
+        }
+        
+        task?.resume()
+    }
+
+    private func handleError() {
+        if retryCount < maxRetries {
+            retryCount += 1
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(retryCount)) { [weak self] in
+                self?.getPosts(isRetry: true)
+            }
+        } else {
+            // Show error to user
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                    self?.showEventNotLoaded = true
+                }
+                if self?.showEventNotLoaded ?? false && (self?.isLoading ?? false) {
+                    HapticsManager.instance.notification(type: .error)
                 }
             }
         }
