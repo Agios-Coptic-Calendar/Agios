@@ -167,7 +167,7 @@ struct HomeView: View {
                 
                 // Pop up for when data doesn't load in view
                 ZStack {
-                    if occasionViewModel.showEventNotLoaded && !iconImageViewModel.isLoading && occasionViewModel.isLoading {
+                    if occasionViewModel.showEventNotLoaded {
                         eventNotLoaded
                             .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
                     }
