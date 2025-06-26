@@ -1,4 +1,4 @@
-name: TestFlight Release
+name: TestFlight Dev Release
 
 on:
   push:
