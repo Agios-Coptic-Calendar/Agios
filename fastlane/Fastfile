@@ -37,8 +37,8 @@ lane :prod_release do
     export_method: "app-store",
     export_options: { 
       provisioningProfiles: {
-        "com.danielkame.Agios" => "Agios Distribution",
-        "com.danielkame.Agios.AgiosWidget" => "Agios Widget Distribution"
+        "com.danielkame.Agios" => "Agios Distribution Profile",
+        "com.danielkame.Agios.AgiosWidget" => "Widget Distribution"
       }
     }
   )
