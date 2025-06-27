@@ -18,10 +18,10 @@ jobs:
     - name: Install Apple certificate and provisioning profiles
       env:
         BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64_PROD }}
-        P12_PASSWORD: ${{ secrets.P12_PASSWORD_PROD }}
+        P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
         AGIOS_PROVISIONING_PROFILE: ${{ secrets.AGIOS_PROVISIONING_PROFILE_PROD }}
         AGIOS_WIDGET_PROVISIONING_PROFILE: ${{ secrets.AGIOS_WIDGET_PROVISIONING_PROFILE_PROD }}
-        KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD_PROD }}
+        KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
       run: |
         CERT_PATH=$RUNNER_TEMP/cert.p12
         PROFILE_APP=$RUNNER_TEMP/agios_app.mobileprovision
@@ -60,12 +60,12 @@ jobs:
 
     - name: Decode App Store Connect API Key
       run: |
-        echo "${{ secrets.APP_STORE_API_KEY_PROD }}" > AuthKey.p8
+        echo "${{ secrets.APP_STORE_API_KEY }}" > AuthKey.p8
 
     - name: Build and upload to TestFlight (Production)
       env:
-        APP_STORE_API_KEY_ID: ${{ secrets.APP_STORE_API_KEY_ID_PROD }}
-        APP_STORE_ISSUER_ID: ${{ secrets.APP_STORE_ISSUER_ID_PROD }}
-        APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY_PROD }}
+        APP_STORE_API_KEY_ID: ${{ secrets.APP_STORE_API_KEY_ID }}
+        APP_STORE_ISSUER_ID: ${{ secrets.APP_STORE_ISSUER_ID }}
+        APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}
       run: |
         bundle exec fastlane prod_release

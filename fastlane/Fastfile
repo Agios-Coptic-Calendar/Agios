@@ -25,6 +25,31 @@ platform :ios do
       skip_waiting_for_build_processing: true
     )
   end
+
+lane :prod_release do
+  increment_build_number(
+    build_number: Time.now.strftime("%Y%m%d%H%M"),
+    xcodeproj: "Agios.xcodeproj"
+  )
+
+  build_app(
+    scheme: "Agios",
+    export_method: "app-store",
+    export_options: { 
+      provisioningProfiles: {
+        "com.danielkame.Agios" => "Agios Distribution",
+        "com.danielkame.Agios.AgiosWidget" => "Agios Widget Distribution"
+      }
+    }
+  )
+
+  upload_to_testflight(
+    api_key: fetch_app_store_api_key,
+    skip_submission: true,
+    skip_waiting_for_build_processing: true
+  )
+end
+
 end
 
 def fetch_app_store_api_key
