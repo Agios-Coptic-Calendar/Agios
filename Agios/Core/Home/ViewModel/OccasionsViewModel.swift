@@ -137,11 +137,21 @@ class OccasionsViewModel: ObservableObject {
     private var debounceTimer: Timer?
     private var retryCount = 0
     private let maxRetries = 3
+    
+    @Published var selectedCopticYear: String = {
+        let copticCalendar = Calendar(identifier: .coptic)
+        let currentYear = copticCalendar.component(.year, from: Date())
+        return String(currentYear)
+    }()
+    
+    @Published var availableCopticYears: [String] = []
 
     init() {
         loadSavedDate()
         getCopticEvents()
         getCopticDates()
+        getCopticDatesCategorized(forYear: selectedCopticYear)
+        populateAvailableCopticYears()
         
         // Delay the initial API call slightly to avoid conflicts
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -151,7 +161,7 @@ class OccasionsViewModel: ObservableObject {
             self.getPosts()
         }
     }
-    
+        
     func fetchFeasts() {
         guard let url = URL(string: "https://api.agios.co/yearAheadFeasts"),
         !yearAheadFeastsFetched else {
@@ -270,42 +280,49 @@ class OccasionsViewModel: ObservableObject {
         }
     }
     
+    func copticYear(for date: Date) -> String {
+        let calendar = Calendar(identifier: .coptic)
+        let year = calendar.component(.year, from: date)
+        return "\(year)"
+    }
 
-    private func getCopticDatesCategorized() {
+    func onSelectYear(_ year: String) {
+        selectedCopticYear = year
+        getCopticDatesCategorized(forYear: year)
+    }
+
+
+    private func getCopticDatesCategorized(forYear selectedYear: String? = nil) {
         let range = AppEnvironment.dateRange
         let calendar = Calendar.current
         var currentDate = range.lowerBound
-        var categorizedDates: [String: [String]] = [:] // Dictionary to hold categorized dates
-        
+        var categorizedDates: [String: [String]] = [:]
         let copticMonthOrder = self.copticMonthOrder
         
         print("Date range: \(range.lowerBound) to \(range.upperBound)")
         
         while currentDate <= range.upperBound {
             let copticDateString = copticDate(for: currentDate)
-            
-            // Assuming copticDateString is in the format "Month Day" (e.g., "Tout 1")
-            let components = copticDateString.split(separator: " ")
-            if components.count == 2 {
-                let month = String(components[0]) // Extract month (e.g., "Tout")
-                if categorizedDates[month] != nil {
-                    categorizedDates[month]?.append(copticDateString)
-                } else {
-                    categorizedDates[month] = [copticDateString]
+            let copticYear = copticYear(for: currentDate)
+
+            if selectedYear == nil || selectedYear == copticYear {
+                let components = copticDateString.split(separator: " ")
+                if components.count == 2 {
+                    let month = String(components[0])
+                    if categorizedDates[month] != nil {
+                        categorizedDates[month]?.append(copticDateString)
+                    } else {
+                        categorizedDates[month] = [copticDateString]
+                    }
                 }
             }
-            
-            // Move to the next day
             guard let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate) else {
-                print("Failed to calculate next date for: \(currentDate)")
                 break
             }
             currentDate = nextDate
         }
         
-        // Sort and map the dictionary into an array of CopticMonth models
         self.allCopticMonths = copticMonthOrder.compactMap { monthName in
-
             if monthName == "Baounah" {
                 if let dates = categorizedDates["Baounah"] {
                     return CopticMonth(name: "Baounah", dates: dates)
@@ -314,12 +331,40 @@ class OccasionsViewModel: ObservableObject {
                     return CopticMonth(name: "Baounah", dates: updatedArray)
                 }
             }
-            
+
             if let dates = categorizedDates[monthName] {
                 return CopticMonth(name: monthName, dates: dates)
             }
             return nil
         }
+    }
+    
+    func populateAvailableCopticYears() {
+        let copticCalendar = Calendar(identifier: .coptic)
+        let gregorianCalendar = Calendar.current
+
+        // Limit range: from 1 year ago to today
+        let now = Date()
+        guard let start = gregorianCalendar.date(byAdding: .year, value: -1, to: now) else {
+            return
+        }
+
+        let range = start...now
+        var currentDate = range.lowerBound
+        var uniqueYears = Set<Int>()
+
+        while currentDate <= range.upperBound {
+            let copticYear = copticCalendar.component(.year, from: currentDate)
+            uniqueYears.insert(copticYear)
+
+            // Advance by one day
+            guard let nextDate = gregorianCalendar.date(byAdding: .day, value: 1, to: currentDate) else { break }
+            currentDate = nextDate
+        }
+
+        // Sort and convert to strings
+        let sortedYears = uniqueYears.sorted()
+        self.availableCopticYears = sortedYears.map { String($0) }
     }
 
     private func loadJSONFromFile<T: Decodable>(fileName: String) -> T? {
@@ -373,9 +418,14 @@ class OccasionsViewModel: ObservableObject {
         let calendar = Calendar(identifier: .coptic)
         let month = calendar.component(.month, from: date)
         let day = calendar.component(.day, from: date)
-        let monthName = calendar.monthSymbols[month - 1]
+        
+        // Use your app’s internal month naming
+        let copticMonthNames = copticMonthOrder
+        
+        // Make sure the index is valid
+        let correctedMonthName = copticMonthNames[safe: month - 1] ?? "Unknown"
 
-        return "\(monthName) \(day)"
+        return "\(correctedMonthName) \(day)"
     }
     
     let copticMonthOrder =  [
