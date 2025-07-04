@@ -7,6 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		293509BB2E11F56C0074D67B /* FeastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293509BA2E11F56C0074D67B /* FeastView.swift */; };
+		293509BC2E11F56C0074D67B /* FeastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293509BA2E11F56C0074D67B /* FeastView.swift */; };
+		293509BE2E11F7850074D67B /* YearAheadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293509BD2E11F7850074D67B /* YearAheadView.swift */; };
+		293509BF2E11F7850074D67B /* YearAheadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293509BD2E11F7850074D67B /* YearAheadView.swift */; };
+		29393FAE2E17499C004A89AC /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FAD2E17499C004A89AC /* SearchBar.swift */; };
+		29393FAF2E17499C004A89AC /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FAD2E17499C004A89AC /* SearchBar.swift */; };
+		29393FB12E1749BF004A89AC /* MonthListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FB02E1749BF004A89AC /* MonthListView.swift */; };
+		29393FB22E1749BF004A89AC /* MonthListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FB02E1749BF004A89AC /* MonthListView.swift */; };
+		29393FB42E1749DA004A89AC /* MonthRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FB32E1749DA004A89AC /* MonthRow.swift */; };
+		29393FB52E1749DA004A89AC /* MonthRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FB32E1749DA004A89AC /* MonthRow.swift */; };
+		29393FB72E1749EA004A89AC /* YearSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FB62E1749EA004A89AC /* YearSelector.swift */; };
+		29393FB82E1749EA004A89AC /* YearSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FB62E1749EA004A89AC /* YearSelector.swift */; };
+		29393FBA2E174A1D004A89AC /* DateListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FB92E174A1D004A89AC /* DateListView.swift */; };
+		29393FBB2E174A1D004A89AC /* DateListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FB92E174A1D004A89AC /* DateListView.swift */; };
+		29393FBD2E174A42004A89AC /* DateRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FBC2E174A42004A89AC /* DateRow.swift */; };
+		29393FBE2E174A42004A89AC /* DateRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FBC2E174A42004A89AC /* DateRow.swift */; };
+		29393FC02E174A52004A89AC /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FBF2E174A52004A89AC /* SearchResultsView.swift */; };
+		29393FC12E174A52004A89AC /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FBF2E174A52004A89AC /* SearchResultsView.swift */; };
+		29393FC32E174A68004A89AC /* SearchResultRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FC22E174A68004A89AC /* SearchResultRow.swift */; };
+		29393FC42E174A68004A89AC /* SearchResultRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FC22E174A68004A89AC /* SearchResultRow.swift */; };
+		29393FC62E174A76004A89AC /* EmptySearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FC52E174A76004A89AC /* EmptySearchView.swift */; };
+		29393FC72E174A76004A89AC /* EmptySearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FC52E174A76004A89AC /* EmptySearchView.swift */; };
+		29393FCA2E174AF1004A89AC /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FC92E174AF1004A89AC /* BackButton.swift */; };
+		29393FCB2E174AF1004A89AC /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FC92E174AF1004A89AC /* BackButton.swift */; };
+		29393FCD2E174D05004A89AC /* CombinedFeastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FCC2E174D05004A89AC /* CombinedFeastView.swift */; };
+		29393FCE2E174D05004A89AC /* CombinedFeastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FCC2E174D05004A89AC /* CombinedFeastView.swift */; };
+		29393FD02E174D34004A89AC /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FCF2E174D34004A89AC /* NavigationView.swift */; };
+		29393FD12E174D34004A89AC /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FCF2E174D34004A89AC /* NavigationView.swift */; };
+		29393FD32E174F51004A89AC /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FD22E174F51004A89AC /* ArrayExtension.swift */; };
+		29393FD42E174F51004A89AC /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29393FD22E174F51004A89AC /* ArrayExtension.swift */; };
 		29D242B12DF65A5E0069484A /* UpdateComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D242B02DF65A5E0069484A /* UpdateComponent.swift */; };
 		29D242B22DF65A5E0069484A /* UpdateComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D242B02DF65A5E0069484A /* UpdateComponent.swift */; };
 		29D242B42DF65DD20069484A /* SunburstShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D242B32DF65DD20069484A /* SunburstShapeView.swift */; };
@@ -238,6 +268,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		293509BA2E11F56C0074D67B /* FeastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeastView.swift; sourceTree = "<group>"; };
+		293509BD2E11F7850074D67B /* YearAheadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearAheadView.swift; sourceTree = "<group>"; };
+		29393FAD2E17499C004A89AC /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		29393FB02E1749BF004A89AC /* MonthListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthListView.swift; sourceTree = "<group>"; };
+		29393FB32E1749DA004A89AC /* MonthRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthRow.swift; sourceTree = "<group>"; };
+		29393FB62E1749EA004A89AC /* YearSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearSelector.swift; sourceTree = "<group>"; };
+		29393FB92E174A1D004A89AC /* DateListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateListView.swift; sourceTree = "<group>"; };
+		29393FBC2E174A42004A89AC /* DateRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRow.swift; sourceTree = "<group>"; };
+		29393FBF2E174A52004A89AC /* SearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsView.swift; sourceTree = "<group>"; };
+		29393FC22E174A68004A89AC /* SearchResultRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultRow.swift; sourceTree = "<group>"; };
+		29393FC52E174A76004A89AC /* EmptySearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySearchView.swift; sourceTree = "<group>"; };
+		29393FC92E174AF1004A89AC /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
+		29393FCC2E174D05004A89AC /* CombinedFeastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedFeastView.swift; sourceTree = "<group>"; };
+		29393FCF2E174D34004A89AC /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
+		29393FD22E174F51004A89AC /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		29D242B02DF65A5E0069484A /* UpdateComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateComponent.swift; sourceTree = "<group>"; };
 		29D242B32DF65DD20069484A /* SunburstShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunburstShapeView.swift; sourceTree = "<group>"; };
 		29D242B62DF664D60069484A /* AnimatedPulseImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedPulseImage.swift; sourceTree = "<group>"; };
@@ -375,6 +420,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		293509B92E11F54D0074D67B /* Date */ = {
+			isa = PBXGroup;
+			children = (
+				57616ECD2BF503B800C867AC /* DateView.swift */,
+				29393FAC2E174994004A89AC /* Feast */,
+				293509BD2E11F7850074D67B /* YearAheadView.swift */,
+			);
+			path = Date;
+			sourceTree = "<group>";
+		};
+		29393FAC2E174994004A89AC /* Feast */ = {
+			isa = PBXGroup;
+			children = (
+				29393FC82E174A8D004A89AC /* Components */,
+				293509BA2E11F56C0074D67B /* FeastView.swift */,
+				29393FB02E1749BF004A89AC /* MonthListView.swift */,
+				29393FCC2E174D05004A89AC /* CombinedFeastView.swift */,
+				29393FCF2E174D34004A89AC /* NavigationView.swift */,
+				29393FB92E174A1D004A89AC /* DateListView.swift */,
+				29393FBF2E174A52004A89AC /* SearchResultsView.swift */,
+				29393FC52E174A76004A89AC /* EmptySearchView.swift */,
+				29393FB62E1749EA004A89AC /* YearSelector.swift */,
+			);
+			path = Feast;
+			sourceTree = "<group>";
+		};
+		29393FC82E174A8D004A89AC /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				29393FB32E1749DA004A89AC /* MonthRow.swift */,
+				29393FC92E174AF1004A89AC /* BackButton.swift */,
+				29393FC22E174A68004A89AC /* SearchResultRow.swift */,
+				29393FBC2E174A42004A89AC /* DateRow.swift */,
+				29393FAD2E17499C004A89AC /* SearchBar.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		29D242B92DF664E00069484A /* UpdateComponent */ = {
 			isa = PBXGroup;
 			children = (
@@ -512,7 +595,7 @@
 				998A7B7C2CA35FA9000BD963 /* DailyQuoteViewModel.swift */,
 				57EE90642BE4096000C7E1AE /* ShimmerView.swift */,
 				570515B12BDA6FBB00990A24 /* CopticDateView.swift */,
-				57616ECD2BF503B800C867AC /* DateView.swift */,
+				293509B92E11F54D0074D67B /* Date */,
 				570515B82BDAB91B00990A24 /* DatePickerView.swift */,
 				5707643D2BD68D1500C5C98B /* HomeSaintImageView.swift */,
 				5739B0D42C15EA8100493B4F /* GroupedSaintImageView.swift */,
@@ -571,6 +654,7 @@
 				579710A32BD1429900DFDBA3 /* Date+Extensions.swift */,
 				579710A42BD1429900DFDBA3 /* Image+Extensions.swift */,
 				579710A12BD1429900DFDBA3 /* String+Extensions.swift */,
+				29393FD22E174F51004A89AC /* ArrayExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -901,11 +985,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29393FC62E174A76004A89AC /* EmptySearchView.swift in Sources */,
 				57EAE6302BD7E75E00379CC5 /* PopupView.swift in Sources */,
 				99693B292CD95C0600ACB78E /* StoriesWithoutIconsView.swift in Sources */,
 				5798741F2C00B99000F0B2EE /* LaunchView.swift in Sources */,
 				57B7E8512BD2B4D00016D6A4 /* OccasionsViewModel.swift in Sources */,
 				5707643E2BD68D1500C5C98B /* HomeSaintImageView.swift in Sources */,
+				29393FAE2E17499C004A89AC /* SearchBar.swift in Sources */,
 				570764472BD69B9D00C5C98B /* IconImageViewModel.swift in Sources */,
 				99F045F32DCA82A4005530FB /* VersionCheckViewModel.swift in Sources */,
 				29D242B72DF664D60069484A /* AnimatedPulseImage.swift in Sources */,
@@ -915,10 +1001,12 @@
 				5701B0CB2C5C6AB800592193 /* SheetModal.swift in Sources */,
 				57EE90652BE4096000C7E1AE /* ShimmerView.swift in Sources */,
 				579710A82BD1429900DFDBA3 /* Date+Extensions.swift in Sources */,
+				29393FD02E174D34004A89AC /* NavigationView.swift in Sources */,
 				29D242BF2DF724B10069484A /* AnimatedImage.swift in Sources */,
 				5762837C2C45519B004143CB /* GroupHeroTransitionView.swift in Sources */,
 				570515BC2BDAE0B500990A24 /* SaintDetailsView.swift in Sources */,
 				570515B92BDAB91C00990A24 /* DatePickerView.swift in Sources */,
+				293509BB2E11F56C0074D67B /* FeastView.swift in Sources */,
 				579710A72BD1429900DFDBA3 /* Colours+Extensions.swift in Sources */,
 				29D242B22DF65A5E0069484A /* UpdateComponent.swift in Sources */,
 				99F045ED2DCA822F005530FB /* VersionCheckResponse.swift in Sources */,
@@ -929,26 +1017,35 @@
 				579710A92BD1429900DFDBA3 /* Image+Extensions.swift in Sources */,
 				577382032C1B112B003715F6 /* SaintGroupDetailsView.swift in Sources */,
 				579710B72BD146A100DFDBA3 /* IconModel.swift in Sources */,
+				29393FBA2E174A1D004A89AC /* DateListView.swift in Sources */,
 				998A7B7D2CA35FA9000BD963 /* DailyQuoteViewModel.swift in Sources */,
 				57B7E84A2BD2B0A70016D6A4 /* OccasionModel.swift in Sources */,
 				578B61122BD15D9900DCDFF6 /* KatamerosRepository.swift in Sources */,
 				57EE90672BE42EC600C7E1AE /* DailyQuoteView.swift in Sources */,
+				29393FD32E174F51004A89AC /* ArrayExtension.swift in Sources */,
 				578B61052BD15C7B00DCDFF6 /* HomeVIewModel.swift in Sources */,
 				57CA77872BD7324C00A34725 /* OccasionDataService.swift in Sources */,
 				570937052C125035006631F7 /* StoryDetailView.swift in Sources */,
+				29393FB52E1749DA004A89AC /* MonthRow.swift in Sources */,
 				5739B0D52C15EA8200493B4F /* GroupedSaintImageView.swift in Sources */,
 				29D242BB2DF703FD0069484A /* SpringAnimation.swift in Sources */,
 				579710A52BD1429900DFDBA3 /* ButtonStyle.swift in Sources */,
 				998A7B7B2CA35E9E000BD963 /* Quote.swift in Sources */,
+				29393FC02E174A52004A89AC /* SearchResultsView.swift in Sources */,
 				5728FE022BE6607A00FE4130 /* LocalFileManager.swift in Sources */,
+				29393FC42E174A68004A89AC /* SearchResultRow.swift in Sources */,
+				29393FB72E1749EA004A89AC /* YearSelector.swift in Sources */,
 				99989BFE2C2CB6200033CDD3 /* CopticEvent.swift in Sources */,
 				99AF63A32DBC5BC2001FFF78 /* DateRange.swift in Sources */,
+				29393FCA2E174AF1004A89AC /* BackButton.swift in Sources */,
 				99B5EA7D2C373B7700FE829F /* ReadingView.swift in Sources */,
 				578B61112BD15D9900DCDFF6 /* JSONRepository.swift in Sources */,
 				57EAE6342BD7E76F00379CC5 /* Layer.swift in Sources */,
+				29393FB22E1749BF004A89AC /* MonthListView.swift in Sources */,
 				570515B22BDA6FBB00990A24 /* CopticDateView.swift in Sources */,
 				570764412BD68EDA00C5C98B /* DeveloperPreview.swift in Sources */,
 				579710AB2BD142EB00DFDBA3 /* ReadingsView.swift in Sources */,
+				29393FBD2E174A42004A89AC /* DateRow.swift in Sources */,
 				5797106F2BD138E400DFDBA3 /* HomeView.swift in Sources */,
 				579710BA2BD146A100DFDBA3 /* PresentableSection.swift in Sources */,
 				5739B0DC2C1645D500493B4F /* SaintGroupImageView.swift in Sources */,
@@ -958,6 +1055,7 @@
 				579710A62BD1429900DFDBA3 /* String+Extensions.swift in Sources */,
 				579710B92BD146A100DFDBA3 /* Synaxar.swift in Sources */,
 				5701B0CD2C5C6C2400592193 /* UpcomingFeastView.swift in Sources */,
+				29393FCE2E174D05004A89AC /* CombinedFeastView.swift in Sources */,
 				99647C452DB6E7DF009FD998 /* AppEnvironment.swift in Sources */,
 				99F045EF2DCA8255005530FB /* VersionCheckService.swift in Sources */,
 				474C79A52BD009BC003E3A15 /* AgiosApp.swift in Sources */,
@@ -970,6 +1068,7 @@
 				5701B0C62C5C5AAA00592193 /* PreferenceKey.swift in Sources */,
 				579710B82BD146A100DFDBA3 /* PsalmAndGospel.swift in Sources */,
 				570764432BD696E000C5C98B /* IconImageDataService.swift in Sources */,
+				293509BF2E11F7850074D67B /* YearAheadView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -991,11 +1090,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29393FC72E174A76004A89AC /* EmptySearchView.swift in Sources */,
 				99CECDC52DB6F8CA00C4E381 /* PopupView.swift in Sources */,
 				99CECDC62DB6F8CA00C4E381 /* StoriesWithoutIconsView.swift in Sources */,
 				99CECDC72DB6F8CA00C4E381 /* LaunchView.swift in Sources */,
 				99CECDC82DB6F8CA00C4E381 /* OccasionsViewModel.swift in Sources */,
 				99CECDC92DB6F8CA00C4E381 /* HomeSaintImageView.swift in Sources */,
+				29393FAF2E17499C004A89AC /* SearchBar.swift in Sources */,
 				99CECDCA2DB6F8CA00C4E381 /* IconImageViewModel.swift in Sources */,
 				99F045F22DCA82A4005530FB /* VersionCheckViewModel.swift in Sources */,
 				29D242B82DF664D60069484A /* AnimatedPulseImage.swift in Sources */,
@@ -1005,10 +1106,12 @@
 				99CECDCE2DB6F8CA00C4E381 /* SheetModal.swift in Sources */,
 				99CECDCF2DB6F8CA00C4E381 /* ShimmerView.swift in Sources */,
 				99CECDD02DB6F8CA00C4E381 /* Date+Extensions.swift in Sources */,
+				29393FD12E174D34004A89AC /* NavigationView.swift in Sources */,
 				29D242BE2DF724B10069484A /* AnimatedImage.swift in Sources */,
 				99CECDD12DB6F8CA00C4E381 /* GroupHeroTransitionView.swift in Sources */,
 				99CECDD22DB6F8CA00C4E381 /* SaintDetailsView.swift in Sources */,
 				99CECDD32DB6F8CA00C4E381 /* DatePickerView.swift in Sources */,
+				293509BC2E11F56C0074D67B /* FeastView.swift in Sources */,
 				99CECDD42DB6F8CA00C4E381 /* Colours+Extensions.swift in Sources */,
 				29D242B12DF65A5E0069484A /* UpdateComponent.swift in Sources */,
 				99F045EC2DCA822F005530FB /* VersionCheckResponse.swift in Sources */,
@@ -1019,26 +1122,35 @@
 				99CECDD82DB6F8CA00C4E381 /* Image+Extensions.swift in Sources */,
 				99CECDD92DB6F8CA00C4E381 /* SaintGroupDetailsView.swift in Sources */,
 				99CECDDA2DB6F8CA00C4E381 /* IconModel.swift in Sources */,
+				29393FBB2E174A1D004A89AC /* DateListView.swift in Sources */,
 				99CECDDB2DB6F8CA00C4E381 /* DailyQuoteViewModel.swift in Sources */,
 				99CECDDC2DB6F8CA00C4E381 /* OccasionModel.swift in Sources */,
 				99CECDDD2DB6F8CA00C4E381 /* KatamerosRepository.swift in Sources */,
 				99CECDDE2DB6F8CA00C4E381 /* DailyQuoteView.swift in Sources */,
+				29393FD42E174F51004A89AC /* ArrayExtension.swift in Sources */,
 				99CECDDF2DB6F8CA00C4E381 /* HomeVIewModel.swift in Sources */,
 				99CECDE02DB6F8CA00C4E381 /* OccasionDataService.swift in Sources */,
 				99CECDE12DB6F8CA00C4E381 /* StoryDetailView.swift in Sources */,
+				29393FB42E1749DA004A89AC /* MonthRow.swift in Sources */,
 				99CECDE22DB6F8CA00C4E381 /* GroupedSaintImageView.swift in Sources */,
 				29D242BC2DF703FD0069484A /* SpringAnimation.swift in Sources */,
 				99CECDE32DB6F8CA00C4E381 /* ButtonStyle.swift in Sources */,
 				99CECDE42DB6F8CA00C4E381 /* Quote.swift in Sources */,
+				29393FC12E174A52004A89AC /* SearchResultsView.swift in Sources */,
 				99CECDE52DB6F8CA00C4E381 /* LocalFileManager.swift in Sources */,
+				29393FC32E174A68004A89AC /* SearchResultRow.swift in Sources */,
+				29393FB82E1749EA004A89AC /* YearSelector.swift in Sources */,
 				99CECDE62DB6F8CA00C4E381 /* CopticEvent.swift in Sources */,
 				99AF63A22DBC5BC2001FFF78 /* DateRange.swift in Sources */,
+				29393FCB2E174AF1004A89AC /* BackButton.swift in Sources */,
 				99CECDE72DB6F8CA00C4E381 /* ReadingView.swift in Sources */,
 				99CECDE82DB6F8CA00C4E381 /* JSONRepository.swift in Sources */,
 				99CECDE92DB6F8CA00C4E381 /* Layer.swift in Sources */,
+				29393FB12E1749BF004A89AC /* MonthListView.swift in Sources */,
 				99CECDEA2DB6F8CA00C4E381 /* CopticDateView.swift in Sources */,
 				99CECDEB2DB6F8CA00C4E381 /* DeveloperPreview.swift in Sources */,
 				99CECDEC2DB6F8CA00C4E381 /* ReadingsView.swift in Sources */,
+				29393FBE2E174A42004A89AC /* DateRow.swift in Sources */,
 				99CECDED2DB6F8CA00C4E381 /* HomeView.swift in Sources */,
 				99CECDEE2DB6F8CA00C4E381 /* PresentableSection.swift in Sources */,
 				99CECDEF2DB6F8CA00C4E381 /* SaintGroupImageView.swift in Sources */,
@@ -1048,6 +1160,7 @@
 				99CECDF32DB6F8CA00C4E381 /* String+Extensions.swift in Sources */,
 				99CECDF42DB6F8CA00C4E381 /* Synaxar.swift in Sources */,
 				99CECDF52DB6F8CA00C4E381 /* UpcomingFeastView.swift in Sources */,
+				29393FCD2E174D05004A89AC /* CombinedFeastView.swift in Sources */,
 				99CECDF62DB6F8CA00C4E381 /* AppEnvironment.swift in Sources */,
 				99F045F02DCA8255005530FB /* VersionCheckService.swift in Sources */,
 				99CECDF72DB6F8CA00C4E381 /* AgiosApp.swift in Sources */,
@@ -1060,6 +1173,7 @@
 				99CECDFE2DB6F8CA00C4E381 /* PreferenceKey.swift in Sources */,
 				99CECDFF2DB6F8CA00C4E381 /* PsalmAndGospel.swift in Sources */,
 				99CECE002DB6F8CA00C4E381 /* IconImageDataService.swift in Sources */,
+				293509BE2E11F7850074D67B /* YearAheadView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

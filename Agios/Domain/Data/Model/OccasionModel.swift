@@ -41,11 +41,14 @@ struct DataClass: Identifiable, Codable {
 
 // MARK: - CopticDate
 struct CopticDate: Identifiable, Codable {
-    let created, day, id, month: String?
-    let updated: String?
+    let created, day, id, month, year, updated: String?
     
     var dayInt: Int? {
         return Int(day ?? "")
+    }
+    
+    var yearInt: Int? {
+        return Int(year ?? "")
     }
 }
 
