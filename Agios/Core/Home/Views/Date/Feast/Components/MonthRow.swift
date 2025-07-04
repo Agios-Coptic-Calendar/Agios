@@ -65,3 +65,7 @@ struct MonthRow: View {
         ))
     }
 }
+
+#Preview {
+    MonthRow(month: CopticMonth(name: "1", dates: []), occasionViewModel: OccasionsViewModel(), onTap: {})
+}
