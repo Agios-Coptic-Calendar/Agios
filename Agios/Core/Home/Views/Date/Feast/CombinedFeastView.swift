@@ -5,8 +5,9 @@
 //  Created by Victor Onwuzuruike on 04/07/2025.
 //
 
+import SwiftUI
 
-struct ContentView: View {
+struct CombinedFeastView: View {
     @ObservedObject var occasionViewModel: OccasionsViewModel
     @Binding var selectedCopticMonth: CopticMonth?
     @FocusState.Binding var isTextFieldFocused: Bool
@@ -57,4 +58,9 @@ struct ContentView: View {
             }
         }
     }
+}
+
+#Preview {
+    @FocusState var isTextFieldFocused: Bool
+    CombinedFeastView(occasionViewModel: OccasionsViewModel(), selectedCopticMonth: .constant(CopticMonth(name: "Tout", dates: ["Tout 1"])), isTextFieldFocused: $isTextFieldFocused)
 }
