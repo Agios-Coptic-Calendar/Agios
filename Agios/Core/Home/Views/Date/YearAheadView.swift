@@ -1,3 +1,14 @@
+//
+//  YearAheadView.swift
+//  Agios
+//
+//  Created by Victor Onwuzuruike on 29/06/2025.
+//
+
+import SwiftUI
+import Lottie
+
+
 struct YearAheadView: View {
     @ObservedObject private var occasionViewModel: OccasionsViewModel
     
