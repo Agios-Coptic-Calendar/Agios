@@ -1,3 +1,12 @@
+//
+//  SearchResultsView.swift
+//  Agios
+//
+//  Created by Victor Onwuzuruike on 04/07/2025.
+//
+
+import SwiftUI
+
 struct SearchResultsView: View {
     @ObservedObject var occasionViewModel: OccasionsViewModel
     let searchedDates: [String]
@@ -37,4 +46,9 @@ struct SearchResultsView: View {
             removal: .move(edge: .bottom)
         ))
     }
+}
+
+#Preview {
+    @FocusState var isTextFieldFocused: Bool
+    SearchResultsView(occasionViewModel: OccasionsViewModel(), searchedDates: ["Date 1", "Date 2", "Date 3"], isTextFieldFocused: $isTextFieldFocused)
 }
