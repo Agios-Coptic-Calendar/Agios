@@ -1,3 +1,12 @@
+//
+//  MonthListView.swift
+//  Agios
+//
+//  Created by Victor Onwuzuruike on 04/07/2025.
+//
+
+import SwiftUI
+
 struct MonthListView: View {
     @ObservedObject var occasionViewModel: OccasionsViewModel
     @Binding var selectedCopticMonth: CopticMonth?
@@ -33,4 +42,8 @@ struct MonthListView: View {
             .scrollIndicators(.hidden)
         }
     }
+}
+
+#Preview {
+    MonthListView(occasionViewModel: OccasionsViewModel(), selectedCopticMonth: .constant(CopticMonth(name: "Tout", dates: ["Tout 1"])) , filteredDates: [CopticMonth(name: "Tout 1", dates: ["Tout 1"])])
 }

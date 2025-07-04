@@ -1,3 +1,12 @@
+//
+//  NavigationView.swift
+//  Agios
+//
+//  Created by Victor Onwuzuruike on 04/07/2025.
+//
+
+import SwiftUI
+
 struct NavigationView: View {
     @ObservedObject var occasionViewModel: OccasionsViewModel
     @Binding var selectedCopticMonth: CopticMonth?

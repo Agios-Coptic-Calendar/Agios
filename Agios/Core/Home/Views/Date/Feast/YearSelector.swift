@@ -1,3 +1,12 @@
+//
+//  YearSelector.swift
+//  Agios
+//
+//  Created by Victor Onwuzuruike on 04/07/2025.
+//
+
+import SwiftUI
+
 struct YearSelector: View {
     @ObservedObject var occasionViewModel: OccasionsViewModel
     
@@ -26,4 +35,8 @@ struct YearSelector: View {
             .fontWeight(.medium)
         }
     }
+}
+
+#Preview {
+    YearSelector(occasionViewModel: OccasionsViewModel())
 }
