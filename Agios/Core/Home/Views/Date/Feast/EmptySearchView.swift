@@ -1,3 +1,13 @@
+//
+//  EmptySearchView.swift
+//  Agios
+//
+//  Created by Victor Onwuzuruike on 04/07/2025.
+//
+
+import SwiftUI
+import Lottie
+
 struct EmptySearchView: View {
     var body: some View {
         VStack(spacing: -8) {
@@ -15,4 +25,8 @@ struct EmptySearchView: View {
         .frame(maxWidth: .infinity)
         .padding(.top, 40)
     }
+}
+
+#Preview {
+    EmptySearchView()
 }
