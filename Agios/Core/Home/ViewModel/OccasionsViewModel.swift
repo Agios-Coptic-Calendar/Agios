@@ -193,7 +193,9 @@ class OccasionsViewModel: ObservableObject {
                 decoder.dateDecodingStrategy = .formatted(formatter)
                 dateRange = try decoder.decode(DateRange.self, from: data)
                 AppEnvironment.updateDateRange(from: dateRange)
+                self.populateAvailableCopticYears()
                 datePickerLimitsFetched = true
+                onSelectYear(selectedCopticYear)
                 
                 // Add a small delay to ensure the date range is properly set
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
@@ -235,32 +237,27 @@ class OccasionsViewModel: ObservableObject {
     
     func date(from copticDateString: String) -> Date? {
         let calendar = Calendar(identifier: .coptic)
-        
-        // Extract the current Coptic year
-        let currentCopticYear = calendar.component(.year, from: Date())
-        
-        // Split the input string to extract the month name and day
-        let components = copticDateString.split(separator: " ")
-        guard components.count == 2,
-              let day = Int(components[1]) else {
-            return nil // Handle incorrect format
-        }
-        
-        let monthName = String(components[0])
-        
-        // Find the month number corresponding to the Coptic month name
-        guard let monthIndex = calendar.monthSymbols.firstIndex(of: monthName) else {
-            return nil // Handle invalid month name
-        }
-        
-        // Create the Coptic date components using the current Coptic year
-        var dateComponents = DateComponents()
-        dateComponents.year = currentCopticYear
-        dateComponents.month = monthIndex + 1 // Month index is 0-based
-        dateComponents.day = day
-        
-        // Convert the Coptic date components into a Gregorian Date
-        return calendar.date(from: dateComponents)
+
+        // 1. Year
+        let yearInt = Int(selectedCopticYear) ??
+                      calendar.component(.year, from: Date())
+
+        // 2. Split "Baounah 3"
+        let parts = copticDateString.split(separator: " ")
+        guard parts.count == 2, let day = Int(parts[1]) else { return nil }
+        let monthName = String(parts[0])
+
+        // 3. Month number
+        guard let monthIndex = calendar.monthSymbols.firstIndex(of: monthName) else { return nil }
+
+        // 4. Compose components
+        var comps = DateComponents()
+        comps.year  = yearInt
+        comps.month = monthIndex + 1
+        comps.day   = day
+
+        // 5. Convert to Gregorian ↴
+        return calendar.date(from: comps)
     }
 
     private func getCopticDates() {
@@ -287,8 +284,16 @@ class OccasionsViewModel: ObservableObject {
     }
 
     func onSelectYear(_ year: String) {
-        selectedCopticYear = year
+        // keep the early-out if the user taps the same year
+        guard year != selectedCopticYear else { return }
+        selectedCopticYear   = year
+        // ✱ Reset year-specific highlights ✱
+        selectedCopticMonth  = nil          // clears the dot
+        newCopticDate        = nil          // clears the stroke
+        setColor             = false        // makes sure nothing is tinted
+
         getCopticDatesCategorized(forYear: year)
+
     }
 
 
@@ -309,8 +314,11 @@ class OccasionsViewModel: ObservableObject {
                 let components = copticDateString.split(separator: " ")
                 if components.count == 2 {
                     let month = String(components[0])
-                    if categorizedDates[month] != nil {
-                        categorizedDates[month]?.append(copticDateString)
+                    if var arr = categorizedDates[month] {
+                        if !arr.contains(copticDateString) {
+                            arr.append(copticDateString)
+                            categorizedDates[month] = arr
+                        }
                     } else {
                         categorizedDates[month] = [copticDateString]
                     }
@@ -340,31 +348,28 @@ class OccasionsViewModel: ObservableObject {
     }
     
     func populateAvailableCopticYears() {
-        let copticCalendar = Calendar(identifier: .coptic)
-        let gregorianCalendar = Calendar.current
+        // 1. Which span are we allowed to show?
+        let range = AppEnvironment.dateRange        // ← already filled by the API
 
-        // Limit range: from 1 year ago to today
-        let now = Date()
-        guard let start = gregorianCalendar.date(byAdding: .year, value: -1, to: now) else {
-            return
-        }
-
-        let range = start...now
-        var currentDate = range.lowerBound
-        var uniqueYears = Set<Int>()
+        // 2. Walk through that span and collect Coptic years
+        let copticCalendar   = Calendar(identifier: .coptic)
+        var currentDate      = range.lowerBound
+        var uniqueYears      = Set<Int>()
 
         while currentDate <= range.upperBound {
-            let copticYear = copticCalendar.component(.year, from: currentDate)
-            uniqueYears.insert(copticYear)
-
-            // Advance by one day
-            guard let nextDate = gregorianCalendar.date(byAdding: .day, value: 1, to: currentDate) else { break }
-            currentDate = nextDate
+            uniqueYears.insert( copticCalendar.component(.year, from: currentDate) )
+            // advance one day
+            guard let next = Calendar.current.date(byAdding: .day, value: 1, to: currentDate) else { break }
+            currentDate = next
         }
 
-        // Sort and convert to strings
-        let sortedYears = uniqueYears.sorted()
-        self.availableCopticYears = sortedYears.map { String($0) }
+        // 3. Publish to the UI (latest year first so “this year” is at the top)
+        availableCopticYears = uniqueYears.sorted(by: >).map { String($0) }
+
+        // 4. Keep the selection valid
+        if !availableCopticYears.contains(selectedCopticYear) {
+            selectedCopticYear = availableCopticYears.first ?? selectedCopticYear
+        }
     }
 
     private func loadJSONFromFile<T: Decodable>(fileName: String) -> T? {
@@ -485,7 +490,8 @@ class OccasionsViewModel: ObservableObject {
         
         // Create a Coptic calendar instance
         let copticCalendar = Calendar(identifier: .coptic)
-        let copticYear = copticCalendar.component(.year, from: Date())
+        let copticYear = Int(selectedCopticYear) ??
+                         copticCalendar.component(.year, from: Date())
         
         // Create a DateComponents instance for the Coptic date
         var copticDateComponents = DateComponents(calendar: copticCalendar)
