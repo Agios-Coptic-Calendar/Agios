@@ -290,7 +290,7 @@ extension HomeView {
                             .frame(width: 1, height: 17)
                         
                         HStack(spacing: 4) {
-                            Text("\(occasionViewModel.newCopticDate?.month ?? "") \(occasionViewModel.newCopticDate?.day ?? "")   ")
+                            Text("\(occasionViewModel.setCopticDate?.month ?? "") \(occasionViewModel.setCopticDate?.day ?? "")   ")
                                 //.lineLimit(1)
                                 .foregroundStyle(.primary1000)
                                 .multilineTextAlignment(.leading)

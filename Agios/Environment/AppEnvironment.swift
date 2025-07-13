@@ -23,7 +23,16 @@ enum AppEnvironment {
     }
 
     static func updateDateRange(from range: DateRange) {
-        self.startingDate = range.startDate
-        self.endingDate = range.endDate
+        // If the API returns a too-narrow range (e.g., both dates are the same), fall back to a wider date range.
+        if Calendar.current.isDate(range.startDate, inSameDayAs: range.endDate) {
+            // Expand the range around the single date (e.g. ±3 days)
+            let fallbackStart = Calendar.current.date(byAdding: .day, value: -3, to: range.startDate) ?? range.startDate
+            let fallbackEnd = Calendar.current.date(byAdding: .day, value: 3, to: range.endDate) ?? range.endDate
+            self.startingDate = fallbackStart
+            self.endingDate = fallbackEnd
+        } else {
+            self.startingDate = range.startDate
+            self.endingDate = range.endDate
+        }
     }
 }

@@ -19,7 +19,7 @@ struct DateView: View {
            case .regularDate:
                return "\(viewModel.datePicker.formatDateShort(viewModel.datePicker))"
            case .feast:
-                   return "\(viewModel.newCopticDate?.month ?? "") \(viewModel.newCopticDate?.day ?? "")"
+                   return "\(viewModel.setCopticDate?.month ?? "") \(viewModel.setCopticDate?.day ?? "")"
            case .yearAhead:
                return "Year ahead"
            }
