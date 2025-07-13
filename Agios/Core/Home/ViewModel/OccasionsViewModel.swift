@@ -49,6 +49,7 @@ class OccasionsViewModel: ObservableObject {
     @Published var highlight: [Highlight] = []
     @Published var viewState: ViewState = .collapsed
     @Published var newCopticDate: CopticDate? = nil
+    @Published var setCopticDate: CopticDate? = nil
     @Published var fact: [Fact]? = nil
     @Published var matchedStory: Story? = nil
     @Published var stopDragGesture: Bool = false
@@ -407,6 +408,19 @@ class OccasionsViewModel: ObservableObject {
                     withAnimation {
                         self?.isLoading = true
                         self?.getPosts()
+                        self?.selectedCopticMonth = nil
+                    }
+                    
+                    // Get Coptic year from selectedDate
+                    let copticCalendar = Calendar(identifier: .coptic)
+                    let copticYear = copticCalendar.component(.year, from: self?.selectedDate ?? Date())
+                    let copticYearString = String(copticYear)
+
+                    // Set selectedCopticYear only if it exists in availableCopticYears
+                    if ((self?.availableCopticYears.contains(copticYearString)) != nil) {
+                        self?.selectedCopticYear = copticYearString
+                    } else {
+                        self?.selectedCopticYear = self?.availableCopticYears.first ?? copticYearString
                     }
                 }
             }
@@ -597,6 +611,7 @@ class OccasionsViewModel: ObservableObject {
         self.liturgy = response.data.readings?.first { $0.title == "Liturgy" }
         self.dataClass = response.data
         self.newCopticDate = response.data.copticDate ?? nil
+        self.setCopticDate = response.data.copticDate ?? nil
         self.fact = response.data.facts ?? []
         self.notables = response.data.notables?.filter {
             !($0.expand?.copticDate?.dayInt == newCopticDate?.dayInt && $0.expand?.copticDate?.month == newCopticDate?.month)
