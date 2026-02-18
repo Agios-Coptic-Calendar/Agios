@@ -12,12 +12,46 @@ struct ReadingsView: View {
     
     let reading: DataReading
     let subsectionTitle: String
+    let subSectionIndex: Int?
+    let subReadingIndex: Int?
     @ObservedObject private var occasionViewModel: OccasionsViewModel
     
-    init(reading: DataReading, subsectionTitle: String, occasionViewModel: OccasionsViewModel) {
+    init(
+        reading: DataReading,
+        subsectionTitle: String,
+        occasionViewModel: OccasionsViewModel,
+        subSectionIndex: Int? = nil,
+        subReadingIndex: Int? = nil
+    ) {
         self.reading = reading
         self.subsectionTitle = subsectionTitle
         self.occasionViewModel = occasionViewModel
+        self.subSectionIndex = subSectionIndex
+        self.subReadingIndex = subReadingIndex
+    }
+
+    private var selectedSubSection: SubSection? {
+        let subSections = reading.subSections ?? []
+
+        if let subSectionIndex,
+           subSections.indices.contains(subSectionIndex) {
+            return subSections[subSectionIndex]
+        }
+
+        let normalizedTitle = normalize(subsectionTitle)
+        return subSections.first { normalize($0.title) == normalizedTitle } ?? subSections.first
+    }
+
+    private var selectedReadings: [SubSectionReading] {
+        guard let selectedSubSection else { return [] }
+        let readings = selectedSubSection.readings ?? []
+
+        if let subReadingIndex,
+           readings.indices.contains(subReadingIndex) {
+            return [readings[subReadingIndex]]
+        }
+
+        return readings
     }
     
     var body: some View {
@@ -49,11 +83,10 @@ struct ReadingsView: View {
                         .foregroundStyle(.gray900)
                         .font(.title2)
                         .fontWeight(.semibold)
-                        // Display the introduction of each SubSection
                         VStack(alignment: .leading, spacing: 32) {
                             
-                            if let firstSubSection = reading.subSections?.first {
-                                if let introduction = firstSubSection.introduction {
+                            if let selectedSubSection {
+                                if let introduction = selectedSubSection.introduction {
                                     VStack(alignment: .leading, spacing: 12) {
                                         HStack {
                                             Text("INTRODUCTION")
@@ -75,11 +108,10 @@ struct ReadingsView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                                 }
                                    
-                                ForEach(firstSubSection.readings ?? []) { reading in
+                                ForEach(Array(selectedReadings.enumerated()), id: \.offset) { _, subReading in
                                     VStack(alignment: .leading, spacing: 16) {
-                                        // Display each passage in a separate view
-                                        ForEach(reading.passages ?? []) { passage in
-                                            PassageDetailView(passage: passage, introduction: reading.introduction, conclusion: reading.conclusion)
+                                        ForEach(Array((subReading.passages ?? []).enumerated()), id: \.offset) { _, passage in
+                                            PassageDetailView(passage: passage, introduction: subReading.introduction, conclusion: subReading.conclusion)
                                                 .padding(.bottom, 16)
                                         }
                                     }
@@ -97,6 +129,14 @@ struct ReadingsView: View {
         .foregroundStyle(.gray900)
         .fontDesign(.rounded)
     }
+
+    private func normalize(_ value: String?) -> String {
+        (value ?? "")
+            .lowercased()
+            .replacingOccurrences(of: "&", with: "and")
+            .components(separatedBy: CharacterSet.alphanumerics.inverted)
+            .joined()
+    }
 }
 
 struct PassageDetailView: View {
@@ -106,7 +146,6 @@ struct PassageDetailView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            // Display bookTranslation and ref
             if let bookTranslation = passage.bookTranslation,
                let ref = passage.ref {
                 HStack {
@@ -116,7 +155,6 @@ struct PassageDetailView: View {
                 }
             }
 
-            // Display introduction
             if let introduction = introduction {
                 Text(introduction)
                     .fontWeight(.medium)
@@ -128,8 +166,7 @@ struct PassageDetailView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
             }
 
-            // Display verses
-            ForEach(passage.verses ?? []) { verse in
+            ForEach(Array((passage.verses ?? []).enumerated()), id: \.offset) { _, verse in
                 HStack(alignment: .firstTextBaseline) {
                     if let number = verse.number {
                         Text("\(number)")
@@ -143,7 +180,6 @@ struct PassageDetailView: View {
                 }
             }
 
-            // Display conclusion
             if let conclusion = conclusion {
                 HStack {
                     Text(conclusion)
@@ -181,7 +217,6 @@ struct LiturgyReadingDetailsView: View {
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 32) {
-                        // Display the title of SubSection
                         HStack {
                             Text("Liturgy")
                             Spacer()
@@ -193,7 +228,6 @@ struct LiturgyReadingDetailsView: View {
                         .font(.title2)
                         .fontWeight(.semibold)
                         
-                        // Display the introduction of SubSection
                         if let introduction = subsection.introduction {
                             VStack(alignment: .leading, spacing: 12) {
                                 HStack {
@@ -216,12 +250,10 @@ struct LiturgyReadingDetailsView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                         }
                         
-                        // Display the details for each SubSectionReading
-                        ForEach(subsection.readings ?? []) { reading in
+                        ForEach(Array((subsection.readings ?? []).enumerated()), id: \.offset) { _, subReading in
                             VStack(alignment: .leading, spacing: 16) {
-                                // Display each passage in a separate view
-                                ForEach(reading.passages ?? []) { passage in
-                                    PassageDetailView(passage: passage, introduction: reading.introduction, conclusion: reading.conclusion)
+                                ForEach(Array((subReading.passages ?? []).enumerated()), id: \.offset) { _, passage in
+                                    PassageDetailView(passage: passage, introduction: subReading.introduction, conclusion: subReading.conclusion)
                                         .padding(.bottom, 16)
                                 }
                             }
@@ -237,3 +269,5 @@ struct LiturgyReadingDetailsView: View {
         .fontDesign(.rounded)
     }
 }
+
+

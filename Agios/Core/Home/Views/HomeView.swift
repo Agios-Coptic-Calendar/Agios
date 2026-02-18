@@ -46,6 +46,9 @@ struct HomeView: View {
     
     @State private var selectedReadingForAnimation: DataReading?
     @State private var selectedSubsection: SubSection?
+    @State private var selectedReadingSubsectionTitle: String = ""
+    @State private var selectedReadingSubSectionIndex: Int?
+    @State private var selectedReadingSubReadingIndex: Int?
     @State private var presentedReadingSheet: Bool? = false
     @State private var navigateToDateView: Bool = false
     
@@ -570,13 +573,14 @@ extension HomeView {
                     } else {
                         HStack {
                             ForEach($occasionViewModel.readings) { reading in
-                                ReadingView(reading: reading)
-                                    .onTapGesture {
-                                        occasionViewModel.selectedLiturgy = nil
-                                        occasionViewModel.selectedReading = reading.wrappedValue
-                                        presentedReadingSheet = true
-                                    }
-                                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                ReadingView(reading: reading) { subsectionTitle, subSectionIndex, subReadingIndex in
+                                    occasionViewModel.selectedLiturgy = nil
+                                    occasionViewModel.selectedReading = reading.wrappedValue
+                                    selectedReadingSubsectionTitle = subsectionTitle
+                                    selectedReadingSubSectionIndex = subSectionIndex
+                                    selectedReadingSubReadingIndex = subReadingIndex
+                                    presentedReadingSheet = true
+                                }
                                     .scaleEffect(selectedReadingForAnimation == reading.wrappedValue ? 1.1 : 1.0)
                                     .simultaneousGesture(TapGesture().onEnded{
                                         withAnimation(.easeIn(duration: 0.1)) {
@@ -589,8 +593,10 @@ extension HomeView {
                                     .halfSheet(showSheet: $presentedReadingSheet) {
                                         if let reading = occasionViewModel.selectedReading {
                                             ReadingsView(reading: reading,
-                                                         subsectionTitle: occasionViewModel.selectedReading?.subSections?.first?.title ?? "",
-                                                         occasionViewModel: occasionViewModel)
+                                                         subsectionTitle: selectedReadingSubsectionTitle,
+                                                         occasionViewModel: occasionViewModel,
+                                                         subSectionIndex: selectedReadingSubSectionIndex,
+                                                         subReadingIndex: selectedReadingSubReadingIndex)
                                         }
                                         if let liturgy = occasionViewModel.selectedLiturgy {
                                             LiturgyReadingDetailsView(subsection: liturgy)
@@ -598,6 +604,9 @@ extension HomeView {
                                     } onDismiss: {
                                         occasionViewModel.selectedLiturgy = nil
                                         occasionViewModel.selectedReading = nil
+                                        selectedReadingSubsectionTitle = ""
+                                        selectedReadingSubSectionIndex = nil
+                                        selectedReadingSubReadingIndex = nil
                                     }
                             }
                             if let liturgy = occasionViewModel.liturgy {
@@ -633,6 +642,7 @@ extension HomeView {
         }
         
     }
+
     
     
     
